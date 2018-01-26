@@ -13,10 +13,87 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\GLTools">
+      <UniqueIdentifier>{5e998d53-af88-4d58-b6ce-814abd7eab51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLTools">
+      <UniqueIdentifier>{e9dc27a5-539d-4cd7-97a3-3b903cd24270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WorldObjects">
+      <UniqueIdentifier>{5ab82ac6-ec6a-48c0-b950-ac23f7894572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WorldObjects">
+      <UniqueIdentifier>{9e10d173-ada7-4ec2-b947-58349468fe69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WorldObjects\Interface">
+      <UniqueIdentifier>{7a3627ee-b507-40f0-bceb-1e4f94ab83f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WorldObjects\Interface">
+      <UniqueIdentifier>{94095fef-b60f-48ba-89fc-2e1c9494b3a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WorldObjects\Components">
+      <UniqueIdentifier>{731f93aa-6392-4d45-98b1-9a20a489e699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EngineObjects">
+      <UniqueIdentifier>{a9e5f5a5-2954-41a7-8f90-8686cdc08d71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineObjects">
+      <UniqueIdentifier>{595d3531-2677-4cf5-b3d9-ad0ebb5c8a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WorldObjects\Components">
+      <UniqueIdentifier>{7b69da3c-79d5-4c8e-bc73-487865d89190}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GLError.cpp">
+      <Filter>Source Files\GLTools</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderWizard.cpp">
+      <Filter>Source Files\GLTools</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\EngineObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJfileReader.cpp">
+      <Filter>Source Files\GLTools</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldSpace.cpp">
+      <Filter>Source Files\WorldObjects\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshRenderer.cpp">
+      <Filter>Source Files\WorldObjects\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ShaderWizard.h">
+      <Filter>Header Files\GLTools</Filter>
+    </ClInclude>
+    <ClInclude Include="GLError.h">
+      <Filter>Header Files\GLTools</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJfileReader.h">
+      <Filter>Header Files\GLTools</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldSpace.h">
+      <Filter>Header Files\WorldObjects\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="NamelessCore.h">
+      <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\WorldObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
