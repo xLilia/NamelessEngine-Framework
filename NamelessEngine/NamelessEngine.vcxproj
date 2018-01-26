@@ -72,12 +72,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\include\;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\lib;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\include\GL;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\lib;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -92,6 +96,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -139,7 +144,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GLError.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
+    <ClCompile Include="OBJfileReader.cpp" />
+    <ClCompile Include="ShaderWizard.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
+    <ClCompile Include="WorldSpace.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GLError.h" />
+    <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="OBJfileReader.h" />
+    <ClInclude Include="NamelessCore.h" />
+    <ClInclude Include="ShaderWizard.h" />
+    <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="WorldSpace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
