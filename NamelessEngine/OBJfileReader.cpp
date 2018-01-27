@@ -10,14 +10,12 @@ void OBJfileReader::RESET()
 	this->indices.clear();
 }
 
-void OBJfileReader::LOAD(const char * OBJpath)
+int OBJfileReader::LOAD(const char * OBJpath)
 {
 	FILE * file = std::fopen(OBJpath,"r");
 	if (!file) {
-		std::cout << "FAILED TO LOAD: "<< OBJpath << std::endl;
-		int a;
-		std::cin >> a;
-		exit(1);
+		std::cout << "ERROR -3: FAILED TO LOAD: "<< OBJpath << std::endl;
+		return -1;
 	}
 	for (;;) {
 		char lineHeader[128];

@@ -97,9 +97,9 @@ void ShaderWizard::installShaders(const char * VertexShader, const char * Fragme
 
 ShaderWizard::~ShaderWizard()
 {
-	glUseProgram(0);
-	for each (GLuint p in InstlledProgramIDs)
-	{
-		glDeleteProgram(p);
-	}
+	//glUseProgram(0);
+	//for each (GLuint p in InstlledProgramIDs)
+	//{
+	//	glDeleteProgram(p);
+	//}
 }

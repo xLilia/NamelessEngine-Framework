@@ -9,9 +9,9 @@ class OBJfileReader
 public:
 	OBJfileReader();
 	void RESET();
-	void LOAD(const char* OBJpath);
+	int LOAD(const char* OBJpath);
 	std::vector<_NL::Core::Vertex> verts;
-	std::vector<GLushort> indices;
+	std::vector<GLuint> indices;
 	~OBJfileReader();
 };
 

@@ -25,20 +25,17 @@
     <Filter Include="Source Files\WorldObjects">
       <UniqueIdentifier>{9e10d173-ada7-4ec2-b947-58349468fe69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\WorldObjects\Interface">
-      <UniqueIdentifier>{94095fef-b60f-48ba-89fc-2e1c9494b3a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\WorldObjects\Components">
-      <UniqueIdentifier>{731f93aa-6392-4d45-98b1-9a20a489e699}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\EngineObjects">
       <UniqueIdentifier>{a9e5f5a5-2954-41a7-8f90-8686cdc08d71}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\EngineObjects">
       <UniqueIdentifier>{595d3531-2677-4cf5-b3d9-ad0ebb5c8a4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\WorldObjects\Components">
+    <Filter Include="Source Files\Components">
       <UniqueIdentifier>{7b69da3c-79d5-4c8e-bc73-487865d89190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{731f93aa-6392-4d45-98b1-9a20a489e699}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,13 +58,16 @@
       <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
-      <Filter>Source Files\WorldObjects\Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Source Files\WorldObjects\Components</Filter>
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="WorldSpace.cpp">
       <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CppScript.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,10 +84,10 @@
       <Filter>Header Files\GLTools</Filter>
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
-      <Filter>Header Files\WorldObjects\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Transform.h">
-      <Filter>Header Files\WorldObjects\Components</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="WorldSpace.h">
       <Filter>Header Files\WorldObjects</Filter>
@@ -100,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="NL.hpp">
       <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CppScript.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
