@@ -150,6 +150,7 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="OBJfileReader.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="WorldSpace.cpp" />
   </ItemGroup>
@@ -157,9 +158,11 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLError.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="NL.hpp" />
     <ClInclude Include="OBJfileReader.h" />
     <ClInclude Include="NamelessCore.h" />
     <ClInclude Include="ShaderWizard.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="WorldSpace.h" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "WindowManager.h"
 
-WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen)
+_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen)
 {
 	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
 	//SET FULLSCREEN
@@ -9,7 +9,7 @@ WindowManager::WindowManager(const char* WindowName, int Width, int height, bool
 	}
 }
 
-int WindowManager::updateWindow() {
+int _NL::Engine::WindowManager::update() {
 	
 	sf::Event event;
 	while (window->pollEvent(event))
@@ -26,6 +26,6 @@ int WindowManager::updateWindow() {
 	return 0;
 }
 
-WindowManager::~WindowManager()
+_NL::Engine::WindowManager::~WindowManager()
 {
 }

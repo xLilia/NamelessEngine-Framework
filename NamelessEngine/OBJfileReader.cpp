@@ -2,17 +2,15 @@
 
 OBJfileReader::OBJfileReader()
 {
-	//this->color = glm::vec4(0.0, 1.0, 1.0, 1.0);
 }
 
-void OBJfileReader::newShapeGL()
+void OBJfileReader::RESET()
 {
 	this->verts.clear();
 	this->indices.clear();
-	//sthis->color = glm::vec4(1.0,1.0,1.0,1.0);
 }
 
-void OBJfileReader::makeSimpleShapeGL(const char * OBJpath, glm::vec3 color)
+void OBJfileReader::LOAD(const char * OBJpath)
 {
 	FILE * file = std::fopen(OBJpath,"r");
 	if (!file) {
@@ -29,9 +27,8 @@ void OBJfileReader::makeSimpleShapeGL(const char * OBJpath, glm::vec3 color)
 			break;
 		
 		if (std::strcmp(lineHeader, "v") == 0) {
-			_NLess::Vertex v;
-			fscanf(file, "%f %f %f\n", &v.Pos.x, &v.Pos.y, &v.Pos.z);
-			v.color = color;
+			_NL::Core::Vertex v;
+			fscanf(file, "%f %f %f\n", &v.P.x, &v.P.y, &v.P.z);
 			this->verts.push_back(v);
 		}else
 

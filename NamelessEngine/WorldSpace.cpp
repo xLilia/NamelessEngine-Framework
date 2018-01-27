@@ -1,16 +1,28 @@
 #include "WorldSpace.h"
 
-WorldSpace::WorldSpace()
+_NL::Object::WorldSpace::WorldSpace()
 {
 	
 }
 
-void WorldSpace::addGameObjectToWorld(GameObject & G)
+void _NL::Object::WorldSpace::addObjectToWorld(_NL::Core::Object *G)
 {
-	GameObjectList.push_back(G);
+	ObjectList.push_back(G);
+}
+
+void _NL::Object::WorldSpace::showObjectList()
+{
+	std::cout << "|-START WORLD OBJList LOG-|" << std::endl;
+	std::cout << "|--------------------------------------|" << std::endl;
+	int i = 0;
+	for each (_NL::Core::Object* o in ObjectList)
+	{
+		std::cout << "|" << i++ << " : " << o->name.c_str() << std::endl;
+	}
+	std::cout << "|--------------------------------------|" << std::endl;
 }
 
 
-WorldSpace::~WorldSpace()
+_NL::Object::WorldSpace::~WorldSpace()
 {
 }

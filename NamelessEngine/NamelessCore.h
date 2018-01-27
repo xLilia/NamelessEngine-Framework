@@ -1,45 +1,53 @@
 #pragma once
+///ExternalLibs
 #include<GL\glew.h>
-#include<glm\glm.hpp>
-#include "ShaderWizard.h"
+#include <glm\glm.hpp>
+//#include <SFML\Graphics.hpp>
+#include <iostream>
 
-namespace _NLess {
 
-	/*struct Static {};
-	struct Dynamic {};
-	struct Object : Static, Dynamic {};*/
+namespace _NL{
+	namespace Core {
 
-	
-	/*
-	*example:
-	*_nl::Static* v = new _nl::Vertex;
-	*_nl::Dynamic* v = new _nl::Vertex;
-	*/
+		//TYPES
 
-	struct Component {};
-	struct Primitive {};
+		//All the Components that can be added to class:
+		//_NL::Object::GameObject 
+		class Component {
+		public:
+			virtual std::string ClassName() const { return "_NL::Core::Component"; };
+		};
+		//Object
+		class Object {
+		public:
+			///INFO
+			std::string name;
+			virtual std::string ClassName() const { return "_NL::Core::Object"; };
+			///STATES
+			bool bactive = true; 
+			bool bstatic = false; 
+			///FUNC
+			virtual void getInfo() {};
+		};
 
-	struct Vertex : Primitive {
-		glm::vec3 Pos;
-		glm::vec3 Norm;
-		glm::vec3 color;
-	};
+		//PRIMITIVES
 
-	struct Triangle : Primitive {
-		Vertex v[3];
-	};
+		struct Vertex {
+			glm::vec3 P;		//Position
+			glm::vec3 N;		//Normal
+			glm::vec3 C;		//Color
+			glm::vec2 T;		//TexCoordinates
+		};
 
-	struct Quad : Primitive {
-		Vertex v[4];
-	};
+		struct Mesh {
+			Vertex* verts;		//Triangles
+			GLuint* indices;	//indices
+		};
 
-	struct Mesh : Primitive {
-		Triangle* tris;
-		GLuint* indices;
-		ShaderWizard* Shader;
-	};
-
-	
-
-	
+		struct transform {
+			glm::vec3 position;
+			glm::vec3 rotation;
+			glm::vec3 scale;
+		};
+	}
 }

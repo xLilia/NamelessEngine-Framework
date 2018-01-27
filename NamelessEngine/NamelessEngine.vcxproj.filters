@@ -25,9 +25,6 @@
     <Filter Include="Source Files\WorldObjects">
       <UniqueIdentifier>{9e10d173-ada7-4ec2-b947-58349468fe69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\WorldObjects\Interface">
-      <UniqueIdentifier>{7a3627ee-b507-40f0-bceb-1e4f94ab83f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\WorldObjects\Interface">
       <UniqueIdentifier>{94095fef-b60f-48ba-89fc-2e1c9494b3a9}</UniqueIdentifier>
     </Filter>
@@ -63,11 +60,14 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
-    <ClCompile Include="WorldSpace.cpp">
-      <Filter>Source Files\WorldObjects\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>Source Files\WorldObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\WorldObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldSpace.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,17 +83,23 @@
     <ClInclude Include="OBJfileReader.h">
       <Filter>Header Files\GLTools</Filter>
     </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\WorldObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\WorldObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldSpace.h">
+      <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
-    <ClInclude Include="WorldSpace.h">
-      <Filter>Header Files\WorldObjects\Interface</Filter>
-    </ClInclude>
     <ClInclude Include="NamelessCore.h">
-      <Filter>Header Files\WorldObjects</Filter>
+      <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
-    <ClInclude Include="MeshRenderer.h">
-      <Filter>Header Files\WorldObjects\Components</Filter>
+    <ClInclude Include="NL.hpp">
+      <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
