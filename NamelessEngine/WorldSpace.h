@@ -1,8 +1,8 @@
 #pragma once
 #include"NamelessCore.h"
 #include"GameObject.h"
-
 #include <vector>;
+
 namespace _NL {
 	namespace Object {
 		class WorldSpace
@@ -13,7 +13,7 @@ namespace _NL {
 
 			void addObjectToWorld(_NL::Core::Object *G);
 			void showObjectList();
-
+			
 		private:
 			std::vector<_NL::Core::Object*> ObjectList;
 		};

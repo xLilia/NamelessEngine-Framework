@@ -144,25 +144,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLError.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MeshObj.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="OBJfileReader.cpp" />
     <ClCompile Include="CppScript.cpp" />
+    <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="WorldSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CameraObj.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLError.h" />
+    <ClInclude Include="MeshObj.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="NL.hpp" />
     <ClInclude Include="OBJfileReader.h" />
     <ClInclude Include="NamelessCore.h" />
     <ClInclude Include="CppScript.h" />
+    <ClInclude Include="ShaderObj.h" />
     <ClInclude Include="ShaderWizard.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="WindowManager.h" />

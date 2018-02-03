@@ -4,6 +4,7 @@
 #include <glm\glm.hpp>
 //#include <SFML\Graphics.hpp>
 #include <iostream>
+#include <vector>
 
 
 namespace _NL{
@@ -11,12 +12,6 @@ namespace _NL{
 
 		//TYPES
 
-		//All the Components that can be added to class:
-		//_NL::Object::GameObject 
-		class Component {
-		public:
-			virtual std::string ClassName() const { return "_NL::Core::Component"; };
-		};
 		//Object
 		class Object {
 		public:
@@ -29,19 +24,48 @@ namespace _NL{
 			///FUNC
 			virtual void getInfo() {};
 		};
+		//All the Components that can be added to class:
+		//_NL::Object::GameObject 
+		class Component {
+		public:
+			virtual std::string ClassName() const { return "_NL::Core::Component"; };
+			bool bactive = true;
+		};
+		//Part of a Component
+		class Element {
+		public:
+			///INFO
+			std::string name;
+			virtual std::string ClassName() const { return "_NL::Core::Element"; };
+		};
 
 		//PRIMITIVES
 
-		struct Vertex {
-			glm::vec3 P;		//Position
-			glm::vec3 N;		//Normal
-			glm::vec3 C;		//Color
-			glm::vec2 T;		//TexCoordinates
+		struct VertexPos {
+			glm::vec3 Pos;		//Position			
+		};
+		struct VertexNorm {
+			glm::vec3 Norm;		//Normal
+		};
+		struct VertexCol {
+			glm::vec3 Col;		//Color
+		};
+		struct VertexTexCoord {
+			glm::vec2 TexCoord;	//TexCoordinates 
 		};
 
-		struct Mesh {
-			Vertex* verts;		//Triangles
-			GLuint* indices;	//indices
+		struct vIndices {
+			GLuint v[3];
+			GLuint vt[3];
+			GLuint vn[3];
+		};
+
+		struct MeshData {
+			std::vector<VertexPos> vPos;
+			std::vector<VertexCol> vCol;
+			std::vector<VertexNorm> vNorm;
+			std::vector<VertexTexCoord> vTexC;
+			std::vector<vIndices> tris;
 		};
 
 		struct transform {

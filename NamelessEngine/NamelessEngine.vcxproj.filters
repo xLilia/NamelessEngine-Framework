@@ -69,6 +69,15 @@
     <ClCompile Include="CppScript.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="MeshObj.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderObj.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraObj.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -103,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="CppScript.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderObj.h">
+      <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshObj.h">
+      <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraObj.h">
+      <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

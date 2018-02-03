@@ -4,7 +4,6 @@ std::string ShaderWizard::readShaderCode(const char * filename) {
 	std::ifstream Input(filename);
 	if (!Input.good()) {
 		std::cout << filename << " FailedToLoad" << std::endl;
-		//exit(1);
 		return NULL;
 		Input.close();
 	}
@@ -89,7 +88,7 @@ void ShaderWizard::installShaders(const char * VertexShader, const char * Fragme
 	if (FragmentShader)
 		glDeleteShader(FragmentShaderID);
 
-	glUseProgram(programID);
+	//glUseProgram(programID);
 	InstlledProgramIDs.push_back(programID);
 }
 

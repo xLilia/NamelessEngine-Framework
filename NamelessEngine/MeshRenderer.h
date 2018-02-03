@@ -1,7 +1,8 @@
 #pragma once
 #include "NamelessCore.h"
-#include "ShaderWizard.h"
-#include "OBJfileReader.h"
+#include "ShaderObj.h"
+#include "MeshObj.h"
+
 
 namespace _NL {
 	namespace Component {
@@ -11,16 +12,12 @@ namespace _NL {
 			MeshRenderer();
 			~MeshRenderer();
 
-			_NL::Core::Mesh Mesh;
-			int LoadOBJFile(const char* filePath);
-			ShaderWizard Shader;
-
+			_NL::Element::MeshObj* Mesh;
+			_NL::Element::ShaderObj* Shader;
 			///STATES
 			bool bactive = true;
 			///INFO
 			std::string ClassName() const override;
-		private:
-			OBJfileReader OBJF;
 		};
 	}
 }

@@ -7,6 +7,15 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
 	}
+	glewInit();
+}
+
+void _NL::Engine::WindowManager::RunGameLoop()
+{
+	while (window->isOpen()) {
+		update();
+	}
+	
 }
 
 int _NL::Engine::WindowManager::update() {

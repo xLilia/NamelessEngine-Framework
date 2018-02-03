@@ -10,8 +10,8 @@ public:
 	OBJfileReader();
 	void RESET();
 	int LOAD(const char* OBJpath);
-	std::vector<_NL::Core::Vertex> verts;
-	std::vector<GLuint> indices;
+	_NL::Core::MeshData Mshd;
+
 	~OBJfileReader();
 };
 

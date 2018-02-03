@@ -2,6 +2,7 @@
 
 _NL::Component::MeshRenderer::MeshRenderer()
 {
+	
 }
 
 std::string _NL::Component::MeshRenderer::ClassName() const
@@ -11,15 +12,4 @@ std::string _NL::Component::MeshRenderer::ClassName() const
 
 _NL::Component::MeshRenderer::~MeshRenderer()
 {
-}
-
-int _NL::Component::MeshRenderer::LoadOBJFile(const char * filePath)
-{
-	if (OBJF.LOAD(filePath) != 0) {
-		return -1;
-	}
-	Mesh.verts = OBJF.verts.data();
-	Mesh.indices = OBJF.indices.data();
-	OBJF.RESET();
-	return 0;
 }
