@@ -27,8 +27,6 @@ namespace _NL {
 			///INFO
 			///std::string name;
 			void getInfo() override; 
-			GameObject *Parent;
-			std::vector<GameObject*> Childs;
 			std::string ClassName() const override;
 			///STATES
 			///bool bactive = true;

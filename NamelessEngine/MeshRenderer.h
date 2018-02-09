@@ -14,10 +14,10 @@ namespace _NL {
 
 			_NL::Element::MeshObj* Mesh;
 			_NL::Element::ShaderObj* Shader;
-			///STATES
-			bool bactive = true;
 			///INFO
 			std::string ClassName() const override;
+		private:
+			void RenderObj();
 		};
 	}
 }

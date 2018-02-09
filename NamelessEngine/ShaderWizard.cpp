@@ -92,6 +92,11 @@ void ShaderWizard::installShaders(const char * VertexShader, const char * Fragme
 	InstlledProgramIDs.push_back(programID);
 }
 
+void ShaderWizard::clearPrograms()
+{
+	InstlledProgramIDs.clear();
+}
+
 
 
 ShaderWizard::~ShaderWizard()

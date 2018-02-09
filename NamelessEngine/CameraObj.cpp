@@ -1,26 +1,33 @@
 #include "CameraObj.h"
 
-_NL::Object::CameraObj::CameraObj(std::string name, _NL::Object::WorldSpace* LinkedWorld, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLsizei RenderWindowX, GLsizei RenderWindowY)
+_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane)
 {
-	this->FOV = FOV;
-	this->NearPlane = NearPlane;
-	this->FarPlane = FarPlane;
-	this->RenderWindowX = RenderWindowX;
-	this->RenderWindowY = RenderWindowY;
-	this->LinkedWorld = LinkedWorld;
-	updateProjectionMatrix();
+	this->name = name;
+	this->Settings.FOV = FOV;
+	this->Settings.NearPlane = NearPlane;
+	this->Settings.FarPlane = FarPlane;
+	this->Settings.RenderWindowX = RenderWindowX;
+	this->Settings.RenderWindowY = RenderWindowY;
+	this->Settings.RenderWindowWidth = RenderWindowWidth;
+	this->Settings.RenderWindowHeight = RenderWindowHeight;
 }
 
-void _NL::Object::CameraObj::updateProjectionMatrix()
+void _NL::Object::CameraObj::updateProjectionSettings()
 {
-	glViewport(RenderWindowX, RenderWindowY, RenderWindowWidth, RenderWindowHeight);
-	projectionMatrix = glm::perspective(FOV, (GLfloat)RenderWindowWidth / (GLfloat)RenderWindowHeight, NearPlane, FarPlane);
+	glViewport(Settings.RenderWindowX, Settings.RenderWindowY, Settings.RenderWindowWidth, Settings.RenderWindowHeight);
+	Settings.projectionMatrix = glm::perspective(Settings.FOV, (GLfloat)Settings.RenderWindowWidth / (GLfloat)Settings.RenderWindowHeight, Settings.NearPlane, Settings.FarPlane);
+}
+
+glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
+{
+	return glm::lookAt(Transform.position, Transform.position + Transform.LookAtCenter, Transform.rotation);
 }
 
 std::string _NL::Object::CameraObj::ClassName() const
 {
 	return "_NL::Object::CameraObj";
 }
+
 
 _NL::Object::CameraObj::~CameraObj()
 {

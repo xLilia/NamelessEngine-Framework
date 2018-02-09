@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{731f93aa-6392-4d45-98b1-9a20a489e699}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Elements">
+      <UniqueIdentifier>{fd729fc5-a57a-4b24-8b09-e3e8f1e574f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Elements">
+      <UniqueIdentifier>{30f2f353-a016-43b9-8e45-af20a9a4bd6b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -69,14 +75,14 @@
     <ClCompile Include="CppScript.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="MeshObj.cpp">
-      <Filter>Source Files\WorldObjects</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderObj.cpp">
-      <Filter>Source Files\WorldObjects</Filter>
-    </ClCompile>
     <ClCompile Include="CameraObj.cpp">
       <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshObj.cpp">
+      <Filter>Source Files\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderObj.cpp">
+      <Filter>Source Files\Elements</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,14 +119,14 @@
     <ClInclude Include="CppScript.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderObj.h">
+    <ClInclude Include="CameraObj.h">
       <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
     <ClInclude Include="MeshObj.h">
-      <Filter>Header Files\WorldObjects</Filter>
+      <Filter>Header Files\Elements</Filter>
     </ClInclude>
-    <ClInclude Include="CameraObj.h">
-      <Filter>Header Files\WorldObjects</Filter>
+    <ClInclude Include="ShaderObj.h">
+      <Filter>Header Files\Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

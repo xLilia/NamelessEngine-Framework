@@ -17,6 +17,8 @@ namespace _NL{
 		public:
 			///INFO
 			std::string name;
+			Object *Parent;
+			std::vector<Object*> Childs;
 			virtual std::string ClassName() const { return "_NL::Core::Object"; };
 			///STATES
 			bool bactive = true; 
@@ -65,7 +67,6 @@ namespace _NL{
 			std::vector<VertexCol> vCol;
 			std::vector<VertexNorm> vNorm;
 			std::vector<VertexTexCoord> vTexC;
-			std::vector<vIndices> tris;
 		};
 
 		struct transform {

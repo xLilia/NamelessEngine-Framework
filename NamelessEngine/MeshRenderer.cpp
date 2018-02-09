@@ -5,6 +5,11 @@ _NL::Component::MeshRenderer::MeshRenderer()
 	
 }
 
+void _NL::Component::MeshRenderer::RenderObj()
+{
+
+}
+
 std::string _NL::Component::MeshRenderer::ClassName() const
 {
 	return "_NL::Component::MeshRenderer";
@@ -12,4 +17,5 @@ std::string _NL::Component::MeshRenderer::ClassName() const
 
 _NL::Component::MeshRenderer::~MeshRenderer()
 {
+
 }

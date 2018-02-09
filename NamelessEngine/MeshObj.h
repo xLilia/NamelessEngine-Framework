@@ -8,11 +8,12 @@ namespace _NL {
 		{
 		public:
 			MeshObj(std::string name);
+			MeshObj(std::string name, const char * filePath);
 			~MeshObj();
 
-			std::string name;
 			int LoadOBJFile(const char* filePath);
 			_NL::Core::MeshData MeshData;
+			std::vector<_NL::Core::vIndices> Indices;
 			std::string ClassName() const override;
 		private:
 			OBJfileReader OBJF;

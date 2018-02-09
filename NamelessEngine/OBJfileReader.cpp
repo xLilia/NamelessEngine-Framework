@@ -6,7 +6,7 @@ OBJfileReader::OBJfileReader()
 
 void OBJfileReader::RESET()
 {
-	this->Mshd.tris.clear();
+	this->Is.clear();
 	this->Mshd.vPos.clear();
 	this->Mshd.vCol.clear();
 	this->Mshd.vNorm.clear();
@@ -51,7 +51,7 @@ int OBJfileReader::LOAD(const char * OBJpath)
 				&tri.vt[2], 
 				&tri.vn[2]
 			);
-			this->Mshd.tris.push_back(tri);
+			this->Is.push_back(tri);
 		}//Vertex TextureCoordinates
 		else if (std::strcmp(lineHeader, "vt") == 0) {
 			_NL::Core::VertexTexCoord vt;

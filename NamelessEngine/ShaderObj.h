@@ -8,14 +8,14 @@ namespace _NL {
 		{
 		public:
 			ShaderObj(std::string name);
+			ShaderObj(std::string name, const char * VertexShader, const char * FragmentShader);
 			~ShaderObj();
 
-			std::string name;
 			void InstallShader(const char * VertexShader, const char * FragmentShader);
 			
 			std::string ClassName() const override;
 		private:
-			ShaderWizard* Shader;
+			ShaderWizard Shader;
 		};
 	}
 }

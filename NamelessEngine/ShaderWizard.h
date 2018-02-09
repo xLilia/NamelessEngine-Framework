@@ -8,6 +8,7 @@ class ShaderWizard
 {
 public:
 	void installShaders(const char * VertexShader = NULL, const char * FragmentShader = NULL);
+	void clearPrograms();
 	~ShaderWizard();
 	std::vector<GLuint> InstlledProgramIDs;
 private:
