@@ -17,6 +17,10 @@ void _NL::Element::ShaderObj::InstallShader(const char * VertexShader, const cha
 	Shader.installShaders(VertexShader, FragmentShader);
 }
 
+GLuint _NL::Element::ShaderObj::getShaderProgram() const{
+	return Shader.InstlledProgramIDs[0];
+}
+
 std::string _NL::Element::ShaderObj::ClassName() const
 {
 	return "_NL::Element::ShaderObj";

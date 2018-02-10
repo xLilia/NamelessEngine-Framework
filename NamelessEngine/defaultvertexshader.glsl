@@ -1,15 +1,8 @@
-#version 330 core
+#version 420 core   
 
-in vec2 position;
-in vec2 texCoords;
-in vec3 colors;
-
-out vec3 Color;
-out vec2 TexCoord;
+layout (location=0) in vec3 Position;
 
 void main()
 {
-	Color = colors;
-	TexCoord = texCoords;
-    gl_Position = vec4(position, 0.0, 1.0);
+    gl_Position = vec4(Position, 1.0);
 }

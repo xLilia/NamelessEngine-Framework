@@ -13,19 +13,18 @@ int main(){
 	_NL::Element::ShaderObj* Shade1 = new _NL::Element::ShaderObj("s1");
 	Obj1->getComponent(_NL::Component::MeshRenderer())->Mesh = Mesh1;
 	Obj1->getComponent(_NL::Component::MeshRenderer())->Shader = Shade1;
-	Mesh1->LoadOBJFile("CubeT.obj");
+	Mesh1->LoadOBJFile("quad.obj");
 	Shade1->InstallShader("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	
 	_NL::Object::GameObject* Obj2 = new _NL::Object::GameObject("Tri");
 	Obj2->addComponent(new _NL::Component::Transform());
 	Obj2->addComponent(new _NL::Component::MeshRenderer());
 	Obj2->getComponent(_NL::Component::MeshRenderer())->Mesh = new _NL::Element::MeshObj("trimesh", "tri.obj");
-	Obj2->getComponent(_NL::Component::MeshRenderer())->Shader = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	Obj2->getComponent(_NL::Component::MeshRenderer())->Shader = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
 	
-	_NL::Component::Transform* T1 = Obj1->getComponent(_NL::Component::Transform());
-
+	scene1->addObjectToWorld(Obj2);
 	scene1->addObjectToWorld(Obj1);
-	//scene1->addObjectToWorld(Obj2);
+
 	scene1->addObjectToWorld(MyCam);
 	
 	scene1->showObjectList();
