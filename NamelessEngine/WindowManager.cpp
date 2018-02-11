@@ -37,7 +37,8 @@ void _NL::Engine::WindowManager::Start()
 }
 
 void _NL::Engine::WindowManager::DrawCurrentScene() {
-	
+
+	_NL::Object::CameraObj* Cam = CurrentScene->MainCamera;
 	for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
 	{
 		if (obj->ClassName() == "_NL::Object::GameObject") {
@@ -45,9 +46,12 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 			//std::cout << "Draw: " << obj->name << std::endl;
 
 			_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
+			_NL::Component::Transform* ObjT = obj->getComponent(_NL::Component::Transform());
 
 			glBindVertexArray(ObjMR->vao);
 			glUseProgram(ObjMR->Shader->getShaderProgram());
+			glm::mat4 FullTransform = glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT->transform.position);
+			glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(FullTransform));
 			glDrawElements(
 				GL_TRIANGLES, 
 				ObjMR->Mesh->Indices.size() * 3,

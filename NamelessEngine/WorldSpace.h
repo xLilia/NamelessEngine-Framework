@@ -14,8 +14,6 @@ namespace _NL {
 
 			void addObjectToWorld(_NL::Core::Object *G);
 			void showObjectList();
-			void setMainCamera(_NL::Object::CameraObj* Cam);
-
 			std::vector<_NL::Core::Object*> GetObjectList();
 			_NL::Object::CameraObj* MainCamera;
 		private:

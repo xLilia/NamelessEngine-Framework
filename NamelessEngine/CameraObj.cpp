@@ -10,12 +10,13 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	this->Settings.RenderWindowY = RenderWindowY;
 	this->Settings.RenderWindowWidth = RenderWindowWidth;
 	this->Settings.RenderWindowHeight = RenderWindowHeight;
+	updateCameraSettings();
 }
 
-void _NL::Object::CameraObj::updateProjectionSettings()
+void _NL::Object::CameraObj::updateCameraSettings()
 {
 	glViewport(Settings.RenderWindowX, Settings.RenderWindowY, Settings.RenderWindowWidth, Settings.RenderWindowHeight);
-	Settings.projectionMatrix = glm::perspective(Settings.FOV, (GLfloat)Settings.RenderWindowWidth / (GLfloat)Settings.RenderWindowHeight, Settings.NearPlane, Settings.FarPlane);
+	projectionMatrix = glm::perspective(Settings.FOV, (GLfloat)Settings.RenderWindowWidth / (GLfloat)Settings.RenderWindowHeight, Settings.NearPlane, Settings.FarPlane);
 }
 
 glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const

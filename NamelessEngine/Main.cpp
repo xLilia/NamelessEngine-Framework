@@ -5,7 +5,7 @@ int main(){
 	_NL::Engine::WindowManager winMan("w1", 640, 480, true);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y);
-	
+
 	_NL::Object::GameObject* Obj1 = new _NL::Object::GameObject("nameless");
 	Obj1->addComponent(new _NL::Component::Transform);
 	Obj1->addComponent(new _NL::Component::MeshRenderer);
@@ -26,7 +26,6 @@ int main(){
 
 	scene1->addObjectToWorld(Obj1);
 	scene1->addObjectToWorld(Obj2);
-
 	scene1->addObjectToWorld(MyCam);
 	
 	scene1->showObjectList();

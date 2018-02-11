@@ -1,8 +1,9 @@
-#version 420 core   
+#version 450 core   
 
 layout (location=0) in vec3 Position;
+layout (location=4) uniform mat4 MVP;
 
 void main()
 {
-    gl_Position = vec4(Position, 1.0);
+    gl_Position = MVP * vec4(Position, 1.0);
 }

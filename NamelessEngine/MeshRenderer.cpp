@@ -74,6 +74,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	//glEnableVertexArrayAttrib(vao, Norm_atrib);
 	//glEnableVertexArrayAttrib(vao, TexC_atrib);
 	check_gl_error();
+	
 	///Set Vertex Arrays Format
 	glVertexArrayAttribFormat(vao, Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
 	glVertexArrayAttribBinding(vao, Pos_atrib, 0);
@@ -89,7 +90,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 
 	check_gl_error();
 
-	///Confiugure Vertex Arrays and link to Buffers
+	///Confiugure Vertex Array and link Buffers
 	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 3); //11
 	glVertexArrayElementBuffer(vao, ebo);
 

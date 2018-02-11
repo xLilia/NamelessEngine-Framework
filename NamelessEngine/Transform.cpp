@@ -2,6 +2,7 @@
 
 _NL::Component::Transform::Transform()
 {
+	transform.position = glm::vec3(0, 0, 0);
 }
 
 std::string _NL::Component::Transform::ClassName() const

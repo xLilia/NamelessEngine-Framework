@@ -7,6 +7,7 @@
 #include "GLError.h"
 #include <SFML\Graphics.hpp>
 #include <GL\glew.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace _NL {
 	namespace Engine {

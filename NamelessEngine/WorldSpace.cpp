@@ -22,11 +22,6 @@ void _NL::Object::WorldSpace::showObjectList()
 	std::cout << "|--------------------------------------|" << std::endl;
 }
 
-void _NL::Object::WorldSpace::setMainCamera(_NL::Object::CameraObj * Cam)
-{
-	this->MainCamera = Cam;
-}
-
 std::vector<_NL::Core::Object*> _NL::Object::WorldSpace::GetObjectList()
 {
 	return this->ObjectList;
