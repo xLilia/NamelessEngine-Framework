@@ -22,19 +22,7 @@ namespace _NL {
 			void OpenGLStart();
 			void Start();
 			void DrawCurrentScene();
-			void update();
-			std::vector<_NL::Core::MeshData*> MeshDataStack;
-			std::vector<std::vector<_NL::Core::vIndices>*> MeshElementsStack;
-			GLuint vbo; //Vertex Buffer Object
-			GLuint ebo;	//Element Buffer Object
-			GLuint vao; //Vertex Array Object
-			std::vector<GLfloat> VertsBuf;
-			std::vector<GLuint> IndicesOffset;
-			std::vector<GLuint> IndicesBuf;
-			GLuint Pos_atrib = 0;
-			GLuint Col_atrib = 1;
-			GLuint Norm_atrib = 2;
-			GLuint TexC_atrib = 3;
+			void update();	
 		};
 	}
 }

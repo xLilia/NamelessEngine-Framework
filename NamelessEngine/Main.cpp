@@ -2,7 +2,7 @@
 
 int main(){
 
-	_NL::Engine::WindowManager winMan("w1", 640, 480, false);
+	_NL::Engine::WindowManager winMan("w1", 640, 480, true);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y);
 	
@@ -13,7 +13,7 @@ int main(){
 	_NL::Element::ShaderObj* Shade1 = new _NL::Element::ShaderObj("s1");
 	Obj1->getComponent(_NL::Component::MeshRenderer())->Mesh = Mesh1;
 	Obj1->getComponent(_NL::Component::MeshRenderer())->Shader = Shade1;
-	Mesh1->LoadOBJFile("quad.obj");
+	Mesh1->LoadOBJFile("cubeT.obj");
 	Shade1->InstallShader("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	
 	_NL::Object::GameObject* Obj2 = new _NL::Object::GameObject("Tri");
@@ -22,8 +22,10 @@ int main(){
 	Obj2->getComponent(_NL::Component::MeshRenderer())->Mesh = new _NL::Element::MeshObj("trimesh", "tri.obj");
 	Obj2->getComponent(_NL::Component::MeshRenderer())->Shader = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
 	
-	scene1->addObjectToWorld(Obj2);
+	
+
 	scene1->addObjectToWorld(Obj1);
+	scene1->addObjectToWorld(Obj2);
 
 	scene1->addObjectToWorld(MyCam);
 	
