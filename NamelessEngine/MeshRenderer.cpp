@@ -35,13 +35,13 @@ void _NL::Component::MeshRenderer::UnpackData() {
 
 	for each (_NL::Core::vIndices I in Mesh->Indices)
 	{
-		IndicesBuf.push_back(I.v[0]);
+		IndicesBuf.push_back(I.v[0]-1);
 		//IndicesBuf.push_back(I.vt[0]);
 		//IndicesBuf.push_back(I.vn[0]);
-		IndicesBuf.push_back(I.v[1]);
+		IndicesBuf.push_back(I.v[1]-1);
 		//IndicesBuf.push_back(I.vt[1]);
 		//IndicesBuf.push_back(I.vn[1]);
-		IndicesBuf.push_back(I.v[2]);
+		IndicesBuf.push_back(I.v[2]-1);
 		//IndicesBuf.push_back(I.vt[2]);
 		//IndicesBuf.push_back(I.vn[2]);
 	}

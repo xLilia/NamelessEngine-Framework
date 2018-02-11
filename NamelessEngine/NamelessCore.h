@@ -71,7 +71,8 @@ namespace _NL{
 
 		struct transform {
 			glm::vec3 position;
-			glm::vec3 rotation;
+			glm::vec3 rotationAxis;
+			GLfloat rotationAngle;
 			glm::vec3 scale;
 		};
 	}

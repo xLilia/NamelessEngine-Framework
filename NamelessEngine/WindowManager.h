@@ -19,6 +19,7 @@ namespace _NL {
 			~WindowManager();
 			sf::RenderWindow* window;
 			_NL::Object::WorldSpace* CurrentScene;
+			std::vector<_NL::Object::CameraObj*> Cameras;
 		private:
 			void OpenGLStart();
 			void Start();
