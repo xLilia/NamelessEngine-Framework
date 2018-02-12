@@ -77,12 +77,12 @@ namespace _NL{
 		};
 
 		struct ScreenQuad {
-			const glm::vec2 fullquad_t[4] =
+			const GLfloat fullquad_t[8] =
 			{
-				glm::vec2(-1,-1),
-				glm::vec2(+1,-1),
-				glm::vec2(+1,+1),
-				glm::vec2(-1,+1),
+				-1,-1,
+				+1,-1,
+				+1,+1,
+				-1,+1
 			};
 
 			const GLuint fullquad_i[6] =

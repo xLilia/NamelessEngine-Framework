@@ -69,28 +69,28 @@ void _NL::Engine::WindowManager::OpenGLStart()
 
 	//RenderBuffers
 	{
-		glCreateRenderbuffers(1, &ColorRenderBuffer[0]);
-		glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[0]);
-		glRenderbufferStorageMultisample(
-			GL_RENDERBUFFER,
-			0, GL_RGBA,
-			window->getSize().x,
-			window->getSize().y);
-
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		check_gl_error();
-
-		glCreateRenderbuffers(1, &DepthRenderBuffer[0]);
-		glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[0]);
-		glRenderbufferStorageMultisample(
-			GL_RENDERBUFFER,
-			0,
-			GL_DEPTH_COMPONENT,
-			window->getSize().x,
-			window->getSize().y);
-
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		check_gl_error();
+		//glCreateRenderbuffers(1, &ColorRenderBuffer[0]);
+		//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[0]);
+		//glRenderbufferStorageMultisample(
+		//	GL_RENDERBUFFER,
+		//	0, GL_RGBA,
+		//	window->getSize().x,
+		//	window->getSize().y);
+		//
+		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		//check_gl_error();
+		//
+		//glCreateRenderbuffers(1, &DepthRenderBuffer[0]);
+		//glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[0]);
+		//glRenderbufferStorageMultisample(
+		//	GL_RENDERBUFFER,
+		//	0,
+		//	GL_DEPTH_COMPONENT,
+		//	window->getSize().x,
+		//	window->getSize().y);
+		//
+		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		//check_gl_error();
 	}
 
 	//FrameBuffers
@@ -105,12 +105,12 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			GL_TEXTURE_2D,
 			ColorTexture,
 			0);
-		//glFramebufferTexture2D(
-		//	GL_FRAMEBUFFER,
-		//	GL_DEPTH_ATTACHMENT,
-		//	GL_TEXTURE_2D,
-		//	DepthTexture,
-		//	0);
+		glFramebufferTexture2D(
+			GL_FRAMEBUFFER,
+			GL_DEPTH_ATTACHMENT,
+			GL_TEXTURE_2D,
+			DepthTexture,
+			0);
 		check_gl_error();
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
 			check_gl_error();
@@ -119,6 +119,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		//glReadBuffer(GL_NONE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		check_gl_error();
+
 		//glCreateRenderbuffers(1, &ColorRenderBuffer[1]);
 		//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[1]);
 		//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_RGBA32F, window->getSize().x, window->getSize().y);
@@ -143,7 +144,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 	//GL Settings
 	{
 		
-		//glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);
 		//glDepthMask(GL_TRUE);
 		//glDepthFunc(GL_LEQUAL);
 		//glDepthRange(0.0f, 1.0f);
@@ -182,6 +183,7 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 		Cam->updateCameraProjectionMatrix();
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
+		ClearCurrentBuffer();
 		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
 		{
 			if (obj->ClassName() == "_NL::Object::GameObject") {
@@ -192,7 +194,8 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				_NL::Component::Transform* ObjT = obj->getComponent(_NL::Component::Transform());
 				
 				///DEBUG
-				if(obj->name != "Quad")ObjT->transform.rotationAngle += .001;
+				if (obj->name != "Quad")ObjT->transform.rotationAngle += .001;
+				if(obj->name == "nameless")ObjT->transform.position.y = std::sin(ObjT->transform.rotationAngle);
 				glBindVertexArray(ObjMR->vao);
 				glUseProgram(ObjMR->Shader->getShaderProgram());
 				glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::rotate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT->transform.position), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT->transform.scale)));
@@ -212,6 +215,8 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 
 void _NL::Engine::WindowManager::DrawScreenQuad()
 {
+	ClearCurrentBuffer();
+
 	_NL::Core::ScreenQuad q;
 	glUseProgram(ScreenShader.InstlledProgramIDs[0]);
 
@@ -219,47 +224,35 @@ void _NL::Engine::WindowManager::DrawScreenQuad()
 	GLuint aScreenQuadTexCoords = glGetAttribLocation(ScreenShader.InstlledProgramIDs[0], "texCoords");
 	glUniform1i(uScreenQuadTexture, 0);
 	check_gl_error();
-	GLfloat fullquad_t[8] =
-	{
-		-1,-1,
-		+1,-1,
-		+1,+1,
-		-1,+1
-	};
 
-	GLuint fullquad_i[6] =
-	{
-		0,1,2,
-		2,3,0
-	};
-	//GLuint vao;
-	//glCreateVertexArrays(1, &vao);
-	//glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER,0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+
 	glEnableVertexAttribArray(aScreenQuadTexCoords);
-	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, fullquad_t);
-	glDrawElements(GL_POINTS, 6, GL_UNSIGNED_INT, fullquad_i);
+	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_t);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
 
 	glUseProgram(0);
 	
 }
 
+void _NL::Engine::WindowManager::ClearCurrentBuffer()
+{
+	glClearColor(0.05f, 0.1f, 0.2f, 0.0f);
+	glClearDepth(1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
 void _NL::Engine::WindowManager::Display() {
-	//glClearColor(0.05f, 0.1f, 0.2f, 0.0f);
-	//glClearDepth(1.0f);
+	
 	///DISPLAY
-	//glBindFramebuffer(GL_READ_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
-	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	//GLuint wx = window->getSize().x;
-	//GLuint wy = window->getSize().y;
-	//glBlitFramebuffer(0, 0, wx, wy, 0, 0, wx, wy, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-	//check_gl_error();
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture);
 	DrawScreenQuad();
 	glBindTexture(GL_TEXTURE_2D, 0);
-	window->display();
-	
+	glEnable(GL_DEPTH_TEST);
+	window->display();	
 	
 }
 

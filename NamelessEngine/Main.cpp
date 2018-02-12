@@ -35,16 +35,15 @@ int main(){
 	_NL::Component::Transform* T = Tri->getComponent(_NL::Component::Transform());
 	T->transform.scale *= .5;
 
-	Tri->getComponent(_NL::Component::Transform())->transform.position.z += 1;
-	Tri->getComponent(_NL::Component::Transform())->transform.position.x += 1;
-	Tri->getComponent(_NL::Component::Transform())->transform.scale *= 2;
+	//Tri->getComponent(_NL::Component::Transform())->transform.position.z += 1;
+	Tri->getComponent(_NL::Component::Transform())->transform.scale *= 5;
 
 	Quad->getComponent(_NL::Component::Transform())->transform.position.y -= 1;
 	Quad->getComponent(_NL::Component::Transform())->transform.scale *= 5;
 
 	MyCam->Transform.position.z += -1;
-	//MyCam->Transform.position.y += 2;
-	//MyCam->Transform.LookAtCenter = MyCam->Transform.LookAtCenter - -glm::vec3(0,-2,0);
+	MyCam->Transform.position.y += 2;
+	MyCam->Transform.LookAtCenter = MyCam->Transform.LookAtCenter +glm::vec3(0,-1.5,0);
 	
 	MyCam2->Transform.position.z += -2;
 

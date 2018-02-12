@@ -33,6 +33,7 @@ namespace _NL {
 			void Start();
 			void DrawCurrentScene();
 			void DrawScreenQuad();
+			void ClearCurrentBuffer();
 			void Display();
 			void update();	
 		};
