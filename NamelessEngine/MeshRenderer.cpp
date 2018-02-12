@@ -57,14 +57,14 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*VertsBuf.size(), &VertsBuf[0], GL_STATIC_DRAW);
 
-	check_gl_error();
+	check_gl_error_full();
 
 	///STATIC ELEMENT BUFFER OBJ 
 	glCreateBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*IndicesBuf.size(), &IndicesBuf[0], GL_STATIC_DRAW);
 
-	check_gl_error();
+	check_gl_error_full();
 
 	///GL BUFFERS && ARRAYS
 	///Init Vertex Arrays
@@ -73,7 +73,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	//glEnableVertexArrayAttrib(vao, Col_atrib);
 	//glEnableVertexArrayAttrib(vao, Norm_atrib);
 	//glEnableVertexArrayAttrib(vao, TexC_atrib);
-	check_gl_error();
+	check_gl_error_full();
 	
 	///Set Vertex Arrays Format
 	glVertexArrayAttribFormat(vao, Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
@@ -88,13 +88,13 @@ void _NL::Component::MeshRenderer::initGLObj()
 	//glVertexArrayAttribBinding(vao, TexC_atrib, 0);
 	//glVertexArrayAttribFormat(vao, TexC_atrib,	2, GL_FLOAT, false, sizeof(GL_FLOAT) * 9);
 
-	check_gl_error();
+	check_gl_error_full();
 
 	///Confiugure Vertex Array and link Buffers
 	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 3); //11
 	glVertexArrayElementBuffer(vao, ebo);
 
-	check_gl_error();
+	check_gl_error_full();
 }
 
 std::string _NL::Component::MeshRenderer::ClassName() const

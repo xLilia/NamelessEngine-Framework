@@ -75,5 +75,22 @@ namespace _NL{
 			GLfloat rotationAngle;
 			glm::vec3 scale;
 		};
+
+		struct ScreenQuad {
+			const glm::vec2 fullquad_t[4] =
+			{
+				glm::vec2(-1,-1),
+				glm::vec2(+1,-1),
+				glm::vec2(+1,+1),
+				glm::vec2(-1,+1),
+			};
+
+			const GLuint fullquad_i[6] =
+			{
+				0,1,2,
+				2,3,0
+			};
+		};
+
 	}
 }

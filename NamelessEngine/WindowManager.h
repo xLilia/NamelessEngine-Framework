@@ -21,9 +21,19 @@ namespace _NL {
 			_NL::Object::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 		private:
+			ShaderWizard ScreenShader;
+		
+			GLuint FrameBuffer[1];
+			GLuint ColorTexture;
+			GLuint DepthTexture;
+			GLuint ColorRenderBuffer[1];
+			GLuint DepthRenderBuffer[1];
+			GLuint CurrentDrawFrameBuffer = 0;
 			void OpenGLStart();
 			void Start();
 			void DrawCurrentScene();
+			void DrawScreenQuad();
+			void Display();
 			void update();	
 		};
 	}

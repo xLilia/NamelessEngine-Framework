@@ -8,7 +8,6 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
 	}
 	glewInit();
-	
 }
 
 void _NL::Engine::WindowManager::RunGameLoop()
@@ -21,6 +20,136 @@ void _NL::Engine::WindowManager::RunGameLoop()
 
 void _NL::Engine::WindowManager::OpenGLStart()
 {
+	///SCREEN QUAD
+	ScreenShader.installShaders("screenQuadVshader.glsl", "screenQuadFshader.glsl");
+
+	///SETUP FRAME BUFFER OBJECTs
+	//ColorTextures
+	{
+		glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
+		glBindTexture(GL_TEXTURE_2D, ColorTexture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			window->getSize().x,
+			window->getSize().y,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			NULL);
+
+		check_gl_error();
+	}
+	
+	//DepthTexture
+	{
+		glCreateTextures(GL_TEXTURE_2D, 1, &DepthTexture);
+		glBindTexture(GL_TEXTURE_2D, DepthTexture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_DEPTH_COMPONENT,
+			window->getSize().x,
+			window->getSize().y,
+			0,
+			GL_DEPTH_COMPONENT,
+			GL_UNSIGNED_BYTE,
+			NULL);
+
+		check_gl_error();
+	}
+
+	//RenderBuffers
+	{
+		glCreateRenderbuffers(1, &ColorRenderBuffer[0]);
+		glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[0]);
+		glRenderbufferStorageMultisample(
+			GL_RENDERBUFFER,
+			0, GL_RGBA,
+			window->getSize().x,
+			window->getSize().y);
+
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		check_gl_error();
+
+		glCreateRenderbuffers(1, &DepthRenderBuffer[0]);
+		glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[0]);
+		glRenderbufferStorageMultisample(
+			GL_RENDERBUFFER,
+			0,
+			GL_DEPTH_COMPONENT,
+			window->getSize().x,
+			window->getSize().y);
+
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		check_gl_error();
+	}
+
+	//FrameBuffers
+	{
+		glCreateFramebuffers(1, &FrameBuffer[0]);
+		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[0]);
+		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ColorRenderBuffer[0]);
+		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthRenderBuffer[0]);
+		glFramebufferTexture2D(
+			GL_FRAMEBUFFER,
+			GL_COLOR_ATTACHMENT0,
+			GL_TEXTURE_2D,
+			ColorTexture,
+			0);
+		//glFramebufferTexture2D(
+		//	GL_FRAMEBUFFER,
+		//	GL_DEPTH_ATTACHMENT,
+		//	GL_TEXTURE_2D,
+		//	DepthTexture,
+		//	0);
+		check_gl_error();
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+			check_gl_error();
+		}
+		//glDrawBuffer(GL_NONE);
+		//glReadBuffer(GL_NONE);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		check_gl_error();
+		//glCreateRenderbuffers(1, &ColorRenderBuffer[1]);
+		//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[1]);
+		//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_RGBA32F, window->getSize().x, window->getSize().y);
+		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		//check_gl_error();
+		//
+		//glCreateRenderbuffers(1, &DepthRenderBuffer[1]);
+		//glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[1]);
+		//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_DEPTH_COMPONENT, window->getSize().x, window->getSize().y);
+		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+		//check_gl_error();
+
+		//glCreateFramebuffers(1, &FrameBuffer[1]);
+		//glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[1]);
+		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ColorRenderBuffer[1]);
+		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthRenderBuffer[1]);
+		//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+		//	check_gl_error();
+		//}
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+	//GL Settings
+	{
+		
+		//glEnable(GL_DEPTH_TEST);
+		//glDepthMask(GL_TRUE);
+		//glDepthFunc(GL_LEQUAL);
+		//glDepthRange(0.0f, 1.0f);
+	}
+	
 	Cameras.clear();
 	//INIT OBJ DATA from WORLD
 	for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
@@ -37,7 +166,6 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			Cameras.push_back(obj);
 		}
 	}
-
 }
 
 void _NL::Engine::WindowManager::Start()
@@ -46,24 +174,29 @@ void _NL::Engine::WindowManager::Start()
 }
 
 void _NL::Engine::WindowManager::DrawCurrentScene() {
-
+	///SwitchFrameBuffer
+	//CurrentDrawBuff += 1;
+	//CurrentDrawBuff %= 2;
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{
-		int i = 0;
-		Cam->updateCameraSettings();
+		//Cam->updateCameraSettings();
+		Cam->updateCameraProjectionMatrix();
+		glViewport(0, 0, window->getSize().x, window->getSize().y);
+		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
 		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
 		{
 			if (obj->ClassName() == "_NL::Object::GameObject") {
 				///DEBUG
 				//std::cout << "Draw: " << obj->name << std::endl;
-
+				
 				_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
 				_NL::Component::Transform* ObjT = obj->getComponent(_NL::Component::Transform());
-				(i != 0) ? ObjT->transform.rotationAngle += .0001 : i;
+				
+				///DEBUG
+				if(obj->name != "Quad")ObjT->transform.rotationAngle += .001;
 				glBindVertexArray(ObjMR->vao);
 				glUseProgram(ObjMR->Shader->getShaderProgram());
-				glm::mat4 FullTransform = glm::scale(glm::rotate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT->transform.position), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT->transform.scale);
-				glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(FullTransform));
+				glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::rotate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT->transform.position), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT->transform.scale)));
 				glDrawElements(
 					GL_TRIANGLES,
 					ObjMR->Mesh->Indices.size() * 3,
@@ -72,10 +205,63 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				);
 				glUseProgram(0);
 				glBindVertexArray(0);
-				i++;
 			}
 		}
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
+}
+
+void _NL::Engine::WindowManager::DrawScreenQuad()
+{
+	_NL::Core::ScreenQuad q;
+	glUseProgram(ScreenShader.InstlledProgramIDs[0]);
+
+	GLuint uScreenQuadTexture = glGetUniformLocation(ScreenShader.InstlledProgramIDs[0], "fbo_texture");
+	GLuint aScreenQuadTexCoords = glGetAttribLocation(ScreenShader.InstlledProgramIDs[0], "texCoords");
+	glUniform1i(uScreenQuadTexture, 0);
+	check_gl_error();
+	GLfloat fullquad_t[8] =
+	{
+		-1,-1,
+		+1,-1,
+		+1,+1,
+		-1,+1
+	};
+
+	GLuint fullquad_i[6] =
+	{
+		0,1,2,
+		2,3,0
+	};
+	//GLuint vao;
+	//glCreateVertexArrays(1, &vao);
+	//glBindVertexArray(vao);
+	glEnableVertexAttribArray(aScreenQuadTexCoords);
+	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, fullquad_t);
+	glDrawElements(GL_POINTS, 6, GL_UNSIGNED_INT, fullquad_i);
+	glDisableVertexAttribArray(aScreenQuadTexCoords);
+
+	glUseProgram(0);
+	
+}
+
+void _NL::Engine::WindowManager::Display() {
+	//glClearColor(0.05f, 0.1f, 0.2f, 0.0f);
+	//glClearDepth(1.0f);
+	///DISPLAY
+	//glBindFramebuffer(GL_READ_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
+	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	//GLuint wx = window->getSize().x;
+	//GLuint wy = window->getSize().y;
+	//glBlitFramebuffer(0, 0, wx, wy, 0, 0, wx, wy, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+	//check_gl_error();
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindTexture(GL_TEXTURE_2D, ColorTexture);
+	DrawScreenQuad();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	window->display();
+	
+	
 }
 
 void _NL::Engine::WindowManager::update() {
@@ -89,9 +275,11 @@ void _NL::Engine::WindowManager::update() {
 		//...//
 	}
 	//UPDATE DISPLAY;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	check_gl_error();
 	DrawCurrentScene();
-	window->display();
+	Display();
+	///CLEAR
+	
 	//...//
 }
 

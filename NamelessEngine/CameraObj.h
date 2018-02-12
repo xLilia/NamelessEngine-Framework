@@ -28,16 +28,20 @@ namespace _NL {
 			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
 				GLsizei RenderWindowX = 0,
 				GLsizei RenderWindowY = 0,
-				GLfloat FOV = 120, 
-				GLfloat NearPlane = .01f, 
+				GLfloat FOV = 90, 
+				GLfloat NearPlane = 0.1f, 
 				GLfloat FarPlane = 100);
+
 			~CameraObj();
-		
+			void updateCameraSettings();
+			void updateCameraProjectionMatrix();
+			void updateCameraViewport();
+
 			CamTransform Transform;
 			CamSettings Settings;
 			glm::mat4 getWorldToViewMatrix() const;
 			glm::mat4 projectionMatrix;
-			void updateCameraSettings();//updateProjectionMatrix();
+			
 			std::string ClassName() const override;
 		private:
 			
