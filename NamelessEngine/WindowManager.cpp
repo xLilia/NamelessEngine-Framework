@@ -42,7 +42,6 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			GL_RGBA,
 			GL_UNSIGNED_BYTE,
 			NULL);
-
 		check_gl_error();
 	}
 	
