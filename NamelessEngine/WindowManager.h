@@ -1,20 +1,18 @@
 #pragma once
-//#include"NamelessCore.h"
-//#include "WorldSpace.h"
-//#include"GameObject.h"
-//#include"CameraObj.h"
 #include "NL.hpp"
 #include "GLError.h"
+
 #include <SFML\Graphics.hpp>
 #include <GL\glew.h>
 #include <glm/gtc/type_ptr.hpp>
+
 
 namespace _NL {
 	namespace Engine {
 		class WindowManager
 		{
 		public:
-			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false);
+			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
 			void RunGameLoop();
 			~WindowManager();
 			sf::RenderWindow* window;
@@ -22,7 +20,7 @@ namespace _NL {
 			std::vector<_NL::Object::CameraObj*> Cameras;
 		private:
 			ShaderWizard ScreenShader;
-		
+			_NL::Engine::Time Time;
 			GLuint FrameBuffer[1];
 			GLuint ColorTexture;
 			GLuint DepthTexture;

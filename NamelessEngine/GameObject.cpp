@@ -2,6 +2,7 @@
 
 _NL::Object::GameObject::GameObject(std::string name)
 {
+	Parent = 0;
 	this->name = name;
 	std::cout << this->ClassName().c_str()<< " " << this->name.c_str() << " was created sucessfully!" << std::endl;
 }

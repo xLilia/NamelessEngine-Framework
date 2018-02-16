@@ -25,7 +25,7 @@ namespace _NL {
 				return NULL;
 			}
 			///INFO
-			///std::string name;
+			GameObject *Parent; 
 			void getInfo() override; 
 			std::string ClassName() const override;
 			///STATES

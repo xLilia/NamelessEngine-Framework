@@ -1,5 +1,5 @@
-﻿  Main.cpp
+﻿  WindowManager.cpp
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(7): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\nl_time.h(15): warning C4091: 'static ': ignored on left of '_NL::Engine::Time' when no variable is declared
   NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Debug\NamelessEngine.exe
   NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Debug\NamelessEngine.pdb (Partial PDB)

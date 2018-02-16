@@ -1,12 +1,14 @@
 #include "WindowManager.h"
 
-_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen)
+_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
 {
 	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
 	//SET FULLSCREEN
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
 	}
+	window->setFramerateLimit(fpsLimit);
+	window->setVerticalSyncEnabled(bVSync);
 	glewInit();
 }
 
@@ -63,7 +65,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			GL_DEPTH_COMPONENT,
 			GL_UNSIGNED_BYTE,
 			NULL);
-
+	
 		check_gl_error();
 	}
 
@@ -184,21 +186,43 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 		glViewport(0, 0, window->getSize().x, window->getSize().y);
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
 		ClearCurrentBuffer();
+		///DEBUG
+		//if (Cam->name == "MyCam")Cam->Transform.position.z += -Time.DeltaTime.asSeconds();
 		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
 		{
 			if (obj->ClassName() == "_NL::Object::GameObject") {
-				///DEBUG
-				//std::cout << "Draw: " << obj->name << std::endl;
-				
+				///SHADER
 				_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
-				_NL::Component::Transform* ObjT = obj->getComponent(_NL::Component::Transform());
-				
-				///DEBUG
-				if (obj->name != "Quad")ObjT->transform.rotationAngle += .001;
-				if(obj->name == "nameless")ObjT->transform.position.y = std::sin(ObjT->transform.rotationAngle);
 				glBindVertexArray(ObjMR->vao);
 				glUseProgram(ObjMR->Shader->getShaderProgram());
-				glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::rotate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT->transform.position), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT->transform.scale)));
+				_NL::Component::Transform* ObjT;
+				_NL::Component::Transform* ObjT_P;
+				///VERTEX
+				if (obj->Parent != 0) {
+					ObjT = obj->getComponent(_NL::Component::Transform());
+					ObjT_P = obj->Parent->getComponent(_NL::Component::Transform());
+				}
+				else {
+					ObjT = obj->getComponent(_NL::Component::Transform());
+					ObjT_P = new _NL::Component::Transform();
+				}
+
+				///PARENTING
+				//glm::mat4 WVPmat = Cam->projectionMatrix*Cam->getWorldToViewMatrix();
+				//glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
+				//glm::mat4 R = glm::rotate(glm::mat4(), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis) * glm::rotate(glm::mat4(), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis);
+				//glm::mat4 S = glm::scale(glm::mat4(), ObjT->transform.scale) * glm::scale(glm::mat4(), ObjT_P->transform.scale);
+				//WVPmat *= T * R * S;
+				
+				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
+				
+				///DEBUG
+				//std::cout << "Draw: " << obj->name << std::endl;
+				if (obj->name != "Quad")ObjT->transform.rotationAngle += Time.DeltaTime.asSeconds();
+				if (obj->name == "nameless")ObjT->transform.position.y = ObjT->transform.position.y + std::sin(ObjT->transform.rotationAngle)*Time.DeltaTime.asSeconds();
+				//if (obj->name == "nameless")ObjT->transform.position.z = ObjT->transform.position.z + std::sin(ObjT->transform.rotationAngle)*Time.DeltaTime.asSeconds();
+				
+				glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale)));
 				glDrawElements(
 					GL_TRIANGLES,
 					ObjMR->Mesh->Indices.size() * 3,
@@ -230,7 +254,7 @@ void _NL::Engine::WindowManager::DrawScreenQuad()
 
 	glEnableVertexAttribArray(aScreenQuadTexCoords);
 	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_t);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
+	glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
 
 	glUseProgram(0);
@@ -239,7 +263,7 @@ void _NL::Engine::WindowManager::DrawScreenQuad()
 
 void _NL::Engine::WindowManager::ClearCurrentBuffer()
 {
-	glClearColor(0.05f, 0.1f, 0.2f, 0.0f);
+	glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -248,7 +272,7 @@ void _NL::Engine::WindowManager::Display() {
 	
 	///DISPLAY
 	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, ColorTexture);
+	glBindTexture(GL_TEXTURE_2D, DepthTexture);
 	DrawScreenQuad();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glEnable(GL_DEPTH_TEST);
@@ -270,9 +294,7 @@ void _NL::Engine::WindowManager::update() {
 	check_gl_error();
 	DrawCurrentScene();
 	Display();
-	///CLEAR
-	
-	//...//
+	Time.Tick();
 }
 
 

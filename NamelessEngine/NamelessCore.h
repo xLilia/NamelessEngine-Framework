@@ -2,7 +2,6 @@
 ///ExternalLibs
 #include<GL\glew.h>
 #include <glm\glm.hpp>
-//#include <SFML\Graphics.hpp>
 #include <iostream>
 #include <vector>
 
@@ -26,14 +25,15 @@ namespace _NL{
 			///FUNC
 			virtual void getInfo() {};
 		};
-		//All the Components that can be added to class:
-		//_NL::Object::GameObject 
+		
+		//All the Components that can be added to class: _NL::Object::GameObject 
 		class Component {
 		public:
 			virtual std::string ClassName() const { return "_NL::Core::Component"; };
 			bool bactive = true;
 		};
-		//Part of a Component
+
+		//All the Components that can be added to class: _NL::Core::Component
 		class Element {
 		public:
 			///INFO
@@ -42,7 +42,6 @@ namespace _NL{
 		};
 
 		//PRIMITIVES
-
 		struct VertexPos {
 			glm::vec3 Pos;		//Position			
 		};
@@ -85,12 +84,12 @@ namespace _NL{
 				-1,+1
 			};
 
-			const GLuint fullquad_i[6] =
+			const GLuint fullquad_i[4] =
 			{
-				0,1,2,
-				2,3,0
+				0,1,2,3
 			};
 		};
+
 
 	}
 }
