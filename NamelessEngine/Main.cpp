@@ -2,7 +2,7 @@
 
 int main(){
 
-	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true,0,.5);
+	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true,0,1);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,90,0.1,500);
 	//_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 1.0f, 500.0f);
