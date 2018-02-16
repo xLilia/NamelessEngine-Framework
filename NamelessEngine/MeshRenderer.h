@@ -1,8 +1,9 @@
 #pragma once
 #include "NamelessCore.h"
-#include "TextureObj.h"
+#include "TextureLoader.h"
 #include "ShaderObj.h"
 #include "MeshObj.h"
+#include "MaterialObj.h"
 #include "GLError.h"
 
 namespace _NL {
@@ -16,8 +17,8 @@ namespace _NL {
 			void initGLObj();
 
 			const static GLuint Pos_atrib = 0;
-			const static GLuint Col_atrib = 1;
-			const static GLuint Norm_atrib = 2;
+			const static GLuint Norm_atrib = 1;
+			const static GLuint Col_atrib = 2;
 			const static GLuint TexC_atrib = 3;
 			const static GLuint FullTransformMatrix_atrib = 4;
 
@@ -26,10 +27,9 @@ namespace _NL {
 			GLuint vao; //Vertex Array Object
 			std::vector<GLfloat> VertsBuf;
 			std::vector<GLuint> IndicesBuf;
-			//std::vector<GLuint> IndicesOffset;
 			_NL::Element::MeshObj* Mesh;
 			_NL::Element::ShaderObj* Shader;
-			_NL::Element::TextureObj* Texture;
+			_NL::Element::MaterialObj* Material;
 			///INFO
 			std::string ClassName() const override;
 		private:

@@ -43,7 +43,6 @@ namespace _NL {
 			glm::mat4 projectionMatrix;
 			
 			std::string ClassName() const override;
-		private:
 			
 		};
 	}

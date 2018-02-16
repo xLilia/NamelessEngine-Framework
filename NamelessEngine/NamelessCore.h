@@ -59,6 +59,17 @@ namespace _NL{
 			GLuint v[3];
 			GLuint vt[3];
 			GLuint vn[3];
+			GLint MTL_ID;
+		};
+
+		struct MTLdata {
+			GLfloat Ns;	  //Scalar
+			glm::vec3 Ka; //Ambient ColorRGB
+			glm::vec3 Kd; //Difuse ColorRGB
+			glm::vec3 Ks; //Specular ColorRGB
+			glm::vec3 Ke; //Emission ColorRGB
+
+			GLuint MTL_ID;
 		};
 
 		struct MeshData {

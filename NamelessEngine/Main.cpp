@@ -7,42 +7,56 @@ int main(){
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,90,0.1,500);
 	//_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 1.0f, 500.0f);
 	
-	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("m1", "cube.obj");
+	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("m1", "cubeMT.obj");
 	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	_NL::Element::TextureObj* texture1 = new _NL::Element::TextureObj("Tex1.jpg");
+	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("mtl1", "CubeMT.mtl");
+
+	_NL::Element::MaterialObj* material2 = new _NL::Element::MaterialObj("mtl1","skybox.mtl");
+	
+	_NL::Object::GameObject* skybox = new _NL::Object::GameObject("Skybox");
+	skybox->addComponent(new _NL::Component::Transform);
+	skybox->addComponent(new _NL::Component::MeshRenderer);
+	skybox->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
+	skybox->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
+	skybox->getComponent(_NL::Component::MeshRenderer())->Material = material2;
 
 	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("nameless");
 	Cube->addComponent(new _NL::Component::Transform);
 	Cube->addComponent(new _NL::Component::MeshRenderer);
 	Cube->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
 	Cube->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
-	Cube->getComponent(_NL::Component::MeshRenderer())->Texture = texture1;
+	Cube->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 	
 	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("nameless1");
 	Cube2->addComponent(new _NL::Component::Transform);
 	Cube2->addComponent(new _NL::Component::MeshRenderer);
 	Cube2->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
 	Cube2->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
+	Cube2->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 
 	_NL::Object::GameObject* Cube3 = new _NL::Object::GameObject("nameless1");
 	Cube3->addComponent(new _NL::Component::Transform);
 	Cube3->addComponent(new _NL::Component::MeshRenderer);
 	Cube3->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
 	Cube3->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
+	Cube3->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 
 	_NL::Object::GameObject* Tri = new _NL::Object::GameObject("Tri");
 	Tri->addComponent(new _NL::Component::Transform());
 	Tri->addComponent(new _NL::Component::MeshRenderer());
 	Tri->getComponent(_NL::Component::MeshRenderer())->Mesh = new _NL::Element::MeshObj("trimesh", "tri.obj");
 	Tri->getComponent(_NL::Component::MeshRenderer())->Shader = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
-	
+	Tri->getComponent(_NL::Component::MeshRenderer())->Material = material1;
+
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
 	Quad->addComponent(new _NL::Component::MeshRenderer());
 	Quad->getComponent(_NL::Component::MeshRenderer())->Mesh = new _NL::Element::MeshObj("quadmesh", "quad.obj");
-	Quad->getComponent(_NL::Component::MeshRenderer())->Shader = new _NL::Element::ShaderObj("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
-
+	Quad->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;//new _NL::Element::ShaderObj("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
+	Quad->getComponent(_NL::Component::MeshRenderer())->Material = material1;
+	
 	//SCRIPT
+	skybox->getComponent(_NL::Component::Transform())->transform.scale *= 50;
 
 	Cube->getComponent(_NL::Component::Transform())->transform.scale.x = 2;
 
@@ -79,6 +93,7 @@ int main(){
 	scene1->addObjectToWorld(Cube2);
 	scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Tri);
+	scene1->addObjectToWorld(skybox);
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);
 	

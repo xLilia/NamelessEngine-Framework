@@ -218,7 +218,7 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				
 				///DEBUG
 				//std::cout << "Draw: " << obj->name << std::endl;
-				if (obj->name != "Quad")ObjT->transform.rotationAngle += Time.DeltaTime.asSeconds();
+				if (obj->name != "Quad" && obj->name != "Skybox")ObjT->transform.rotationAngle += Time.DeltaTime.asSeconds();
 				if (obj->name == "nameless")ObjT->transform.position.y = ObjT->transform.position.y + std::sin(ObjT->transform.rotationAngle)*Time.DeltaTime.asSeconds();
 				//if (obj->name == "nameless")ObjT->transform.position.z = ObjT->transform.position.z + std::sin(ObjT->transform.rotationAngle)*Time.DeltaTime.asSeconds();
 				
@@ -231,7 +231,8 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				//	GL_UNSIGNED_INT,
 				//	0
 				//);
-				glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
+				glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MTLTexIds[0]);
+				glDrawArrays(GL_LINE_LOOP, 0, ObjMR->Mesh->Indices.size() * 3);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
@@ -277,7 +278,7 @@ void _NL::Engine::WindowManager::Display() {
 	
 	///DISPLAY
 	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	glBindTexture(GL_TEXTURE_2D, ColorTexture);
 	DrawScreenQuad();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glEnable(GL_DEPTH_TEST);

@@ -2,7 +2,7 @@
 
 _NL::Component::MeshRenderer::MeshRenderer()
 {
-	
+
 }
 
 void _NL::Component::MeshRenderer::UnpackData() {
@@ -10,9 +10,10 @@ void _NL::Component::MeshRenderer::UnpackData() {
 	
 	VertsBuf.clear();
 	IndicesBuf.clear();
-
+	
 	for each (_NL::Core::vIndices vI in Mesh->Indices)
 	{
+		if (vI.MTL_ID == -1)vI.MTL_ID = 0;
 		///!!!THIS CAN BE OPTIMIZED!!!\\\ 
 		IndicesBuf.push_back(vI.v[0] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[0] - 1].Pos.x);
@@ -21,6 +22,9 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.z);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.r);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.g);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.b);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t);
 		IndicesBuf.push_back(vI.v[1] - 1);
@@ -30,6 +34,9 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.z);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.r);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.g);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.b);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t);
 		IndicesBuf.push_back(vI.v[2] - 1);
@@ -39,6 +46,9 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.z);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.r);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.g);
+		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.b);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t);
 	}
@@ -65,10 +75,10 @@ void _NL::Component::MeshRenderer::UnpackData() {
 
 	///UNPACK INDEX DATA
 
-	for each (_NL::Core::vIndices I in Mesh->Indices)
-	{
-		
-	}
+	//for each (_NL::Core::vIndices I in Mesh->Indices)
+	//{
+	//	
+	//}
 
 }
 
@@ -94,28 +104,28 @@ void _NL::Component::MeshRenderer::initGLObj()
 	///Init Vertex Arrays
 	glCreateVertexArrays(1, &vao);
 	glEnableVertexArrayAttrib(vao, Pos_atrib);
-	//glEnableVertexArrayAttrib(vao, Col_atrib);
 	glEnableVertexArrayAttrib(vao, Norm_atrib);
+	glEnableVertexArrayAttrib(vao, Col_atrib);
 	glEnableVertexArrayAttrib(vao, TexC_atrib);
 	check_gl_error_full();
 	
 	///Set Vertex Arrays Format
-	glVertexArrayAttribFormat(vao, Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
 	glVertexArrayAttribBinding(vao, Pos_atrib, 0);
+	glVertexArrayAttribFormat(vao, Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
 
-	//glVertexArrayAttribBinding(vao, Col_atrib, 0);
-	//glVertexArrayAttribFormat(vao, Col_atrib,	3, GL_FLOAT, false, sizeof(GL_FLOAT) * 3);
-	//
 	glVertexArrayAttribBinding(vao, Norm_atrib, 0);
-	glVertexArrayAttribFormat(vao, Norm_atrib,	3, GL_FLOAT, false, sizeof(GLfloat) * 3);
+	glVertexArrayAttribFormat(vao, Norm_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3);
+
+	glVertexArrayAttribBinding(vao, Col_atrib, 0);
+	glVertexArrayAttribFormat(vao, Col_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
 	
 	glVertexArrayAttribBinding(vao, TexC_atrib, 0);
-	glVertexArrayAttribFormat(vao, TexC_atrib,	2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
+	glVertexArrayAttribFormat(vao, TexC_atrib, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9);
 
 	check_gl_error_full();
 
 	///Confiugure Vertex Array and link Buffers
-	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 8); //11
+	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 11); //11
 	//glVertexArrayElementBuffer(vao, ebo);
 
 	check_gl_error_full();

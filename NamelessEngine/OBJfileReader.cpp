@@ -11,6 +11,7 @@ void OBJfileReader::RESET()
 	this->Mshd.vCol.clear();
 	this->Mshd.vNorm.clear();
 	this->Mshd.vTexC.clear();
+	this->MTL_counter = -1;
 }
 
 int OBJfileReader::LOAD(const char * OBJpath)
@@ -26,8 +27,16 @@ int OBJfileReader::LOAD(const char * OBJpath)
 		
 		if(res == EOF)
 			break;
-
-		//VertexCoords
+		
+		////Material
+		//if (std::strcmp(lineHeader, "mtllib") == 0) {
+		//	std::string MTLpath;
+		//	fscanf(file, "%s",
+		//		MTLpath.c_str()
+		//		);
+		//	LOAD_MTL(MTLpath.c_str());
+		//}//VertexCoords  
+		/*else*/ 
 		if (std::strcmp(lineHeader, "v") == 0) { 
 			_NL::Core::VertexPos v;
 			fscanf(file, "%f %f %f\n", 
@@ -36,21 +45,21 @@ int OBJfileReader::LOAD(const char * OBJpath)
 				&v.Pos.z
 			);
 			this->Mshd.vPos.push_back(v);
-			
 		}//Indices
 		else if(std::strcmp(lineHeader, "f") == 0) {
 			_NL::Core::vIndices tri;
-			fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n", 
-				&tri.v[0], 
+			fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n",
+				&tri.v[0],
 				&tri.vt[0],
 				&tri.vn[0],
 				&tri.v[1],
-				&tri.vt[1], 
+				&tri.vt[1],
 				&tri.vn[1],
-				&tri.v[2], 
-				&tri.vt[2], 
+				&tri.v[2],
+				&tri.vt[2],
 				&tri.vn[2]
 			);
+			tri.MTL_ID = MTL_counter;
 			this->Is.push_back(tri);
 		}//Vertex TextureCoordinates
 		else if (std::strcmp(lineHeader, "vt") == 0) {
@@ -70,6 +79,9 @@ int OBJfileReader::LOAD(const char * OBJpath)
 			);
 			this->Mshd.vNorm.push_back(vn);
 		}
+		else if (std::strcmp(lineHeader, "usemtl") == 0) {
+			MTL_counter++;
+		}
 	}
 	std::fclose(file);
 }
@@ -77,3 +89,5 @@ int OBJfileReader::LOAD(const char * OBJpath)
 OBJfileReader::~OBJfileReader()
 {
 }
+
+

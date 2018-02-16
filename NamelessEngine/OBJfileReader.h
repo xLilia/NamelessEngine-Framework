@@ -1,17 +1,17 @@
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <vector>
 #include "NamelessCore.h"
-
+#include <vector>
 class OBJfileReader
 {
 public:
 	OBJfileReader();
-	void RESET();
+	~OBJfileReader();
+
 	int LOAD(const char* OBJpath);
 	_NL::Core::MeshData Mshd;
 	std::vector<_NL::Core::vIndices> Is;
-	~OBJfileReader();
+	GLint MTL_counter = -1;
+	void RESET();
+
 };
 

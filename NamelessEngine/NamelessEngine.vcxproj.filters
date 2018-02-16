@@ -87,8 +87,14 @@
     <ClCompile Include="NL_Time.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
-    <ClCompile Include="TextureObj.cpp">
+    <ClCompile Include="MTLfileReader.cpp">
+      <Filter>Source Files\GLTools</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialObj.cpp">
       <Filter>Source Files\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\GLTools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,8 +143,14 @@
     <ClInclude Include="NL_Time.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
-    <ClInclude Include="TextureObj.h">
+    <ClInclude Include="MTLfileReader.h">
+      <Filter>Header Files\GLTools</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialObj.h">
       <Filter>Header Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files\GLTools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
