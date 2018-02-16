@@ -10,8 +10,7 @@ int main(){
 	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("m1", "cubeMT.obj");
 	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("mtl1", "CubeMT.mtl");
-
-	_NL::Element::MaterialObj* material2 = new _NL::Element::MaterialObj("mtl1","skybox.mtl");
+	_NL::Element::MaterialObj* material2 = new _NL::Element::MaterialObj("mtl2","skybox.mtl");
 	
 	_NL::Object::GameObject* skybox = new _NL::Object::GameObject("Skybox");
 	skybox->addComponent(new _NL::Component::Transform);
@@ -56,7 +55,7 @@ int main(){
 	Quad->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 	
 	//SCRIPT
-	skybox->getComponent(_NL::Component::Transform())->transform.scale *= 50;
+	skybox->getComponent(_NL::Component::Transform())->transform.scale *= 100;
 
 	Cube->getComponent(_NL::Component::Transform())->transform.scale.x = 2;
 

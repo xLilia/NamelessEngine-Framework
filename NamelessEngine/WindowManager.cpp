@@ -232,7 +232,7 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				//	0
 				//);
 				glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MTLTexIds[0]);
-				glDrawArrays(GL_LINE_LOOP, 0, ObjMR->Mesh->Indices.size() * 3);
+				glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
