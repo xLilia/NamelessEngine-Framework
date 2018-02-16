@@ -12,13 +12,14 @@ namespace _NL {
 		class WindowManager
 		{
 		public:
-			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
+			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0, float renderScaleRatio = 1);
 			void RunGameLoop();
 			~WindowManager();
 			sf::RenderWindow* window;
 			_NL::Object::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 		private:
+			float renderScaleRatio;
 			ShaderWizard ScreenShader;
 			_NL::Engine::Time Time;
 			GLuint FrameBuffer[1];

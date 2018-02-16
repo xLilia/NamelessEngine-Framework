@@ -87,6 +87,9 @@
     <ClCompile Include="NL_Time.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
+    <ClCompile Include="TextureObj.cpp">
+      <Filter>Source Files\Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="NL_Time.h">
       <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureObj.h">
+      <Filter>Header Files\Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

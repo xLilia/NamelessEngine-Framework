@@ -1,8 +1,9 @@
 #include "WindowManager.h"
 
-_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
+_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit, float renderScaleRatio)
 {
 	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
+	this->renderScaleRatio = renderScaleRatio;
 	//SET FULLSCREEN
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
@@ -38,8 +39,8 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			GL_TEXTURE_2D,
 			0,
 			GL_RGBA,
-			window->getSize().x,
-			window->getSize().y,
+			window->getSize().x * renderScaleRatio,
+			window->getSize().y * renderScaleRatio,
 			0,
 			GL_RGBA,
 			GL_UNSIGNED_BYTE,
@@ -59,8 +60,8 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			GL_TEXTURE_2D,
 			0,
 			GL_DEPTH_COMPONENT,
-			window->getSize().x,
-			window->getSize().y,
+			window->getSize().x * renderScaleRatio,
+			window->getSize().y * renderScaleRatio,
 			0,
 			GL_DEPTH_COMPONENT,
 			GL_UNSIGNED_BYTE,
@@ -183,7 +184,7 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 	{
 		//Cam->updateCameraSettings();
 		Cam->updateCameraProjectionMatrix();
-		glViewport(0, 0, window->getSize().x, window->getSize().y);
+		glViewport(0, 0, window->getSize().x * renderScaleRatio, window->getSize().y * renderScaleRatio);
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
 		ClearCurrentBuffer();
 		///DEBUG
@@ -193,7 +194,6 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 			if (obj->ClassName() == "_NL::Object::GameObject") {
 				///SHADER
 				_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
-				glBindVertexArray(ObjMR->vao);
 				glUseProgram(ObjMR->Shader->getShaderProgram());
 				_NL::Component::Transform* ObjT;
 				_NL::Component::Transform* ObjT_P;
@@ -222,13 +222,16 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				if (obj->name == "nameless")ObjT->transform.position.y = ObjT->transform.position.y + std::sin(ObjT->transform.rotationAngle)*Time.DeltaTime.asSeconds();
 				//if (obj->name == "nameless")ObjT->transform.position.z = ObjT->transform.position.z + std::sin(ObjT->transform.rotationAngle)*Time.DeltaTime.asSeconds();
 				
+				///RENDER
 				glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale)));
-				glDrawElements(
-					GL_TRIANGLES,
-					ObjMR->Mesh->Indices.size() * 3,
-					GL_UNSIGNED_INT,
-					0
-				);
+				glBindVertexArray(ObjMR->vao);
+				//glDrawElements(
+				//	GL_LINE_LOOP,
+				//	ObjMR->Mesh->Indices.size() * 3,
+				//	GL_UNSIGNED_INT,
+				//	0
+				//);
+				glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
@@ -239,6 +242,8 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 
 void _NL::Engine::WindowManager::DrawScreenQuad()
 {
+	glViewport(0, 0, window->getSize().x, window->getSize().y);
+
 	ClearCurrentBuffer();
 
 	_NL::Core::ScreenQuad q;

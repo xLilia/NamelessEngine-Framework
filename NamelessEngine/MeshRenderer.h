@@ -1,5 +1,6 @@
 #pragma once
 #include "NamelessCore.h"
+#include "TextureObj.h"
 #include "ShaderObj.h"
 #include "MeshObj.h"
 #include "GLError.h"
@@ -28,6 +29,7 @@ namespace _NL {
 			//std::vector<GLuint> IndicesOffset;
 			_NL::Element::MeshObj* Mesh;
 			_NL::Element::ShaderObj* Shader;
+			_NL::Element::TextureObj* Texture;
 			///INFO
 			std::string ClassName() const override;
 		private:

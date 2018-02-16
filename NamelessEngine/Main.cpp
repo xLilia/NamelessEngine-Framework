@@ -2,31 +2,33 @@
 
 int main(){
 
-	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true,0);
+	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true,0,.5);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,90,0.1,500);
 	//_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 1.0f, 500.0f);
 	
 	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("m1", "cube.obj");
-	_NL::Element::ShaderObj* defaultshade = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	_NL::Element::TextureObj* texture1 = new _NL::Element::TextureObj("Tex1.jpg");
 
 	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("nameless");
 	Cube->addComponent(new _NL::Component::Transform);
 	Cube->addComponent(new _NL::Component::MeshRenderer);
 	Cube->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
-	Cube->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshade;
+	Cube->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
+	Cube->getComponent(_NL::Component::MeshRenderer())->Texture = texture1;
 	
 	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("nameless1");
 	Cube2->addComponent(new _NL::Component::Transform);
 	Cube2->addComponent(new _NL::Component::MeshRenderer);
 	Cube2->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
-	Cube2->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshade;
+	Cube2->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
 
 	_NL::Object::GameObject* Cube3 = new _NL::Object::GameObject("nameless1");
 	Cube3->addComponent(new _NL::Component::Transform);
 	Cube3->addComponent(new _NL::Component::MeshRenderer);
 	Cube3->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
-	Cube3->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshade;
+	Cube3->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
 
 	_NL::Object::GameObject* Tri = new _NL::Object::GameObject("Tri");
 	Tri->addComponent(new _NL::Component::Transform());

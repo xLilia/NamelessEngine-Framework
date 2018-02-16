@@ -155,6 +155,7 @@
     <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="NL_Time.cpp" />
+    <ClCompile Include="TextureObj.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WindowManager.cpp" />
     <ClCompile Include="WorldSpace.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="ShaderObj.h" />
     <ClInclude Include="ShaderWizard.h" />
     <ClInclude Include="NL_Time.h" />
+    <ClInclude Include="TextureObj.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="WorldSpace.h" />
