@@ -147,6 +147,7 @@
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLError.cpp" />
+    <ClCompile Include="LightObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MaterialObj.cpp" />
     <ClCompile Include="MeshObj.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLError.h" />
+    <ClInclude Include="LightObject.h" />
     <ClInclude Include="MaterialObj.h" />
     <ClInclude Include="MeshObj.h" />
     <ClInclude Include="MeshRenderer.h" />

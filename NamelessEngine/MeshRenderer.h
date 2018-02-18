@@ -20,8 +20,13 @@ namespace _NL {
 			const static GLuint Norm_atrib = 1;
 			const static GLuint Col_atrib = 2;
 			const static GLuint TexC_atrib = 3;
-			const static GLuint FullTransformMatrix_atrib = 4;
-
+			//const static GLuint FullTransformMatrix_atrib = 4;
+			const static GLuint ModelMatrix_atrib = 4;
+			const static GLuint ViewMatrix_atrib = 5;
+			const static GLuint ProjectionMatrix_atrib = 6;
+			//Model
+			//View
+			//projection
 			GLuint vbo; //Vertex Buffer Object
 			GLuint ebo;	//Element Buffer Object
 			GLuint vao; //Vertex Array Object

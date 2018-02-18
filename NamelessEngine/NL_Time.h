@@ -9,6 +9,7 @@ namespace _NL {
 			Time();
 			~Time();
 			sf::Time DeltaTime;
+			sf::Clock Clock;
 			void Tick();
 		private:
 			sf::Clock Clk;

@@ -1,5 +1,10 @@
 #include "GameObject.h"
 
+_NL::Object::GameObject::GameObject()
+{
+	this->name = "_";
+}
+
 _NL::Object::GameObject::GameObject(std::string name)
 {
 	Parent = 0;

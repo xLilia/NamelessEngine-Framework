@@ -2,28 +2,28 @@
 #include "NamelessCore.h"
 #include <glm\gtc\matrix_transform.hpp>
 
-struct CamTransform
-{
-	glm::vec3 position = glm::vec3(0, 0, -1);
-	glm::vec3 rotation = glm::vec3(0, 1, 0);
-	glm::vec3 LookAtCenter = glm::vec3(0, 0, 1);
-};
-
-struct CamSettings
-{
-	GLfloat FOV;
-	GLfloat NearPlane;
-	GLfloat FarPlane;
-	GLsizei RenderWindowX;
-	GLsizei RenderWindowY;
-	GLsizei RenderWindowWidth;
-	GLsizei RenderWindowHeight;
-};
-
 namespace _NL {
 	namespace Object {
 		class CameraObj : public _NL::Core::Object
 		{
+		private:
+			struct CamTransform
+			{
+				glm::vec3 position = glm::vec3(0, 0, -1);
+				glm::vec3 rotation = glm::vec3(0, 1, 0);
+				glm::vec3 LookAtCenter = glm::vec3(0, 0, 1);
+			};
+
+			struct CamSettings
+			{
+				GLfloat FOV;
+				GLfloat NearPlane;
+				GLfloat FarPlane;
+				GLsizei RenderWindowX;
+				GLsizei RenderWindowY;
+				GLsizei RenderWindowWidth;
+				GLsizei RenderWindowHeight;
+			};
 		public:
 			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
 				GLsizei RenderWindowX = 0,
@@ -43,7 +43,6 @@ namespace _NL {
 			glm::mat4 projectionMatrix;
 			
 			std::string ClassName() const override;
-			
 		};
 	}
 }

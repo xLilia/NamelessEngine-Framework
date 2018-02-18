@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "WorldSpace.h"
 #include "CameraObj.h"
+#include "LightObject.h"
 
 ///Components
 #include "Transform.h"

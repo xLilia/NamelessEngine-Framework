@@ -8,6 +8,7 @@ namespace _NL {
 		class GameObject : public _NL::Core::Object
 		{
 		public:
+			GameObject();
 			GameObject(std::string name);
 			~GameObject();
 

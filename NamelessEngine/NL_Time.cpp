@@ -2,7 +2,7 @@
 
 _NL::Engine::Time::Time()
 {
-	
+	Clock.restart();
 }
 
 _NL::Engine::Time::~Time()

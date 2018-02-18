@@ -18,7 +18,10 @@ namespace _NL {
 			sf::RenderWindow* window;
 			_NL::Object::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
+			std::vector<_NL::Core::LightProperties> Lights;
 		private:
+			GLuint LightsBlockUBO;
+			GLuint uIndexLightsBlock = 0;
 			float renderScaleRatio;
 			ShaderWizard ScreenShader;
 			_NL::Engine::Time Time;
@@ -35,6 +38,10 @@ namespace _NL {
 			void ClearCurrentBuffer();
 			void Display();
 			void update();	
+
+			///SwitchFrameBuffer
+			//CurrentDrawBuff += 1;
+			//CurrentDrawBuff %= 2;
 		};
 	}
 }

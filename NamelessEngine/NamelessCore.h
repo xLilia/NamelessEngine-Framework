@@ -81,8 +81,8 @@ namespace _NL{
 
 		struct transform {
 			glm::vec3 position;
-			glm::vec3 rotationAxis;
-			GLfloat rotationAngle;
+			glm::vec3 EulerRotation;
+			glm::mat4 MatrixRotation;
 			glm::vec3 scale;
 		};
 
@@ -101,6 +101,14 @@ namespace _NL{
 			};
 		};
 
+		struct LightProperties {
+			glm::vec4 lightColor = glm::vec4(1, 1, 1, 1);
+			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
+			//float radiusOfInfluence = 1;
+			float PADDING;
+			//glm::vec3 rotationAxis = glm::vec3(1, 0, 0);
+			//GLfloat rotationAngle = 45.0f;
+		};
 
 	}
 }

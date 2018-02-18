@@ -44,7 +44,8 @@ int main(){
 	Tri->addComponent(new _NL::Component::Transform());
 	Tri->addComponent(new _NL::Component::MeshRenderer());
 	Tri->getComponent(_NL::Component::MeshRenderer())->Mesh = new _NL::Element::MeshObj("trimesh", "tri.obj");
-	Tri->getComponent(_NL::Component::MeshRenderer())->Shader = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
+	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
+	Tri->getComponent(_NL::Component::MeshRenderer())->Shader = trishade;
 	Tri->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
@@ -54,10 +55,18 @@ int main(){
 	Quad->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;//new _NL::Element::ShaderObj("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
 	Quad->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 	
+	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
+	//Light->addComponent(new _NL::Component::MeshRenderer());
+	//Light->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
+	//Light->getComponent(_NL::Component::MeshRenderer())->Shader = trishade;
+	
 	//SCRIPT
-	skybox->getComponent(_NL::Component::Transform())->transform.scale *= 100;
 
-	Cube->getComponent(_NL::Component::Transform())->transform.scale.x = 2;
+	Light->LightProperties.lightPosition.y = 5;
+	//Light->LightProperties.position.z = 0;
+	Light->LightProperties.lightColor = glm::vec4(1,1,1,1);
+
+	skybox->getComponent(_NL::Component::Transform())->transform.scale *= 100;
 
 	Cube2->getComponent(_NL::Component::Transform())->transform.position.x += 2;
 	Cube2->getComponent(_NL::Component::Transform())->transform.position.z += 2;
@@ -74,13 +83,14 @@ int main(){
 	_NL::Component::Transform* T = Tri->getComponent(_NL::Component::Transform());
 	T->transform.scale *= .5;
 	T->transform.position.y += 2;
+	T->transform.position.z += 2;
 	T->transform.scale *= 5;
 	Tri->Parent = 0;
 
 	Quad->getComponent(_NL::Component::Transform())->transform.position.y -= 1;
 	Quad->getComponent(_NL::Component::Transform())->transform.scale *= 5;
 
-	MyCam->Transform.position.z += -2;
+	MyCam->Transform.position.z += -1;
 	MyCam->Transform.position.y += 1;
 	//MyCam->Transform.LookAtCenter = MyCam->Transform.LookAtCenter +glm::vec3(0,-1.5,0);
 	//MyCam2->Transform.position.z += -2;
@@ -94,7 +104,7 @@ int main(){
 	scene1->addObjectToWorld(Tri);
 	scene1->addObjectToWorld(skybox);
 	scene1->addObjectToWorld(MyCam);
-	//scene1->addObjectToWorld(MyCam2);
+	scene1->addObjectToWorld(Light);
 	
 	scene1->showObjectList();
 	//Obj1->getInfo();

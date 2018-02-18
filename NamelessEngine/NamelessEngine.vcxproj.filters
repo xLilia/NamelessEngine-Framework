@@ -96,6 +96,9 @@
     <ClCompile Include="TextureLoader.cpp">
       <Filter>Source Files\GLTools</Filter>
     </ClCompile>
+    <ClCompile Include="LightObject.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="TextureLoader.h">
       <Filter>Header Files\GLTools</Filter>
+    </ClInclude>
+    <ClInclude Include="LightObject.h">
+      <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
