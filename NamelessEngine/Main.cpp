@@ -63,8 +63,8 @@ int main(){
 	//SCRIPT
 
 	Light->LightProperties.lightPosition.y = 5;
-	//Light->LightProperties.position.z = 0;
-	Light->LightProperties.lightColor = glm::vec4(1,1,1,1);
+	Light->LightProperties.lightPosition.z = 5;
+	Light->LightProperties.lightColor = glm::vec4(1,0,0,1);
 
 	skybox->getComponent(_NL::Component::Transform())->transform.scale *= 100;
 

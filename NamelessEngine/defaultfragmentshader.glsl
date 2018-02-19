@@ -25,6 +25,9 @@ in vec3 fragNormal;
 out vec4 FragColor;
 
 void main(){
+	vec4 surfaceColor = texture(ImgTexture, fragTexCoord) * vec4(fragColor.r,fragColor.g,fragColor.b,1.0);
+	vec4 finalColor;
+	vec3 AmbientLight = vec3(.1,.0,.0); //surfaceColor.rgb *
 
 	//calculate normal in world coordinates
 	mat3 normalMatrix = transpose(inverse(mat3(uModel)));
@@ -32,9 +35,6 @@ void main(){
 	
 	//calculate the location of this fragment (pixel) in world coordinates
 	vec3 fragPosition = vec3(uModel * vec4(fragVert,1));
-
-	vec4 surfaceColor = texture(ImgTexture, fragTexCoord) * vec4(fragColor.r,fragColor.g,fragColor.b,1.0);
-	vec4 finalColor;// = vec4(1,1,1,1);
 
 	for(int i = 0; i < NR_LIGHTS; i++){
 		//calculate the vector from this pixels surface to the light source
@@ -48,8 +48,7 @@ void main(){
 		// 1. The angle of incidence: brightness
 		// 2. The color/intensities of the light: light.intensities
 		// 3. The texture and texture coord: texture(tex, fragTexCoord)
-		vec3 AmbientLight = vec3(.5,.5,.5);
-		finalColor += vec4(((surfaceColor.rgb) * light[i].lightColor.rgb) * (brightness * light[i].lightColor.a), surfaceColor.a);
+		finalColor += vec4(AmbientLight,1) + vec4(((surfaceColor.rgb) * light[i].lightColor.rgb) * (brightness * light[i].lightColor.a), surfaceColor.a);
 	}
 	FragColor = finalColor;
 }
