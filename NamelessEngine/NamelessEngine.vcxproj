@@ -154,7 +154,8 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="MTLfileReader.cpp" />
     <ClCompile Include="OBJfileReader.cpp" />
-    <ClCompile Include="CppScript.cpp" />
+    <ClCompile Include="RotatorScript.cpp" />
+    <ClCompile Include="Script.cpp" />
     <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="NL_Time.cpp" />
@@ -175,7 +176,11 @@
     <ClInclude Include="NL.hpp" />
     <ClInclude Include="OBJfileReader.h" />
     <ClInclude Include="NamelessCore.h" />
-    <ClInclude Include="CppScript.h" />
+    <ClInclude Include="TemplateScript.hpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+    </ClInclude>
+    <ClInclude Include="Script.h" />
     <ClInclude Include="ShaderObj.h" />
     <ClInclude Include="ShaderWizard.h" />
     <ClInclude Include="NL_Time.h" />

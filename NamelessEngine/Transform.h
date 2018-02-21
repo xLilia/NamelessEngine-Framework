@@ -19,8 +19,6 @@ namespace _NL {
 			bool bactive = true;
 			///INFO
 			std::string ClassName() const override;
-
-			
 			
 		};
 	}

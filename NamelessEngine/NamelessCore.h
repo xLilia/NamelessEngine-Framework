@@ -10,7 +10,14 @@ namespace _NL{
 	namespace Core {
 
 		//TYPES
-
+		//CPPscript
+		class CppScript 
+		{
+		public:
+			//virtual const std::string ClassName() = 0;
+			virtual void Start() = 0;
+			virtual void Update() = 0;
+		};
 		//Object
 		class Object {
 		public:
@@ -104,8 +111,9 @@ namespace _NL{
 		struct LightProperties {
 			glm::vec4 lightColor = glm::vec4(1, 1, 1, 1);
 			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
-			//float radiusOfInfluence = 1;
-			float PADDING;
+			GLfloat PADDING0;
+			GLfloat radiusOfInfluence = 1;
+			glm::vec3 PADDING1;
 			//glm::vec3 rotationAxis = glm::vec3(1, 0, 0);
 			//GLfloat rotationAngle = 45.0f;
 		};

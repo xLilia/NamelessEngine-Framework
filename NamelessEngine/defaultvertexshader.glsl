@@ -9,7 +9,7 @@ layout (location=4) uniform mat4 uModel;
 layout (location=5) uniform mat4 uView;
 layout (location=6) uniform mat4 uProjection;
 
-out vec3 fragVert;
+out vec3 fragPos;
 out vec2 fragTexCoord;
 out vec3 fragColor;
 out vec3 fragNormal;
@@ -19,7 +19,7 @@ void main()
 	fragColor = aColor;
 	fragNormal = aNorm;
 	fragTexCoord = aTexCoords;
-	fragVert = aPosition;
+	fragPos = vec3(uModel * vec4(aPosition,1.0));
 	gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
     //gl_Position = MVP * vec4(aPosition, 1.0);
 }

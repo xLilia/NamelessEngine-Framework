@@ -1,9 +1,8 @@
 #include "WindowManager.h"
 
-_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit, float renderScaleRatio)
+_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
 {
 	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
-	this->renderScaleRatio = renderScaleRatio;
 	//SET FULLSCREEN
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
@@ -13,137 +12,151 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	glewInit();
 }
 
-void _NL::Engine::WindowManager::RunGameLoop()
+void _NL::Engine::WindowManager::RunProgramLoop()
 {
 	Start();
 	while (window->isOpen()) {
-		update();
+		updateWindow();
+	}
+}
+
+void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object::CameraObj*> Cams)
+{
+	FrameBuffer = new GLuint[Cams.size()]{};
+	ColorTexture = new GLuint[Cams.size()]{};
+	DepthTexture = new GLuint[Cams.size()]{};
+
+	int iCam = 0;
+	for each (_NL::Object::CameraObj* Cam in Cams)
+	{
+		///SETUP FRAME BUFFER OBJECTs
+		//ColorTextures
+		{
+			glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture[iCam]);
+			glBindTexture(GL_TEXTURE_2D, ColorTexture[iCam]);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGBA,
+				Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio,
+				Cam->Settings.RenderWindowSize.y *  Cam->Settings.RenderScaleRatio,
+				0,
+				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				NULL);
+			check_gl_error_full();
+		}
+
+		//DepthTexture
+		{
+			glCreateTextures(GL_TEXTURE_2D, 1, &DepthTexture[iCam]);
+			glBindTexture(GL_TEXTURE_2D, DepthTexture[iCam]);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_DEPTH_COMPONENT,
+				Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio,
+				Cam->Settings.RenderWindowSize.y *  Cam->Settings.RenderScaleRatio,
+				0,
+				GL_DEPTH_COMPONENT,
+				GL_UNSIGNED_BYTE,
+				NULL);
+
+			check_gl_error();
+		}
+
+		//RenderBuffers
+		{
+			//glCreateRenderbuffers(1, &ColorRenderBuffer[1]);
+			//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[1]);
+			//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_RGBA32F, window->getSize().x, window->getSize().y);
+			//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+			//check_gl_error();
+			//
+			//glCreateRenderbuffers(1, &DepthRenderBuffer[1]);
+			//glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[1]);
+			//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_DEPTH_COMPONENT, window->getSize().x, window->getSize().y);
+			//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+			//check_gl_error();
+
+			//glCreateFramebuffers(1, &FrameBuffer[1]);
+			//glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[1]);
+			//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ColorRenderBuffer[1]);
+			//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthRenderBuffer[1]);
+			//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+			//	check_gl_error();
+			//}
+			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+			//glCreateRenderbuffers(1, &ColorRenderBuffer[0]);
+			//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[0]);
+			//glRenderbufferStorageMultisample(
+			//	GL_RENDERBUFFER,
+			//	0, GL_RGBA,
+			//	window->getSize().x,
+			//	window->getSize().y);
+			//
+			//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+			//check_gl_error();
+			//
+			//glCreateRenderbuffers(1, &DepthRenderBuffer[0]);
+			//glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[0]);
+			//glRenderbufferStorageMultisample(
+			//	GL_RENDERBUFFER,
+			//	0,
+			//	GL_DEPTH_COMPONENT,
+			//	window->getSize().x,
+			//	window->getSize().y);
+			//
+			//glBindRenderbuffer(GL_RENDERBUFFER, 0);
+			//check_gl_error();
+		}
+
+
+		//FrameBuffers
+		{
+			glCreateFramebuffers(1, &FrameBuffer[iCam]);
+			glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[iCam]);
+			//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ColorRenderBuffer[0]);
+			//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthRenderBuffer[0]);
+			glFramebufferTexture2D(
+				GL_FRAMEBUFFER,
+				GL_COLOR_ATTACHMENT0,
+				GL_TEXTURE_2D,
+				ColorTexture[iCam],
+				0);
+			glFramebufferTexture2D(
+				GL_FRAMEBUFFER,
+				GL_DEPTH_ATTACHMENT,
+				GL_TEXTURE_2D,
+				DepthTexture[iCam],
+				0);
+			check_gl_error();
+			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+				check_gl_error();
+			}
+			//glDrawBuffer(GL_NONE);
+			//glReadBuffer(GL_NONE);
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			check_gl_error();
+			iCam++;
+		}
 	}
 }
 
 void _NL::Engine::WindowManager::OpenGLStart()
 {
+
 	///SCREEN QUAD
 	ScreenShader.installShaders("screenQuadVshader.glsl", "screenQuadFshader.glsl");
-
-	///SETUP FRAME BUFFER OBJECTs
-	//ColorTextures
-	{
-		glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
-		glBindTexture(GL_TEXTURE_2D, ColorTexture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RGBA,
-			window->getSize().x * renderScaleRatio,
-			window->getSize().y * renderScaleRatio,
-			0,
-			GL_RGBA,
-			GL_UNSIGNED_BYTE,
-			NULL);
-		check_gl_error_full();
-	}
-	
-	//DepthTexture
-	{
-		glCreateTextures(GL_TEXTURE_2D, 1, &DepthTexture);
-		glBindTexture(GL_TEXTURE_2D, DepthTexture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_DEPTH_COMPONENT,
-			window->getSize().x * renderScaleRatio,
-			window->getSize().y * renderScaleRatio,
-			0,
-			GL_DEPTH_COMPONENT,
-			GL_UNSIGNED_BYTE,
-			NULL);
-	
-		check_gl_error();
-	}
-
-	//RenderBuffers
-	{
-		//glCreateRenderbuffers(1, &ColorRenderBuffer[0]);
-		//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[0]);
-		//glRenderbufferStorageMultisample(
-		//	GL_RENDERBUFFER,
-		//	0, GL_RGBA,
-		//	window->getSize().x,
-		//	window->getSize().y);
-		//
-		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		//check_gl_error();
-		//
-		//glCreateRenderbuffers(1, &DepthRenderBuffer[0]);
-		//glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[0]);
-		//glRenderbufferStorageMultisample(
-		//	GL_RENDERBUFFER,
-		//	0,
-		//	GL_DEPTH_COMPONENT,
-		//	window->getSize().x,
-		//	window->getSize().y);
-		//
-		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		//check_gl_error();
-	}
-
-	//FrameBuffers
-	{
-		glCreateFramebuffers(1, &FrameBuffer[0]);
-		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[0]);
-		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ColorRenderBuffer[0]);
-		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthRenderBuffer[0]);
-		glFramebufferTexture2D(
-			GL_FRAMEBUFFER,
-			GL_COLOR_ATTACHMENT0,
-			GL_TEXTURE_2D,
-			ColorTexture,
-			0);
-		glFramebufferTexture2D(
-			GL_FRAMEBUFFER,
-			GL_DEPTH_ATTACHMENT,
-			GL_TEXTURE_2D,
-			DepthTexture,
-			0);
-		check_gl_error();
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-			check_gl_error();
-		}
-		//glDrawBuffer(GL_NONE);
-		//glReadBuffer(GL_NONE);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		check_gl_error();
-
-		//glCreateRenderbuffers(1, &ColorRenderBuffer[1]);
-		//glBindRenderbuffer(GL_RENDERBUFFER, ColorRenderBuffer[1]);
-		//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_RGBA32F, window->getSize().x, window->getSize().y);
-		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		//check_gl_error();
-		//
-		//glCreateRenderbuffers(1, &DepthRenderBuffer[1]);
-		//glBindRenderbuffer(GL_RENDERBUFFER, DepthRenderBuffer[1]);
-		//glRenderbufferStorageMultisample(GL_RENDERBUFFER, 0, GL_DEPTH_COMPONENT, window->getSize().x, window->getSize().y);
-		//glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		//check_gl_error();
-
-		//glCreateFramebuffers(1, &FrameBuffer[1]);
-		//glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[1]);
-		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, ColorRenderBuffer[1]);
-		//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, DepthRenderBuffer[1]);
-		//if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-		//	check_gl_error();
-		//}
-		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	}
 
 	Cameras.clear();
 	Lights.clear();
@@ -155,7 +168,9 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		if (obj->ClassName() == "_NL::Object::GameObject") {
 			std::cout << "initGLObj: " << obj->name << std::endl;
 			obj->getComponent(_NL::Component::MeshRenderer())->initGLObj();
+			obj->StartScriptComponents(); // for now onlt gobj can cuz getcomponent;
 		}
+		
 	}
 
 	//GET CAMERAS
@@ -166,6 +181,8 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		}
 	}
 
+	GenerateCamFramebuffers(Cameras); 
+
 	//GET LIGHTS
 	for each (_NL::Object::LightObject* obj in CurrentScene->GetObjectList())
 	{
@@ -173,6 +190,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 			Lights.push_back(obj->LightProperties);
 		}
 	}
+
 	if (Lights.size() > 0) {
 		//Create Uniform Buffer
 		glGenBuffers(1, &LightsBlockUBO);
@@ -200,6 +218,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
+
 	
 }
 
@@ -208,12 +227,14 @@ void _NL::Engine::WindowManager::Start()
 	OpenGLStart();
 }
 
-void _NL::Engine::WindowManager::DrawCurrentScene() {
+void _NL::Engine::WindowManager::UpdateCurrentScene() {
+	int CamID = 0;
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{
 		Cam->updateCameraProjectionMatrix();
-		glViewport(0, 0, window->getSize().x * renderScaleRatio, window->getSize().y * renderScaleRatio);
-		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CurrentDrawFrameBuffer]);
+		glViewport(0, 0, Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio, Cam->Settings.RenderWindowSize.y * Cam->Settings.RenderScaleRatio);
+		
+		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CamID]);
 		ClearCurrentBuffer();
 		///DEBUG
 		//if (Cam->name == "MyCam")Cam->Transform.position.z += -Time.DeltaTime.asSeconds();
@@ -230,6 +251,8 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 		int LightI = 0;
 		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
 		{
+			
+
 			if (obj->ClassName() == "_NL::Object::LightObject") {	
 				//DEBUG
 				//Lights[LightI].position.x += 1 * Time.DeltaTime.asSeconds();
@@ -239,10 +262,13 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 			}
 
 			if (obj->ClassName() == "_NL::Object::GameObject") {
-				///SHADER
+				
+				obj->UpdateScriptComponents();
+
 				//COMPONENTS
 				_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
 				glUseProgram(ObjMR->Shader->getShaderProgram());
+				
 				///VERTEX
 				_NL::Component::Transform* ObjT;
 				_NL::Component::Transform* ObjT_P;
@@ -254,6 +280,7 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 					ObjT = obj->getComponent(_NL::Component::Transform());
 					ObjT_P = new _NL::Component::Transform();
 				}
+
 				///PARENTING
 				glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
 				glm::mat4 R = ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation;
@@ -264,8 +291,8 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 				
 				///DEBUG
 				//std::cout << "Draw: " << obj->name << std::endl;
-				if (obj->name != "Quad" && obj->name != "Skybox")ObjT->Rotate(glm::vec3(0,1,0) * Time.DeltaTime.asSeconds());
-				if (obj->name == "nameless")ObjT->transform.position.y = ObjT->transform.position.y + std::sin(ObjT->transform.EulerRotation.y)*Time.DeltaTime.asSeconds();
+				//if (obj->name != "Quad" && obj->name != "Skybox")ObjT->Rotate(glm::vec3(0,1,0) * Time.DeltaTime.asSeconds());
+				//if (obj->name == "nameless")ObjT->transform.position.y = ObjT->transform.position.y + std::sin(ObjT->transform.EulerRotation.y)*Time.DeltaTime.asSeconds();
 				
 				///RENDER
 				//glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale)));
@@ -286,13 +313,27 @@ void _NL::Engine::WindowManager::DrawCurrentScene() {
 			}
 		}
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		ClearCurrentBuffer();
+		Display(CamID);
+		CamID++;
 	}
+	////AFTER DRAWING CAM VIEW for both buffers
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//ClearCurrentBuffer();
+	//CamID = 0;
+	//for each (_NL::Object::CameraObj* Cam in Cameras)
+	//{
+	//	Display(CamID);
+	//	CamID++;
+	//}
 }
 
-void _NL::Engine::WindowManager::DrawScreenQuad()
+void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 {
-	glViewport(0, 0, window->getSize().x, window->getSize().y);
-
+	
+	glViewport(Cameras[CamID]->Settings.RenderWindowPos.x, Cameras[CamID]->Settings.RenderWindowPos.y, Cameras[CamID]->Settings.RenderWindowSize.x, Cameras[CamID]->Settings.RenderWindowSize.y);
+	//glViewport(0, 0, window->getSize().x, window->getSize().y);
+	
 	ClearCurrentBuffer();
 
 	_NL::Core::ScreenQuad q;
@@ -322,35 +363,31 @@ void _NL::Engine::WindowManager::ClearCurrentBuffer()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void _NL::Engine::WindowManager::Display() {
+void _NL::Engine::WindowManager::Display(GLuint CamID) {
 	
 	///DISPLAY
 	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, ColorTexture);
-	DrawScreenQuad();
+	glBindTexture(GL_TEXTURE_2D, ColorTexture[CamID]);
+	DrawScreenQuad(CamID);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glEnable(GL_DEPTH_TEST);
 	window->display();	
-	
+
 }
 
-void _NL::Engine::WindowManager::update() {
+void _NL::Engine::WindowManager::updateWindow() {
 	
 	sf::Event event;
 	while (window->pollEvent(event))
 	{
-		//INPUT HANDLER
 		if (event.type == sf::Event::Closed)
 			window->close();
-		//...//
 	}
 	//UPDATE DISPLAY;
 	check_gl_error();
-	DrawCurrentScene();
-	Display();
+	UpdateCurrentScene();
 	Time.Tick();
 }
-
 
 _NL::Engine::WindowManager::~WindowManager()
 {

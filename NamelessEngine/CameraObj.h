@@ -19,10 +19,9 @@ namespace _NL {
 				GLfloat FOV;
 				GLfloat NearPlane;
 				GLfloat FarPlane;
-				GLsizei RenderWindowX;
-				GLsizei RenderWindowY;
-				GLsizei RenderWindowWidth;
-				GLsizei RenderWindowHeight;
+				glm::vec2 RenderWindowPos;
+				glm::vec2 RenderWindowSize;
+				GLfloat RenderScaleRatio;
 			};
 		public:
 			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
@@ -30,7 +29,8 @@ namespace _NL {
 				GLsizei RenderWindowY = 0,
 				GLfloat FOV = 90, 
 				GLfloat NearPlane = 0.1f, 
-				GLfloat FarPlane = 100);
+				GLfloat FarPlane = 100,
+				GLfloat RenderScaleRatio = 1);
 
 			~CameraObj();
 			void updateCameraSettings();

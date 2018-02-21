@@ -54,6 +54,35 @@ int _NL::Object::GameObject::addComponent(_NL::Core::Component *C)
 	return 0;
 }
 
+void _NL::Object::GameObject::StartScriptComponents()
+{
+
+	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
+	{
+		if (s->ClassName() == "_NL::Core::Component") {
+			s->getScript()->Start();
+		}
+
+	}
+}
+
+void _NL::Object::GameObject::UpdateScriptComponents()
+{
+	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
+	{
+		//std::cout << s->ClassName().c_str();
+		if (s->ClassName() == "_NL::Core::Component") { //OVERRIDE CLASSNAME BUG 
+			s->getScript()->Update();
+		}
+
+	}
+}
+
+std::vector<_NL::Core::Component*> _NL::Object::GameObject::getComponents()
+{
+	return Components;
+}
+
 _NL::Object::GameObject::~GameObject()
 {
 }

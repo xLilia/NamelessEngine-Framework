@@ -1,5 +1,6 @@
 #include"NamelessCore.h"
 
+
 ///Objects
 #include "GameObject.h"
 #include "WorldSpace.h"
@@ -13,3 +14,4 @@
 ///ENGINE
 #include "WindowManager.h"
 #include "NL_Time.h"
+#include "Script.h"

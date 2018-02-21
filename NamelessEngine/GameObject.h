@@ -1,5 +1,6 @@
 #pragma once
 #include"NamelessCore.h"
+#include"Script.h"
 #include <vector>
 #include <typeinfo>
 
@@ -13,6 +14,9 @@ namespace _NL {
 			~GameObject();
 
 			int addComponent(_NL::Core::Component *C);
+			void StartScriptComponents();
+			void UpdateScriptComponents();
+			std::vector<_NL::Core::Component*> getComponents();
 
 			template<typename T>
 			T* getComponent(T ComponentType)

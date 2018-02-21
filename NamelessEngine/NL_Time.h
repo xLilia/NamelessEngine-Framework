@@ -3,7 +3,7 @@
 #include <iostream>
 namespace _NL {
 	namespace Engine {
-		static class Time
+		class Time
 		{
 		public:
 			Time();
