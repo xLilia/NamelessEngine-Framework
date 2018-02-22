@@ -9,13 +9,31 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	}
 	window->setFramerateLimit(fpsLimit);
 	window->setVerticalSyncEnabled(bVSync);
+	window->setKeyRepeatEnabled(true);
 	glewInit();
-}
+}	
 
 void _NL::Engine::WindowManager::RunProgramLoop()
 {
 	Start();
+	
 	while (window->isOpen()) {
+		while (window->pollEvent(Event))
+		{
+			if (Event.type == Event.Closed) {
+				window->close();
+			}
+			//UPDATE EVENTS 
+			
+		}
+		//UPDATE SCRIPT 
+		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
+		{
+			if (obj->ClassName() == "_NL::Object::GameObject") {
+				obj->UpdateScriptComponents();
+			}
+		}
+
 		updateWindow();
 	}
 }
@@ -168,7 +186,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		if (obj->ClassName() == "_NL::Object::GameObject") {
 			std::cout << "initGLObj: " << obj->name << std::endl;
 			obj->getComponent(_NL::Component::MeshRenderer())->initGLObj();
-			obj->StartScriptComponents(); // for now onlt gobj can cuz getcomponent;
+			obj->StartScriptComponents(); 
 		}
 		
 	}
@@ -230,14 +248,12 @@ void _NL::Engine::WindowManager::Start()
 void _NL::Engine::WindowManager::UpdateCurrentScene() {
 	int CamID = 0;
 	for each (_NL::Object::CameraObj* Cam in Cameras)
-	{
+	{	
+		//SETUP FRAMEBUFFERS
 		Cam->updateCameraProjectionMatrix();
 		glViewport(0, 0, Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio, Cam->Settings.RenderWindowSize.y * Cam->Settings.RenderScaleRatio);
-		
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CamID]);
 		ClearCurrentBuffer();
-		///DEBUG
-		//if (Cam->name == "MyCam")Cam->Transform.position.z += -Time.DeltaTime.asSeconds();
 		
 		//Update Light ubo;
 		glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
@@ -252,7 +268,6 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
 		{
 			
-
 			if (obj->ClassName() == "_NL::Object::LightObject") {	
 				//DEBUG
 				//Lights[LightI].position.x += 1 * Time.DeltaTime.asSeconds();
@@ -263,13 +278,11 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 
 			if (obj->ClassName() == "_NL::Object::GameObject") {
 				
-				obj->UpdateScriptComponents();
-
 				//COMPONENTS
 				_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
 				glUseProgram(ObjMR->Shader->getShaderProgram());
 				
-				///VERTEX
+				///PARENTING
 				_NL::Component::Transform* ObjT;
 				_NL::Component::Transform* ObjT_P;
 				if (obj->Parent != 0) {
@@ -281,25 +294,19 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 					ObjT_P = new _NL::Component::Transform();
 				}
 
-				///PARENTING
+				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
+
 				glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
 				glm::mat4 R = ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation;
 				glm::mat4 S = glm::scale(glm::mat4(), ObjT->transform.scale) * glm::scale(glm::mat4(), ObjT_P->transform.scale);
 				glm::mat4 Modelmat = T * R * S;
 				glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Modelmat));
-				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
-				
-				///DEBUG
-				//std::cout << "Draw: " << obj->name << std::endl;
-				//if (obj->name != "Quad" && obj->name != "Skybox")ObjT->Rotate(glm::vec3(0,1,0) * Time.DeltaTime.asSeconds());
-				//if (obj->name == "nameless")ObjT->transform.position.y = ObjT->transform.position.y + std::sin(ObjT->transform.EulerRotation.y)*Time.DeltaTime.asSeconds();
-				
-				///RENDER
-				//glUniformMatrix4fv(ObjMR->FullTransformMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale)));
 				//glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
 				glUniformMatrix4fv(ObjMR->ViewMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
 				glUniformMatrix4fv(ObjMR->ProjectionMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
 				glBindVertexArray(ObjMR->vao);
+				
+				///RENDER
 				//glDrawElements(
 				//	GL_LINE_LOOP,
 				//	ObjMR->Mesh->Indices.size() * 3,
@@ -377,13 +384,7 @@ void _NL::Engine::WindowManager::Display(GLuint CamID) {
 
 void _NL::Engine::WindowManager::updateWindow() {
 	
-	sf::Event event;
-	while (window->pollEvent(event))
-	{
-		if (event.type == sf::Event::Closed)
-			window->close();
-	}
-	//UPDATE DISPLAY;
+	//UPDATE; 
 	check_gl_error();
 	UpdateCurrentScene();
 	Time.Tick();

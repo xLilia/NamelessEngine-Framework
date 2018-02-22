@@ -59,7 +59,7 @@ void _NL::Object::GameObject::StartScriptComponents()
 
 	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
 	{
-		if (s->ClassName() == "_NL::Core::Component") {
+		if (s->ClassName() == "_NL::Core::Component") { //OVERRIDE CLASSNAME BUG 
 			s->getScript()->Start();
 		}
 
@@ -77,6 +77,17 @@ void _NL::Object::GameObject::UpdateScriptComponents()
 
 	}
 }
+
+//void _NL::Object::GameObject::UpdateScriptEvents()
+//{
+//	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
+//	{
+//		//std::cout << s->ClassName().c_str();
+//		if (s->ClassName() == "_NL::Core::Component") { //OVERRIDE CLASSNAME BUG 
+//			s->getScript()->Events();
+//		}
+//	}
+//}
 
 std::vector<_NL::Core::Component*> _NL::Object::GameObject::getComponents()
 {

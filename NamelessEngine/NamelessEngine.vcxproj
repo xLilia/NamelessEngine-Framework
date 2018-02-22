@@ -93,6 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,7 +155,6 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="MTLfileReader.cpp" />
     <ClCompile Include="OBJfileReader.cpp" />
-    <ClCompile Include="RotatorScript.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />

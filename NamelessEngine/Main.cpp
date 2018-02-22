@@ -3,8 +3,8 @@
 #include "TemplateScript.hpp"
 
 int main(){
-
-	_NL::Engine::WindowManager winMan("w1", 640, 480,false,true);
+	
+	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,90,0.1,500,1);
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500,.5);
@@ -31,8 +31,8 @@ int main(){
 	Cube->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 	Cube->getComponent(_NL::Component::Script<TemplateScript>())->LinkScript(new TemplateScript());
 	Cube->getComponent(_NL::Component::Script<TemplateScript>())->getScript()->_this = Cube;
-	Cube->getComponent(_NL::Component::Script<TemplateScript>())->getScript()->Time = &winMan.Time;
-
+	Cube->getComponent(_NL::Component::Script<TemplateScript>())->getScript()->W = &winMan;
+	
 	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("nameless1");
 	Cube2->addComponent(new _NL::Component::Transform);
 	Cube2->addComponent(new _NL::Component::MeshRenderer);
@@ -56,7 +56,7 @@ int main(){
 	Tri->getComponent(_NL::Component::MeshRenderer())->Material = material1;
 	Tri->getComponent(_NL::Component::Script<TemplateScript>())->LinkScript(new TemplateScript());
 	Tri->getComponent(_NL::Component::Script<TemplateScript>())->getScript()->_this = Tri;
-	Tri->getComponent(_NL::Component::Script<TemplateScript>())->getScript()->Time = &winMan.Time;
+	Tri->getComponent(_NL::Component::Script<TemplateScript>())->getScript()->W = &winMan;
 
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
@@ -93,7 +93,7 @@ int main(){
 	Cube3->getComponent(_NL::Component::Transform())->transform.position.z += 2;
 	Cube3->getComponent(_NL::Component::Transform())->transform.position.y += 2;
 	Cube3->getComponent(_NL::Component::Transform())->transform.scale.y += 7;
-	//Cube3->Parent = Cube;
+	Cube3->Parent = 0;
 	
 	_NL::Component::Transform* T = Tri->getComponent(_NL::Component::Transform());
 	T->transform.scale *= .5;

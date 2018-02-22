@@ -16,6 +16,7 @@ namespace _NL {
 			int addComponent(_NL::Core::Component *C);
 			void StartScriptComponents();
 			void UpdateScriptComponents();
+			//void UpdateScriptEvents();
 			std::vector<_NL::Core::Component*> getComponents();
 
 			template<typename T>

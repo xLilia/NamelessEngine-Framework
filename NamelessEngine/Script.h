@@ -7,10 +7,7 @@ namespace _NL {
 		template<typename T>
 		class Script : public _NL::Core::Component
 		{
-		public:
-			//Script();
-			//~Script();
-			
+		public:	
 			void LinkScript(T* ScriptClass) {
 				cpps = ScriptClass;
 			}
@@ -23,7 +20,6 @@ namespace _NL {
 			//{
 			//	return "_NL::Component::Script";
 			//}
-
 		private:
 			T* cpps;
 		};

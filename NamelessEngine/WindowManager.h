@@ -6,20 +6,24 @@
 #include <GL\glew.h>
 #include <glm/gtc/type_ptr.hpp>
 
-
 namespace _NL {
 	namespace Engine {
 		class WindowManager
 		{
 		public:
 			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
-			void RunProgramLoop();
 			~WindowManager();
+
+			sf::Event Event;
 			sf::RenderWindow* window;
+			_NL::Engine::Time Time;
+
 			_NL::Object::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
-			_NL::Engine::Time Time;
+			
+			void RunProgramLoop();
+
 		private:
 
 			GLuint LightsBlockUBO;
