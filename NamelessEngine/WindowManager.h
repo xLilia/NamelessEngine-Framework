@@ -45,6 +45,8 @@ namespace _NL {
 			void ClearCurrentBuffer();
 			void Display(GLuint CamID);
 		
+			void UpdateScriptsOfObj(_NL::Core::Object* obj);
+			void StartScriptsOfObj(_NL::Core::Object* obj);
 			///SwitchFrameBuffer
 			//CurrentDrawBuff += 1;
 			//CurrentDrawBuff %= 2;

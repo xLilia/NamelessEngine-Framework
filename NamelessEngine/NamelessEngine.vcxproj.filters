@@ -96,9 +96,6 @@
     <ClCompile Include="LightObject.cpp">
       <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Source Files\Components</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -159,6 +156,9 @@
       <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TemplateScript.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CamController.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

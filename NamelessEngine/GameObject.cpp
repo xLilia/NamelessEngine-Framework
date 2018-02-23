@@ -39,61 +39,6 @@ std::string _NL::Object::GameObject::ClassName() const
 	return "_NL::Object::GameObject";
 }
 
-int _NL::Object::GameObject::addComponent(_NL::Core::Component *C)
-{
-	for each (_NL::Core::Component* c in Components)
-	{
-		if (c->ClassName() == C->ClassName()) {
-			std::cout << "ERROR -1 :" << this->name.c_str() <<" Object Component List Already Has a " << C->ClassName().c_str() << " Component." << std::endl;
-			return -1;
-		}
-	}
-	Components.push_back(C);
-	std::cout << C->ClassName().c_str() << " Component Added to " << this->name.c_str() << std::endl;
-	
-	return 0;
-}
-
-void _NL::Object::GameObject::StartScriptComponents()
-{
-
-	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
-	{
-		if (s->ClassName() == "_NL::Core::Component") { //OVERRIDE CLASSNAME BUG 
-			s->getScript()->Start();
-		}
-
-	}
-}
-
-void _NL::Object::GameObject::UpdateScriptComponents()
-{
-	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
-	{
-		//std::cout << s->ClassName().c_str();
-		if (s->ClassName() == "_NL::Core::Component") { //OVERRIDE CLASSNAME BUG 
-			s->getScript()->Update();
-		}
-
-	}
-}
-
-//void _NL::Object::GameObject::UpdateScriptEvents()
-//{
-//	for each (_NL::Component::Script<_NL::Core::CppScript>* s in Components)
-//	{
-//		//std::cout << s->ClassName().c_str();
-//		if (s->ClassName() == "_NL::Core::Component") { //OVERRIDE CLASSNAME BUG 
-//			s->getScript()->Events();
-//		}
-//	}
-//}
-
-std::vector<_NL::Core::Component*> _NL::Object::GameObject::getComponents()
-{
-	return Components;
-}
-
 _NL::Object::GameObject::~GameObject()
 {
 }

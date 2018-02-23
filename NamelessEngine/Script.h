@@ -1,14 +1,12 @@
 #pragma once
 #include "NamelessCore.h"
-#include <fstream>
-
 namespace _NL {
 	namespace Component {
-		template<typename T>
+		template<class T>
 		class Script : public _NL::Core::Component
 		{
 		public:	
-			void LinkScript(T* ScriptClass) {
+			void CreateScript(T* ScriptClass) {
 				cpps = ScriptClass;
 			}
 
@@ -16,14 +14,15 @@ namespace _NL {
 				return cpps;
 			}
 
-			//std::string _NL::Component::Script<_NL::Core::Component>::ClassName() const override
-			//{
-			//	return "_NL::Component::Script";
-			//}
+			std::string _NL::Component::Script<T>::ClassName() const override
+			{
+				return "_NL::Component::Script";
+			}
+
 		private:
 			T* cpps;
 		};
-		
+
 	}
 }
 

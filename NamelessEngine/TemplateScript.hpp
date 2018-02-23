@@ -1,6 +1,4 @@
 #pragma once
-#include "NL.hpp"
-
 class TemplateScript : public _NL::Core::CppScript
 {
 private:
@@ -15,7 +13,7 @@ public:
 };
 
 void TemplateScript::Start(){
-	T = _this->getComponent(_NL::Component::Transform());
+	T = _this->getComponent<_NL::Component::Transform>();
 }
 
 void TemplateScript::Update() {
@@ -26,6 +24,4 @@ void TemplateScript::Update() {
 	if (W->Event.text.unicode == int32_t('w') ) {
 		T->transform.position.z += W->Time.DeltaTime.asSeconds();
 	}
-
-
 }

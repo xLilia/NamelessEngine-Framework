@@ -7,7 +7,7 @@
 
 namespace _NL {
 	namespace Object {
-		class LightObject : public _NL::Object::GameObject
+		class LightObject : public _NL::Core::Object
 		{
 		public:
 			LightObject(std::string name);

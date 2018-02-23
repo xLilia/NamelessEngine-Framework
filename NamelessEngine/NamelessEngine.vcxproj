@@ -155,7 +155,6 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="MTLfileReader.cpp" />
     <ClCompile Include="OBJfileReader.cpp" />
-    <ClCompile Include="Script.cpp" />
     <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="NL_Time.cpp" />
@@ -165,6 +164,7 @@
     <ClCompile Include="WorldSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CamController.hpp" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GLError.h" />

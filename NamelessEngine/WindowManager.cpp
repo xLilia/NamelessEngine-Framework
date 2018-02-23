@@ -1,9 +1,12 @@
 #include "WindowManager.h"
 
+#define Classname_CameraObj "_NL::Object::CameraObj"
+#define Classname_LightObject "_NL::Object::LightObject"
+
 _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
 {
+	//INITIALZE WINDOW
 	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
-	//SET FULLSCREEN
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
 	}
@@ -20,26 +23,43 @@ void _NL::Engine::WindowManager::RunProgramLoop()
 	while (window->isOpen()) {
 		while (window->pollEvent(Event))
 		{
+			//======================
 			if (Event.type == Event.Closed) {
 				window->close();
 			}
-			//UPDATE EVENTS 
-			
-		}
-		//UPDATE SCRIPT 
-		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
+		}	
+		//======================
+		//UPDATE SCRIPTS 
+		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 		{
-			if (obj->ClassName() == "_NL::Object::GameObject") {
-				obj->UpdateScriptComponents();
-			}
+			UpdateScriptsOfObj(obj);
 		}
-
 		updateWindow();
+	}
+}
+
+void _NL::Engine::WindowManager::UpdateScriptsOfObj(_NL::Core::Object* obj) {
+	for each (_NL::Component::Script<_NL::Core::CppScript>* s in obj->Components)
+	{
+		if (s->ClassName() == "_NL::Component::Script") {
+			s->getScript()->Update();
+		}
+	}
+}
+
+void _NL::Engine::WindowManager::StartScriptsOfObj(_NL::Core::Object* obj) {
+	for each (_NL::Component::Script<_NL::Core::CppScript>* s in obj->Components)
+	{
+		if (s->ClassName() == "_NL::Component::Script") {
+			s->getScript()->Start();
+		}
 	}
 }
 
 void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object::CameraObj*> Cams)
 {
+	//======================
+	//INITIALIZE FRAMEBUFFER AND TEXTURES
 	FrameBuffer = new GLuint[Cams.size()]{};
 	ColorTexture = new GLuint[Cams.size()]{};
 	DepthTexture = new GLuint[Cams.size()]{};
@@ -47,7 +67,10 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 	int iCam = 0;
 	for each (_NL::Object::CameraObj* Cam in Cams)
 	{
-		///SETUP FRAME BUFFER OBJECTs
+		//======================
+		//SETUP FRAME BUFFER OBJECTs
+		//======================
+		//======================
 		//ColorTextures
 		{
 			glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture[iCam]);
@@ -68,7 +91,7 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 				NULL);
 			check_gl_error_full();
 		}
-
+		//======================
 		//DepthTexture
 		{
 			glCreateTextures(GL_TEXTURE_2D, 1, &DepthTexture[iCam]);
@@ -91,6 +114,7 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 			check_gl_error();
 		}
 
+		//======================
 		//RenderBuffers
 		{
 			//glCreateRenderbuffers(1, &ColorRenderBuffer[1]);
@@ -172,43 +196,66 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 
 void _NL::Engine::WindowManager::OpenGLStart()
 {
-
-	///SCREEN QUAD
+	//======================
+	//SCREEN QUAD
 	ScreenShader.installShaders("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 
+	//======================
 	Cameras.clear();
 	Lights.clear();
 	//ACTION !
 
+	//======================
 	//GET OBJECTS
-	for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
+	for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 	{
-		if (obj->ClassName() == "_NL::Object::GameObject") {
-			std::cout << "initGLObj: " << obj->name << std::endl;
-			obj->getComponent(_NL::Component::MeshRenderer())->initGLObj();
-			obj->StartScriptComponents(); 
+		//======================
+		_NL::Component::MeshRenderer* MR = obj->getComponent<_NL::Component::MeshRenderer>();
+		if (MR) {
+			std::cout << "initialize MeshRenderer of Obj: " << obj->name << std::endl;
+			MR->initGLObj();
 		}
-		
-	}
-
-	//GET CAMERAS
-	for each (_NL::Object::CameraObj* obj in CurrentScene->GetObjectList())
-	{
-		if (obj->ClassName() == "_NL::Object::CameraObj") {
-			Cameras.push_back(obj);
+		//======================
+		if (obj->ClassName() == Classname_CameraObj) {
+			Cameras.push_back((_NL::Object::CameraObj*)obj);
 		}
-	}
-
-	GenerateCamFramebuffers(Cameras); 
-
-	//GET LIGHTS
-	for each (_NL::Object::LightObject* obj in CurrentScene->GetObjectList())
-	{
-		if (obj->ClassName() == "_NL::Object::LightObject") {
-			Lights.push_back(obj->LightProperties);
+		//======================
+		if (obj->ClassName() == Classname_LightObject) {
+			Lights.push_back(dynamic_cast<_NL::Object::LightObject*>(obj)->LightProperties);
 		}
 	}
 
+	GenerateCamFramebuffers(Cameras);
+
+	//for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
+	//{
+	//		std::cout << "initGLObj: " << obj->name << std::endl;
+	//		obj->getComponent(_NL::Component::MeshRenderer())->initGLObj();
+	//		obj->StartScriptComponents(); 
+	//	}
+	//	
+	//}
+	//
+	////GET CAMERAS
+	//for each (_NL::Object::CameraObj* obj in CurrentScene->GetObjectList())
+	//{
+	//	if (obj->ClassName() == "_NL::Object::CameraObj") {
+	//		Cameras.push_back(obj);
+	//	}
+	//}
+	//
+	//
+	//
+	////GET LIGHTS
+	//for each (_NL::Object::LightObject* obj in CurrentScene->GetObjectList())
+	//{
+	//	if (obj->ClassName() == "_NL::Object::LightObject") {
+	//		Lights.push_back(obj->LightProperties);
+	//	}
+	//}
+
+	//======================
+	//INITIALIZE LIGHT UBO
 	if (Lights.size() > 0) {
 		//Create Uniform Buffer
 		glGenBuffers(1, &LightsBlockUBO);
@@ -221,7 +268,8 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		check_gl_error();
 	}
 
-	//GL Settings
+	//======================
+	//GL SETTINGS
 	{
 		///DEPTH TEST
 		glEnable(GL_DEPTH_TEST);
@@ -242,6 +290,10 @@ void _NL::Engine::WindowManager::OpenGLStart()
 
 void _NL::Engine::WindowManager::Start()
 {
+	for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
+	{
+		StartScriptsOfObj(obj);
+	}
 	OpenGLStart();
 }
 
@@ -249,13 +301,16 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 	int CamID = 0;
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
+		//======================
 		//SETUP FRAMEBUFFERS
 		Cam->updateCameraProjectionMatrix();
 		glViewport(0, 0, Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio, Cam->Settings.RenderWindowSize.y * Cam->Settings.RenderScaleRatio);
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CamID]);
 		ClearCurrentBuffer();
-		
+
+		//======================
 		//Update Light ubo;
+
 		glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
 		glBufferSubData(GL_UNIFORM_BUFFER,
 			0,
@@ -264,36 +319,34 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 		check_gl_error();
 
-		int LightI = 0;
-		for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
+		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 		{
-			
-			if (obj->ClassName() == "_NL::Object::LightObject") {	
-				//DEBUG
-				//Lights[LightI].position.x += 1 * Time.DeltaTime.asSeconds();
-				//Lights[LightI].lightColor.x -= .1 * Time.DeltaTime.asSeconds();
-				//Lights[LightI].lightColor.z -= .1 * Time.DeltaTime.asSeconds();
-				LightI++;
+			//======================
+			//COMPONENTS
+
+			_NL::Component::MeshRenderer* ObjMR = obj->getComponent<_NL::Component::MeshRenderer>();
+
+			//======================
+			//PARENTING
+
+			_NL::Component::Transform* ObjT = obj->getComponent<_NL::Component::Transform>();;
+			_NL::Component::Transform* ObjT_P;
+
+			if (obj->Parent != 0 && ObjT) {
+				ObjT_P = obj->Parent->getComponent<_NL::Component::Transform>();
+			}
+			else {
+				ObjT_P = new _NL::Component::Transform();
 			}
 
-			if (obj->ClassName() == "_NL::Object::GameObject") {
+			//======================
+			//DEBUG
+			//======================
+			//RENDERING
+			if (ObjMR != NULL && ObjT != NULL && ObjT_P != NULL) {
 				
-				//COMPONENTS
-				_NL::Component::MeshRenderer* ObjMR = obj->getComponent(_NL::Component::MeshRenderer());
 				glUseProgram(ObjMR->Shader->getShaderProgram());
 				
-				///PARENTING
-				_NL::Component::Transform* ObjT;
-				_NL::Component::Transform* ObjT_P;
-				if (obj->Parent != 0) {
-					ObjT = obj->getComponent(_NL::Component::Transform());
-					ObjT_P = obj->Parent->getComponent(_NL::Component::Transform());
-				}
-				else {
-					ObjT = obj->getComponent(_NL::Component::Transform());
-					ObjT_P = new _NL::Component::Transform();
-				}
-
 				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
 
 				glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
@@ -319,11 +372,16 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				glBindVertexArray(0);
 			}
 		}
+		//======================
+		//DISPLAY && CLEAR;
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		ClearCurrentBuffer();
 		Display(CamID);
 		CamID++;
+
 	}
+	//======================
 	////AFTER DRAWING CAM VIEW for both buffers
 	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//ClearCurrentBuffer();
@@ -365,6 +423,8 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 
 void _NL::Engine::WindowManager::ClearCurrentBuffer()
 {
+	//======================
+	//CLEAR BUFFER_BIT
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -372,7 +432,8 @@ void _NL::Engine::WindowManager::ClearCurrentBuffer()
 
 void _NL::Engine::WindowManager::Display(GLuint CamID) {
 	
-	///DISPLAY
+	//======================
+	//DISPLAY
 	glDisable(GL_DEPTH_TEST);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture[CamID]);
 	DrawScreenQuad(CamID);
@@ -384,6 +445,7 @@ void _NL::Engine::WindowManager::Display(GLuint CamID) {
 
 void _NL::Engine::WindowManager::updateWindow() {
 	
+	//======================
 	//UPDATE; 
 	check_gl_error();
 	UpdateCurrentScene();
