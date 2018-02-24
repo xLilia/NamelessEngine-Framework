@@ -25,10 +25,10 @@ out vec4 FragColor;
 
 void main(){
 	vec3 finalColor;
-	vec4 surfaceColor = texture(ImgTexture, fragTexCoord) * vec4(fragColor.r,fragColor.g,fragColor.b,1.0);
+	vec4 surfaceColor = /*texture(ImgTexture, fragTexCoord) **/ vec4(fragColor.r,fragColor.g,fragColor.b,1.0);
 	
 	vec3 AmbientLight = vec3(1,1,1); 
-	vec3 Ambient = AmbientLight * .2;
+	vec3 Ambient = AmbientLight * .3;
 
 	//calculate normal in world coordinates
 	mat3 normalMatrix = transpose(inverse(mat3(uModel)));

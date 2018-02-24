@@ -22,17 +22,19 @@ int main(){
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, .5);
 
 	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("m1", "cubeMT.obj");
+	_NL::Element::MeshObj* YazM = new _NL::Element::MeshObj("m1", "YazarusTaxon.obj");
+	_NL::Element::MaterialObj* materialYT = new _NL::Element::MaterialObj("yt", "YazarusTaxon.mtl");
+
 	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
 	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("mtl1", "CubeMT.mtl");
-	//_NL::Element::MaterialObj* material2 = new _NL::Element::MaterialObj("mtl2","skybox.mtl");
-	
-	//_NL::Object::GameObject* skybox = new _NL::Object::GameObject("Skybox");
-	//skybox->addComponent(new _NL::Component::Transform);
-	//skybox->addComponent(new _NL::Component::MeshRenderer);
-	//skybox->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
-	//skybox->getComponent(_NL::Component::MeshRenderer())->Shader = defaultshader;
-	//skybox->getComponent(_NL::Component::MeshRenderer())->Material = material2;
+
+	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
+	Yaz->addComponent(new _NL::Component::Transform);
+	Yaz->addComponent(new _NL::Component::MeshRenderer);
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Mesh = YazM;
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Material = materialYT;
 
 	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("nameless");
 	Cube->addComponent(new _NL::Component::Transform);
@@ -83,6 +85,8 @@ int main(){
 	//Light->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
 	//Light->getComponent(_NL::Component::MeshRenderer())->Shader = trishade;
 
+	Yaz->getComponent<_NL::Component::Transform>()->transform.position.y += 5;
+
 	Light->LightProperties.lightPosition.y = 0;
 	Light->LightProperties.lightPosition.z = 2;
 	Light->LightProperties.lightColor = glm::vec4(1, 0, 0, 1);
@@ -124,11 +128,13 @@ int main(){
 
 	//SETUP SCENE
 	
+	scene1->addObjectToWorld(Yaz);
 	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(Cube);
 	scene1->addObjectToWorld(Cube2);
 	scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Tri);
+	
 	//scene1->addObjectToWorld(skybox);
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);

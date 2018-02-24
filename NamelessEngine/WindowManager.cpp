@@ -379,7 +379,8 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				//	GL_UNSIGNED_INT,
 				//	0
 				//);
-				glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MTLTexIds[0]);
+				if(ObjMR->Material->MTLTexIds.size() > 0)
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MTLTexIds[0]);
 				glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
 				glUseProgram(0);
 				glBindVertexArray(0);

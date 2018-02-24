@@ -23,7 +23,7 @@ void TemplateScript::Update() {
 		T->transform.position -= W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand() / 10000, std::rand() / 10000, std::rand() / 10000);
 
 		s += 0.0001f;
-		std::cout << s;
+		//std::cout << s;
 		T->transform.position.y += s;
 	}
 }
