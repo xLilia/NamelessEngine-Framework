@@ -4,9 +4,7 @@
 
 namespace _NL {
 	namespace Object {
-		class CameraObj : public _NL::Core::Object
-		{
-		private:
+		namespace CameraObj_data {
 			struct CamTransform
 			{
 				glm::vec3 position = glm::vec3(0, 0, -1);
@@ -23,6 +21,9 @@ namespace _NL {
 				glm::vec2 RenderWindowSize;
 				GLfloat RenderScaleRatio;
 			};
+		}
+		class CameraObj : public _NL::Core::Object
+		{
 		public:
 			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
 				GLsizei RenderWindowX = 0,
@@ -37,8 +38,8 @@ namespace _NL {
 			void updateCameraProjectionMatrix();
 			void updateCameraViewport();
 
-			CamTransform Transform;
-			CamSettings Settings;
+			CameraObj_data::CamTransform Transform;
+			CameraObj_data::CamSettings Settings;
 			glm::mat4 getWorldToViewMatrix() const;
 			glm::mat4 projectionMatrix;
 			

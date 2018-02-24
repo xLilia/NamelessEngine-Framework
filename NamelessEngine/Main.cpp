@@ -7,7 +7,7 @@ int main(){
 	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,90,0.1,500,1);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,2,0.1,500,.3);
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->CreateScript(new CamController());
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;

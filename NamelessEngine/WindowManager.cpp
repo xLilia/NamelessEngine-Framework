@@ -12,7 +12,7 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	}
 	window->setFramerateLimit(fpsLimit);
 	window->setVerticalSyncEnabled(bVSync);
-	window->setKeyRepeatEnabled(true);
+	window->setKeyRepeatEnabled(false);
 	glewInit();
 }	
 
@@ -34,6 +34,8 @@ void _NL::Engine::WindowManager::RunProgramLoop()
 		{
 			UpdateScriptsOfObj(obj);
 		}
+		//======================
+		//UPDATE WINDOW 
 		updateWindow();
 	}
 }
@@ -304,7 +306,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		//======================
 		//SETUP FRAMEBUFFERS
 		Cam->updateCameraProjectionMatrix();
-		glViewport(0, 0, Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio, Cam->Settings.RenderWindowSize.y * Cam->Settings.RenderScaleRatio);
+		glViewport(Cam->Settings.RenderWindowPos.x, Cam->Settings.RenderWindowPos.y, Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio, Cam->Settings.RenderWindowSize.y * Cam->Settings.RenderScaleRatio);
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CamID]);
 		ClearCurrentBuffer();
 
