@@ -67,7 +67,7 @@ int MTLfileReader::LOAD(const char * OBJpath) {
 			fscanf(file, "%s\n",
 				texName.c_str()
 			);
-			TL.LoadTexure(texName.c_str());
+			TL.GenerateTexure(texName.c_str());
 		}
 	}
 	std::fclose(file);

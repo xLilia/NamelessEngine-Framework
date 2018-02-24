@@ -7,6 +7,7 @@ namespace _NL {
 		class MeshObj : public _NL::Core::Element
 		{
 		public:
+			MeshObj();
 			MeshObj(std::string name);
 			MeshObj(std::string name, const char * filePath);
 			~MeshObj();

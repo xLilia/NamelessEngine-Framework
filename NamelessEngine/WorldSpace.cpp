@@ -2,7 +2,7 @@
 
 _NL::Object::WorldSpace::WorldSpace()
 {
-	
+
 }
 
 void _NL::Object::WorldSpace::addObjectToWorld(_NL::Core::Object *G)

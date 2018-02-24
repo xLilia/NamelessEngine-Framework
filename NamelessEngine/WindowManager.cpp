@@ -321,6 +321,16 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 		check_gl_error();
 
+		//======================
+		//SKYBOX RENDERING
+		if (CurrentScene->Skybox != 0) {
+			glUseProgram(CurrentScene->Skybox->SkyboxShader->getShaderProgram());
+			glUniformMatrix4fv(CurrentScene->Skybox->CamProjection_matrix, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+			glUniformMatrix4fv(CurrentScene->Skybox->CamView_matrix, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
+			CurrentScene->Skybox->RenderSkybox();
+			check_gl_error_full();
+		}
+
 		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 		{
 			//======================
@@ -331,7 +341,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 			//======================
 			//PARENTING
 
-			_NL::Component::Transform* ObjT = obj->getComponent<_NL::Component::Transform>();;
+			_NL::Component::Transform* ObjT = obj->getComponent<_NL::Component::Transform>();
 			_NL::Component::Transform* ObjT_P;
 
 			if (obj->Parent != 0 && ObjT) {
@@ -344,7 +354,8 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 			//======================
 			//DEBUG
 			//======================
-			//RENDERING
+		
+			//OBJ RENDERING
 			if (ObjMR != NULL && ObjT != NULL && ObjT_P != NULL) {
 				
 				glUseProgram(ObjMR->Shader->getShaderProgram());
@@ -355,12 +366,12 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				glm::mat4 R = ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation;
 				glm::mat4 S = glm::scale(glm::mat4(), ObjT->transform.scale) * glm::scale(glm::mat4(), ObjT_P->transform.scale);
 				glm::mat4 Modelmat = T * R * S;
-				glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Modelmat));
+				
 				//glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
+				glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Modelmat));
 				glUniformMatrix4fv(ObjMR->ViewMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
 				glUniformMatrix4fv(ObjMR->ProjectionMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
 				glBindVertexArray(ObjMR->vao);
-				
 				///RENDER
 				//glDrawElements(
 				//	GL_LINE_LOOP,
@@ -450,8 +461,7 @@ void _NL::Engine::WindowManager::updateWindow() {
 	//======================
 	//UPDATE; 
 	check_gl_error();
-	UpdateCurrentScene();
-	Time.Tick();
+	UpdateCurrentScene();	Time.Tick();
 }
 
 _NL::Engine::WindowManager::~WindowManager()

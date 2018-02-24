@@ -6,8 +6,14 @@
 int main(){
 	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
-	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,2,0.1,500,.3);
+	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
+	sky1->SkyboxShader = new _NL::Element::ShaderObj("skyshade", "SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
+	//sky1->createCubeMap("sky1/fadeaway_ft.tga", "sky1/fadeaway_bk.tga", "sky1/fadeaway_up.tga", "sky1/fadeaway_dn.tga", "sky1/fadeaway_lf.tga", "sky1/fadeaway_rt.tga");
+	sky1->createCubeMap("sky2/ft.tga", "sky2/bk.tga", "sky2/up.tga", "sky2/dn.tga", "sky2/lf.tga", "sky2/rt.tga");
+	scene1->Skybox = sky1;
+
+
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,2,0.1,500,1);
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->CreateScript(new CamController());
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
@@ -19,7 +25,7 @@ int main(){
 	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
 	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("mtl1", "CubeMT.mtl");
-	_NL::Element::MaterialObj* material2 = new _NL::Element::MaterialObj("mtl2","skybox.mtl");
+	//_NL::Element::MaterialObj* material2 = new _NL::Element::MaterialObj("mtl2","skybox.mtl");
 	
 	//_NL::Object::GameObject* skybox = new _NL::Object::GameObject("Skybox");
 	//skybox->addComponent(new _NL::Component::Transform);
@@ -99,13 +105,13 @@ int main(){
 	Cube3->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
 	Cube3->getComponent<_NL::Component::Transform>()->transform.position.y += 2;
 	Cube3->getComponent<_NL::Component::Transform>()->transform.scale.y += 7;
-	Cube3->Parent = 0;
+	Cube3->Parent = Cube;
 	
 	_NL::Component::Transform* T = Tri->getComponent<_NL::Component::Transform>();
 	T->transform.scale *= .5;
 	T->transform.position.y += 2;
 	T->transform.position.z += 2;
-	T->transform.scale *= 5;
+	T->transform.scale *= 1;
 	Tri->Parent = 0;
 
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;

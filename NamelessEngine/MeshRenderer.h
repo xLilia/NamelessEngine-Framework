@@ -16,14 +16,14 @@ namespace _NL {
 
 			void initGLObj();
 
-			const static GLuint Pos_atrib = 0;
-			const static GLuint Norm_atrib = 1;
-			const static GLuint Col_atrib = 2;
-			const static GLuint TexC_atrib = 3;
+			const  GLuint Pos_atrib = 0;
+			const  GLuint Norm_atrib = 1;
+			const  GLuint Col_atrib = 2;
+			const  GLuint TexC_atrib = 3;
 			//const static GLuint FullTransformMatrix_atrib = 4;
-			const static GLuint ModelMatrix_atrib = 4;
-			const static GLuint ViewMatrix_atrib = 5;
-			const static GLuint ProjectionMatrix_atrib = 6;
+			const  GLuint ModelMatrix_atrib = 4;
+			const  GLuint ViewMatrix_atrib = 5;
+			const  GLuint ProjectionMatrix_atrib = 6;
 			//Model
 			//View
 			//projection

@@ -9,8 +9,10 @@ class TextureLoader
 public:
 	TextureLoader();
 	~TextureLoader();
-	int LoadTexure(const std::string filePath);
+	int LoadImage(const char* filePath);
+	int GenerateTexure(const char* filePath = 0);
 	void RESET();
+	sf::Image LoadedImage;
 	std::vector<GLuint> GLTexIDs;
 private:
 	

@@ -5,12 +5,13 @@ TextureLoader::TextureLoader()
 	
 }
 
-int TextureLoader::LoadTexure(const std::string filePath)
+int TextureLoader::GenerateTexure(const char* filePath)
 {
-	sf::Image TextureImage;
-	if (!TextureImage.loadFromFile(filePath)) {
-		return -1;
+
+	if (filePath != 0) {
+		LoadImage(filePath);
 	}
+	
 	GLuint GLTexID;
 	glCreateTextures(GL_TEXTURE_2D, 1, &GLTexID);
 	glBindTexture(GL_TEXTURE_2D, GLTexID);
@@ -22,15 +23,27 @@ int TextureLoader::LoadTexure(const std::string filePath)
 		GL_TEXTURE_2D,
 		0,
 		GL_RGBA,
-		TextureImage.getSize().x,
-		TextureImage.getSize().y,
+		LoadedImage.getSize().x,
+		LoadedImage.getSize().y,
 		0,
 		GL_RGBA,
 		GL_UNSIGNED_BYTE,
-		TextureImage.getPixelsPtr());
+		LoadedImage.getPixelsPtr());
 	glGenerateMipmap(GLTexID);
 	GLTexIDs.push_back(GLTexID);
+
+	return 0;
 }
+
+int TextureLoader::LoadImage(const char* filePath)
+{
+	
+	if (!LoadedImage.loadFromFile(filePath)) {
+		return -1;
+	}
+	return 0;
+}
+
 
 void TextureLoader::RESET()
 {
@@ -40,3 +53,4 @@ void TextureLoader::RESET()
 TextureLoader::~TextureLoader() {
 	//glDeleteTextures(GLTexIDs.size(), &GLTexIDs[0]);
 }
+

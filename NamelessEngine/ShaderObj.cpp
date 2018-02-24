@@ -1,5 +1,9 @@
 #include "ShaderObj.h"
 
+_NL::Element::ShaderObj::ShaderObj()
+{
+}
+
 _NL::Element::ShaderObj::ShaderObj(std::string name)
 {
 	this->name = name;

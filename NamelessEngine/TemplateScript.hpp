@@ -3,7 +3,7 @@ class TemplateScript : public _NL::Core::CppScript
 {
 private:
 	_NL::Component::Transform* T;
-	int i = 0;
+	float s = 0;
 	bool Move = false;
 public:
 	_NL::Engine::WindowManager * W;
@@ -17,11 +17,13 @@ void TemplateScript::Start(){
 }
 
 void TemplateScript::Update() {
-	if (W->Event.type == W->Event.KeyPressed) {
-	
-	}
 
-	if (W->Event.text.unicode == int32_t('w') ) {
-		T->transform.position.z += W->Time.DeltaTime.asSeconds();
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ) {
+		T->transform.position += W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand()/10000, std::rand() / 10000, std::rand() / 10000);
+		T->transform.position -= W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand() / 10000, std::rand() / 10000, std::rand() / 10000);
+
+		s += 0.0001f;
+		std::cout << s;
+		T->transform.position.y += s;
 	}
 }

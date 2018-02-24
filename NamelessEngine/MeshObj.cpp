@@ -1,5 +1,9 @@
 #include "MeshObj.h"
 
+_NL::Element::MeshObj::MeshObj()
+{
+}
+
 _NL::Element::MeshObj::MeshObj(std::string name)
 {
 	this->name = name;

@@ -60,11 +60,11 @@ void CamController::Update() {
 		TCam->position -= TCam->rotation * MovementSpeed * dts;
 	}
 	//SPEED UP
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
 		MovementSpeed = lerp(MovementSpeed, 20.0f, dts);
 	}
 	else {
-		MovementSpeed = lerp(MovementSpeed, 0.0f, dts*2);
+		MovementSpeed = lerp(MovementSpeed, BaseMovementSpeed, dts*2);
 	}
 	//MOUSE BUTTONS CHANGE CAM FOV
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
@@ -75,8 +75,6 @@ void CamController::Update() {
 	}
 
 }
-
-
 
 //CALCULATE WERE TO lOOK AT
 void CamController::RotateCam() {

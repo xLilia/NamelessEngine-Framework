@@ -7,6 +7,7 @@ namespace _NL {
 		class ShaderObj : public _NL::Core::Element
 		{
 		public:
+			ShaderObj();
 			ShaderObj(std::string name);
 			ShaderObj(std::string name, const char * VertexShader, const char * FragmentShader);
 			~ShaderObj();

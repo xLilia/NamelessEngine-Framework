@@ -35,6 +35,11 @@ glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
 	return glm::lookAt(Transform.position, Transform.position + Transform.LookAtCenter, Transform.rotation);
 }
 
+glm::mat4 _NL::Object::CameraObj::getViewMatrix() const
+{
+	return glm::lookAt(glm::vec3(), glm::vec3() + Transform.LookAtCenter, Transform.rotation);
+}
+
 std::string _NL::Object::CameraObj::ClassName() const
 {
 	return "_NL::Object::CameraObj";

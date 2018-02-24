@@ -48,6 +48,13 @@ int OBJfileReader::LOAD(const char * OBJpath)
 		}//Indices
 		else if(std::strcmp(lineHeader, "f") == 0) {
 			_NL::Core::vIndices tri;
+
+			/*fscanf(file, "%i %i %i\n",
+				&tri.v[0],
+				&tri.v[1],
+				&tri.v[2]
+			);*/
+
 			fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n",
 				&tri.v[0],
 				&tri.vt[0],
@@ -59,6 +66,9 @@ int OBJfileReader::LOAD(const char * OBJpath)
 				&tri.vt[2],
 				&tri.vn[2]
 			);
+
+			
+
 			tri.MTL_ID = MTL_counter;
 			this->Is.push_back(tri);
 		}//Vertex TextureCoordinates
