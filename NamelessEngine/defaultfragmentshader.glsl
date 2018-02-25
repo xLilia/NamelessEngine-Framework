@@ -10,7 +10,7 @@ struct LightProperties {
 	float radiusOfInfluence;
 };
 
-const int NR_LIGHTS = 1;
+const int NR_LIGHTS = 99;
 
 layout (std140, binding = 0) uniform LightBlock {
     LightProperties light[NR_LIGHTS];
@@ -25,7 +25,7 @@ out vec4 FragColor;
 
 void main(){
 	vec3 finalColor;
-	vec4 surfaceColor = /*texture(ImgTexture, fragTexCoord) **/ vec4(fragColor.r,fragColor.g,fragColor.b,1.0);
+	vec4 surfaceColor = texture(ImgTexture, fragTexCoord) * vec4(fragColor.r,fragColor.g,fragColor.b,1.0);
 	
 	vec3 AmbientLight = vec3(1,1,1); 
 	vec3 Ambient = AmbientLight * .3;

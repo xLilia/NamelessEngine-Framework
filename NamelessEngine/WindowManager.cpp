@@ -13,6 +13,7 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	window->setFramerateLimit(fpsLimit);
 	window->setVerticalSyncEnabled(bVSync);
 	window->setKeyRepeatEnabled(false);
+	sf::Keyboard::setVirtualKeyboardVisible(true);
 	glewInit();
 }	
 
@@ -229,33 +230,6 @@ void _NL::Engine::WindowManager::OpenGLStart()
 
 	GenerateCamFramebuffers(Cameras);
 
-	//for each (_NL::Object::GameObject* obj in CurrentScene->GetObjectList())
-	//{
-	//		std::cout << "initGLObj: " << obj->name << std::endl;
-	//		obj->getComponent(_NL::Component::MeshRenderer())->initGLObj();
-	//		obj->StartScriptComponents(); 
-	//	}
-	//	
-	//}
-	//
-	////GET CAMERAS
-	//for each (_NL::Object::CameraObj* obj in CurrentScene->GetObjectList())
-	//{
-	//	if (obj->ClassName() == "_NL::Object::CameraObj") {
-	//		Cameras.push_back(obj);
-	//	}
-	//}
-	//
-	//
-	//
-	////GET LIGHTS
-	//for each (_NL::Object::LightObject* obj in CurrentScene->GetObjectList())
-	//{
-	//	if (obj->ClassName() == "_NL::Object::LightObject") {
-	//		Lights.push_back(obj->LightProperties);
-	//	}
-	//}
-
 	//======================
 	//INITIALIZE LIGHT UBO
 	if (Lights.size() > 0) {
@@ -286,8 +260,6 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
-
-	
 }
 
 void _NL::Engine::WindowManager::Start()

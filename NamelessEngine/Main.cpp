@@ -97,8 +97,6 @@ int main(){
 	Light2->LightProperties.lightColor = glm::vec4(1, 1, 1, 1);
 	Light2->LightProperties.radiusOfInfluence = 1;
 
-	//skybox->getComponent(_NL::Component::Transform())->transform.scale *= 100;
-
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.x += 2;
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.y += 2;
@@ -134,15 +132,11 @@ int main(){
 	scene1->addObjectToWorld(Cube2);
 	scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Tri);
-	
-	//scene1->addObjectToWorld(skybox);
 	scene1->addObjectToWorld(MyCam);
-	//scene1->addObjectToWorld(MyCam2);
 	scene1->addObjectToWorld(Light);
 	//scene1->addObjectToWorld(Light2);
 	
 	scene1->showObjectList();
-	//Obj1->getInfo();
 	winMan.CurrentScene = scene1;
 	winMan.RunProgramLoop();
 	return 0;

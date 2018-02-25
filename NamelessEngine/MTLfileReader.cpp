@@ -13,7 +13,7 @@ void MTLfileReader::RESET() {
 int MTLfileReader::LOAD(const char * OBJpath) {
 	FILE * file = std::fopen(OBJpath, "r");
 	if (!file) {
-		std::cout << "ERROR -3: FAILED TO LOAD: " << OBJpath << std::endl;
+		std::cout << "ERROR: FAILED TO LOAD: " << OBJpath << std::endl;
 		return -1;
 	}
 	for (;;) {

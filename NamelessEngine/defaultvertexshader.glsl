@@ -21,5 +21,4 @@ void main()
 	fragTexCoord = aTexCoords;
 	fragPos = vec3(uModel * vec4(aPosition,1.0));
 	gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
-    //gl_Position = MVP * vec4(aPosition, 1.0);
 }

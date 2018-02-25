@@ -18,7 +18,7 @@ int OBJfileReader::LOAD(const char * OBJpath)
 {
 	FILE * file = std::fopen(OBJpath,"r");
 	if (!file) {
-		std::cout << "ERROR -3: FAILED TO LOAD: "<< OBJpath << std::endl;
+		std::cout << "ERROR: FAILED TO LOAD: "<< OBJpath << std::endl;
 		return -1;
 	}
 	for (;;) {
@@ -29,14 +29,6 @@ int OBJfileReader::LOAD(const char * OBJpath)
 			break;
 		
 		////Material
-		//if (std::strcmp(lineHeader, "mtllib") == 0) {
-		//	std::string MTLpath;
-		//	fscanf(file, "%s",
-		//		MTLpath.c_str()
-		//		);
-		//	LOAD_MTL(MTLpath.c_str());
-		//}//VertexCoords  
-		/*else*/ 
 		if (std::strcmp(lineHeader, "v") == 0) { 
 			_NL::Core::VertexPos v;
 			fscanf(file, "%f %f %f\n", 
@@ -66,8 +58,6 @@ int OBJfileReader::LOAD(const char * OBJpath)
 				&tri.vt[2],
 				&tri.vn[2]
 			);
-
-			
 
 			tri.MTL_ID = MTL_counter;
 			this->Is.push_back(tri);

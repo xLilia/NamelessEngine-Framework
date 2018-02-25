@@ -40,6 +40,7 @@ int TextureLoader::LoadImage(const char* filePath)
 	
 	if (!LoadedImage.loadFromFile(filePath)) {
 		return -1;
+		std::cout << "ERROR: FAILED TO LOAD: " << filePath << std::endl;
 	}
 	return 0;
 }
