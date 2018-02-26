@@ -8,8 +8,7 @@ namespace _NL {
 		{
 		public:
 			MeshObj();
-			MeshObj(std::string name);
-			MeshObj(std::string name, const char * filePath);
+			MeshObj(const char * filePath);
 			~MeshObj();
 
 			int LoadOBJFile(const char* filePath);

@@ -32,7 +32,6 @@ namespace _NL{
 		class Element {
 		public:
 			///INFO
-			std::string name;
 			virtual std::string ClassName() const = 0;
 		};
 

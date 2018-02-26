@@ -10,12 +10,12 @@ int main(){
 
 	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
 	_NL::Object::SkyboxObj* sky2= new _NL::Object::SkyboxObj();
-	_NL::Element::ShaderObj* SkyShade = new _NL::Element::ShaderObj("skyshade", "SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
+	_NL::Element::ShaderObj* SkyShade = new _NL::Element::ShaderObj("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
 	sky1->SkyboxShader = SkyShade;
 	sky2->SkyboxShader = SkyShade;
 	//sky2->createCubeMap("sky1/fadeaway_ft.tga", "sky1/fadeaway_bk.tga", "sky1/fadeaway_up.tga", "sky1/fadeaway_dn.tga", "sky1/fadeaway_lf.tga", "sky1/fadeaway_rt.tga");
 	sky1->createCubeMap("sky2/ft.tga", "sky2/bk.tga", "sky2/up.tga", "sky2/dn.tga", "sky2/lf.tga", "sky2/rt.tga");
-	sky2->createCubeMap("starfield.jpg", "starfield.jpg", "starfield.jpg", "starfield.jpg", "starfield.jpg", "starfield.jpg");
+	sky2->createCubeMap("grass.png", "grass.png", "grass.png", "grass.png", "grass.png", "grass.png");
 	scene1->Skybox = sky1;
 	//scene2->Skybox = sky2;
 
@@ -27,13 +27,13 @@ int main(){
 
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, .5);
 
-	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("m1", "cubeMT.obj");
-	_NL::Element::MeshObj* YazM = new _NL::Element::MeshObj("m1", "YazarusTaxon.obj");
-	_NL::Element::MaterialObj* materialYT = new _NL::Element::MaterialObj("yt", "YazarusTaxon.mtl");
+	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("cubeMT.obj");
+	_NL::Element::MeshObj* YazM = new _NL::Element::MeshObj("YazarusTaxon.obj");
+	_NL::Element::MaterialObj* materialYT = new _NL::Element::MaterialObj("YazarusTaxon.mtl");
 
-	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("s1", "defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("trishade", "defaultvertexshader.glsl", "blueFrag.glsl");
-	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("mtl1", "CubeMT.mtl");
+	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("defaultvertexshader.glsl", "blueFrag.glsl");
+	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("CubeMT.mtl");
 
 	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
 	Yaz->addComponent(new _NL::Component::Transform);
@@ -71,7 +71,7 @@ int main(){
 	Tri->addComponent(new _NL::Component::Transform());
 	Tri->addComponent(new _NL::Component::MeshRenderer());
 	Tri->addComponent(new _NL::Component::Script<TemplateScript>);
-	Tri->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshObj("trimesh", "tri.obj");
+	Tri->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshObj("tri.obj");
 	Tri->getComponent<_NL::Component::MeshRenderer>()->Shader = trishade;
 	Tri->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
 	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
@@ -81,7 +81,7 @@ int main(){
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
 	Quad->addComponent(new _NL::Component::MeshRenderer());
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshObj("quadmesh", "quad.obj");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshObj("quad.obj");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderObj("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
 	

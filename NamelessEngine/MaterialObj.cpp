@@ -1,12 +1,11 @@
 #include "MaterialObj.h"
-_NL::Element::MaterialObj::MaterialObj(const std::string name)
+
+_NL::Element::MaterialObj::MaterialObj()
 {
-	this->name = name;
 }
 
-_NL::Element::MaterialObj::MaterialObj(const std::string name, const char * filePath)
+_NL::Element::MaterialObj::MaterialObj(const char * filePath)
 {
-	this->name = name;
 	LoadMTLFile(filePath);
 }
 

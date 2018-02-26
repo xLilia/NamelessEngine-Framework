@@ -4,14 +4,8 @@ _NL::Element::MeshObj::MeshObj()
 {
 }
 
-_NL::Element::MeshObj::MeshObj(std::string name)
+_NL::Element::MeshObj::MeshObj(const char * filePath)
 {
-	this->name = name;
-}
-
-_NL::Element::MeshObj::MeshObj(std::string name, const char * filePath)
-{
-	this->name = name;
 	LoadOBJFile(filePath);
 }
 

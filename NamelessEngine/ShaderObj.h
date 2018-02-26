@@ -8,8 +8,7 @@ namespace _NL {
 		{
 		public:
 			ShaderObj();
-			ShaderObj(std::string name);
-			ShaderObj(std::string name, const char * VertexShader, const char * FragmentShader);
+			ShaderObj(const char * VertexShader, const char * FragmentShader);
 			~ShaderObj();
 			GLuint getShaderProgram() const;
 			void InstallShader(const char * VertexShader, const char * FragmentShader);

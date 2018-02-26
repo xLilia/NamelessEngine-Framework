@@ -8,8 +8,8 @@ namespace _NL {
 		class MaterialObj : public _NL::Core::Element
 		{
 		public:
-			MaterialObj(const std::string name);
-			MaterialObj(const std::string name, const char* filePath);
+			MaterialObj();
+			MaterialObj(const char* filePath);
 			int LoadMTLFile(const char* filePath);
 			std::vector<_NL::Core::MTLdata> MTLData;
 			std::vector<GLuint> MTLTexIds;

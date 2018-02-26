@@ -4,14 +4,8 @@ _NL::Element::ShaderObj::ShaderObj()
 {
 }
 
-_NL::Element::ShaderObj::ShaderObj(std::string name)
+_NL::Element::ShaderObj::ShaderObj(const char * VertexShader, const char * FragmentShader)
 {
-	this->name = name;
-}
-
-_NL::Element::ShaderObj::ShaderObj(std::string name, const char * VertexShader, const char * FragmentShader)
-{
-	this->name = name;
 	InstallShader(VertexShader, FragmentShader);
 }
 
