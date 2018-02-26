@@ -17,12 +17,14 @@ namespace _NL {
 			sf::Event Event;
 			sf::RenderWindow* window;
 			_NL::Engine::Time Time;
-
+			glm::vec3 ClearColor;
 			_NL::Object::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
 			
-			void RunProgramLoop();
+			void RunSceneLoop();
+
+			bool bEndCurrentScene = false;
 
 		private:
 
@@ -47,6 +49,8 @@ namespace _NL {
 		
 			void UpdateScriptsOfObj(_NL::Core::Object* obj);
 			void StartScriptsOfObj(_NL::Core::Object* obj);
+
+			void CleanUpLastSceneLoadedResources();
 			///SwitchFrameBuffer
 			//CurrentDrawBuff += 1;
 			//CurrentDrawBuff %= 2;

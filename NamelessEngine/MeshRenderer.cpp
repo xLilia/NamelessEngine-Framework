@@ -7,10 +7,7 @@ _NL::Component::MeshRenderer::MeshRenderer()
 
 void _NL::Component::MeshRenderer::UnpackData() {
 	///UNPACK VERTEX DATA
-	
-	VertsBuf.clear();
-	IndicesBuf.clear();
-	
+
 	for each (_NL::Core::vIndices vI in Mesh->Indices)
 	{
 		if (vI.MTL_ID == -1)vI.MTL_ID = 0;
@@ -53,6 +50,8 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t);
 	}
 	
+	bIsUnpacked = true;
+
 	//for each(_NL::Core::VertexPos P in Mesh->MeshData.vPos) {
 	//	VertsBuf.push_back(P.Pos.x);
 	//	VertsBuf.push_back(P.Pos.y);
@@ -129,6 +128,8 @@ void _NL::Component::MeshRenderer::initGLObj()
 	//glVertexArrayElementBuffer(vao, ebo);
 
 	check_gl_error_full();
+
+
 }
 
 std::string _NL::Component::MeshRenderer::ClassName() const

@@ -74,6 +74,10 @@ void CamController::Update() {
 		_this->Settings.FOV -= .01;
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+		W->bEndCurrentScene = true;
+	}
+
 }
 
 //CALCULATE WERE TO lOOK AT

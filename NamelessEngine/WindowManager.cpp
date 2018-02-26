@@ -17,28 +17,50 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	glewInit();
 }	
 
-void _NL::Engine::WindowManager::RunProgramLoop()
+void _NL::Engine::WindowManager::RunSceneLoop()
 {
 	Start();
 	
 	while (window->isOpen()) {
 		while (window->pollEvent(Event))
 		{
-			//======================
 			if (Event.type == Event.Closed) {
 				window->close();
 			}
 		}	
+
 		//======================
 		//UPDATE SCRIPTS 
 		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 		{
 			UpdateScriptsOfObj(obj);
 		}
+
+		//======================
+		//END CURRENT SCENE 
+		if (bEndCurrentScene) {
+			bEndCurrentScene = false;
+			break;
+		}
+
 		//======================
 		//UPDATE WINDOW 
 		updateWindow();
 	}
+
+	CleanUpLastSceneLoadedResources();
+}
+
+void _NL::Engine::WindowManager::CleanUpLastSceneLoadedResources()
+{
+	Cameras.clear();
+	Lights.clear();
+	glDeleteFramebuffers(1, FrameBuffer);
+	glDeleteBuffers(1, &LightsBlockUBO);
+	glDeleteTextures(1, ColorTexture);
+	glDeleteTextures(1, DepthTexture);
+
+	CurrentScene = 0;
 }
 
 void _NL::Engine::WindowManager::UpdateScriptsOfObj(_NL::Core::Object* obj) {
@@ -201,12 +223,8 @@ void _NL::Engine::WindowManager::OpenGLStart()
 {
 	//======================
 	//SCREEN QUAD
-	ScreenShader.installShaders("screenQuadVshader.glsl", "screenQuadFshader.glsl");
-
-	//======================
-	Cameras.clear();
-	Lights.clear();
-	//ACTION !
+	if(ScreenShader.InstlledProgramIDs.size() == 0) //If not installed Install
+		ScreenShader.installShaders("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 
 	//======================
 	//GET OBJECTS
@@ -215,8 +233,10 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		//======================
 		_NL::Component::MeshRenderer* MR = obj->getComponent<_NL::Component::MeshRenderer>();
 		if (MR) {
-			std::cout << "initialize MeshRenderer of Obj: " << obj->name << std::endl;
-			MR->initGLObj();
+			if (!MR->bIsUnpacked) {
+				std::cout << "initialize MeshRenderer of Obj: " << obj->name << std::endl;
+				MR->initGLObj();
+			}
 		}
 		//======================
 		if (obj->ClassName() == Classname_CameraObj) {
@@ -228,7 +248,16 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		}
 	}
 
-	GenerateCamFramebuffers(Cameras);
+	//======================
+	if (Cameras.size() == 0) {
+		std::cout << "Camera not found in Current Scene..." << std::endl;
+		ClearCurrentBuffer();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		ClearCurrentBuffer();
+	}
+	else {
+		GenerateCamFramebuffers(Cameras);
+	}
 
 	//======================
 	//INITIALIZE LIGHT UBO
@@ -253,7 +282,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		//glDepthFunc(GL_LEQUAL);
 		//glDepthRange(0.0f, 1.0f);
 		///FACE CULLIG
-		//glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 		//glFrontFace(GL_CCW);
 		///BLENDING
@@ -285,14 +314,16 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		//======================
 		//Update Light ubo;
 
-		glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
-		glBufferSubData(GL_UNIFORM_BUFFER,
-			0,
-			sizeof(_NL::Core::LightProperties)*Lights.size(),
-			&Lights[0]);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-		check_gl_error();
-
+		if (Lights.size() > 0) {
+			glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
+			glBufferSubData(GL_UNIFORM_BUFFER,
+				0,
+				sizeof(_NL::Core::LightProperties)*Lights.size(),
+				&Lights[0]);
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			check_gl_error();
+		}
+		
 		//======================
 		//SKYBOX RENDERING
 		if (CurrentScene->Skybox != 0) {
@@ -411,7 +442,7 @@ void _NL::Engine::WindowManager::ClearCurrentBuffer()
 {
 	//======================
 	//CLEAR BUFFER_BIT
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(ClearColor.x, ClearColor.y, ClearColor.z, 1.0f);
 	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -434,7 +465,10 @@ void _NL::Engine::WindowManager::updateWindow() {
 	//======================
 	//UPDATE; 
 	check_gl_error();
-	UpdateCurrentScene();	Time.Tick();
+	if (Cameras.size() > 0) {
+		UpdateCurrentScene();
+	}
+	Time.Tick();
 }
 
 _NL::Engine::WindowManager::~WindowManager()

@@ -6,12 +6,18 @@
 int main(){
 	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true);
 	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
-	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
-	sky1->SkyboxShader = new _NL::Element::ShaderObj("skyshade", "SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
-	//sky1->createCubeMap("sky1/fadeaway_ft.tga", "sky1/fadeaway_bk.tga", "sky1/fadeaway_up.tga", "sky1/fadeaway_dn.tga", "sky1/fadeaway_lf.tga", "sky1/fadeaway_rt.tga");
-	sky1->createCubeMap("sky2/ft.tga", "sky2/bk.tga", "sky2/up.tga", "sky2/dn.tga", "sky2/lf.tga", "sky2/rt.tga");
-	scene1->Skybox = sky1;
+	_NL::Object::WorldSpace* scene2 = new _NL::Object::WorldSpace;
 
+	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
+	_NL::Object::SkyboxObj* sky2= new _NL::Object::SkyboxObj();
+	_NL::Element::ShaderObj* SkyShade = new _NL::Element::ShaderObj("skyshade", "SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
+	sky1->SkyboxShader = SkyShade;
+	sky2->SkyboxShader = SkyShade;
+	//sky2->createCubeMap("sky1/fadeaway_ft.tga", "sky1/fadeaway_bk.tga", "sky1/fadeaway_up.tga", "sky1/fadeaway_dn.tga", "sky1/fadeaway_lf.tga", "sky1/fadeaway_rt.tga");
+	sky1->createCubeMap("sky2/ft.tga", "sky2/bk.tga", "sky2/up.tga", "sky2/dn.tga", "sky2/lf.tga", "sky2/rt.tga");
+	sky2->createCubeMap("starfield.jpg", "starfield.jpg", "starfield.jpg", "starfield.jpg", "starfield.jpg", "starfield.jpg");
+	scene1->Skybox = sky1;
+	//scene2->Skybox = sky2;
 
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,2,0.1,500,1);
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
@@ -138,7 +144,22 @@ int main(){
 	
 	scene1->showObjectList();
 	winMan.CurrentScene = scene1;
-	winMan.RunProgramLoop();
+	winMan.RunSceneLoop();
+
+	scene2->addObjectToWorld(Yaz);
+	scene2->addObjectToWorld(Tri);
+	scene2->addObjectToWorld(Quad);
+	scene2->addObjectToWorld(MyCam);
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
+	Yaz->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
+	Tri->getComponent<_NL::Component::Transform>()->transform.scale *= 100;
+	Tri->getComponent<_NL::Component::Transform>()->transform.position.z = 10;
+	Tri->getComponent<_NL::Component::Transform>()->transform.position.y = 50;
+	winMan.ClearColor = glm::vec3(0.3, 0.4, 0.5);
+	scene2->showObjectList();
+	winMan.CurrentScene = scene2;
+	winMan.RunSceneLoop();
+
 	return 0;
 }
 

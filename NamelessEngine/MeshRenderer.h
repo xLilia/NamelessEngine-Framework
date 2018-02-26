@@ -37,8 +37,8 @@ namespace _NL {
 			_NL::Element::MaterialObj* Material;
 			///INFO
 			std::string ClassName() const override;
-		private:
-			
+			bool bIsUnpacked = false;
+		private:		
 			void UnpackData();
 		};
 	}
