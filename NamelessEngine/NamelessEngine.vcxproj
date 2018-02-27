@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GLError.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="WorldSpace.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioSource.h" />
     <ClInclude Include="CamController.hpp" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="GameObject.h" />

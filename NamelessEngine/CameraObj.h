@@ -1,5 +1,6 @@
 #pragma once
 #include "NamelessCore.h"
+#include <SFML\Audio\Listener.hpp>
 #include <glm\gtc\matrix_transform.hpp>
 
 namespace _NL {
@@ -7,9 +8,9 @@ namespace _NL {
 		namespace CameraObj_data {
 			struct CamTransform
 			{
-				glm::vec3 position = glm::vec3(0, 0, -1);
+				glm::vec3 position = glm::vec3(0, 0, 0);
 				glm::vec3 rotation = glm::vec3(0, 1, 0);
-				glm::vec3 LookAtCenter = glm::vec3(0, 0, 1);
+				glm::vec3 LookAtCenter = glm::vec3(0, 0, -1);
 			};
 
 			struct CamSettings
@@ -32,17 +33,23 @@ namespace _NL {
 				GLfloat NearPlane = 0.1f, 
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1);
-
 			~CameraObj();
+
 			void updateCameraSettings();
 			void updateCameraProjectionMatrix();
 			void updateCameraViewport();
+
+			void updateAudioListenerWithCamTransform();
+			void updateAudioListenerPosition(glm::vec3 pos);
+			void updateAudioListenerDirection(glm::vec3 dir);
+			void updateAudioListenerRotation(glm::vec3 upVec);
 
 			CameraObj_data::CamTransform Transform;
 			CameraObj_data::CamSettings Settings;
 			glm::mat4 getWorldToViewMatrix() const;
 			glm::mat4 getViewMatrix() const;
 			glm::mat4 projectionMatrix;
+			sf::Listener AudioListener;
 			
 			std::string ClassName() const override;
 		};

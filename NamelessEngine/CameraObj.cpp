@@ -12,6 +12,29 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	this->Settings.RenderWindowSize.y = RenderWindowHeight;
 	this->Settings.RenderScaleRatio = RenderScaleRatio;
 	updateCameraSettings();
+	updateAudioListenerWithCamTransform();
+}
+
+void _NL::Object::CameraObj::updateAudioListenerWithCamTransform()
+{
+	updateAudioListenerPosition(Transform.position);
+	updateAudioListenerDirection(Transform.LookAtCenter);
+	updateAudioListenerRotation(Transform.rotation);
+}
+
+void _NL::Object::CameraObj::updateAudioListenerPosition(glm::vec3 pos)
+{
+	AudioListener.setPosition(pos.x, pos.y, pos.z);
+}
+
+void _NL::Object::CameraObj::updateAudioListenerDirection(glm::vec3 dir)
+{
+	AudioListener.setDirection(dir.x, dir.y, dir.z);
+}
+
+void _NL::Object::CameraObj::updateAudioListenerRotation(glm::vec3 upVec)
+{
+	AudioListener.setUpVector(upVec.x, upVec.y, upVec.z);
 }
 
 void _NL::Object::CameraObj::updateCameraSettings()

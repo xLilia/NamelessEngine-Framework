@@ -5,6 +5,7 @@
 #include "WorldSpace.h"
 #include "CameraObj.h"
 #include "LightObject.h"
+#include "AudioSource.h"
 
 ///Components
 #include "Transform.h"

@@ -59,7 +59,6 @@ void _NL::Engine::WindowManager::CleanUpLastSceneLoadedResources()
 	glDeleteBuffers(1, &LightsBlockUBO);
 	glDeleteTextures(1, ColorTexture);
 	glDeleteTextures(1, DepthTexture);
-
 	CurrentScene = 0;
 }
 
@@ -282,7 +281,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 		//glDepthFunc(GL_LEQUAL);
 		//glDepthRange(0.0f, 1.0f);
 		///FACE CULLIG
-		glEnable(GL_CULL_FACE);
+		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 		//glFrontFace(GL_CCW);
 		///BLENDING
@@ -340,7 +339,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 			//COMPONENTS
 
 			_NL::Component::MeshRenderer* ObjMR = obj->getComponent<_NL::Component::MeshRenderer>();
-
+			
 			//======================
 			//PARENTING
 

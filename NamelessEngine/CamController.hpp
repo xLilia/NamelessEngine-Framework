@@ -1,5 +1,6 @@
 #pragma once
 #include <glm\gtc\matrix_transform.hpp>
+
 class CamController : public _NL::Core::CppScript
 {
 private:
@@ -73,11 +74,14 @@ void CamController::Update() {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
 		_this->Settings.FOV -= .01;
 	}
-
+	//LOAD NEXT SCENE
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+		std::cout << "Load next scene..." << std::endl;
 		W->bEndCurrentScene = true;
 	}
 
+	_this->updateAudioListenerWithCamTransform();
+	
 }
 
 //CALCULATE WERE TO lOOK AT

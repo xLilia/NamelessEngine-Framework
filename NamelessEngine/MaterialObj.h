@@ -10,13 +10,13 @@ namespace _NL {
 		public:
 			MaterialObj();
 			MaterialObj(const char* filePath);
-			int LoadMTLFile(const char* filePath);
-			std::vector<_NL::Core::MTLdata> MTLData;
-			std::vector<GLuint> MTLTexIds;
-			
 			~MaterialObj();
 
+			int LoadMTLFile(const char* filePath);
 			std::string ClassName() const override;
+
+			std::vector<_NL::Core::MTLdata> MTLData;
+			std::vector<GLuint> MTLTexIds;
 
 		private:
 			MTLfileReader MTLF;
