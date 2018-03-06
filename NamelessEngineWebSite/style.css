@@ -1,0 +1,72 @@
+body {
+    background-color: gray;
+	margin: 5% 15% 5% 15%;
+}
+
+a{
+	color: Black;
+}
+
+a:hover{
+	color: blue;
+}
+
+h1, h2{
+    color: white;
+    text-align: center;
+	font-family: Consolas, Arial, Helvetica, sans-serif;
+}
+td, th {
+    border-top: 5px solid #dddddd;
+    padding: 8px;
+	background-color: #ffffff;
+}
+
+.box{
+    border: 2px dashed #dddddd;
+    padding: 8px;
+	//background-color: #ffffff;
+}
+
+table {
+    font-family: Consolas, Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.hide{
+	display: none;
+}
+
+.show{
+	display: block;
+}
+
+.center {
+	margin:0 0 0 45%;
+}
+
+.float_left{
+	float: left;
+}
+
+.text_left{
+	text-align: left;
+}
+
+.text_center{
+	text-align: center;
+}
+
+.clickable:hover{
+	background-color: yellow;
+}
+
+.clickable:active{
+	background-color: lightblue;
+	padding: 10;
+}
+
+
+
+
