@@ -18,7 +18,7 @@ namespace _NL {
 			sf::RenderWindow* window;
 			_NL::Engine::Time Time;
 			glm::vec3 ClearColor;
-			_NL::Object::WorldSpace* CurrentScene;
+			_NL::Engine::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
 			

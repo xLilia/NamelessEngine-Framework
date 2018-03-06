@@ -7,7 +7,7 @@
 #include <vector>;
 
 namespace _NL {
-	namespace Object {
+	namespace Engine {
 		class WorldSpace
 		{
 		public:
@@ -16,7 +16,7 @@ namespace _NL {
 
 			void addObjectToWorld(_NL::Core::Object *G);
 			void showObjectList();
-			SkyboxObj* Skybox = NULL;
+			_NL::Object::SkyboxObj* Skybox = NULL;
 			std::vector<_NL::Core::Object*> GetObjectList();
 		private:
 			std::vector<_NL::Core::Object*> ObjectList;

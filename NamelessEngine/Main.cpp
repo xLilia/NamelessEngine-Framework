@@ -6,13 +6,11 @@
 
 int main(){
 	_NL::Engine::WindowManager winMan("w1", 640, 480,false,true);
-	_NL::Object::WorldSpace* scene1 = new _NL::Object::WorldSpace;
-	_NL::Object::WorldSpace* scene2 = new _NL::Object::WorldSpace;
-	
+	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
+	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
 	Audio->LoadAudioFile("deeplyMono.ogg");
 	Audio->Sound.play();
-
 	
 	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
 	_NL::Object::SkyboxObj* sky2= new _NL::Object::SkyboxObj();

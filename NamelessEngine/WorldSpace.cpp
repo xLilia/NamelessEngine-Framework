@@ -1,16 +1,16 @@
 #include "WorldSpace.h"
 
-_NL::Object::WorldSpace::WorldSpace()
+_NL::Engine::WorldSpace::WorldSpace()
 {
 
 }
 
-void _NL::Object::WorldSpace::addObjectToWorld(_NL::Core::Object *G)
+void _NL::Engine::WorldSpace::addObjectToWorld(_NL::Core::Object *G)
 {
 	ObjectList.push_back(G);
 }
 
-void _NL::Object::WorldSpace::showObjectList()
+void _NL::Engine::WorldSpace::showObjectList()
 {
 	std::cout << "|-START WORLD OBJList LOG-|" << std::endl;
 	std::cout << "|--------------------------------------|" << std::endl;
@@ -22,12 +22,12 @@ void _NL::Object::WorldSpace::showObjectList()
 	std::cout << "|--------------------------------------|" << std::endl;
 }
 
-std::vector<_NL::Core::Object*> _NL::Object::WorldSpace::GetObjectList()
+std::vector<_NL::Core::Object*> _NL::Engine::WorldSpace::GetObjectList()
 {
 	return this->ObjectList;
 }
 
 
-_NL::Object::WorldSpace::~WorldSpace()
+_NL::Engine::WorldSpace::~WorldSpace()
 {
 }
