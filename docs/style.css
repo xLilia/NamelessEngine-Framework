@@ -1,6 +1,7 @@
 body {
 	background-image: url("imgs/space.gif");
     background-color: black;
+	zoom: 175%;
 	margin: 5% 15% 5% 15%;
 	font-family: 'Open Sans', sans-serif;
 }
