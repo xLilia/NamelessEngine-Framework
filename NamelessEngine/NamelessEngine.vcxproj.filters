@@ -69,9 +69,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="WorldSpace.cpp">
-      <Filter>Source Files\WorldObjects</Filter>
-    </ClCompile>
     <ClCompile Include="CameraObj.cpp">
       <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
@@ -96,11 +93,14 @@
     <ClCompile Include="LightObject.cpp">
       <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
-    <ClCompile Include="SkyboxObj.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AudioSource.cpp">
       <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyboxObj.cpp">
+      <Filter>Source Files\WorldObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="WorldSpace.cpp">
+      <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

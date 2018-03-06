@@ -1,10 +1,12 @@
 body {
-    background-color: gray;
+	background-image: url("imgs/space.gif");
+    background-color: black;
 	margin: 5% 15% 5% 15%;
+	font-family: 'Open Sans', sans-serif;
 }
 
 a{
-	color: Black;
+	color: gray;
 }
 
 a:hover{
@@ -14,22 +16,21 @@ a:hover{
 h1, h2{
     color: white;
     text-align: center;
-	font-family: Consolas, Arial, Helvetica, sans-serif;
+	font-family: 'Roboto', sans-serif;
 }
 td, th {
-    border-top: 5px solid #dddddd;
+    border-top: 5px groove #a0a0a0;
     padding: 8px;
 	background-color: #ffffff;
 }
 
-.box{
-    border: 2px dashed #dddddd;
+.botline{
+    border-bottom: 2px groove #dddddd;
     padding: 8px;
 	//background-color: #ffffff;
 }
 
 table {
-    font-family: Consolas, Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
@@ -60,6 +61,7 @@ table {
 
 .clickable:hover{
 	background-color: yellow;
+	cursor: pointer;
 }
 
 .clickable:active{
@@ -67,6 +69,20 @@ table {
 	padding: 10;
 }
 
+#overlay {
+    position: fixed; 
+    display: block;
+	pointer-events: none;
+    width: 100%; 
+    height: 100%; 
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+	background-image: url("imgs/bg2.gif");
+	opacity: 0.15;
+    z-index: 1;
+}
 
 
 
