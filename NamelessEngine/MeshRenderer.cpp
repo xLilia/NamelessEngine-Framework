@@ -11,7 +11,7 @@ void _NL::Component::MeshRenderer::UnpackData() {
 	for each (_NL::Core::vIndices vI in Mesh->Indices)
 	{
 		if (vI.MTL_ID == -1)vI.MTL_ID = 0;
-		///!!!THIS CAN BE OPTIMIZED!!!\\\ 
+		///!!!THIS CAN BE OPTIMIZED!!!\\\(not using indices) 
 		IndicesBuf.push_back(vI.v[0] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[0] - 1].Pos.x);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[0] - 1].Pos.y);

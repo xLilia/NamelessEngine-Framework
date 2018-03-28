@@ -18,6 +18,9 @@ namespace _NL {
 			std::vector<_NL::Core::MTLdata> MTLData;
 			std::vector<GLuint> MTLTexIds;
 
+			void Add_NewMaterial();
+			void Add_NewTexture(const char* filePath, int mtlID = -1);
+
 		private:
 			MTLfileReader MTLF;
 		};

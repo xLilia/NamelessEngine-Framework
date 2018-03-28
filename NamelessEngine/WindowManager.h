@@ -22,11 +22,13 @@ namespace _NL {
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
 			
-			void RunSceneLoop();
-
-			bool bEndCurrentScene = false;
+			void RunCurrentScene();
+			
+			void EndCurrentScene();
 
 		private:
+
+			bool bEndCurrentScene = false;
 
 			GLuint LightsBlockUBO;
 			GLuint uIndexLightsBlock = 0;

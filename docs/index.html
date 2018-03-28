@@ -11,13 +11,18 @@
 	</head>
 	<body>
 	<div id="overlay"></div>
-		<h1 class="botline">NAMELESS ENGINE DJD Final Project</h1>
+        <div class="fixedElement">
+            <h1 class="botline">NAMELESS ENGINE SDK</h1>
+        </div>
+        <br><br>
 		<table>
-			<th class="clickable" onclick="toggleVisibility('n0')">
-			Project
-			</th>
+            <tr>
+                <th class="clickable" onclick="toggleVisibility('n0')">
+                Project Data
+                </th>
+            </tr>
 		</table>
-		<br class="hide n0">
+        <br class="hide n0">
 		<div class="hide n0">
 			<table>
 				<!––NAMELESS STUFF--->
@@ -28,20 +33,22 @@
 				</tr>
 				<tr class="hide n1">
 					<td>
-					<b>About:</b> NAMELESS ENGINE is an SDK written in C++ that supports 3D graphics with a C++ Interface. This tool is built with adaptability and simplicity as its core philosophies. Its modular architecture allows for simple and fast composition of a multitude of 3D Interactive virtual Environments while still maintaining a high level of control over what’s going on behind the scenes. Its purposes range from Video Game Development to Visualization of Artificial intelligence Models and other kinds of data interaction systems were visualization is required. It should be used as a base for a software and extended upon Ad infinitum.
+					<b>About:</b> NAMELESS ENGINE is an SDK written in C++ that supports 3D graphics with a C++ Interface. This tool is built with adaptability and simplicity as its core philosophies. Its modular architecture allows for simple and fast composition of a multitude of 3D Interactive virtual Environments while still maintaining a high level of control over what’s going on behind the scenes. Its purposes range from Video Game Development to Visualization of Artificial intelligence Models and other kinds of interactive systems were visualization is required. It should be used as a base for a software and extended upon Ad infinitum.
 					</td>
 				</tr>
 				<tr class="hide n1">
 					<td>
-					<li><b>Type:</b> Game Engine SDK
-					<li><b>Developer:</b> MateusBranco</li>
-					<li><b>Platform:</b> PC-Windows</li>
-					<li><b>Written in:</b> C++[Runtime]</li>
-					<li><b>Minimum System Requirements:</b> OpenGL v4.5</li>
-					<li><b>Available in:</b> English
-					<li><b>Target audience:</b> Programmers comfortable with C++ programming language</li>
-					<li><b>Copyright Info:</b> This SDK can be distributed and/or modified under the terms of <a href="">INSERT_LICENCE_HERE</a>.
-					</td>
+                        <li><b>Type:</b> Game Engine SDK
+                        <li><b>Developer:</b> MateusBranco</li>
+                        <li><b>Platform:</b> PC-Windows</li>
+                        <li><b>Written in:</b> C++[Runtime]</li>
+                        <li><b>Minimum System Requirements:</b> OpenGL v4.5</li>
+                        <li><b>Available in:</b> English
+                        <li><b>Target audience:</b> Programmers comfortable with C++ programming language (Needs Testing to rectify)</li>
+                        <li><b>Copyright Info:</b> This SDK can be used for Commercial use, Distribution, Modification, Patent use and Private use under the terms stated by the GNU GPLv3 (<a href="https://choosealicense.com/licenses/gpl-3.0/ ">GNU General Public License v3.0</a>).
+                        <li><b>Version Control Repository:</b> <a href="https://github.com/mattateusb7/NamelessEngine">https://github.com/mattateusb7/NamelessEngine</a></li>
+                        <li><b>Website:</b> <a href="https://mattateusb7.github.io/NamelessEngine/">https://mattateusb7.github.io/NamelessEngine/</a></li> 
+                    </td>
 				</tr>
 				
 				<tr class="hide n1">
@@ -62,7 +69,7 @@
 				
 				<tr class="hide n1">
 					<th class="clickable" onclick="toggleVisibility('n1_2')">
-						ExternalLibs
+						Included External Libraries
 					</th>
 				</tr>
 				
@@ -127,35 +134,278 @@
 						Arquiteture
 					</th>
 				</tr>
-				
-				<tr>
-					<th class="hide clickable n2_2 float_left" onclick="toggleVisibility('nlcore')">
-						_NL::Core
-					</th>
-					<th class="hide n2_2 float_left">|</th>
-					<th class="hide clickable n2_2 float_left" onclick="toggleVisibility('nlengine')">
-						_NL::Engine
-					</th>
-					<th class="hide n2_2 float_left">|</th>
-					<th class="hide clickable n2_2 float_left" onclick="toggleVisibility('nlobject')">
-						_NL::Object
-					</th>
-					<th class="hide n2_2 float_left">|</th>
-					<th class="hide clickable n2_2 float_left" onclick="toggleVisibility('nlcomponent')">
-						_NL::Component
-					</th>
-					<th class="hide n2_2 float_left">|</th>
-					<th class="hide clickable n2_2 float_left" onclick="toggleVisibility('nlelement')">
-						_NL::Element
-					</th>
-					<th class="hide n2_2 float_left">|</th>
-					<th class="hide clickable n2_2 float_left" onclick="toggleVisibility('nltools')">
-						Tools
-					</th>
-				</tr>
 			</table>
+            
+            <table class="hide n2_2" style="table-layout: fixed">
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nlcore')">
+                        _NL::Core
+                    </th>
+                </tr>
+                <tr class="hide nlcore">
+                    <td>
+                        <p style="text-align: center">--★Classes★--</p>
+
+                        <h3>Class _NL::Core::CppScript</h3>
+                        <p><b>public:</b></p>
+                        <p>virtual void Start() = 0;</p>
+                        <p>virtual void Update() = 0;</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>Class _NL::Core::Component</h3>
+                        <p><b>public:</b></p>
+                        <p>virtual std::string ClassName() const = 0;</p>
+                        <p>bool bactive = true;</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>Class _NL::Core::Element</h3>
+                        <p><b>public:</b></p>
+                        <p>virtual std::string ClassName() const = 0;</p>
+
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>Class _NL::Core::Object</h3>
+                        <p><b>public:</b></p>
+                        <p>std::string name;</p>
+                        <p>Object *Parent = 0;</p>
+                        <p>std::vector&ltObject*&gt Childs;</p>
+                        <p>virtual std::string ClassName() const = 0;</p>
+                        <p>bool bactive = true;</p>
+                        <p>bool bstatic = false;</p>
+                        <p>virtual void getInfo() {};</p>
+                        <p>int addComponent(_NL::Core::Component *C);</p>
+                        <p>template&lttypename T&gtT* getComponent();</p>
+                        <p>std::vector<_NL::Core::Component*> Components;</p>
+                            
+                        <p style="text-align: center">--★★--</p>
+                            
+                        <p style="text-align: center">--★Structs★--</p>
+                        
+                        <h3>struct _NL::Core::VertexPos</h3>
+                        <p>glm::vec3 Pos;       //Position</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::VertexNorm</h3>
+                        <p>glm::vec3 Norm;      //Normal</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+
+                        <h3>struct _NL::Core::VertexCol</h3>
+                        <p>glm::vec3 Col;       //Color</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::VertexTexCoord</h3>
+                        <p>glm::vec2 TexCoord;  //TexCoordinates</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::vIndices</h3>
+                        <p>GLuint v[3];</p>
+                        <p>GLuint vt[3];</p>
+                        <p>GLuint vn[3];</p>
+                        <p>GLint MTL_ID;</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::MTLdata</h3>
+                        <p>GLfloat Ns;	 //Scalar</p>
+                        <p>glm::vec3 Ka; //Ambient ColorRGB</p>
+                        <p>glm::vec3 Kd; //Difuse ColorRGB</p>
+                        <p>glm::vec3 Ks; //Specular ColorRGB</p>
+                        <p>glm::vec3 Ke; //Emission ColorRGB</p>
+                        <p>GLuint MTL_ID;</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::MeshData</h3>
+                        <p>std::vector&ltVertexPos&gt vPos;</p>
+                        <p>std::vector&ltVertexCol&gt vCol;</p>
+                        <p>std::vector&ltVertexNorm&gt vNorm;</p>
+                        <p>std::vector&ltVertexTexCoord&gt vTexC;</p>
+                        
+                         <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::transform</h3>
+                        <p>glm::vec3 position;</p>
+                        <p>glm::vec3 EulerRotation;</p>
+                        <p>glm::mat4 MatrixRotation;</p>
+                        <p>glm::vec3 scale;</p> 
+                        
+                         <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::ScreenQuad</h3>
+                        <p>const GLfloat fullquad_t[8] = {-1,-1,+1,-1,+1,+1,-1,+1};</p>
+                        <p>const GLuint fullquad_i[4] = {0,1,2,3};</p>
+                        
+                         <p style="text-align: center">--★★--</p>
+                        
+                        <h3>struct _NL::Core::LightProperties</h3>
+                        <p>glm::vec4 lightColor = glm::vec4(1, 1, 1, 1);</p>
+                        <p>glm::vec3 lightPosition = glm::vec3(0, 0, 0);</p>
+                        <p>GLfloat PADDING0;</p>
+                        <p>GLfloat radiusOfInfluence = 1;</p>
+                        <p>glm::vec3 PADDING1;</p>
+                        
+                         <p style="text-align: center">--★★--</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nlengine')">
+                        _NL::Engine
+                    </th>
+                </tr>
+                <tr class="hide nlengine">
+                    <td>
+                        <p style="text-align: center">--★Classes★--</p>
+                        
+                        <h3>Class _NL::Engine::WindowManager</h3>
+                        
+                        <p><b>public:</b></p>
+                        
+                        <p>WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);</p>
+                        <p>~WindowManager();</p>
+                        
+                        <p>sf::Event Event;</p>
+                        <p>sf::RenderWindow* window;</p>
+                        <p>_NL::Engine::Time Time;</p>
+                        <p>glm::vec3 ClearColor;</p>
+                        <p>_NL::Engine::WorldSpace* CurrentScene;</p>
+                        <p>std::vector&lt_NL::Object::CameraObj*&gt Cameras;</p>
+                        <p>std::vector&lt_NL::Core::LightProperties&gt Lights;</p>
+                        
+                        <p>void RunSceneLoop();</p>
+                        <p>void EndCurrentScene();</p>
+
+                        <p><b>private:</b></p>
+                        
+                        <p>bool bEndCurrentScene = false;</p>
+
+                        <p>GLuint LightsBlockUBO;</p>
+                        <p>GLuint uIndexLightsBlock = 0;</p>
+                        <p>ShaderWizard ScreenShader;</p>
+                     
+                        <p>GLuint* FrameBuffer;</p>
+                        <p>GLuint* ColorTexture;</p>
+                        <p>GLuint* DepthTexture;</p>
+
+                        <p>void Start();</p>
+                        <p>void OpenGLStart();</p>
+                        <p>void GenerateCamFramebuffers(std::vector&lt_NL::Object::CameraObj*&gt Cams);</p>
+                        <p>void updateWindow();</p>
+                        <p>void UpdateCurrentScene();</p>
+                        <p>void DrawScreenQuad(GLuint CamID);</p>
+                        <p>void ClearCurrentBuffer();</p>
+                        <p>void Display(GLuint CamID);</p>
+
+                        <p>void UpdateScriptsOfObj(_NL::Core::Object* obj);</p>
+                        <p>void StartScriptsOfObj(_NL::Core::Object* obj);</p>
+
+                        <p>void CleanUpLastSceneLoadedResources();</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>Class _NL::Engine::NL_Time</h3>
+                        
+                        <p><b>public:</b></p>
+                        <p>Time();</p>
+                        <p>~Time();</p>
+                        <p>sf::Time DeltaTime;</p>
+                        <p>sf::Clock Clock;</p>
+                        <p>void Tick();</p>
+                        
+                        <p><b>private:</b></p>
+                        <p>sf::Clock Clk;</p>
+                        
+                        <p style="text-align: center">--★★--</p>
+                        
+                        <h3>Class _NL::Engine::WorldSpace</h3>
+                        
+                        <p><b>public:</b></p>
+                        <p>WorldSpace();</p>
+                        <p>~WorldSpace();</p>
+                        <p>void addObjectToWorld(_NL::Core::Object *G);</p>
+                        <p>void showObjectList();</p>
+                        <p>_NL::Object::SkyboxObj* Skybox = NULL;</p>
+                        <p>std::vector&lt_NL::Core::Object*&gt GetObjectList();</p>
+                        
+                        <p><b>private:</b></p>
+                        <p>std::vector&lt_NL::Core::Object*&gt ObjectList;</p>
+                        
+                        <p style="text-align: center">--★Classes★--</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nobject')">
+                        _NL::Object
+                    </th>
+                </tr>
+                <tr class="hide nobject">
+                     <td>
+                        <p style="text-align: center">--★Classes★--</p>
+                         
+                         <h3>class _NL::Object::GameObject 
+                             <div style="color: red">Inherited from : public _NL::Core::Object</div>
+                         </h3>
+                         <p><b>public:</b></p>
+                         <p>GameObject();</p>
+                         <p>GameObject(std::string name);</p>
+                         <p>~GameObject();</p>
+                         <p>void getInfo() override;</p>
+                         <p>std::string ClassName() const override;</p>
+                        
+                        <h3></h3>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nlcomponent')">
+                        _NL::Component
+                    </th>
+                </tr>
+                <tr class="hide nlcomponent">
+                     <td>
+                        <p style="text-align: center">--★Classes★--</p>
+                        
+                        <h3></h3>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nlelement')">
+                        _NL::Element
+                    </th>
+                </tr>
+                <tr class="hide nlelement">
+                     <td>
+                        <p style="text-align: center">--★Classes★--</p>
+                        
+                        <h3></h3>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nltool')">
+                        _NL::Tool
+                    </th>
+                </tr>
+                <tr class="hide nltool">
+                     <td>
+                        <p style="text-align: center">--★Classes★--</p>
+                        
+                        <h3></h3>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="clickable" onclick="toggleVisibility('nlfiles')">
+                        Other Files
+                    </th>
+                </tr>
+                 <tr class="hide nlfiles"></tr>
+            </table>
+            
 			<br>
-			
+            
 			<table>
 				<!––LAIFE STUFF--->
 				<tr>
@@ -279,23 +529,33 @@
 				</tr>
 			</table>
 		</div>
-		
+		<br>
+        <table>
+            <tr>
+                <th class="clickable" onclick="toggleVisibility('pdiagram')">
+                Project Diagram
+                </th>
+            </tr>
+		</table>
+        <br class="hide pdiagram">
+        <table>
+            <img class="hide pdiagram" src="imgs/Diagram.png" alt="Data Diagram" style="width: 100%; background-color: white">
+        </table>
 		<br>
 		<table>
 			<th class="text_center" action=""><a href="">Colapse Tabs</a></th>
 		</table>
-		<br>
 		
 		<div class="botline">
-		<h2>
-		E-mail: <a href="mailto:mattateusb7@gmail.com">Mateus Branco</a><br>
-		GitHub Repository: <a href="https://github.com/mattateusb7/NamelessEngine">NamelessEngine</a><br>
-		<p>
-		Projecto Final<br>
-		Mateus Branco<br>
-		2018
-		</p>
-		</h2>
+            <h2>
+            E-mail: <a href="mailto:mattateusb7@gmail.com">Mateus Branco</a><br>
+            GitHub Repository: <a href="https://github.com/mattateusb7/NamelessEngine">NamelessEngine</a><br>
+            <p>
+            Projecto Final<br>
+            Mateus Branco<br>
+            2018
+            </p>
+            </h2>
 		</div>		
 	</body>
 </html>

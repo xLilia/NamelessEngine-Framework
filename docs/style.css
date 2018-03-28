@@ -1,7 +1,11 @@
+html { 
+    //overflow-y: visible;
+}
+
 body {
 	background-image: url("imgs/space.gif");
-    background-color: black;
-	zoom: 175%;
+    //background-color: darkgrey;
+	zoom: 100%;
 	margin: 5% 15% 5% 15%;
 	font-family: 'Open Sans', sans-serif;
 }
@@ -19,10 +23,23 @@ h1, h2{
     text-align: center;
 	font-family: 'Roboto', sans-serif;
 }
+
+h3{
+    color: black;
+    text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+
+
 td, th {
     border-top: 5px groove #a0a0a0;
     padding: 8px;
 	background-color: #ffffff;
+}
+
+.Pclass{
+    text-align: left;
+    margin: 0 40% 0 10%;
 }
 
 .botline{
@@ -70,6 +87,14 @@ table {
 	padding: 10;
 }
 
+.fixedElement {
+    background-image: url("imgs/space.gif");
+    position:fixed;
+    top:0;
+    width: 70%;
+    z-index:1;
+}
+
 #overlay {
     position: fixed; 
     display: block;
@@ -81,9 +106,6 @@ table {
     right: 0;
     bottom: 0;
 	background-image: url("imgs/bg2.gif");
-	opacity: 0.15;
-    z-index: 1;
+	opacity: 0.1;
+    z-index: 100;
 }
-
-
-

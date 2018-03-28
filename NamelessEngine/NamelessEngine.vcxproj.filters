@@ -45,9 +45,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GLError.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
@@ -101,6 +98,9 @@
     </ClCompile>
     <ClCompile Include="WorldSpace.cpp">
       <Filter>Source Files\EngineObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,17 +161,17 @@
     <ClInclude Include="Script.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="TemplateScript.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CamController.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AudioSource.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
     <ClInclude Include="SkyboxObj.h">
       <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateScript.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CamController.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

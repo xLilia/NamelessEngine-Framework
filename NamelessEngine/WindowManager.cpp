@@ -17,7 +17,7 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	glewInit();
 }	
 
-void _NL::Engine::WindowManager::RunSceneLoop()
+void _NL::Engine::WindowManager::RunCurrentScene()
 {
 	Start();
 	
@@ -49,6 +49,11 @@ void _NL::Engine::WindowManager::RunSceneLoop()
 	}
 
 	CleanUpLastSceneLoadedResources();
+}
+
+void _NL::Engine::WindowManager::EndCurrentScene()
+{
+	bEndCurrentScene = true;
 }
 
 void _NL::Engine::WindowManager::CleanUpLastSceneLoadedResources()
@@ -222,7 +227,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 {
 	//======================
 	//SCREEN QUAD
-	if(ScreenShader.InstlledProgramIDs.size() == 0) //If not installed Install
+	if(ScreenShader.InstlledProgramIDs.size() == 0) //If not installed Install DEFAULT OR CUSTOM
 		ScreenShader.installShaders("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 
 	//======================
@@ -381,9 +386,14 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				//	GL_UNSIGNED_INT,
 				//	0
 				//);
-				if(ObjMR->Material->MTLTexIds.size() > 0)
-					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MTLTexIds[0]);
-				glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
+				if (ObjMR->Material->MTLTexIds.size() > 0) {
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MTLTexIds[0]); // NEEDS FIX FOR MULTIPLE TEX
+					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
+				}
+				else {
+					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
+				}
+	
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}

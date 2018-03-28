@@ -1,13 +1,11 @@
-﻿  WorldSpace.cpp
+﻿  WindowManager.cpp
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  WindowManager.cpp
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(115): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(136): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(309): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(309): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(415): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(415): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(120): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(141): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(314): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(314): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(425): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\windowmanager.cpp(425): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
   Main.cpp
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\camcontroller.hpp(72): warning C4305: '+=': truncation from 'double' to 'GLfloat'

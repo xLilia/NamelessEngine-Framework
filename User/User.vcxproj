@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{540A0BC8-D5C2-41B6-AA87-A17E560A64A2}</ProjectGuid>
+    <ProjectGuid>{3CDD01B4-9728-4E9F-A105-2908B351983A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>NamelessEngine</RootNamespace>
+    <RootNamespace>User</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -80,8 +80,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\include\GL;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\lib;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -93,7 +91,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,52 +141,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="AudioSource.cpp" />
-    <ClCompile Include="CameraObj.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GLError.cpp" />
-    <ClCompile Include="LightObject.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MaterialObj.cpp" />
-    <ClCompile Include="MeshObj.cpp" />
-    <ClCompile Include="MeshRenderer.cpp" />
-    <ClCompile Include="MTLfileReader.cpp" />
-    <ClCompile Include="OBJfileReader.cpp" />
-    <ClCompile Include="ShaderObj.cpp" />
-    <ClCompile Include="ShaderWizard.cpp" />
-    <ClCompile Include="NL_Time.cpp" />
-    <ClCompile Include="SkyboxObj.cpp" />
-    <ClCompile Include="TextureLoader.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="WindowManager.cpp" />
-    <ClCompile Include="WorldSpace.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AudioSource.h" />
-    <ClInclude Include="CamController.hpp" />
-    <ClInclude Include="CameraObj.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GLError.h" />
-    <ClInclude Include="LightObject.h" />
-    <ClInclude Include="MaterialObj.h" />
-    <ClInclude Include="MeshObj.h" />
-    <ClInclude Include="MeshRenderer.h" />
-    <ClInclude Include="MTLfileReader.h" />
-    <ClInclude Include="NL.hpp" />
-    <ClInclude Include="OBJfileReader.h" />
-    <ClInclude Include="NamelessCore.h" />
-    <ClInclude Include="SkyboxObj.h" />
-    <ClInclude Include="Script.h" />
-    <ClInclude Include="ShaderObj.h" />
-    <ClInclude Include="ShaderWizard.h" />
-    <ClInclude Include="NL_Time.h" />
-    <ClInclude Include="TemplateScript.hpp" />
-    <ClInclude Include="TextureLoader.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="WindowManager.h" />
-    <ClInclude Include="WorldSpace.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

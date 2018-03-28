@@ -5,13 +5,13 @@
 
 
 int main(){
-	_NL::Engine::WindowManager winMan("w1", 640, 480,false,true);
+	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
 	Audio->LoadAudioFile("deeplyMono.ogg");
-	Audio->Sound.play();
-	
+	//Audio->Sound.play();
+
 	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
 	_NL::Object::SkyboxObj* sky2= new _NL::Object::SkyboxObj();
 	_NL::Element::ShaderObj* SkyShade = new _NL::Element::ShaderObj("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
@@ -31,12 +31,44 @@ int main(){
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, .5);
 
 	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("cubeMT.obj");
+
+	//_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("CubeMT.mtl");
+	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj();
+	material1->Add_NewMaterial();
+	material1->Add_NewTexture("cyber-ground-emisiive.jpg");
+
+	material1->MTLData[0].MTL_ID = 0;
+	material1->MTLData[0].Ns = 100.0f; 
+	material1->MTLData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f); 
+	material1->MTLData[0].Ka = glm::vec3(0.5f); 
+	material1->MTLData[0].Ke = glm::vec3(0.0f); 
+	material1->MTLData[0].Ks = glm::vec3(0.5f); 
+
 	_NL::Element::MeshObj* YazM = new _NL::Element::MeshObj("YazarusTaxon.obj");
-	_NL::Element::MaterialObj* materialYT = new _NL::Element::MaterialObj("YazarusTaxon.mtl");
+	
+	_NL::Element::MaterialObj* materialYT = new _NL::Element::MaterialObj();
+	materialYT->Add_NewMaterial();
+	materialYT->Add_NewTexture("noTex.png");
+
+	materialYT->MTLData[0].MTL_ID = 0;
+	materialYT->MTLData[0].Ns = 96.0f;
+	materialYT->MTLData[0].Kd = glm::vec3(0.5f);
+	materialYT->MTLData[0].Ka = glm::vec3(0.5f);
+	materialYT->MTLData[0].Ke = glm::vec3(0.0f);
+	materialYT->MTLData[0].Ks = glm::vec3(0.0f);
+
+	materialYT->Add_NewMaterial();
+	materialYT->Add_NewTexture("noTex.png");
+
+	materialYT->MTLData[1].MTL_ID = 1;
+	materialYT->MTLData[1].Ns = 96.0f;
+	materialYT->MTLData[1].Kd = glm::vec3(1.0f);
+	materialYT->MTLData[1].Ka = glm::vec3(1.0f);
+	materialYT->MTLData[1].Ke = glm::vec3(0.0f);
+	materialYT->MTLData[1].Ks = glm::vec3(0.0f);
 
 	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("defaultvertexshader.glsl", "blueFrag.glsl");
-	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("CubeMT.mtl");
 
 	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
 	Yaz->addComponent(new _NL::Component::Transform);
@@ -147,7 +179,7 @@ int main(){
 	
 	scene1->showObjectList();
 	winMan.CurrentScene = scene1;
-	winMan.RunSceneLoop();
+	winMan.RunCurrentScene();
 
 	scene2->addObjectToWorld(Yaz);
 	scene2->addObjectToWorld(Tri);
@@ -161,7 +193,7 @@ int main(){
 	winMan.ClearColor = glm::vec3(0.3, 0.4, 0.5);
 	scene2->showObjectList();
 	winMan.CurrentScene = scene2;
-	winMan.RunSceneLoop();
+	winMan.RunCurrentScene();
 	return 0;
 }
 

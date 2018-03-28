@@ -77,7 +77,7 @@ void CamController::Update() {
 	//LOAD NEXT SCENE
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
 		std::cout << "Load next scene..." << std::endl;
-		W->bEndCurrentScene = true;
+		W->EndCurrentScene();
 	}
 
 	_this->updateAudioListenerWithCamTransform();
