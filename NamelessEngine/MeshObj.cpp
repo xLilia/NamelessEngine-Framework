@@ -1,15 +1,15 @@
-#include "MeshObj.h"
+#include "MeshInstance.h"
 
-_NL::Element::MeshObj::MeshObj()
+_NL::Element::MeshInstance::MeshInstance()
 {
 }
 
-_NL::Element::MeshObj::MeshObj(const char * filePath)
+_NL::Element::MeshInstance::MeshInstance(const char * filePath)
 {
 	LoadOBJFile(filePath);
 }
 
-int _NL::Element::MeshObj::LoadOBJFile(const char * filePath)
+int _NL::Element::MeshInstance::LoadOBJFile(const char * filePath)
 {
 	if (OBJF.LOAD(filePath) != 0) {
 		return -1;
@@ -20,11 +20,11 @@ int _NL::Element::MeshObj::LoadOBJFile(const char * filePath)
 	return 0;
 }
 
-std::string _NL::Element::MeshObj::ClassName() const
+std::string _NL::Element::MeshInstance::ClassName() const
 {
-	return "_NL::Element::MeshObj";
+	return "_NL::Element::MeshInstance";
 }
 
-_NL::Element::MeshObj::~MeshObj()
+_NL::Element::MeshInstance::~MeshInstance()
 {
 }

@@ -1,52 +1,36 @@
-#include "MaterialObj.h"
+#include "MaterialInstance.h"
 
-_NL::Element::MaterialObj::MaterialObj()
+_NL::Element::MaterialInstance::MaterialInstance()
 {
+
 }
 
-_NL::Element::MaterialObj::MaterialObj(const char * filePath)
+_NL::Element::MaterialInstance::MaterialInstance(const char * filePath)
 {
-	LoadMTLFile(filePath);
+	//LoadMTLFile(filePath);
 }
 
-int _NL::Element::MaterialObj::LoadMTLFile(const char * filePath)
+//int _NL::Element::MaterialInstance::LoadMTLFile(const char * filePath)
+//{
+//	if (MTLF.LOAD(filePath) != 0) {
+//		return -1;
+//	}
+//	MaterialInstanceData = MTLF.MTLD;
+//	MTLTexIds = MTLF.TL.GLTexIDs;
+//	MTLF.RESET();
+//	return 0;
+//}
+
+std::string _NL::Element::MaterialInstance::ClassName() const
 {
-	if (MTLF.LOAD(filePath) != 0) {
-		return -1;
-	}
-	MTLData = MTLF.MTLD;
-	MTLTexIds = MTLF.TL.GLTexIDs;
-	MTLF.RESET();
-	return 0;
+	return "_NL::Element::MaterialInstance";
 }
 
-std::string _NL::Element::MaterialObj::ClassName() const
+void _NL::Element::MaterialInstance::AddNew_Material()
 {
-	return "_NL::Element::MaterialObj";
+	this->MaterialInstanceData.push_back(_NL::Core::MaterialInstanceData());
 }
 
-void _NL::Element::MaterialObj::Add_NewMaterial()
-{
-	this->MTLData.push_back(_NL::Core::MTLdata());
-}
-
-void _NL::Element::MaterialObj::Add_NewTexture(const char* filePath, int mtlID) {
-	TextureLoader aTL;
-	aTL.GenerateTexure(filePath);
-
-	if (mtlID != -1) {
-		this->MTLTexIds[mtlID] = aTL.GLTexIDs[0];
-		aTL.RESET();
-	}
-	else {
-		int pos = MTLTexIds.size();
-		this->MTLTexIds.push_back(MTLTexIds.size());
-		this->MTLTexIds[pos] = aTL.GLTexIDs[0];
-		aTL.RESET();
-	}
-		
-}
-
-_NL::Element::MaterialObj::~MaterialObj()
+_NL::Element::MaterialInstance::~MaterialInstance()
 {
 }

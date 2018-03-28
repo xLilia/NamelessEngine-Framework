@@ -1,11 +1,11 @@
 #include "TextureLoader.h"
 
-TextureLoader::TextureLoader()
+_NL::Tools::TextureLoader::TextureLoader()
 {
 	
 }
 
-int TextureLoader::GenerateTexure(const char* filePath)
+int _NL::Tools::TextureLoader::GenerateTexure(const char* filePath)
 {
 
 	if (filePath != 0) {
@@ -35,7 +35,7 @@ int TextureLoader::GenerateTexure(const char* filePath)
 	return 0;
 }
 
-int TextureLoader::LoadImage(const char* filePath)
+int _NL::Tools::TextureLoader::LoadImage(const char* filePath)
 {
 	
 	if (!LoadedImage.loadFromFile(filePath)) {
@@ -46,12 +46,12 @@ int TextureLoader::LoadImage(const char* filePath)
 }
 
 
-void TextureLoader::RESET()
+void _NL::Tools::TextureLoader::RESET()
 {
 	GLTexIDs.clear();
 }
 
-TextureLoader::~TextureLoader() {
+_NL::Tools::TextureLoader::~TextureLoader() {
 	//glDeleteTextures(GLTexIDs.size(), &GLTexIDs[0]);
 }
 

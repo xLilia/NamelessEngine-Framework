@@ -1,9 +1,9 @@
 #pragma once
 #include "NamelessCore.h"
 #include "TextureLoader.h"
-#include "ShaderObj.h"
-#include "MeshObj.h"
-#include "MaterialObj.h"
+#include "ShaderInstance.h"
+#include "MeshInstance.h"
+#include "MaterialInstance.h"
 #include "GLError.h"
 
 namespace _NL {
@@ -32,9 +32,9 @@ namespace _NL {
 			GLuint vao; //Vertex Array Object
 			std::vector<GLfloat> VertsBuf;
 			std::vector<GLuint> IndicesBuf;
-			_NL::Element::MeshObj* Mesh;
-			_NL::Element::ShaderObj* Shader;
-			_NL::Element::MaterialObj* Material;
+			_NL::Element::MeshInstance* Mesh;
+			_NL::Element::ShaderInstance* Shader;
+			_NL::Element::MaterialInstance* Material;
 			///INFO
 			std::string ClassName() const override;
 			bool bIsUnpacked = false;

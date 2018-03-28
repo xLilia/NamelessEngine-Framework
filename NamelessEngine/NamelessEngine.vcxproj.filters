@@ -137,20 +137,11 @@
     <ClInclude Include="CameraObj.h">
       <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
-    <ClInclude Include="MeshObj.h">
-      <Filter>Header Files\Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderObj.h">
-      <Filter>Header Files\Elements</Filter>
-    </ClInclude>
     <ClInclude Include="NL_Time.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
     <ClInclude Include="MTLfileReader.h">
       <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="MaterialObj.h">
-      <Filter>Header Files\Elements</Filter>
     </ClInclude>
     <ClInclude Include="TextureLoader.h">
       <Filter>Header Files\Tools</Filter>
@@ -172,6 +163,15 @@
     </ClInclude>
     <ClInclude Include="CamController.hpp">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialInstance.h">
+      <Filter>Header Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshInstance.h">
+      <Filter>Header Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderInstance.h">
+      <Filter>Header Files\Elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

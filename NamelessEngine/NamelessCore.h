@@ -140,13 +140,16 @@ namespace _NL{
 			GLint MTL_ID;
 		};
 
-		struct MTLdata {
+		struct MaterialInstanceData {
 			GLfloat Ns;	  //Scalar
 			glm::vec3 Ka; //Ambient ColorRGB
 			glm::vec3 Kd; //Difuse ColorRGB
 			glm::vec3 Ks; //Specular ColorRGB
 			glm::vec3 Ke; //Emission ColorRGB
-
+			GLuint AlbedoTexId;
+			GLuint RoughnessTexId;
+			GLuint MetalnessTexId;
+			GLuint NormalTexId;
 			GLuint MTL_ID;
 		};
 

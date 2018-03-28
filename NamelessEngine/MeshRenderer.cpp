@@ -19,9 +19,9 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.z);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.r);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.g);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.b);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t);
 		IndicesBuf.push_back(vI.v[1] - 1);
@@ -31,9 +31,9 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.z);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.r);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.g);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.b);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t);
 		IndicesBuf.push_back(vI.v[2] - 1);
@@ -43,9 +43,9 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.z);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.r);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.g);
-		VertsBuf.push_back(Material->MTLData[vI.MTL_ID].Kd.b);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
+		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t);
 	}

@@ -4,12 +4,12 @@
 
 namespace _NL {
 	namespace Element {
-		class ShaderObj : public _NL::Core::Element
+		class ShaderInstance : public _NL::Core::Element
 		{
 		public:
-			ShaderObj();
-			ShaderObj(const char * VertexShader, const char * FragmentShader);
-			~ShaderObj();
+			ShaderInstance();
+			ShaderInstance(const char * VertexShader, const char * FragmentShader);
+			~ShaderInstance();
 
 			GLuint getShaderProgram() const;
 			void InstallShader(const char * VertexShader, const char * FragmentShader);

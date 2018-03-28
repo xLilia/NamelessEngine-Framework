@@ -1,5 +1,5 @@
 #pragma once
-#include "ShaderObj.h"
+#include "ShaderInstance.h"
 #include "GLError.h"
 #include "TextureLoader.h"
 
@@ -10,7 +10,7 @@ namespace _NL {
 		public:
 			SkyboxObj();
 			~SkyboxObj();
-			_NL::Element::ShaderObj* SkyboxShader;
+			_NL::Element::ShaderInstance* SkyboxShader;
 			const GLuint vPos_atrib = 0;
 			const GLuint CamProjection_matrix = 1;
 			const GLuint CamView_matrix = 2;
@@ -27,7 +27,7 @@ namespace _NL {
 			void RenderSkybox();
 
 		private:
-			TextureLoader TL;
+			_NL::Tools::TextureLoader TL;
 			void loadCubeSide(const char* file_name, GLenum gl_side_target);
 		};
 	}

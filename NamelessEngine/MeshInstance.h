@@ -4,12 +4,12 @@
 
 namespace _NL {
 	namespace Element {
-		class MeshObj : public _NL::Core::Element
+		class MeshInstance : public _NL::Core::Element
 		{
 		public:
-			MeshObj();
-			MeshObj(const char * filePath);
-			~MeshObj();
+			MeshInstance();
+			MeshInstance(const char * filePath);
+			~MeshInstance();
 
 			int LoadOBJFile(const char* filePath);
 			_NL::Core::MeshData MeshData;

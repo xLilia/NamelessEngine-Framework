@@ -4,8 +4,8 @@
 #include "CamController.hpp"
 
 
-int main(){
-	_NL::Engine::WindowManager winMan("w1", 640, 480,true,true);
+int main() {
+	_NL::Engine::WindowManager winMan("w1", 640, 480, true, true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -13,8 +13,8 @@ int main(){
 	//Audio->Sound.play();
 
 	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
-	_NL::Object::SkyboxObj* sky2= new _NL::Object::SkyboxObj();
-	_NL::Element::ShaderObj* SkyShade = new _NL::Element::ShaderObj("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
+	_NL::Object::SkyboxObj* sky2 = new _NL::Object::SkyboxObj();
+	_NL::Element::ShaderInstance* SkyShade = new _NL::Element::ShaderInstance("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
 	sky1->SkyboxShader = SkyShade;
 	sky2->SkyboxShader = SkyShade;
 	sky1->createCubeMap("sky2/ft.tga", "sky2/bk.tga", "sky2/up.tga", "sky2/dn.tga", "sky2/lf.tga", "sky2/rt.tga");
@@ -22,53 +22,53 @@ int main(){
 	//sky2->createCubeMap("grass.png", "grass.png", "grass.png", "grass.png", "grass.png", "grass.png");
 	scene1->Skybox = sky1;
 	scene2->Skybox = sky2;
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y,0,0,2,0.1,500,1);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 2, 0.1, 500, 1);
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->CreateScript(new CamController());
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
-	
+
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, .5);
 
-	_NL::Element::MeshObj* cubemesh = new _NL::Element::MeshObj("cubeMT.obj");
+	_NL::Element::MeshInstance* cubemesh = new _NL::Element::MeshInstance("cubeMT.obj");
 
-	//_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj("CubeMT.mtl");
-	_NL::Element::MaterialObj* material1 = new _NL::Element::MaterialObj();
-	material1->Add_NewMaterial();
-	material1->Add_NewTexture("cyber-ground-emisiive.jpg");
+	_NL::Tools::TextureLoader Textures;
+	Textures.GenerateTexure("space1.bmp");
+	Textures.GenerateTexure("noTex.png");
 
-	material1->MTLData[0].MTL_ID = 0;
-	material1->MTLData[0].Ns = 100.0f; 
-	material1->MTLData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f); 
-	material1->MTLData[0].Ka = glm::vec3(0.5f); 
-	material1->MTLData[0].Ke = glm::vec3(0.0f); 
-	material1->MTLData[0].Ks = glm::vec3(0.5f); 
+	_NL::Element::MaterialInstance* material1 = new _NL::Element::MaterialInstance();
+	material1->AddNew_Material();
+	material1->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
+	material1->MaterialInstanceData[0].MTL_ID = 0;
+	material1->MaterialInstanceData[0].Ns = 100.0f;
+	material1->MaterialInstanceData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f);
+	material1->MaterialInstanceData[0].Ka = glm::vec3(1.0f);
+	material1->MaterialInstanceData[0].Ke = glm::vec3(0.0f);
+	material1->MaterialInstanceData[0].Ks = glm::vec3(0.5f);
 
-	_NL::Element::MeshObj* YazM = new _NL::Element::MeshObj("YazarusTaxon.obj");
-	
-	_NL::Element::MaterialObj* materialYT = new _NL::Element::MaterialObj();
-	materialYT->Add_NewMaterial();
-	materialYT->Add_NewTexture("noTex.png");
+	_NL::Element::MeshInstance* YazM = new _NL::Element::MeshInstance("YazarusTaxon.obj");
 
-	materialYT->MTLData[0].MTL_ID = 0;
-	materialYT->MTLData[0].Ns = 96.0f;
-	materialYT->MTLData[0].Kd = glm::vec3(0.5f);
-	materialYT->MTLData[0].Ka = glm::vec3(0.5f);
-	materialYT->MTLData[0].Ke = glm::vec3(0.0f);
-	materialYT->MTLData[0].Ks = glm::vec3(0.0f);
+	_NL::Element::MaterialInstance* materialYT = new _NL::Element::MaterialInstance();
+	materialYT->AddNew_Material();
+	materialYT->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[0].MTL_ID = 0;
+	materialYT->MaterialInstanceData[0].Ns = 100.0f;
+	materialYT->MaterialInstanceData[0].Kd = glm::vec3(0.5f);
+	materialYT->MaterialInstanceData[0].Ka = glm::vec3(0.5f);
+	materialYT->MaterialInstanceData[0].Ke = glm::vec3(0.0f);
+	materialYT->MaterialInstanceData[0].Ks = glm::vec3(0.0f);
 
-	materialYT->Add_NewMaterial();
-	materialYT->Add_NewTexture("noTex.png");
+	materialYT->AddNew_Material();
+	materialYT->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[1].MTL_ID = 1;
+	materialYT->MaterialInstanceData[1].Ns = 100.0f;
+	materialYT->MaterialInstanceData[1].Kd = glm::vec3(1.0f);
+	materialYT->MaterialInstanceData[1].Ka = glm::vec3(1.0f);
+	materialYT->MaterialInstanceData[1].Ke = glm::vec3(0.0f);
+	materialYT->MaterialInstanceData[1].Ks = glm::vec3(0.0f);
 
-	materialYT->MTLData[1].MTL_ID = 1;
-	materialYT->MTLData[1].Ns = 96.0f;
-	materialYT->MTLData[1].Kd = glm::vec3(1.0f);
-	materialYT->MTLData[1].Ka = glm::vec3(1.0f);
-	materialYT->MTLData[1].Ke = glm::vec3(0.0f);
-	materialYT->MTLData[1].Ks = glm::vec3(0.0f);
-
-	_NL::Element::ShaderObj* defaultshader = new _NL::Element::ShaderObj("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	_NL::Element::ShaderObj* trishade = new _NL::Element::ShaderObj("defaultvertexshader.glsl", "blueFrag.glsl");
+	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
 
 	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
 	Yaz->addComponent(new _NL::Component::Transform);
@@ -106,7 +106,7 @@ int main(){
 	Tri->addComponent(new _NL::Component::Transform());
 	Tri->addComponent(new _NL::Component::MeshRenderer());
 	Tri->addComponent(new _NL::Component::Script<TemplateScript>);
-	Tri->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshObj("tri.obj");
+	Tri->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("tri.obj");
 	Tri->getComponent<_NL::Component::MeshRenderer>()->Shader = trishade;
 	Tri->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
 	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
@@ -116,8 +116,8 @@ int main(){
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
 	Quad->addComponent(new _NL::Component::MeshRenderer());
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshObj("quad.obj");
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderObj("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderInstance("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
 	
 	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");

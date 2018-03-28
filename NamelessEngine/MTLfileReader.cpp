@@ -24,7 +24,7 @@ int MTLfileReader::LOAD(const char * OBJpath) {
 			break;
 
 		if (std::strcmp(lineHeader, "newmtl") == 0) {
-			_NL::Core::MTLdata md;
+			_NL::Core::MaterialInstanceData md;
 			inMTLfile_counter++;
 			md.MTL_ID = inMTLfile_counter;
 			MTLD.push_back(md);
