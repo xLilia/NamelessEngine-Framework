@@ -7,7 +7,7 @@ _NL::Component::MeshRenderer::MeshRenderer()
 
 void _NL::Component::MeshRenderer::UnpackData() {
 	///UNPACK VERTEX DATA
-
+	
 	for each (_NL::Core::vIndices vI in Mesh->Indices)
 	{
 		if (vI.MTL_ID == -1)vI.MTL_ID = 0;
@@ -51,7 +51,7 @@ void _NL::Component::MeshRenderer::UnpackData() {
 	}
 	
 	bIsUnpacked = true;
-
+	
 	//for each(_NL::Core::VertexPos P in Mesh->MeshData.vPos) {
 	//	VertsBuf.push_back(P.Pos.x);
 	//	VertsBuf.push_back(P.Pos.y);
@@ -89,7 +89,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glCreateBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*VertsBuf.size(), &VertsBuf[0], GL_STATIC_DRAW);
-
+	
 	check_gl_error_full();
 
 	///STATIC ELEMENT BUFFER OBJ 

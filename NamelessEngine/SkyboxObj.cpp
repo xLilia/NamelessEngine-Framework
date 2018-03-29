@@ -84,8 +84,6 @@ void _NL::Object::SkyboxObj::createCubeMap(const char * front, const char * back
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glActiveTexture(0);
 	
 }
 
@@ -127,6 +125,8 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glUseProgram(0);
 	glDepthMask(GL_TRUE);
+	check_gl_error_full();
+	//glActiveTexture(0);
 	check_gl_error_full();
 }
 

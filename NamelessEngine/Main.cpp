@@ -5,7 +5,8 @@
 
 
 int main() {
-	_NL::Engine::WindowManager winMan("w1", 640, 480, true, true);
+	//check_gl_error_full();
+	_NL::Engine::WindowManager winMan("w1", 640, 480, false, true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -17,8 +18,22 @@ int main() {
 	_NL::Element::ShaderInstance* SkyShade = new _NL::Element::ShaderInstance("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
 	sky1->SkyboxShader = SkyShade;
 	sky2->SkyboxShader = SkyShade;
-	sky1->createCubeMap("sky2/ft.tga", "sky2/bk.tga", "sky2/up.tga", "sky2/dn.tga", "sky2/lf.tga", "sky2/rt.tga");
-	sky2->createCubeMap("sky1/fadeaway_ft.tga", "sky1/fadeaway_bk.tga", "sky1/fadeaway_up.tga", "sky1/fadeaway_dn.tga", "sky1/fadeaway_lf.tga", "sky1/fadeaway_rt.tga");
+	sky1->createCubeMap(
+		"sky2/ft.tga", 
+		"sky2/bk.tga",
+		"sky2/up.tga",
+		"sky2/dn.tga", 
+		"sky2/lf.tga", 
+		"sky2/rt.tga"
+	);
+	sky2->createCubeMap(
+		"sky1/fadeaway_ft.tga", 
+		"sky1/fadeaway_bk.tga", 
+		"sky1/fadeaway_up.tga", 
+		"sky1/fadeaway_dn.tga", 
+		"sky1/fadeaway_lf.tga", 
+		"sky1/fadeaway_rt.tga"
+	);
 	//sky2->createCubeMap("grass.png", "grass.png", "grass.png", "grass.png", "grass.png", "grass.png");
 	scene1->Skybox = sky1;
 	scene2->Skybox = sky2;
@@ -35,16 +50,14 @@ int main() {
 	_NL::Tools::TextureLoader Textures;
 	Textures.GenerateTexure("space1.bmp");
 	Textures.GenerateTexure("noTex.png");
+	Textures.GenerateTexure("starfield.jpg");
+
 
 	_NL::Element::MaterialInstance* material1 = new _NL::Element::MaterialInstance();
 	material1->AddNew_Material();
 	material1->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
 	material1->MaterialInstanceData[0].MTL_ID = 0;
-	material1->MaterialInstanceData[0].Ns = 100.0f;
 	material1->MaterialInstanceData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f);
-	material1->MaterialInstanceData[0].Ka = glm::vec3(1.0f);
-	material1->MaterialInstanceData[0].Ke = glm::vec3(0.0f);
-	material1->MaterialInstanceData[0].Ks = glm::vec3(0.5f);
 
 	_NL::Element::MeshInstance* YazM = new _NL::Element::MeshInstance("YazarusTaxon.obj");
 
@@ -52,23 +65,15 @@ int main() {
 	materialYT->AddNew_Material();
 	materialYT->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[1];
 	materialYT->MaterialInstanceData[0].MTL_ID = 0;
-	materialYT->MaterialInstanceData[0].Ns = 100.0f;
 	materialYT->MaterialInstanceData[0].Kd = glm::vec3(0.5f);
-	materialYT->MaterialInstanceData[0].Ka = glm::vec3(0.5f);
-	materialYT->MaterialInstanceData[0].Ke = glm::vec3(0.0f);
-	materialYT->MaterialInstanceData[0].Ks = glm::vec3(0.0f);
 
 	materialYT->AddNew_Material();
 	materialYT->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[1];
 	materialYT->MaterialInstanceData[1].MTL_ID = 1;
-	materialYT->MaterialInstanceData[1].Ns = 100.0f;
 	materialYT->MaterialInstanceData[1].Kd = glm::vec3(1.0f);
-	materialYT->MaterialInstanceData[1].Ka = glm::vec3(1.0f);
-	materialYT->MaterialInstanceData[1].Ke = glm::vec3(0.0f);
-	materialYT->MaterialInstanceData[1].Ks = glm::vec3(0.0f);
 
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
+	//_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
 
 	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
 	Yaz->addComponent(new _NL::Component::Transform);
@@ -107,7 +112,7 @@ int main() {
 	Tri->addComponent(new _NL::Component::MeshRenderer());
 	Tri->addComponent(new _NL::Component::Script<TemplateScript>);
 	Tri->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("tri.obj");
-	Tri->getComponent<_NL::Component::MeshRenderer>()->Shader = trishade;
+	Tri->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Tri->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
 	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Tri;
@@ -131,12 +136,10 @@ int main() {
 	Light->LightProperties.lightPosition.y = 0;
 	Light->LightProperties.lightPosition.z = 2;
 	Light->LightProperties.lightColor = glm::vec4(1, 0, 0, 1);
-	Light->LightProperties.radiusOfInfluence = 4;
 
 	Light2->LightProperties.lightPosition.y = 2;
 	Light2->LightProperties.lightPosition.z = 2;
 	Light2->LightProperties.lightColor = glm::vec4(1, 1, 1, 1);
-	Light2->LightProperties.radiusOfInfluence = 1;
 
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.x += 2;
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.z += 2;

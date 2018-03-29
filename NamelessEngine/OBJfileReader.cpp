@@ -2,6 +2,7 @@
 
 OBJfileReader::OBJfileReader()
 {
+
 }
 
 void OBJfileReader::RESET()
@@ -29,7 +30,7 @@ int OBJfileReader::LOAD(const char * OBJpath)
 			break;
 		
 		////Material
-		if (std::strcmp(lineHeader, "v") == 0) { 
+		if (std::strcmp(lineHeader, "v") == 0) {
 			_NL::Core::VertexPos v;
 			fscanf(file, "%f %f %f\n", 
 				&v.Pos.x, 

@@ -141,15 +141,18 @@ namespace _NL{
 		};
 
 		struct MaterialInstanceData {
-			GLfloat Ns;	  //Scalar
-			glm::vec3 Ka; //Ambient ColorRGB
+			///OLD MODEL
+			//GLfloat Ns;	  //Scalar
+			//glm::vec3 Ka; //Ambient ColorRGB
 			glm::vec3 Kd; //Difuse ColorRGB
-			glm::vec3 Ks; //Specular ColorRGB
-			glm::vec3 Ke; //Emission ColorRGB
+			//glm::vec3 Ks; //Specular ColorRGB
+			//glm::vec3 Ke; //Emission ColorRGB
+			///PBR MODEL
 			GLuint AlbedoTexId;
 			GLuint RoughnessTexId;
 			GLuint MetalnessTexId;
 			GLuint NormalTexId;
+			GLuint AmbientOculusionTexId;
 			GLuint MTL_ID;
 		};
 
@@ -158,6 +161,7 @@ namespace _NL{
 			std::vector<VertexCol> vCol;
 			std::vector<VertexNorm> vNorm;
 			std::vector<VertexTexCoord> vTexC;
+			std::vector<GLuint> MaterialStride;
 		};
 
 		struct transform {
@@ -186,8 +190,8 @@ namespace _NL{
 			glm::vec4 lightColor = glm::vec4(1, 1, 1, 1);
 			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
 			GLfloat PADDING0;
-			GLfloat radiusOfInfluence = 1;
-			glm::vec3 PADDING1;
+			//GLfloat radiusOfInfluence = 1;
+			//glm::vec3 PADDING1;
 			//glm::vec3 rotationAxis = glm::vec3(1, 0, 0);
 			//GLfloat rotationAngle = 45.0f;
 		};

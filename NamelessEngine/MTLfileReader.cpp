@@ -30,16 +30,16 @@ int MTLfileReader::LOAD(const char * OBJpath) {
 			MTLD.push_back(md);
 		}
 		else if (std::strcmp(lineHeader, "Ns") == 0) {
-			fscanf(file, "%f\n",
-				&MTLD[inMTLfile_counter].Ns
-			);
+			//fscanf(file, "%f\n",
+			//	&MTLD[inMTLfile_counter].Ns
+			//);
 		}
 		else if (std::strcmp(lineHeader, "Ka") == 0) {
-			fscanf(file, "%f %f %f\n",
-				&MTLD[inMTLfile_counter].Ka.x,
-				&MTLD[inMTLfile_counter].Ka.y,
-				&MTLD[inMTLfile_counter].Ka.z
-			);
+			//fscanf(file, "%f %f %f\n",
+			//	&MTLD[inMTLfile_counter].Ka.x,
+			//	&MTLD[inMTLfile_counter].Ka.y,
+			//	&MTLD[inMTLfile_counter].Ka.z
+			//);
 		}
 		else if (std::strcmp(lineHeader, "Kd") == 0) {
 			fscanf(file, "%f %f %f\n",
@@ -49,18 +49,18 @@ int MTLfileReader::LOAD(const char * OBJpath) {
 			);
 		}
 		else if (std::strcmp(lineHeader, "Ks") == 0) {
-			fscanf(file, "%f %f %f\n",
-				&MTLD[inMTLfile_counter].Ks.x,
-				&MTLD[inMTLfile_counter].Ks.y,
-				&MTLD[inMTLfile_counter].Ks.z
-			);
+			//fscanf(file, "%f %f %f\n",
+			//	&MTLD[inMTLfile_counter].Ks.x,
+			//	&MTLD[inMTLfile_counter].Ks.y,
+			//	&MTLD[inMTLfile_counter].Ks.z
+			//);
 		}
 		else if (std::strcmp(lineHeader, "Ke") == 0) {
-			fscanf(file, "%f %f %f\n",
-				&MTLD[inMTLfile_counter].Ke.x,
-				&MTLD[inMTLfile_counter].Ke.y,
-				&MTLD[inMTLfile_counter].Ke.z
-			);
+			//fscanf(file, "%f %f %f\n",
+			//	&MTLD[inMTLfile_counter].Ke.x,
+			//	&MTLD[inMTLfile_counter].Ke.y,
+			//	&MTLD[inMTLfile_counter].Ke.z
+			//);
 		}
 		else if (std::strcmp(lineHeader, "map_Kd") == 0) {
 			std::string texName;

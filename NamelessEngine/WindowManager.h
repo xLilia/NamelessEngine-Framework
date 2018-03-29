@@ -13,7 +13,7 @@ namespace _NL {
 		public:
 			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
 			~WindowManager();
-
+		
 			sf::Event Event;
 			sf::RenderWindow* window;
 			_NL::Engine::Time Time;
@@ -37,6 +37,8 @@ namespace _NL {
 			GLuint* FrameBuffer;
 			GLuint* ColorTexture;
 			GLuint* DepthTexture;
+			//GLuint QuadTexture_uniform = 0;
+			//GLuint QuadTexCoords_atrib = 0;
 			//GLuint* ColorRenderBuffer;
 			//GLuint* DepthRenderBuffer;
 

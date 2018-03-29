@@ -1,7 +1,7 @@
 #version 450 core  
 precision mediump float;
 
-uniform sampler2D fbo_texture;
+layout (location = 0) uniform sampler2D fbo_texture;
 
 in vec2 tex_coord;
 out vec4 fragColor;

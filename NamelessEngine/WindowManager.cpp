@@ -15,20 +15,24 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	window->setKeyRepeatEnabled(false);
 	sf::Keyboard::setVirtualKeyboardVisible(true);
 	glewInit();
+	//_toggle_gl_debug();
 }	
 
 void _NL::Engine::WindowManager::RunCurrentScene()
 {
-	Start();
 	
+	Start();
+
 	while (window->isOpen()) {
+		check_gl_error();
+
 		while (window->pollEvent(Event))
 		{
 			if (Event.type == Event.Closed) {
 				window->close();
 			}
 		}	
-
+		
 		//======================
 		//UPDATE SCRIPTS 
 		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
@@ -42,7 +46,7 @@ void _NL::Engine::WindowManager::RunCurrentScene()
 			bEndCurrentScene = false;
 			break;
 		}
-
+		
 		//======================
 		//UPDATE WINDOW 
 		updateWindow();
@@ -225,6 +229,8 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 
 void _NL::Engine::WindowManager::OpenGLStart()
 {
+	check_gl_error_full();
+
 	//======================
 	//SCREEN QUAD
 	if(ScreenShader.InstlledProgramIDs.size() == 0) //If not installed Install DEFAULT OR CUSTOM
@@ -297,6 +303,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 
 void _NL::Engine::WindowManager::Start()
 {
+	check_gl_error_full();
 	for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 	{
 		StartScriptsOfObj(obj);
@@ -317,7 +324,6 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 
 		//======================
 		//Update Light ubo;
-
 		if (Lights.size() > 0) {
 			glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
 			glBufferSubData(GL_UNIFORM_BUFFER,
@@ -337,12 +343,13 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 			CurrentScene->Skybox->RenderSkybox();
 			check_gl_error_full();
 		}
-
+		check_gl_error();
 		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
 		{
+			check_gl_error();
 			//======================
 			//COMPONENTS
-
+			
 			_NL::Component::MeshRenderer* ObjMR = obj->getComponent<_NL::Component::MeshRenderer>();
 			
 			//======================
@@ -361,12 +368,12 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 			//======================
 			//DEBUG
 			//======================
-		
+			
 			//OBJ RENDERING
 			if (ObjMR != NULL && ObjT != NULL && ObjT_P != NULL) {
-				
+			
 				glUseProgram(ObjMR->Shader->getShaderProgram());
-				
+
 				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
 
 				glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
@@ -374,22 +381,46 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				glm::mat4 S = glm::scale(glm::mat4(), ObjT->transform.scale) * glm::scale(glm::mat4(), ObjT_P->transform.scale);
 				glm::mat4 Modelmat = T * R * S;
 				
-				//glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
-				glUniformMatrix4fv(ObjMR->ModelMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Modelmat));
-				glUniformMatrix4fv(ObjMR->ViewMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
-				glUniformMatrix4fv(ObjMR->ProjectionMatrix_atrib, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
-				glBindVertexArray(ObjMR->vao);
+				//glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
+				glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Modelmat));
+				check_gl_error();
+				glUniformMatrix4fv(ObjMR->ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
+				check_gl_error();
+				glUniformMatrix4fv(ObjMR->ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+				check_gl_error();
 				///RENDER
 				//glDrawElements(
-				//	GL_LINE_LOOP,
+				//	GL_TRIANGLES,
 				//	ObjMR->Mesh->Indices.size() * 3,
 				//	GL_UNSIGNED_INT,
 				//	0
 				//);
+				glBindVertexArray(ObjMR->vao);
+				check_gl_error();
+				if(ObjMR->Material->MaterialInstanceData.size()>0)
+				for(int i = 0; i < ObjMR->Material->MaterialInstanceData.size(); i++)
+				{
+					check_gl_error();
+					glUniform1i(ObjMR->ALbedoTexture_uniform,	0);
+					//glUniform1i(ObjMR->RoughnessTexture_uniform,		1);
+					//glUniform1i(ObjMR->MetalnessTexture_uniform,		2);
+					//glUniform1i(ObjMR->NormalTexture_uniform,			3);
+					//glUniform1i(ObjMR->AmbientOculusionTexture_uniform, 4);
+					check_gl_error();
+					glActiveTexture(GL_TEXTURE0 + 0);
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
+					//glActiveTexture(GL_TEXTURE0 + 1);
+					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
+					//glActiveTexture(GL_TEXTURE0 + 2);
+					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
+					//glActiveTexture(GL_TEXTURE0 + 3);
+					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
+					//glActiveTexture(GL_TEXTURE0 + 4);
+					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
+					check_gl_error();
+					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3); //Fix Stride
+				}
 				
-				glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[0].AlbedoTexId); // NEEDS FIX FOR MULTIPLE TEX
-				glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3);
-	
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
@@ -417,7 +448,6 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 
 void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 {
-	
 	glViewport(Cameras[CamID]->Settings.RenderWindowPos.x, Cameras[CamID]->Settings.RenderWindowPos.y, Cameras[CamID]->Settings.RenderWindowSize.x, Cameras[CamID]->Settings.RenderWindowSize.y);
 	//glViewport(0, 0, window->getSize().x, window->getSize().y);
 	
@@ -426,9 +456,10 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 	_NL::Core::ScreenQuad q;
 	glUseProgram(ScreenShader.InstlledProgramIDs[0]);
 
-	GLuint uScreenQuadTexture = glGetUniformLocation(ScreenShader.InstlledProgramIDs[0], "fbo_texture");
-	GLuint aScreenQuadTexCoords = glGetAttribLocation(ScreenShader.InstlledProgramIDs[0], "texCoords");
+	GLuint uScreenQuadTexture = /* this->QuadTexture_uniform;//*/glGetUniformLocation(ScreenShader.InstlledProgramIDs[0], "fbo_texture");
 	glUniform1i(uScreenQuadTexture, 0);
+	GLuint aScreenQuadTexCoords =/* this->QuadTexCoords_atrib;//*/glGetAttribLocation(ScreenShader.InstlledProgramIDs[0], "texCoords");
+
 	check_gl_error();
 
 	glBindBuffer(GL_ARRAY_BUFFER,0);
@@ -438,7 +469,8 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_t);
 	glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
-
+	
+	glActiveTexture(0);
 	glUseProgram(0);
 	
 }
@@ -469,9 +501,9 @@ void _NL::Engine::WindowManager::updateWindow() {
 	
 	//======================
 	//UPDATE; 
-	check_gl_error();
 	if (Cameras.size() > 0) {
 		UpdateCurrentScene();
+		//check_gl_error();
 	}
 	Time.Tick();
 }
