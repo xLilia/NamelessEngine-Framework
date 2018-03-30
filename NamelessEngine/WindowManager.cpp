@@ -404,8 +404,8 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				{
 					check_gl_error();
 					glUniform1i(_NL::Core::ALbedoTexture_uniform,			0);
-					glUniform1i(_NL::Core::RoughnessTexture_uniform,			1);
-					glUniform1i(_NL::Core::MetalnessTexture_uniform,			2);
+					glUniform1i(_NL::Core::RoughnessTexture_uniform,		1);
+					glUniform1i(_NL::Core::MetalnessTexture_uniform,		2);
 					glUniform1i(_NL::Core::NormalTexture_uniform,			3);
 					glUniform1i(_NL::Core::AmbientOculusionTexture_uniform,	4);
 					check_gl_error();
@@ -420,7 +420,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 					glActiveTexture(GL_TEXTURE0 + 4);
 					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
 					check_gl_error();
-					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3); //Fix Stride
+					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3); 
 					check_gl_error();
 				}
 				

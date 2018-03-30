@@ -1,0 +1,236 @@
+#pragma once
+#include "NL.hpp"
+#include "TemplateScript.hpp"
+#include "CamController.hpp"
+
+
+int main() {
+	//check_gl_error_full();
+	_NL::Engine::WindowManager winMan("w1", 640, 480, true, true);
+	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
+	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
+	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
+	Audio->LoadAudioFile("deeplyMono.ogg");
+	//Audio->Sound.play();
+
+	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
+	_NL::Object::SkyboxObj* sky2 = new _NL::Object::SkyboxObj();
+	_NL::Element::ShaderInstance* SkyShade = new _NL::Element::ShaderInstance("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
+	sky1->SkyboxShader = SkyShade;
+	sky2->SkyboxShader = SkyShade;
+	sky1->createCubeMap(
+		"sky2/ft.tga", 
+		"sky2/bk.tga",
+		"sky2/up.tga",
+		"sky2/dn.tga", 
+		"sky2/lf.tga", 
+		"sky2/rt.tga"
+	);
+	sky2->createCubeMap(
+		"sky1/fadeaway_ft.tga", 
+		"sky1/fadeaway_bk.tga", 
+		"sky1/fadeaway_up.tga", 
+		"sky1/fadeaway_dn.tga", 
+		"sky1/fadeaway_lf.tga", 
+		"sky1/fadeaway_rt.tga"
+	);
+	//sky2->createCubeMap("grass.png", "grass.png", "grass.png", "grass.png", "grass.png", "grass.png");
+	scene1->Skybox = sky1;
+	scene2->Skybox = sky2;
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 2, 0.1, 500, 1);
+	MyCam->addComponent(new _NL::Component::Script<CamController>);
+	MyCam->getComponent<_NL::Component::Script<CamController>>()->CreateScript(new CamController());
+	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
+	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
+
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, .5);
+
+	_NL::Element::MeshInstance* cubemesh = new _NL::Element::MeshInstance("cubeMT.obj");
+
+	_NL::Tools::TextureLoader Textures;
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Albedo.png");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Normal.png");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Roughness.png");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Metal.png");
+
+
+	_NL::Element::MaterialInstance* material1 = new _NL::Element::MaterialInstance();
+	material1->AddNew_Material();
+	material1->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
+	material1->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
+	material1->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
+	material1->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
+	material1->MaterialInstanceData[0].MTL_ID = 0;
+	material1->MaterialInstanceData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f);
+
+	_NL::Element::MeshInstance* YazM = new _NL::Element::MeshInstance("YazarusTaxon.obj");
+
+	_NL::Element::MaterialInstance* materialYT = new _NL::Element::MaterialInstance();
+	materialYT->AddNew_Material();
+	materialYT->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
+	materialYT->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
+	materialYT->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
+	materialYT->MaterialInstanceData[0].MTL_ID = 0;
+	materialYT->MaterialInstanceData[0].Kd = glm::vec3(0.5f);
+
+	materialYT->AddNew_Material();
+	materialYT->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[0];
+	materialYT->MaterialInstanceData[1].RoughnessTexId = Textures.GLTexIDs[2];
+	materialYT->MaterialInstanceData[1].NormalTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[1].MetalnessTexId = Textures.GLTexIDs[3];
+	materialYT->MaterialInstanceData[1].MTL_ID = 1;
+	materialYT->MaterialInstanceData[1].Kd = glm::vec3(1.0f);
+
+	_NL::Element::MeshInstance* Spheremesh = new _NL::Element::MeshInstance("Sphere.obj");
+	_NL::Element::MaterialInstance* sphereMat = new _NL::Element::MaterialInstance();
+	sphereMat->AddNew_Material();
+	sphereMat->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
+	sphereMat->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
+	sphereMat->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
+	sphereMat->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
+	sphereMat->MaterialInstanceData[0].MTL_ID = 0;
+	sphereMat->MaterialInstanceData[0].Kd = glm::vec3(1.0f);
+
+	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	//_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
+
+	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
+	Sphere->addComponent(new _NL::Component::Transform);
+	Sphere->addComponent(new _NL::Component::MeshRenderer);
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = Spheremesh;
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = sphereMat;
+	Sphere->addComponent(new _NL::Component::Script<TemplateScript>);
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Sphere;
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+
+	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
+	Yaz->addComponent(new _NL::Component::Transform);
+	Yaz->addComponent(new _NL::Component::MeshRenderer);
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Mesh = YazM;
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Material = materialYT;
+
+	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("nameless");
+	Cube->addComponent(new _NL::Component::Transform);
+	Cube->addComponent(new _NL::Component::MeshRenderer);
+	Cube->addComponent(new _NL::Component::Script<TemplateScript>);
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = cubemesh;
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
+	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Cube;
+	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+
+	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("nameless1");
+	Cube2->addComponent(new _NL::Component::Transform);
+	Cube2->addComponent(new _NL::Component::MeshRenderer);
+	Cube2->getComponent<_NL::Component::MeshRenderer>()->Mesh = cubemesh;
+	Cube2->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Cube2->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+
+	_NL::Object::GameObject* Cube3 = new _NL::Object::GameObject("nameless1");
+	Cube3->addComponent(new _NL::Component::Transform);
+	Cube3->addComponent(new _NL::Component::MeshRenderer);
+	Cube3->getComponent<_NL::Component::MeshRenderer>()->Mesh = cubemesh;
+	Cube3->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Cube3->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+
+	_NL::Object::GameObject* Tri = new _NL::Object::GameObject("Tri");
+	Tri->addComponent(new _NL::Component::Transform());
+	Tri->addComponent(new _NL::Component::MeshRenderer());
+	Tri->addComponent(new _NL::Component::Script<TemplateScript>);
+	Tri->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("tri.obj");
+	Tri->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Tri->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
+	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Tri;
+	Tri->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+
+	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
+	Quad->addComponent(new _NL::Component::Transform());
+	Quad->addComponent(new _NL::Component::MeshRenderer());
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderInstance("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	
+	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
+	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
+	//Light->addComponent(new _NL::Component::MeshRenderer());
+	//Light->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
+	//Light->getComponent(_NL::Component::MeshRenderer())->Shader = trishade;
+	
+	Yaz->getComponent<_NL::Component::Transform>()->transform.position.y += 5;
+
+	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 4;
+
+	Light->LightProperties.lightPosition.y = 2;
+	Light->LightProperties.lightPosition.z = -2;
+	Light->LightProperties.lightColor = glm::vec4(1, 0, 0, 1);
+
+	Light2->LightProperties.lightPosition.y = 2;
+	Light2->LightProperties.lightPosition.z = 2;
+	Light2->LightProperties.lightColor = glm::vec4(1, 1, 1, 1);
+
+	Cube2->getComponent<_NL::Component::Transform>()->transform.position.x += 2;
+	Cube2->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
+	Cube2->getComponent<_NL::Component::Transform>()->transform.position.y += 2;
+	Cube2->getComponent<_NL::Component::Transform>()->transform.scale.y += 7;
+	Cube2->Parent = Cube;
+
+	Cube3->getComponent<_NL::Component::Transform>()->transform.position.x -= 2;
+	Cube3->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
+	Cube3->getComponent<_NL::Component::Transform>()->transform.position.y += 2;
+	Cube3->getComponent<_NL::Component::Transform>()->transform.scale.y += 7;
+	Cube3->Parent = Cube;
+	
+	_NL::Component::Transform* T = Tri->getComponent<_NL::Component::Transform>();
+	T->transform.scale *= .5;
+	T->transform.position.y += 2;
+	T->transform.position.z += 2;
+	T->transform.scale *= 1;
+	Tri->Parent = 0;
+
+	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 5;
+
+	MyCam->Transform.position.z += -1;
+	MyCam->Transform.position.y += 1;
+	//MyCam->Transform.LookAtCenter = MyCam->Transform.LookAtCenter +glm::vec3(0,-1.5,0);
+	MyCam2->Transform.position.z += -2;
+
+	//SETUP SCENE
+	
+	//scene1->addObjectToWorld(Yaz);
+	scene1->addObjectToWorld(Sphere);
+	scene1->addObjectToWorld(Quad);
+	scene1->addObjectToWorld(Cube);
+	//scene1->addObjectToWorld(Cube2);
+	//scene1->addObjectToWorld(Cube3);
+	scene1->addObjectToWorld(Tri);
+	scene1->addObjectToWorld(MyCam);
+	scene1->addObjectToWorld(Light);
+	//scene1->addObjectToWorld(Light2);
+	
+	scene1->showObjectList();
+	winMan.CurrentScene = scene1;
+	winMan.RunCurrentScene();
+
+	//scene2->addObjectToWorld(Yaz);
+	scene2->addObjectToWorld(Tri);
+	scene2->addObjectToWorld(Quad);
+	scene2->addObjectToWorld(MyCam);
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
+	Yaz->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
+	Tri->getComponent<_NL::Component::Transform>()->transform.scale *= 100;
+	Tri->getComponent<_NL::Component::Transform>()->transform.position.z = 10;
+	Tri->getComponent<_NL::Component::Transform>()->transform.position.y = 50;
+	winMan.ClearColor = glm::vec3(0.3, 0.4, 0.5);
+	scene2->showObjectList();
+	winMan.CurrentScene = scene2;
+	winMan.RunCurrentScene();
+	return 0;
+}
+

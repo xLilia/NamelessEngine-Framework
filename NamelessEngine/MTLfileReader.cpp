@@ -42,11 +42,11 @@ int MTLfileReader::LOAD(const char * OBJpath) {
 			//);
 		}
 		else if (std::strcmp(lineHeader, "Kd") == 0) {
-			fscanf(file, "%f %f %f\n",
-				&MTLD[inMTLfile_counter].Kd.x,
-				&MTLD[inMTLfile_counter].Kd.y,
-				&MTLD[inMTLfile_counter].Kd.z
-			);
+			//fscanf(file, "%f %f %f\n",
+			//	&MTLD[inMTLfile_counter].Kd.x,
+			//	&MTLD[inMTLfile_counter].Kd.y,
+			//	&MTLD[inMTLfile_counter].Kd.z
+			//);
 		}
 		else if (std::strcmp(lineHeader, "Ks") == 0) {
 			//fscanf(file, "%f %f %f\n",

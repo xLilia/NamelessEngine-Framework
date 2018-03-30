@@ -5,11 +5,39 @@ _NL::Component::MeshRenderer::MeshRenderer()
 
 }
 
+glm::vec3 calculateTangent(glm::vec3 pos0, glm::vec3 pos1, glm::vec3 pos2, glm::vec2 UV0, glm::vec2 UV1, glm::vec2 UV2) {
+	//TANGENT
+	glm::vec3 tangent;
+
+	//BITANGENT
+	//glm::vec3 bitangent;
+
+	glm::vec3 edge1 = pos1 - pos0;
+	glm::vec3 edge2 = pos2 - pos0;
+	glm::vec2 deltaUV1 = UV1 - UV0;
+	glm::vec2 deltaUV2 = UV2 - UV0;
+
+	float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+
+	tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
+	tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
+	tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+
+	//bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
+	//bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
+	//bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
+	//bitangent = glm::normalize(bitangent);
+
+	return glm::normalize(tangent);
+}
+
 void _NL::Component::MeshRenderer::UnpackData() {
 	///UNPACK VERTEX DATA
 	
 	for each (_NL::Core::vIndices vI in Mesh->Indices)
 	{
+		glm::vec3 Tangent;
+
 		if (vI.MTL_ID == -1)vI.MTL_ID = 0;
 		///!!!THIS CAN BE OPTIMIZED!!!\\\(not using indices) 
 		IndicesBuf.push_back(vI.v[0] - 1);
@@ -19,11 +47,20 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.z);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
+		Tangent = calculateTangent(
+			Mesh->MeshData.vPos[vI.v[0] - 1].Pos, 
+			Mesh->MeshData.vPos[vI.v[1] - 1].Pos, 
+			Mesh->MeshData.vPos[vI.v[2] - 1].Pos, 
+			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord, 
+			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord, 
+			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord
+			);
+		VertsBuf.push_back(Tangent.x);
+		VertsBuf.push_back(Tangent.y);
+		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t);
+
 		IndicesBuf.push_back(vI.v[1] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[1] - 1].Pos.x);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[1] - 1].Pos.y);
@@ -31,11 +68,20 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.z);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
+		Tangent = calculateTangent(
+			Mesh->MeshData.vPos[vI.v[1] - 1].Pos,
+			Mesh->MeshData.vPos[vI.v[0] - 1].Pos,
+			Mesh->MeshData.vPos[vI.v[2] - 1].Pos,
+			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord,
+			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord,
+			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord
+		);
+		VertsBuf.push_back(Tangent.x);
+		VertsBuf.push_back(Tangent.y);
+		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t);
+		
 		IndicesBuf.push_back(vI.v[2] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[2] - 1].Pos.x);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[2] - 1].Pos.y);
@@ -43,15 +89,33 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.z);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
-		VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
+		Tangent = calculateTangent(
+			Mesh->MeshData.vPos[vI.v[2] - 1].Pos,
+			Mesh->MeshData.vPos[vI.v[1] - 1].Pos,
+			Mesh->MeshData.vPos[vI.v[0] - 1].Pos,
+			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord,
+			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord,
+			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord
+		);
+		VertsBuf.push_back(Tangent.x);
+		VertsBuf.push_back(Tangent.y);
+		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.s);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t);
 	}
 	
 	bIsUnpacked = true;
-	
+
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.r);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.g);
+	//VertsBuf.push_back(Material->MaterialInstanceData[vI.MTL_ID].Kd.b);
+
 	//for each(_NL::Core::VertexPos P in Mesh->MeshData.vPos) {
 	//	VertsBuf.push_back(P.Pos.x);
 	//	VertsBuf.push_back(P.Pos.y);
@@ -104,7 +168,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glCreateVertexArrays(1, &vao);
 	glEnableVertexArrayAttrib(vao, _NL::Core::Pos_atrib);
 	glEnableVertexArrayAttrib(vao, _NL::Core::Norm_atrib);
-	glEnableVertexArrayAttrib(vao, _NL::Core::Col_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::Tangent_atrib);
 	glEnableVertexArrayAttrib(vao, _NL::Core::TexC_atrib);
 	check_gl_error_full();
 	
@@ -115,8 +179,8 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glVertexArrayAttribBinding(vao, _NL::Core::Norm_atrib, 0);
 	glVertexArrayAttribFormat(vao, _NL::Core::Norm_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3);
 
-	glVertexArrayAttribBinding(vao, _NL::Core::Col_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Col_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
+	glVertexArrayAttribBinding(vao, _NL::Core::Tangent_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::Tangent_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
 	
 	glVertexArrayAttribBinding(vao, _NL::Core::TexC_atrib, 0);
 	glVertexArrayAttribFormat(vao, _NL::Core::TexC_atrib, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9);
@@ -124,12 +188,10 @@ void _NL::Component::MeshRenderer::initGLObj()
 	check_gl_error_full();
 
 	///Confiugure Vertex Array and link Buffers
-	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 11); //11
+	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 11); 
 	//glVertexArrayElementBuffer(vao, ebo);
 
 	check_gl_error_full();
-
-
 }
 
 std::string _NL::Component::MeshRenderer::ClassName() const

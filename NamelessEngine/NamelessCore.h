@@ -13,7 +13,7 @@ namespace _NL{
 		///ATRIBUTES
 		const static GLuint Pos_atrib = 0;
 		const static GLuint Norm_atrib = 1;
-		const static GLuint Col_atrib = 2;
+		const static GLuint Tangent_atrib = 2;
 		const static GLuint TexC_atrib = 3;
 
 		///UNIFORMS
@@ -163,7 +163,7 @@ namespace _NL{
 			///OLD MODEL
 			//GLfloat Ns;	  //Scalar
 			//glm::vec3 Ka; //Ambient ColorRGB
-			glm::vec3 Kd; //Difuse ColorRGB
+			//glm::vec3 Kd; //Difuse ColorRGB
 			//glm::vec3 Ks; //Specular ColorRGB
 			//glm::vec3 Ke; //Emission ColorRGB
 			///PBR MODEL

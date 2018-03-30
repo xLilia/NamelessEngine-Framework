@@ -52,6 +52,17 @@ int main() {
 	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Normal.png");
 	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Roughness.png");
 	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Metal.png");
+	
+	Textures.GenerateTexure("rustediron-streaks2-Unreal-Engine/rustediron-streaks_basecolor.png");
+	Textures.GenerateTexure("rustediron-streaks2-Unreal-Engine/rustediron-streaks_Roughness.png");
+	Textures.GenerateTexure("rustediron-streaks2-Unreal-Engine/rustediron-streaks_metallic.png");
+	Textures.GenerateTexure("rustediron-streaks2-Unreal-Engine/rustediron-streaks_Normal.png");
+
+	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Base_Color.png");
+	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Roughness.png");
+	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Metallic.png");
+	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Normal-ue.png");
+	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Ambient_Occlusion.png");
 
 
 	_NL::Element::MaterialInstance* material1 = new _NL::Element::MaterialInstance();
@@ -60,27 +71,26 @@ int main() {
 	material1->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
 	material1->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
 	material1->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
+	material1->MaterialInstanceData[0].AmbientOculusionTexId = Textures.GLTexIDs[3];
 	material1->MaterialInstanceData[0].MTL_ID = 0;
-	material1->MaterialInstanceData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	_NL::Element::MeshInstance* YazM = new _NL::Element::MeshInstance("YazarusTaxon.obj");
 
-	_NL::Element::MaterialInstance* materialYT = new _NL::Element::MaterialInstance();
-	materialYT->AddNew_Material();
-	materialYT->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
-	materialYT->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
-	materialYT->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
-	materialYT->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
-	materialYT->MaterialInstanceData[0].MTL_ID = 0;
-	materialYT->MaterialInstanceData[0].Kd = glm::vec3(0.5f);
-
-	materialYT->AddNew_Material();
-	materialYT->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[0];
-	materialYT->MaterialInstanceData[1].RoughnessTexId = Textures.GLTexIDs[2];
-	materialYT->MaterialInstanceData[1].NormalTexId = Textures.GLTexIDs[1];
-	materialYT->MaterialInstanceData[1].MetalnessTexId = Textures.GLTexIDs[3];
-	materialYT->MaterialInstanceData[1].MTL_ID = 1;
-	materialYT->MaterialInstanceData[1].Kd = glm::vec3(1.0f);
+	_NL::Element::MaterialInstance* materialStone = new _NL::Element::MaterialInstance();
+	materialStone->AddNew_Material();
+	materialStone->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[4];
+	materialStone->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[5];
+	materialStone->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[6];
+	materialStone->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[7];
+	materialStone->MaterialInstanceData[0].AmbientOculusionTexId = Textures.GLTexIDs[12];
+	materialStone->MaterialInstanceData[0].MTL_ID = 0;
+	
+	materialStone->AddNew_Material();
+	materialStone->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[0];
+	materialStone->MaterialInstanceData[1].RoughnessTexId = Textures.GLTexIDs[2];
+	materialStone->MaterialInstanceData[1].NormalTexId = Textures.GLTexIDs[1];
+	materialStone->MaterialInstanceData[1].MetalnessTexId = Textures.GLTexIDs[3];
+	materialStone->MaterialInstanceData[1].MTL_ID = 1;
 
 	_NL::Element::MeshInstance* Spheremesh = new _NL::Element::MeshInstance("Sphere.obj");
 	
@@ -93,7 +103,7 @@ int main() {
 	Sphere->addComponent(new _NL::Component::MeshRenderer);
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = Spheremesh;
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = materialStone;
 	Sphere->addComponent(new _NL::Component::Script<TemplateScript>);
 	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Sphere;
@@ -104,7 +114,7 @@ int main() {
 	Yaz->addComponent(new _NL::Component::MeshRenderer);
 	Yaz->getComponent<_NL::Component::MeshRenderer>()->Mesh = YazM;
 	Yaz->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Yaz->getComponent<_NL::Component::MeshRenderer>()->Material = materialYT;
+	Yaz->getComponent<_NL::Component::MeshRenderer>()->Material = materialStone;
 
 	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("nameless");
 	Cube->addComponent(new _NL::Component::Transform);
@@ -147,10 +157,14 @@ int main() {
 	Quad->addComponent(new _NL::Component::MeshRenderer());
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderInstance("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = materialStone;
 	
 	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
+	_NL::Object::LightObject* Light3 = new _NL::Object::LightObject("Light3");
+	_NL::Object::LightObject* Light4 = new _NL::Object::LightObject("Light4");
+	_NL::Object::LightObject* Light5 = new _NL::Object::LightObject("Light5");
+	_NL::Object::LightObject* Light6 = new _NL::Object::LightObject("Light6");
 	//Light->addComponent(new _NL::Component::MeshRenderer());
 	//Light->getComponent(_NL::Component::MeshRenderer())->Mesh = cubemesh;
 	//Light->getComponent(_NL::Component::MeshRenderer())->Shader = trishade;
@@ -159,13 +173,29 @@ int main() {
 
 	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 4;
 
-	Light->LightProperties.lightPosition.y = 2;
+	Light->LightProperties.lightPosition.y = 8;
 	Light->LightProperties.lightPosition.x = -2;
-	Light->LightProperties.lightColor = glm::vec4(100, 100, 100, 1);
+	Light->LightProperties.lightColor = glm::vec4(10, 15, 15, 1);
 
-	Light2->LightProperties.lightPosition.y = 2;
+	Light2->LightProperties.lightPosition.y = 8;
 	Light2->LightProperties.lightPosition.x = 2;
-	Light2->LightProperties.lightColor = glm::vec4(100, 100, 100, 1);
+	Light2->LightProperties.lightColor = glm::vec4(15, 15, 10, 1);
+
+	Light3->LightProperties.lightPosition.y = 2;
+	Light3->LightProperties.lightPosition.x = 2;
+	Light3->LightProperties.lightColor = glm::vec4(15, 10, 10, 1);
+
+	Light4->LightProperties.lightPosition.y = 2;
+	Light4->LightProperties.lightPosition.x = -2;
+	Light4->LightProperties.lightColor = glm::vec4(10, 10, 15, 1);
+
+	Light5->LightProperties.lightPosition.y = 4;
+	Light5->LightProperties.lightPosition.z = -2;
+	Light5->LightProperties.lightColor = glm::vec4(10, 15, 10, 1);
+
+	Light6->LightProperties.lightPosition.y = 4;
+	Light6->LightProperties.lightPosition.z = 2;
+	Light6->LightProperties.lightColor = glm::vec4(15, 10, 15, 1);
 
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.x += 2;
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
@@ -200,12 +230,16 @@ int main() {
 	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(Cube);
-	//scene1->addObjectToWorld(Cube2);
-	//scene1->addObjectToWorld(Cube3);
+	scene1->addObjectToWorld(Cube2);
+	scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Tri);
 	scene1->addObjectToWorld(MyCam);
 	scene1->addObjectToWorld(Light);
 	scene1->addObjectToWorld(Light2);
+	scene1->addObjectToWorld(Light3);
+	scene1->addObjectToWorld(Light4);
+	//scene1->addObjectToWorld(Light5);
+	//scene1->addObjectToWorld(Light6);
 	
 	scene1->showObjectList();
 	winMan.CurrentScene = scene1;
