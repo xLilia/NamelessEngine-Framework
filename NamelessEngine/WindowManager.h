@@ -37,8 +37,7 @@ namespace _NL {
 			GLuint* FrameBuffer;
 			GLuint* ColorTexture;
 			GLuint* DepthTexture;
-			//GLuint QuadTexture_uniform = 0;
-			//GLuint QuadTexCoords_atrib = 0;
+
 			//GLuint* ColorRenderBuffer;
 			//GLuint* DepthRenderBuffer;
 

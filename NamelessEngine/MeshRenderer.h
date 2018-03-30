@@ -16,21 +16,6 @@ namespace _NL {
 
 			void initGLObj();
 
-			const  GLuint Pos_atrib = 0;
-			const  GLuint Norm_atrib = 1;
-			const  GLuint Col_atrib = 2;
-			const  GLuint TexC_atrib = 3;
-			//const static GLuint FullTransformMatrix_atrib = 4;
-			const  GLuint ModelMatrix_uniform = 4; //Model
-			const  GLuint ViewMatrix_uniform = 5; //View
-			const  GLuint ProjectionMatrix_uniform = 6; //projection
-			///TEXTURES
-			const  GLuint ALbedoTexture_uniform = 7;
-			const  GLuint RoughnessTexture_uniform = 8; 
-			const  GLuint MetalnessTexture_uniform = 9; 
-			const  GLuint NormalTexture_uniform = 10;
-			const  GLuint AmbientOculusionTexture_uniform = 11;
-
 			GLuint vbo; //Vertex Buffer Object
 			GLuint ebo;	//Element Buffer Object
 			GLuint vao; //Vertex Array Object

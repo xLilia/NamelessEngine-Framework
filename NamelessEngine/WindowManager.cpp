@@ -288,6 +288,7 @@ void _NL::Engine::WindowManager::OpenGLStart()
 	{
 		///DEPTH TEST
 		glEnable(GL_DEPTH_TEST);
+		glShadeModel(GL_SMOOTH);
 		//glDepthMask(GL_TRUE);
 		//glDepthFunc(GL_LEQUAL);
 		//glDepthRange(0.0f, 1.0f);
@@ -382,13 +383,14 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				glm::mat4 Modelmat = T * R * S;
 				
 				//glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
-				glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Modelmat));
-				check_gl_error();
-				glUniformMatrix4fv(ObjMR->ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
-				check_gl_error();
-				glUniformMatrix4fv(ObjMR->ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+				glUniformMatrix4fv(_NL::Core::ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Modelmat));
+				check_gl_error();  
+				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
+				check_gl_error();  
+				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
 				check_gl_error();
 				///RENDER
+				glUniform3f(_NL::Core::EyePos_uniform, Cam->Transform.position.x, Cam->Transform.position.y, Cam->Transform.position.z);
 				//glDrawElements(
 				//	GL_TRIANGLES,
 				//	ObjMR->Mesh->Indices.size() * 3,
@@ -401,24 +403,25 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				for(int i = 0; i < ObjMR->Material->MaterialInstanceData.size(); i++)
 				{
 					check_gl_error();
-					glUniform1i(ObjMR->ALbedoTexture_uniform,	0);
-					//glUniform1i(ObjMR->RoughnessTexture_uniform,		1);
-					//glUniform1i(ObjMR->MetalnessTexture_uniform,		2);
-					//glUniform1i(ObjMR->NormalTexture_uniform,			3);
-					//glUniform1i(ObjMR->AmbientOculusionTexture_uniform, 4);
+					glUniform1i(_NL::Core::ALbedoTexture_uniform,			0);
+					glUniform1i(_NL::Core::RoughnessTexture_uniform,			1);
+					glUniform1i(_NL::Core::MetalnessTexture_uniform,			2);
+					glUniform1i(_NL::Core::NormalTexture_uniform,			3);
+					glUniform1i(_NL::Core::AmbientOculusionTexture_uniform,	4);
 					check_gl_error();
 					glActiveTexture(GL_TEXTURE0 + 0);
 					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
-					//glActiveTexture(GL_TEXTURE0 + 1);
-					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
-					//glActiveTexture(GL_TEXTURE0 + 2);
-					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
-					//glActiveTexture(GL_TEXTURE0 + 3);
-					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
-					//glActiveTexture(GL_TEXTURE0 + 4);
-					//glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
+					glActiveTexture(GL_TEXTURE0 + 1);
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
+					glActiveTexture(GL_TEXTURE0 + 2);
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
+					glActiveTexture(GL_TEXTURE0 + 3);
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
+					glActiveTexture(GL_TEXTURE0 + 4);
+					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
 					check_gl_error();
 					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3); //Fix Stride
+					check_gl_error();
 				}
 				
 				glUseProgram(0);
@@ -470,9 +473,10 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 	glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
 	
-	glActiveTexture(0);
+	check_gl_error();
+
 	glUseProgram(0);
-	
+	check_gl_error();
 }
 
 void _NL::Engine::WindowManager::ClearCurrentBuffer()
@@ -488,10 +492,13 @@ void _NL::Engine::WindowManager::Display(GLuint CamID) {
 	
 	//======================
 	//DISPLAY
+	
 	glDisable(GL_DEPTH_TEST);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture[CamID]);
 	DrawScreenQuad(CamID);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	glActiveTexture(0);
 	glEnable(GL_DEPTH_TEST);
 	window->display();	
 

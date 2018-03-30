@@ -10,6 +10,25 @@
 namespace _NL{
 	namespace Core {
 
+		///ATRIBUTES
+		const static GLuint Pos_atrib = 0;
+		const static GLuint Norm_atrib = 1;
+		const static GLuint Col_atrib = 2;
+		const static GLuint TexC_atrib = 3;
+
+		///UNIFORMS
+		const static GLuint EyePos_uniform = 4;
+		const static GLuint ModelMatrix_uniform = 5; //Model
+		const static GLuint ViewMatrix_uniform = 6; //View
+		const static GLuint ProjectionMatrix_uniform = 7; //projection
+		
+		///TEXTURES[0-4]
+		const static GLuint ALbedoTexture_uniform = 8;
+		const static GLuint RoughnessTexture_uniform = 9;
+		const static GLuint MetalnessTexture_uniform = 10;
+		const static GLuint NormalTexture_uniform = 11;
+		const static GLuint AmbientOculusionTexture_uniform = 12;
+
 		//======================
 		/*CPPscript*/
 		class CppScript 

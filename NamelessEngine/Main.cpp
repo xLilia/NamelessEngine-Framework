@@ -6,7 +6,7 @@
 
 int main() {
 	//check_gl_error_full();
-	_NL::Engine::WindowManager winMan("w1", 640, 480, false, true);
+	_NL::Engine::WindowManager winMan("w1", 640, 480, true, true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -48,14 +48,18 @@ int main() {
 	_NL::Element::MeshInstance* cubemesh = new _NL::Element::MeshInstance("cubeMT.obj");
 
 	_NL::Tools::TextureLoader Textures;
-	Textures.GenerateTexure("space1.bmp");
-	Textures.GenerateTexure("noTex.png");
-	Textures.GenerateTexure("starfield.jpg");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Albedo.png");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Normal.png");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Roughness.png");
+	Textures.GenerateTexure("greasy-pan-2-Unreal-Engine/greasy-pan-2-Unreal-Engine/greasy-pan-2-Metal.png");
 
 
 	_NL::Element::MaterialInstance* material1 = new _NL::Element::MaterialInstance();
 	material1->AddNew_Material();
 	material1->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
+	material1->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
+	material1->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
+	material1->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
 	material1->MaterialInstanceData[0].MTL_ID = 0;
 	material1->MaterialInstanceData[0].Kd = glm::vec3(1.0f, 1.0f, 1.0f);
 
@@ -63,17 +67,37 @@ int main() {
 
 	_NL::Element::MaterialInstance* materialYT = new _NL::Element::MaterialInstance();
 	materialYT->AddNew_Material();
-	materialYT->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
+	materialYT->MaterialInstanceData[0].RoughnessTexId = Textures.GLTexIDs[2];
+	materialYT->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[0].MetalnessTexId = Textures.GLTexIDs[3];
 	materialYT->MaterialInstanceData[0].MTL_ID = 0;
 	materialYT->MaterialInstanceData[0].Kd = glm::vec3(0.5f);
 
 	materialYT->AddNew_Material();
-	materialYT->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[0];
+	materialYT->MaterialInstanceData[1].RoughnessTexId = Textures.GLTexIDs[2];
+	materialYT->MaterialInstanceData[1].NormalTexId = Textures.GLTexIDs[1];
+	materialYT->MaterialInstanceData[1].MetalnessTexId = Textures.GLTexIDs[3];
 	materialYT->MaterialInstanceData[1].MTL_ID = 1;
 	materialYT->MaterialInstanceData[1].Kd = glm::vec3(1.0f);
 
+	_NL::Element::MeshInstance* Spheremesh = new _NL::Element::MeshInstance("Sphere.obj");
+	
+
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
 	//_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
+
+	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
+	Sphere->addComponent(new _NL::Component::Transform);
+	Sphere->addComponent(new _NL::Component::MeshRenderer);
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = Spheremesh;
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	Sphere->addComponent(new _NL::Component::Script<TemplateScript>);
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Sphere;
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 
 	_NL::Object::GameObject* Yaz = new _NL::Object::GameObject("YazarusTaxon");
 	Yaz->addComponent(new _NL::Component::Transform);
@@ -133,13 +157,15 @@ int main() {
 	
 	Yaz->getComponent<_NL::Component::Transform>()->transform.position.y += 5;
 
-	Light->LightProperties.lightPosition.y = 0;
-	Light->LightProperties.lightPosition.z = 2;
-	Light->LightProperties.lightColor = glm::vec4(1, 0, 0, 1);
+	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 4;
+
+	Light->LightProperties.lightPosition.y = 2;
+	Light->LightProperties.lightPosition.x = -2;
+	Light->LightProperties.lightColor = glm::vec4(100, 100, 100, 1);
 
 	Light2->LightProperties.lightPosition.y = 2;
-	Light2->LightProperties.lightPosition.z = 2;
-	Light2->LightProperties.lightColor = glm::vec4(1, 1, 1, 1);
+	Light2->LightProperties.lightPosition.x = 2;
+	Light2->LightProperties.lightColor = glm::vec4(100, 100, 100, 1);
 
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.x += 2;
 	Cube2->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
@@ -170,21 +196,22 @@ int main() {
 
 	//SETUP SCENE
 	
-	scene1->addObjectToWorld(Yaz);
+	//scene1->addObjectToWorld(Yaz);
+	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(Cube);
-	scene1->addObjectToWorld(Cube2);
-	scene1->addObjectToWorld(Cube3);
+	//scene1->addObjectToWorld(Cube2);
+	//scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Tri);
 	scene1->addObjectToWorld(MyCam);
 	scene1->addObjectToWorld(Light);
-	//scene1->addObjectToWorld(Light2);
+	scene1->addObjectToWorld(Light2);
 	
 	scene1->showObjectList();
 	winMan.CurrentScene = scene1;
 	winMan.RunCurrentScene();
 
-	scene2->addObjectToWorld(Yaz);
+	//scene2->addObjectToWorld(Yaz);
 	scene2->addObjectToWorld(Tri);
 	scene2->addObjectToWorld(Quad);
 	scene2->addObjectToWorld(MyCam);

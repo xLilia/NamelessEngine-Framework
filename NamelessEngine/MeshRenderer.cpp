@@ -102,24 +102,24 @@ void _NL::Component::MeshRenderer::initGLObj()
 	///GL BUFFERS && ARRAYS
 	///Init Vertex Arrays
 	glCreateVertexArrays(1, &vao);
-	glEnableVertexArrayAttrib(vao, Pos_atrib);
-	glEnableVertexArrayAttrib(vao, Norm_atrib);
-	glEnableVertexArrayAttrib(vao, Col_atrib);
-	glEnableVertexArrayAttrib(vao, TexC_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::Pos_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::Norm_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::Col_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::TexC_atrib);
 	check_gl_error_full();
 	
 	///Set Vertex Arrays Format
-	glVertexArrayAttribBinding(vao, Pos_atrib, 0);
-	glVertexArrayAttribFormat(vao, Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
+	glVertexArrayAttribBinding(vao, _NL::Core::Pos_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
 
-	glVertexArrayAttribBinding(vao, Norm_atrib, 0);
-	glVertexArrayAttribFormat(vao, Norm_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3);
+	glVertexArrayAttribBinding(vao, _NL::Core::Norm_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::Norm_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3);
 
-	glVertexArrayAttribBinding(vao, Col_atrib, 0);
-	glVertexArrayAttribFormat(vao, Col_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
+	glVertexArrayAttribBinding(vao, _NL::Core::Col_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::Col_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
 	
-	glVertexArrayAttribBinding(vao, TexC_atrib, 0);
-	glVertexArrayAttribFormat(vao, TexC_atrib, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9);
+	glVertexArrayAttribBinding(vao, _NL::Core::TexC_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::TexC_atrib, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9);
 
 	check_gl_error_full();
 
