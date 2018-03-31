@@ -11,12 +11,11 @@ namespace _NL {
 			TextureLoader();
 			~TextureLoader();
 			int LoadImage(const char* filePath);
-			int GenerateTexure(const char* filePath = 0);
+			GLuint GenerateTexure(const char* filePath, bool bSaveToTexIDs = true);
 			void RESET();
-			sf::Image LoadedImage;
+			sf::Image LoadedTexture;
 			std::vector<GLuint> GLTexIDs;
 		};
-
 	}
 }
 

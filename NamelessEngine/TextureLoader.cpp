@@ -5,7 +5,7 @@ _NL::Tools::TextureLoader::TextureLoader()
 	
 }
 
-int _NL::Tools::TextureLoader::GenerateTexure(const char* filePath)
+GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSaveToTexIDs)
 {
 
 	if (filePath != 0) {
@@ -15,30 +15,30 @@ int _NL::Tools::TextureLoader::GenerateTexure(const char* filePath)
 	GLuint GLTexID;
 	glCreateTextures(GL_TEXTURE_2D, 1, &GLTexID);
 	glBindTexture(GL_TEXTURE_2D, GLTexID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
 		GL_RGBA,
-		LoadedImage.getSize().x,
-		LoadedImage.getSize().y,
+		LoadedTexture.getSize().x,
+		LoadedTexture.getSize().y,
 		0,
 		GL_RGBA,
 		GL_UNSIGNED_BYTE,
-		LoadedImage.getPixelsPtr());
+		LoadedTexture.getPixelsPtr());
 	glGenerateMipmap(GLTexID);
-	GLTexIDs.push_back(GLTexID);
-
-	return 0;
+	if(bSaveToTexIDs)
+		GLTexIDs.push_back(GLTexID);
+	return GLTexID;
 }
 
 int _NL::Tools::TextureLoader::LoadImage(const char* filePath)
 {
 	
-	if (!LoadedImage.loadFromFile(filePath)) {
+	if (!LoadedTexture.loadFromFile(filePath)) {
 		return -1;
 		std::cout << "ERROR: FAILED TO LOAD: " << filePath << std::endl;
 	}

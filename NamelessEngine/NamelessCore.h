@@ -1,5 +1,5 @@
 #pragma once
-
+#define NL_PI 3.1415926535897932384626433832795
 ///ExternalLibs
 #include<GL\glew.h>
 #include <glm\glm.hpp>
@@ -186,7 +186,7 @@ namespace _NL{
 		struct transform {
 			glm::vec3 position;
 			glm::vec3 EulerRotation;
-			glm::mat4 MatrixRotation;
+			glm::mat4 RotationMatrix;
 			glm::vec3 scale;
 		};
 
@@ -206,11 +206,12 @@ namespace _NL{
 		};
 
 		struct LightProperties {
-			glm::vec4 lightColor = glm::vec4(1, 1, 1, 1);
-			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
+			glm::vec3 lightColor = glm::vec3(1, 1, 1);
 			GLfloat PADDING0;
+			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
+			GLfloat PADDING1;
 			//GLfloat radiusOfInfluence = 1;
-			//glm::vec3 PADDING1;
+			
 			//glm::vec3 rotationAxis = glm::vec3(1, 0, 0);
 			//GLfloat rotationAngle = 45.0f;
 		};

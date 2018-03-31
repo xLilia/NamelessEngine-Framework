@@ -17,6 +17,7 @@ namespace _NL {
 			sf::Event Event;
 			sf::RenderWindow* window;
 			_NL::Engine::Time Time;
+			GLfloat RenderExposure = 1.0;
 			glm::vec3 ClearColor;
 			_NL::Engine::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
@@ -32,12 +33,14 @@ namespace _NL {
 
 			GLuint LightsBlockUBO;
 			GLuint uIndexLightsBlock = 0;
+
 			ShaderWizard ScreenShader;
-			
+			GLuint uRenderExposure = 1;
+
 			GLuint* FrameBuffer;
 			GLuint* ColorTexture;
 			GLuint* DepthTexture;
-
+			
 			//GLuint* ColorRenderBuffer;
 			//GLuint* DepthRenderBuffer;
 
@@ -48,7 +51,7 @@ namespace _NL {
 			void UpdateCurrentScene();
 			void DrawScreenQuad(GLuint CamID);
 			void ClearCurrentBuffer();
-			void Display(GLuint CamID);
+			void RenderToScreen(GLuint CamID);
 		
 			void UpdateScriptsOfObj(_NL::Core::Object* obj);
 			void StartScriptsOfObj(_NL::Core::Object* obj);

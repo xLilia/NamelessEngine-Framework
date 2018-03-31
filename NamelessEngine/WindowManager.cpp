@@ -115,12 +115,12 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 			glTexImage2D(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGBA,
+				GL_RGBA32F, //high dynamic range (HDR) capable
 				Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio,
 				Cam->Settings.RenderWindowSize.y *  Cam->Settings.RenderScaleRatio,
 				0,
 				GL_RGBA,
-				GL_UNSIGNED_BYTE,
+				GL_FLOAT,
 				NULL);
 			check_gl_error_full();
 		}
@@ -378,11 +378,11 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
 
 				glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
-				glm::mat4 R = ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation;
+				glm::mat4 R = ObjT->transform.RotationMatrix * ObjT_P->transform.RotationMatrix;
 				glm::mat4 S = glm::scale(glm::mat4(), ObjT->transform.scale) * glm::scale(glm::mat4(), ObjT_P->transform.scale);
 				glm::mat4 Modelmat = T * R * S;
 				
-				//glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.MatrixRotation * ObjT_P->transform.MatrixRotation * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
+				//glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.RotationMatrix * ObjT_P->transform.RotationMatrix * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
 				glUniformMatrix4fv(_NL::Core::ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Modelmat));
 				check_gl_error();  
 				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
@@ -433,7 +433,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		ClearCurrentBuffer();
-		Display(CamID);
+		RenderToScreen(CamID);
 		CamID++;
 
 	}
@@ -470,6 +470,9 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 
 	glEnableVertexAttribArray(aScreenQuadTexCoords);
 	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_t);
+	
+	///Uniforms
+	glUniform1f(uRenderExposure,RenderExposure);
 	glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
 	
@@ -488,7 +491,7 @@ void _NL::Engine::WindowManager::ClearCurrentBuffer()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void _NL::Engine::WindowManager::Display(GLuint CamID) {
+void _NL::Engine::WindowManager::RenderToScreen(GLuint CamID) {
 	
 	//======================
 	//DISPLAY
@@ -496,7 +499,7 @@ void _NL::Engine::WindowManager::Display(GLuint CamID) {
 	glDisable(GL_DEPTH_TEST);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture[CamID]);
-	DrawScreenQuad(CamID);
+	DrawScreenQuad(CamID); //add custom shader func
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glActiveTexture(0);
 	glEnable(GL_DEPTH_TEST);

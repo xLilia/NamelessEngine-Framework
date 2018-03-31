@@ -190,6 +190,14 @@
     <ClInclude Include="WindowManager.h" />
     <ClInclude Include="WorldSpace.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="defaultfragmentshader.glsl" />
+    <None Include="defaultvertexshader.glsl" />
+    <None Include="screenQuadFshader.glsl" />
+    <None Include="screenQuadVshader.glsl" />
+    <None Include="SkyboxDefaultFragshader.glsl" />
+    <None Include="SkyboxDefaultVertshader.glsl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

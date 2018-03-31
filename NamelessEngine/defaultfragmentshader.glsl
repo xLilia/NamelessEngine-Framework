@@ -2,7 +2,7 @@
 
 //======================= DATA =========================
 
-#define M_PI 3.1415926535897932384626433832795
+#define NL_PI 3.1415926535897932384626433832795
 const int NR_LIGHTS = 6;
 
 in vec3 fragPos;
@@ -18,7 +18,7 @@ layout (location=11) uniform sampler2D NormalTexture;
 layout (location=12) uniform sampler2D AmbientOculusionTexture;
 
 struct LightProperties {
-	vec4 lightColor;
+	vec3 lightColor;
 	vec3 lightPosition;
 };
 
@@ -43,7 +43,7 @@ float NDF_GGXTR(vec3 N, vec3 H, float a){
 	
 	float nom = a2;
 	float denom = (NdotH2 * (a2 - 1.0) + 1.0);
-	denom = M_PI * denom * denom;
+	denom = NL_PI * denom * denom;
 	
 	return nom / denom;
 }
@@ -135,7 +135,7 @@ void main(){
 		//Light Radiance
 		float distance    = length(light[i].lightPosition - fragPos);
 		float attenuation = 1.0 / (distance * distance);
-		vec3 radiance     = light[i].lightColor.rgb * attenuation; 
+		vec3 radiance     = light[i].lightColor * attenuation; 
 
 		// Cook-Torrance BRDF //
 
@@ -143,7 +143,7 @@ void main(){
 			float NDF = NDF_GGXTR(N, H, roughnessMap);
 
 			//Geometry Function
-			float G	  = GeometrySmith(N, V, L, roughnessMap,0);
+			float G	  = GeometrySmith(N, V, L, roughnessMap,1);
 
 			//Fresnel Function
 			vec3 F	  = FresnelSchlick(max(dot(H, N), 0.0), F0_IOR);
@@ -160,7 +160,7 @@ void main(){
 			vec3 specular     = numerator / max(denominator, 0.001);  
 
 		// add to outgoing radiance to Lo          
-		Lo += (kD * albedoMap / M_PI + specular) * radiance * NdotL; 
+		Lo += (kD * albedoMap / NL_PI + specular) * radiance * NdotL; 
 	}
 
 	//Improvised Ambient Light
@@ -168,10 +168,6 @@ void main(){
    
 	//Final Color with ambient
 	vec3 color = ambient + Lo;
-	
-	//High Dynamic Range (HDR) Gama Correction
-	color = color / (color + vec3(1.0));
-	color = pow(color, vec3(1.0/2.2));  
    
 	//OUT FRAG!
     FragColor = vec4(color, 1.0);

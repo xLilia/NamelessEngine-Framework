@@ -26,7 +26,7 @@ out vec3 vTangentEyePos;
 out vec3 vTangentFragPos;
 
 struct LightProperties {
-	vec4 lightColor;
+	vec3 lightColor;
 	vec3 lightPosition;
 };
 

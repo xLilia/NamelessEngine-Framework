@@ -17,6 +17,8 @@ namespace _NL {
 			GLuint vao;
 			GLuint vbo;
 			GLuint CubeTex;
+			GLuint HDR_EnvironmentTex;
+			void createHDREnvironmentMap(const char* file_path);
 			void createCubeMap(
 				const char* front,
 				const char* back,
@@ -28,7 +30,8 @@ namespace _NL {
 
 		private:
 			_NL::Tools::TextureLoader TL;
-			void loadCubeSide(const char* file_name, GLenum gl_side_target);
+			void loadCubeSide(const char* file_path, GLenum gl_side_target);
+			
 		};
 	}
 }

@@ -17,13 +17,24 @@ void TemplateScript::Start(){
 }
 
 void TemplateScript::Update() {
+	float t = W->Time.DeltaTime.asSeconds();
+
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ) {
 		//T->transform.position += W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand()/10000, std::rand() / 10000, std::rand() / 10000);
 		//T->transform.position -= W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand() / 10000, std::rand() / 10000, std::rand() / 10000);
-		T->Rotate(0, 0.01, 0);
+		T->EulerRotation(0, t * .5, 0);
 		s += 0.0001f;
 		//std::cout << s;
-		//T->transform.position.y += s;
+		T->transform.position.y += glm::cos(s);
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			W->RenderExposure += 0.01;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			W->RenderExposure -= 0.01;
+		}
+	}
+	
 }

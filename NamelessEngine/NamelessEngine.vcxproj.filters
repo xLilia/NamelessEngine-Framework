@@ -174,4 +174,12 @@
       <Filter>Header Files\Elements</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="defaultvertexshader.glsl" />
+    <None Include="defaultfragmentshader.glsl" />
+    <None Include="SkyboxDefaultVertshader.glsl" />
+    <None Include="SkyboxDefaultFragshader.glsl" />
+    <None Include="screenQuadVshader.glsl" />
+    <None Include="screenQuadFshader.glsl" />
+  </ItemGroup>
 </Project>

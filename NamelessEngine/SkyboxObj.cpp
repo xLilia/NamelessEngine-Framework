@@ -64,6 +64,10 @@ _NL::Object::SkyboxObj::SkyboxObj()
 
 }
 
+void _NL::Object::SkyboxObj::createHDREnvironmentMap(const char * file_path)
+{
+	HDR_EnvironmentTex = this->TL.GenerateTexure(file_path,false);
+}
 
 void _NL::Object::SkyboxObj::createCubeMap(const char * front, const char * back, const char * top, const char * bottom, const char * left, const char * right)
 {
@@ -87,19 +91,19 @@ void _NL::Object::SkyboxObj::createCubeMap(const char * front, const char * back
 	
 }
 
-void _NL::Object::SkyboxObj::loadCubeSide(const char * file_name, GLenum gl_side_target)
+void _NL::Object::SkyboxObj::loadCubeSide(const char * file_path, GLenum gl_side_target)
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, CubeTex);
-	if (TL.LoadImage(file_name) != 0) {
+	if (TL.LoadImage(file_path) != 0) {
 		fprintf(stderr,
 			"WARNING: image %s not Loaded\n",
-			file_name);
+			file_path);
 	}
-	sf::Vector2u pxs = TL.LoadedImage.getSize();
+	sf::Vector2u pxs = TL.LoadedTexture.getSize();
 	if ((pxs.x & (pxs.x - 1)) != 0 || (pxs.y & (pxs.y - 1)) != 0) {
 		fprintf(stderr,
 			"WARNING: image %s is not power-of-2 dimensions\n",
-			file_name);
+			file_path);
 	}
 	// copy image data into 'target' side of cube map
 	glTexImage2D(
@@ -111,7 +115,7 @@ void _NL::Object::SkyboxObj::loadCubeSide(const char * file_name, GLenum gl_side
 		0,
 		GL_RGBA,
 		GL_UNSIGNED_BYTE,	
-		TL.LoadedImage.getPixelsPtr());
+		TL.LoadedTexture.getPixelsPtr());
 }
 
 void _NL::Object::SkyboxObj::RenderSkybox()
