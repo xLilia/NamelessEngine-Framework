@@ -3,7 +3,7 @@ class TemplateScript : public _NL::Core::CppScript
 {
 private:
 	_NL::Component::Transform* T;
-	float s = 0;
+	GLfloat s = 0;
 	bool Move = false;
 public:
 	_NL::Engine::WindowManager * W;
@@ -17,7 +17,7 @@ void TemplateScript::Start(){
 }
 
 void TemplateScript::Update() {
-	float t = W->Time.DeltaTime.asSeconds();
+	GLfloat t = W->Time.DeltaTime.asSeconds();
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ) {
@@ -26,7 +26,7 @@ void TemplateScript::Update() {
 		T->EulerRotation(0, t * .5, 0);
 		s += 0.0001f;
 		//std::cout << s;
-		T->transform.position.y += glm::cos(s);
+		//T->transform.position.y += glm::cos(s);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
@@ -36,5 +36,15 @@ void TemplateScript::Update() {
 			W->RenderExposure -= 0.01;
 		}
 	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			W->RenderGamma += 0.01;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			W->RenderGamma -= 0.01;
+		}
+	}
+
 	
 }

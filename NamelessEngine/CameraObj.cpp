@@ -45,7 +45,7 @@ void _NL::Object::CameraObj::updateCameraSettings()
 
 void _NL::Object::CameraObj::updateCameraProjectionMatrix()
 {
-	projectionMatrix = glm::perspective(Settings.FOV, (GLfloat)Settings.RenderWindowSize.x / (GLfloat)Settings.RenderWindowSize.y, Settings.NearPlane, Settings.FarPlane);
+	projectionMatrix = glm::perspective(glm::radians(Settings.FOV), (GLfloat)Settings.RenderWindowSize.x / (GLfloat)Settings.RenderWindowSize.y, Settings.NearPlane, Settings.FarPlane);
 }
 
 void _NL::Object::CameraObj::updateCameraViewport()

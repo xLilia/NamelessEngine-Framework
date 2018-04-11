@@ -16,6 +16,7 @@ layout (location=9) uniform sampler2D RoughnessTexture;
 layout (location=10) uniform sampler2D MetalnessTexture;
 layout (location=11) uniform sampler2D NormalTexture;
 layout (location=12) uniform sampler2D AmbientOculusionTexture;
+layout (location=13) uniform samplerCube AmbientIrradianceTexture;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -93,9 +94,15 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float k, int mode = 0){
 //float cosTheta = max(dot(N,V), 0.0);
 //float sinTheta = length(cross(N,V))/(length(N)*length(N));
 //vec3 F0 = mix(F0_IOR,C,M);
+
 vec3 FresnelSchlick(float cosTheta, vec3 F0_IOR){
 	return F0_IOR + (1.0 - F0_IOR) * pow(1.0 - cosTheta, 5.0);
 }
+
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+{
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+}   
 
 //======================= FRAGMENT SHADER =========================
 
@@ -110,8 +117,12 @@ void main(){
 
 	//NORMAL
 	vec3 N = normalMap;
-    N = normalize(normalMap * 2.0 - 1.0);
-	
+    N = normalize(N * 2.0 - 1.0);
+
+	//Irradience
+	vec3 irradiance = texture(AmbientIrradianceTexture, N).rgb;
+	vec3 ambient;
+
 	//View direction vector
 	vec3 V = normalize(vTangentEyePos - vTangentFragPos);
 
@@ -143,15 +154,19 @@ void main(){
 			float NDF = NDF_GGXTR(N, H, roughnessMap);
 
 			//Geometry Function
-			float G	  = GeometrySmith(N, V, L, roughnessMap,1);
+			float G	  = GeometrySmith(N, V, L, roughnessMap,0); //0 DIRECT 1 IBL
 
 			//Fresnel Function
-			vec3 F	  = FresnelSchlick(max(dot(H, N), 0.0), F0_IOR);
+			vec3 F	  = fresnelSchlickRoughness(max(dot(H, N), 0.0), F0_IOR, roughnessMap); //FresnelSchlick(max(dot(H, N), 0.0), F0_IOR);
 
 			//Specular & Difuse Components
 			vec3 kS = F;
 			vec3 kD = vec3(1.0) - kS;
 			kD *= 1.0 - metalnessMap;
+
+			//Ambient Light
+			vec3 diffuse = irradiance * albedoMap;
+			ambient = (kD * diffuse) * aoMap;
 	
 			//Solving Equation
 			float NdotL		  = max(dot(N, L), 0.0);
@@ -162,15 +177,12 @@ void main(){
 		// add to outgoing radiance to Lo          
 		Lo += (kD * albedoMap / NL_PI + specular) * radiance * NdotL; 
 	}
-
-	//Improvised Ambient Light
-	vec3 ambient = vec3(0.03) * albedoMap * aoMap;
    
 	//Final Color with ambient
 	vec3 color = ambient + Lo;
    
 	//OUT FRAG!
-    FragColor = vec4(color, 1.0);
+    FragColor = vec4(color,1.0);
 }
 
 //======================= END =========================

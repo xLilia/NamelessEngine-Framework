@@ -115,7 +115,7 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 			glTexImage2D(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGBA32F, //high dynamic range (HDR) capable
+				GL_RGBA16F, //high dynamic range (HDR) 
 				Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio,
 				Cam->Settings.RenderWindowSize.y *  Cam->Settings.RenderScaleRatio,
 				0,
@@ -338,7 +338,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		//======================
 		//SKYBOX RENDERING
 		if (CurrentScene->Skybox != 0) {
-			glUseProgram(CurrentScene->Skybox->SkyboxShader->getShaderProgram());
+			CurrentScene->Skybox->SkyboxShader->Use();
 			glUniformMatrix4fv(CurrentScene->Skybox->CamProjection_matrix, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
 			glUniformMatrix4fv(CurrentScene->Skybox->CamView_matrix, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
 			CurrentScene->Skybox->RenderSkybox();
@@ -373,7 +373,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 			//OBJ RENDERING
 			if (ObjMR != NULL && ObjT != NULL && ObjT_P != NULL) {
 			
-				glUseProgram(ObjMR->Shader->getShaderProgram());
+				ObjMR->Shader->Use();
 
 				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
 
@@ -407,7 +407,8 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 					glUniform1i(_NL::Core::RoughnessTexture_uniform,		1);
 					glUniform1i(_NL::Core::MetalnessTexture_uniform,		2);
 					glUniform1i(_NL::Core::NormalTexture_uniform,			3);
-					glUniform1i(_NL::Core::AmbientOculusionTexture_uniform,	4);
+					glUniform1i(_NL::Core::AmbientOculusionTexture_uniform, 4);
+					glUniform1i(_NL::Core::AmbientIrradianceTexture_uniform,5);
 					check_gl_error();
 					glActiveTexture(GL_TEXTURE0 + 0);
 					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
@@ -419,6 +420,8 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
 					glActiveTexture(GL_TEXTURE0 + 4);
 					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
+					glActiveTexture(GL_TEXTURE0 + 5);
+					glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
 					check_gl_error();
 					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3); 
 					check_gl_error();
@@ -472,7 +475,8 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_t);
 	
 	///Uniforms
-	glUniform1f(uRenderExposure,RenderExposure);
+	glUniform1f(uRenderExposure, RenderExposure);
+	glUniform1f(uRenderGamma,RenderGamma);
 	glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
 	

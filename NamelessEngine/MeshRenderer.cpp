@@ -17,7 +17,7 @@ glm::vec3 calculateTangent(glm::vec3 pos0, glm::vec3 pos1, glm::vec3 pos2, glm::
 	glm::vec2 deltaUV1 = UV1 - UV0;
 	glm::vec2 deltaUV2 = UV2 - UV0;
 
-	float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
+	GLfloat f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV2.x * deltaUV1.y);
 
 	tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
 	tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);

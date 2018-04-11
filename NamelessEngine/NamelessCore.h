@@ -22,12 +22,13 @@ namespace _NL{
 		const static GLuint ViewMatrix_uniform = 6; //View
 		const static GLuint ProjectionMatrix_uniform = 7; //projection
 		
-		///TEXTURES[0-4]
+		///TEXTURES[0-5]
 		const static GLuint ALbedoTexture_uniform = 8;
 		const static GLuint RoughnessTexture_uniform = 9;
 		const static GLuint MetalnessTexture_uniform = 10;
 		const static GLuint NormalTexture_uniform = 11;
 		const static GLuint AmbientOculusionTexture_uniform = 12;
+		const static GLuint AmbientIrradianceTexture_uniform = 13;
 
 		//======================
 		/*CPPscript*/

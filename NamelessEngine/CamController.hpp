@@ -4,9 +4,9 @@
 class CamController : public _NL::Core::CppScript
 {
 private:
-	float BaseMovementSpeed = 3;
-	float MovementSpeed = 3;
-	float RotationSpeed = 1;
+	GLfloat BaseMovementSpeed = 3;
+	GLfloat MovementSpeed = 3;
+	GLfloat RotationSpeed = 1;
 	_NL::Object::CameraObj_data::CamTransform* TCam;
 	glm::vec2 mouseDelta;
 	glm::vec2 oldMousePos;
@@ -16,10 +16,10 @@ public:
 	void Start() override;
 	void Update() override;
 	void RotateCam();
-	float TrackMouse();
+	GLfloat TrackMouse();
 	
 	template<typename T>
-	T lerp(T v0, T v1, float t) {
+	T lerp(T v0, T v1, GLfloat t) {
 		return (1 - t) * v0 + t * v1;
 	}
 };
@@ -33,7 +33,7 @@ void CamController::Update() {
 	TrackMouse();
 
 	//SYNC WITH DELTA TIME
-	float dts = W->Time.DeltaTime.asSeconds();
+	GLfloat dts = W->Time.DeltaTime.asSeconds();
 	
 	//GET SIDE VECTOR
 	glm::vec3 SIDEWAYS = glm::cross(TCam->rotation, TCam->LookAtCenter);
@@ -69,10 +69,10 @@ void CamController::Update() {
 	}
 	//MOUSE BUTTONS CHANGE CAM FOV
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		_this->Settings.FOV += .01;
+		_this->Settings.FOV += 1;
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-		_this->Settings.FOV -= .01;
+		_this->Settings.FOV -= 1;
 	}
 	//LOAD NEXT SCENE
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
@@ -93,10 +93,10 @@ void CamController::RotateCam() {
 }
 
 //TRACK MOUSE ON SCREEN
-float CamController::TrackMouse() {
-	glm::vec2 newMousePos((float)sf::Mouse::getPosition(*W->window).x, (float)sf::Mouse::getPosition(*W->window).y);
+GLfloat CamController::TrackMouse() {
+	glm::vec2 newMousePos((GLfloat)sf::Mouse::getPosition(*W->window).x, (GLfloat)sf::Mouse::getPosition(*W->window).y);
 	mouseDelta = (newMousePos - oldMousePos);
-	float moveSpeed = sqrt(mouseDelta.x*mouseDelta.x + mouseDelta.y*mouseDelta.y);
+	GLfloat moveSpeed = sqrt(mouseDelta.x*mouseDelta.x + mouseDelta.y*mouseDelta.y);
 	if (moveSpeed != 0)
 		RotateCam();
 	oldMousePos = newMousePos;

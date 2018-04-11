@@ -5,7 +5,7 @@ _NL::Tools::TextureLoader::TextureLoader()
 	
 }
 
-GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSaveToTexIDs)
+GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSaveTexID)
 {
 
 	if (filePath != 0) {
@@ -28,9 +28,10 @@ GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSav
 		0,
 		GL_RGBA,
 		GL_UNSIGNED_BYTE,
-		LoadedTexture.getPixelsPtr());
+		LoadedTexture.getPixelsPtr()
+	);
 	glGenerateMipmap(GLTexID);
-	if(bSaveToTexIDs)
+	if(bSaveTexID)
 		GLTexIDs.push_back(GLTexID);
 	return GLTexID;
 }

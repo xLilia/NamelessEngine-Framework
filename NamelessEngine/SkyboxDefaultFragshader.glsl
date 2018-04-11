@@ -1,7 +1,8 @@
 #version 450 core  
 
-in vec3 TexCoords;
 uniform samplerCube cube_texture;
+
+in vec3 TexCoords;
 out vec4 frag_color;
 
 void main(){

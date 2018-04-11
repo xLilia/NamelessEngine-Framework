@@ -23,6 +23,7 @@ out vec3 fragPos;
 out vec2 fragTexCoord;
 out vec3 vTangentLightPos[NR_LIGHTS];
 out vec3 vTangentEyePos;
+out vec3 vEyePos;
 out vec3 vTangentFragPos;
 
 struct LightProperties {

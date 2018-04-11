@@ -9,15 +9,23 @@ _NL::Element::ShaderInstance::ShaderInstance(const char * VertexShader, const ch
 	InstallShader(VertexShader, FragmentShader);
 }
 
+
 void _NL::Element::ShaderInstance::InstallShader(const char * VertexShader, const char * FragmentShader)
 {
 	Shader.clearPrograms();
 	Shader.installShaders(VertexShader, FragmentShader);
 }
 
-GLuint _NL::Element::ShaderInstance::getShaderProgram() const{
+GLuint _NL::Element::ShaderInstance::getShaderProgram1() const{
 	return Shader.InstlledProgramIDs[0];
 }
+
+void _NL::Element::ShaderInstance::Use()
+{
+	glUseProgram(Shader.InstlledProgramIDs[0]);
+}
+
+
 
 std::string _NL::Element::ShaderInstance::ClassName() const
 {

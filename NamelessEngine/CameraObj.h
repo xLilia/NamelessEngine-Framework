@@ -29,7 +29,7 @@ namespace _NL {
 			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
 				GLsizei RenderWindowX = 0,
 				GLsizei RenderWindowY = 0,
-				GLfloat FOV = 90, 
+				GLfloat FOV = 90.0f, 
 				GLfloat NearPlane = 0.1f, 
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1);

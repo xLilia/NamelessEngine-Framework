@@ -193,6 +193,10 @@
   <ItemGroup>
     <None Include="defaultfragmentshader.glsl" />
     <None Include="defaultvertexshader.glsl" />
+    <None Include="EnvironmentDefaultFragshader.glsl" />
+    <None Include="EnvironmentDefaultVertshader.glsl" />
+    <None Include="HDRImageDefaultFragshader.glsl" />
+    <None Include="HDRImageDefaultVertshader.glsl" />
     <None Include="screenQuadFshader.glsl" />
     <None Include="screenQuadVshader.glsl" />
     <None Include="SkyboxDefaultFragshader.glsl" />

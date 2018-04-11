@@ -18,6 +18,7 @@ namespace _NL {
 			sf::RenderWindow* window;
 			_NL::Engine::Time Time;
 			GLfloat RenderExposure = 1.0;
+			GLfloat RenderGamma = 1.0;
 			glm::vec3 ClearColor;
 			_NL::Engine::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
@@ -36,6 +37,7 @@ namespace _NL {
 
 			ShaderWizard ScreenShader;
 			GLuint uRenderExposure = 1;
+			GLuint uRenderGamma = 2;
 
 			GLuint* FrameBuffer;
 			GLuint* ColorTexture;

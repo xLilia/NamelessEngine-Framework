@@ -3,16 +3,13 @@ precision mediump float;
 
 layout (location = 0) uniform sampler2D HDR_Texture;
 layout (location = 1) uniform float exposure;
+layout (location = 2) uniform float gamma;
 
 in vec2 tex_coord;
 out vec4 fragColor;
 
-
-
 void main(){
 
-	const float gamma = 2.2;
-	
 	//get fbo Color buffer
 	vec3 HDRcolor = texture2D(HDR_Texture, tex_coord).rgb;
 

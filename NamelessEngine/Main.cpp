@@ -9,24 +9,30 @@ int main() {
 	_NL::Engine::WindowManager winMan("w1", 640, 480, true, true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
-	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
-	Audio->LoadAudioFile("deeplyMono.ogg");
+	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
+	//Audio->LoadAudioFile("deeplyMono.ogg");
 	//Audio->Sound.play();
 
 	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
-	_NL::Object::SkyboxObj* sky2 = new _NL::Object::SkyboxObj();
-	_NL::Element::ShaderInstance* SkyShade = new _NL::Element::ShaderInstance("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
-	sky1->SkyboxShader = SkyShade;
-	sky2->SkyboxShader = SkyShade;
-	sky1->createCubeMap(
-		"sky2/ft.tga", 
-		"sky2/bk.tga",
-		"sky2/up.tga",
-		"sky2/dn.tga", 
-		"sky2/lf.tga", 
-		"sky2/rt.tga"
-	);
-	sky2->createCubeMap(
+	_NL::Element::ShaderInstance* SkyboxShader = new _NL::Element::ShaderInstance("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
+	_NL::Element::ShaderInstance* HDRImageShader = new _NL::Element::ShaderInstance("HDRImageDefaultVertshader.glsl", "HDRImageDefaultFragshader.glsl");
+	_NL::Element::ShaderInstance* EnvironmentShader = new _NL::Element::ShaderInstance("EnvironmentDefaultVertshader.glsl", "EnvironmentDefaultFragshader.glsl");
+	sky1->SkyboxShader = SkyboxShader;
+	sky1->HDRImageShader = HDRImageShader;
+	sky1->EnvironmentShader = EnvironmentShader;
+	
+	//sky1->createSkybox(
+	//	"sky2/ft.tga", 
+	//	"sky2/bk.tga",
+	//	"sky2/up.tga",
+	//	"sky2/dn.tga", 
+	//	"sky2/lf.tga", 
+	//	"sky2/rt.tga"
+	//);
+
+	sky1->createEnvironment("sky1/fadeaway_ft.tga");
+	//sky1->createSkybox("sky2/ft.tga");
+	sky1->createSkybox(
 		"sky1/fadeaway_ft.tga", 
 		"sky1/fadeaway_bk.tga", 
 		"sky1/fadeaway_up.tga", 
@@ -34,10 +40,11 @@ int main() {
 		"sky1/fadeaway_lf.tga", 
 		"sky1/fadeaway_rt.tga"
 	);
-	//sky2->createCubeMap("grass.png", "grass.png", "grass.png", "grass.png", "grass.png", "grass.png");
-	scene1->Skybox = sky2;
+	
+	scene1->Skybox = sky1;
 	scene2->Skybox = sky1;
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 2, 0.1, 500, 1);
+
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1);
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->CreateScript(new CamController());
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
@@ -64,10 +71,7 @@ int main() {
 	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Metallic.png");
 	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Normal-ue.png");
 	Textures.GenerateTexure("rock_vstreaks_ue/rock_vstreaks_Ambient_Occlusion.png");
-
 	
-
-
 	_NL::Element::MaterialInstance* material1 = new _NL::Element::MaterialInstance();
 	material1->AddNew_Material();
 	material1->MaterialInstanceData[0].AlbedoTexId = Textures.GLTexIDs[0];
@@ -87,13 +91,6 @@ int main() {
 	materialSphere->MaterialInstanceData[0].NormalTexId = Textures.GLTexIDs[11];
 	materialSphere->MaterialInstanceData[0].AmbientOculusionTexId = Textures.GLTexIDs[12];
 	materialSphere->MaterialInstanceData[0].MTL_ID = 0;
-	
-	//materialSphere->AddNew_Material();
-	//materialSphere->MaterialInstanceData[1].AlbedoTexId = Textures.GLTexIDs[0];
-	//materialSphere->MaterialInstanceData[1].RoughnessTexId = Textures.GLTexIDs[2];
-	//materialSphere->MaterialInstanceData[1].NormalTexId = Textures.GLTexIDs[1];
-	//materialSphere->MaterialInstanceData[1].MetalnessTexId = Textures.GLTexIDs[3];
-	//materialSphere->MaterialInstanceData[1].MTL_ID = 1;
 
 	_NL::Element::MeshInstance* Spheremesh = new _NL::Element::MeshInstance("Sphere.obj");
 	
@@ -165,6 +162,17 @@ int main() {
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Quad;
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+
+	_NL::Object::GameObject* Quad2 = new _NL::Object::GameObject("Quad2");
+	Quad2->addComponent(new _NL::Component::Transform());
+	Quad2->addComponent(new _NL::Component::MeshRenderer());
+	Quad2->addComponent(new _NL::Component::Script<TemplateScript>);
+	Quad2->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	Quad2->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderInstance("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
+	Quad2->getComponent<_NL::Component::MeshRenderer>()->Material = materialSphere;
+	Quad2->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
+	Quad2->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Quad;
+	Quad2->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 	
 	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
@@ -182,11 +190,11 @@ int main() {
 
 	Light->LightProperties.lightPosition.y = 8;
 	Light->LightProperties.lightPosition.x = -2;
-	Light->LightProperties.lightColor = glm::vec3(10, 15, 15);
+	Light->LightProperties.lightColor = glm::vec3(100, 150, 150);
 
 	Light2->LightProperties.lightPosition.y = 8;
 	Light2->LightProperties.lightPosition.x = 2;
-	Light2->LightProperties.lightColor = glm::vec3(15, 15, 10);
+	Light2->LightProperties.lightColor = glm::vec3(150, 150, 100);
 
 	Light3->LightProperties.lightPosition.y = 2;
 	Light3->LightProperties.lightPosition.x = 2;
@@ -226,6 +234,9 @@ int main() {
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
 	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 5;
 
+	Quad2->getComponent<_NL::Component::Transform>()->transform.position.y -= 2;
+	Quad2->getComponent<_NL::Component::Transform>()->transform.scale *= 25;
+
 	MyCam->Transform.position.z += -1;
 	MyCam->Transform.position.y += 1;
 	//MyCam->Transform.LookAtCenter = MyCam->Transform.LookAtCenter +glm::vec3(0,-1.5,0);
@@ -236,15 +247,16 @@ int main() {
 	//scene1->addObjectToWorld(Yaz);
 	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(Quad);
+	scene1->addObjectToWorld(Quad2);
 	scene1->addObjectToWorld(Cube);
 	scene1->addObjectToWorld(Cube2);
 	scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Tri);
 	scene1->addObjectToWorld(MyCam);
 	scene1->addObjectToWorld(Light);
-	scene1->addObjectToWorld(Light2);
+	//scene1->addObjectToWorld(Light2);
 	//scene1->addObjectToWorld(Light3);
-	//scene1->addObjectToWorld(Light4);
+	scene1->addObjectToWorld(Light4);
 	//scene1->addObjectToWorld(Light5);
 	//scene1->addObjectToWorld(Light6);
 	
@@ -253,9 +265,10 @@ int main() {
 	winMan.RunCurrentScene();
 
 	//scene2->addObjectToWorld(Yaz);
-	scene2->addObjectToWorld(Tri);
-	scene2->addObjectToWorld(Quad);
+	//scene2->addObjectToWorld(Tri);
+	scene2->addObjectToWorld(Quad2);
 	scene2->addObjectToWorld(MyCam);
+	scene2->addObjectToWorld(Light4);
 	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
 	Yaz->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
 	Tri->getComponent<_NL::Component::Transform>()->transform.scale *= 100;
