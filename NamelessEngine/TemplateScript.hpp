@@ -4,9 +4,10 @@ class TemplateScript : public _NL::Core::CppScript
 private:
 	_NL::Component::Transform* T;
 	GLfloat s = 0;
+	GLint Instcounter = 0;
 	bool Move = false;
 public:
-	_NL::Engine::WindowManager * W;
+	_NL::Engine::GameManager * W;
 	_NL::Object::GameObject* _this;
 	void Start() override;
 	void Update() override;
@@ -46,5 +47,8 @@ void TemplateScript::Update() {
 		}
 	}
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+		W->CurrentScene->Instantiate(_this, T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100), T->transform.EulerRotation);
+	}
 	
 }

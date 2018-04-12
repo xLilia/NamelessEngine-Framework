@@ -12,7 +12,7 @@
 #include "MeshRenderer.h"
 
 ///ENGINE
-#include "WindowManager.h"
+#include "GameManager.h"
 #include "Script.h"
 #include "NL_Time.h"
 

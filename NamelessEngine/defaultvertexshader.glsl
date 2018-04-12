@@ -7,17 +7,22 @@ layout (location=0) in vec3 aPosition;
 layout (location=1) in vec3 aNorm;
 layout (location=2) in vec3 aTangent;
 layout (location=3) in vec2 aTexCoords;
+layout (location=4) in mat4 aInstanceModel;
+//location=5
+//location=6
+//location=7
 
-layout (location=4) uniform vec3 uEyePos;
-layout (location=5) uniform mat4 uModel;
-layout (location=6) uniform mat4 uView;
-layout (location=7) uniform mat4 uProjection;
+layout (location=8) uniform vec3 uEyePos;
+//layout (location=5) uniform mat4 uModel;
+layout (location=9) uniform mat4 uView;
+layout (location=10) uniform mat4 uProjection;
 
-layout (location=8) uniform sampler2D AlbedoTexture;
-layout (location=9) uniform sampler2D RoughnessTexture;
-layout (location=10) uniform sampler2D MetalnessTexture;
-layout (location=11) uniform sampler2D NormalTexture;
-layout (location=12) uniform sampler2D AmbientOculusionTexture;
+layout (location=11) uniform sampler2D AlbedoTexture;
+layout (location=12) uniform sampler2D RoughnessTexture;
+layout (location=13) uniform sampler2D MetalnessTexture;
+layout (location=14) uniform sampler2D NormalTexture;
+layout (location=15) uniform sampler2D AmbientOculusionTexture;
+layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 
 out vec3 fragPos;
 out vec2 fragTexCoord;
@@ -41,9 +46,9 @@ void main()
 {
 
 	//TBN MATRIX
-	vec3 T = normalize(vec3(uModel * vec4(aTangent, 0.0)));
+	vec3 T = normalize(vec3(aInstanceModel * vec4(aTangent, 0.0)));
 	vec3 B;
-	vec3 N = normalize(vec3(uModel * vec4(aNorm,	0.0)));
+	vec3 N = normalize(vec3(aInstanceModel * vec4(aNorm,	0.0)));
 	
 	// re-orthogonalize T with respect to N
 	T = normalize(T - dot(T, N) * N);
@@ -66,16 +71,16 @@ void main()
 		vTangentEyePos	   = TBN * uEyePos;
 
 		//Fragment Position in Tangent Space
-		vTangentFragPos	   = TBN * vec3(uModel * vec4(aPosition, 0.0));  
+		vTangentFragPos	   = TBN * vec3(aInstanceModel * vec4(aPosition, 0.0));  
 
 	//Fragment Tex Coordinates
 	fragTexCoord = aTexCoords;
 
 	//Fragment Position in World Space
-	fragPos = vec3(uModel * vec4(aPosition,1.0));
+	fragPos = vec3(aInstanceModel * vec4(aPosition,1.0));
 
 	//Fragment Position in Screen Space
-	gl_Position = uProjection * uView * uModel * vec4(aPosition, 1.0);
+	gl_Position = uProjection * uView * aInstanceModel * vec4(aPosition, 1.0);
 }
 
 //======================= END =========================

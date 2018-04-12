@@ -6,7 +6,7 @@
 
 int main() {
 	//check_gl_error_full();
-	_NL::Engine::WindowManager winMan("w1", 640, 480, true, true);
+	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -30,16 +30,16 @@ int main() {
 	//	"sky2/rt.tga"
 	//);
 
-	sky1->createEnvironment("sky1/fadeaway_ft.tga");
-	//sky1->createSkybox("sky2/ft.tga");
-	sky1->createSkybox(
-		"sky1/fadeaway_ft.tga", 
-		"sky1/fadeaway_bk.tga", 
-		"sky1/fadeaway_up.tga", 
-		"sky1/fadeaway_dn.tga", 
-		"sky1/fadeaway_lf.tga", 
-		"sky1/fadeaway_rt.tga"
-	);
+	sky1->createEnvironment("hdr1/japanhdri (10).jpg", 1024*2);
+	sky1->createSkybox("hdr1/japanhdri (10).jpg",1024*4);
+	//sky1->createSkybox(
+	//	"sky1/fadeaway_ft.tga", 
+	//	"sky1/fadeaway_bk.tga", 
+	//	"sky1/fadeaway_up.tga", 
+	//	"sky1/fadeaway_dn.tga", 
+	//	"sky1/fadeaway_lf.tga", 
+	//	"sky1/fadeaway_rt.tga"
+	//);
 	
 	scene1->Skybox = sky1;
 	scene2->Skybox = sky1;
@@ -96,16 +96,15 @@ int main() {
 	
 
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	//_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
+	_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
 
 	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
 	Sphere->addComponent(new _NL::Component::Transform);
 	Sphere->addComponent(new _NL::Component::MeshRenderer);
+	Sphere->addComponent(new _NL::Component::Script<TemplateScript>);
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = Spheremesh;
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = materialSphere;
-	Sphere->addComponent(new _NL::Component::Script<TemplateScript>);
-	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Sphere;
 	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 
@@ -231,11 +230,14 @@ int main() {
 	T->transform.scale *= 1;
 	Tri->Parent = 0;
 
+	T = Cube->getComponent<_NL::Component::Transform>();
+
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
 	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 5;
 
 	Quad2->getComponent<_NL::Component::Transform>()->transform.position.y -= 2;
 	Quad2->getComponent<_NL::Component::Transform>()->transform.scale *= 25;
+	Quad2->Parent = Cube;
 
 	MyCam->Transform.position.z += -1;
 	MyCam->Transform.position.y += 1;
@@ -247,20 +249,22 @@ int main() {
 	//scene1->addObjectToWorld(Yaz);
 	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(Quad);
-	scene1->addObjectToWorld(Quad2);
+	//scene1->addObjectToWorld(Quad2);
 	scene1->addObjectToWorld(Cube);
-	scene1->addObjectToWorld(Cube2);
-	scene1->addObjectToWorld(Cube3);
-	scene1->addObjectToWorld(Tri);
+	for(int i = 0; i< 1000; i++){scene1->Instantiate(Quad, T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100), T->transform.EulerRotation);
+	}
+	//scene1->addObjectToWorld(Cube2);
+	//scene1->addObjectToWorld(Cube3);
+	//scene1->addObjectToWorld(Tri);
 	scene1->addObjectToWorld(MyCam);
-	scene1->addObjectToWorld(Light);
+	//scene1->addObjectToWorld(Light);
 	//scene1->addObjectToWorld(Light2);
 	//scene1->addObjectToWorld(Light3);
-	scene1->addObjectToWorld(Light4);
+	//scene1->addObjectToWorld(Light4);
 	//scene1->addObjectToWorld(Light5);
 	//scene1->addObjectToWorld(Light6);
 	
-	scene1->showObjectList();
+	//scene1->showObjectList();
 	winMan.CurrentScene = scene1;
 	winMan.RunCurrentScene();
 

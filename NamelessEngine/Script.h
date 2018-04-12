@@ -5,7 +5,12 @@ namespace _NL {
 		template<class T>
 		class Script : public _NL::Core::Component
 		{
-		public:	
+		public:
+			
+			Script() {
+				CreateScript(new T());
+			}
+
 			void CreateScript(T* ScriptClass) {
 				cpps = ScriptClass;
 			}

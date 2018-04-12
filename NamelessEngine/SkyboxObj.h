@@ -16,15 +16,15 @@ namespace _NL {
 			_NL::Element::ShaderInstance* HDRImageShader;
 			_NL::Element::ShaderInstance* EnvironmentShader;
 			const GLuint vPos_atrib = 0;
-			const GLuint CamProjection_matrix = 1;
-			const GLuint CamView_matrix = 2;
+			const GLuint CamProjectionMatrix_uniform = 1;
+			const GLuint CamViewMatrix_uniform = 2;
 
 			GLuint vao;
 			GLuint vbo;
 			GLuint SkyboxCubeMap = NULL;
 			GLuint EnvironmentMap = NULL;
 			GLuint IrradienceMap = NULL;
-			void createEnvironment(const char* file_path, GLuint resolution = 512, bool bIsSkybox = false, bool bIsIrradiance = false);
+			void createEnvironment(const char* file_path, GLuint resolution = 512);
 			void createSkybox(
 				const char* front,
 				const char* back,
@@ -32,9 +32,10 @@ namespace _NL {
 				const char* bottom,
 				const char* left,
 				const char* right);
-			void createSkybox(const char* file_path, GLuint resolution = 512);
+			void createSkybox(const char* file_path, GLuint resolution = 1024);
 			void RenderSkybox();
 		private:
+			void _createEnvironment(const char* file_path, GLuint resolution, bool bIsSkybox = false, bool bIsIrradiance = false);
 			void Render1x1Cube();
 			_NL::Tools::TextureLoader TL;
 			void loadCubeSide(const char* file_path, GLenum gl_side_target);

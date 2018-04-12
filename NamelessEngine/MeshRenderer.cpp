@@ -172,23 +172,27 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glEnableVertexArrayAttrib(vao, _NL::Core::TexC_atrib);
 	check_gl_error_full();
 	
-	///Set Vertex Arrays Format
+	//Set Vertex Arrays Format
+
+	GLsizei foatSize = sizeof(GLfloat);
+	GLsizei lastvaoAtrib = (foatSize * 11);
+	
 	glVertexArrayAttribBinding(vao, _NL::Core::Pos_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Pos_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::Pos_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 0);
 
 	glVertexArrayAttribBinding(vao, _NL::Core::Norm_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Norm_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3);
+	glVertexArrayAttribFormat(vao, _NL::Core::Norm_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 3);
 
 	glVertexArrayAttribBinding(vao, _NL::Core::Tangent_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Tangent_atrib, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6);
+	glVertexArrayAttribFormat(vao, _NL::Core::Tangent_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 6);
 	
 	glVertexArrayAttribBinding(vao, _NL::Core::TexC_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::TexC_atrib, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9);
+	glVertexArrayAttribFormat(vao, _NL::Core::TexC_atrib, 2, GL_FLOAT, GL_FALSE, foatSize * 9);
 
 	check_gl_error_full();
 
 	///Confiugure Vertex Array and link Buffers
-	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 11); 
+	glVertexArrayVertexBuffer(vao, 0, vbo, 0, lastvaoAtrib);
 	//glVertexArrayElementBuffer(vao, ebo);
 
 	check_gl_error_full();

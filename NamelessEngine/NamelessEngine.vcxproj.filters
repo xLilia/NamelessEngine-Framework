@@ -51,9 +51,6 @@
     <ClCompile Include="ShaderWizard.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
-      <Filter>Source Files\EngineObjects</Filter>
-    </ClCompile>
     <ClCompile Include="OBJfileReader.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files\EngineObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -109,9 +109,6 @@
     </ClInclude>
     <ClInclude Include="GLError.h">
       <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowManager.h">
-      <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
     <ClInclude Include="OBJfileReader.h">
       <Filter>Header Files\Tools</Filter>
@@ -173,6 +170,9 @@
     <ClInclude Include="ShaderInstance.h">
       <Filter>Header Files\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="defaultvertexshader.glsl" />
@@ -185,5 +185,6 @@
     <None Include="EnvironmentDefaultFragshader.glsl" />
     <None Include="HDRImageDefaultFragshader.glsl" />
     <None Include="HDRImageDefaultVertshader.glsl" />
+    <None Include="blueFrag.glsl" />
   </ItemGroup>
 </Project>

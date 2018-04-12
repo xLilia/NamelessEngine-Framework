@@ -8,11 +8,11 @@
 
 namespace _NL {
 	namespace Engine {
-		class WindowManager
+		class GameManager
 		{
 		public:
-			WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
-			~WindowManager();
+			GameManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
+			~GameManager();
 		
 			sf::Event Event;
 			sf::RenderWindow* window;

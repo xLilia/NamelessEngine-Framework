@@ -1,0 +1,69 @@
+﻿  WorldSpace.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  GameManager.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(127): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(148): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(325): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(325): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(417): warning C4312: 'type cast': conversion from 'GLsizei' to 'void *' of greater size
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(419): warning C4312: 'type cast': conversion from 'GLsizei' to 'void *' of greater size
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(421): warning C4312: 'type cast': conversion from 'GLsizei' to 'void *' of greater size
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(423): warning C4312: 'type cast': conversion from 'GLsizei' to 'void *' of greater size
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(461): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(492): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(492): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+  Transform.cpp
+  TextureLoader.cpp
+  SkyboxObj.cpp
+  NL_Time.cpp
+  ShaderWizard.cpp
+  ShaderObj.cpp
+  OBJfileReader.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(20): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(27): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(35): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(51): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(68): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(76): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+  MTLfileReader.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\mtlfilereader.cpp(14): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\mtlfilereader.cpp(21): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\mtlfilereader.cpp(67): warning C4477: 'fscanf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'const char *'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\mtlfilereader.cpp(67): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.15063.0\ucrt\stdio.h(1195): note: see declaration of 'fscanf'
+  MeshRenderer.cpp
+  MeshObj.cpp
+  MaterialObj.cpp
+  Main.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(27): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(34): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(37): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(43): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(46): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(47): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(53): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+  LightObject.cpp
+  GLError.cpp
+  GameObject.cpp
+  CameraObj.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(9): warning C4244: '=': conversion from 'GLsizei' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(10): warning C4244: '=': conversion from 'GLsizei' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(11): warning C4244: '=': conversion from 'GLsizei' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(12): warning C4244: '=': conversion from 'GLsizei' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(53): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(53): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+  AudioSource.cpp
+  Generating Code...
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\mtlfilereader.cpp(74): warning C4715: 'MTLfileReader::LOAD': not all control paths return a value
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\objfilereader.cpp(88): warning C4715: 'OBJfileReader::LOAD': not all control paths return a value
+sfml-window-d.lib(sfml-window-d-2.dll) : fatal error LNK1112: module machine type 'X86' conflicts with target machine type 'x64'

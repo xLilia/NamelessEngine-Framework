@@ -65,7 +65,12 @@ _NL::Object::SkyboxObj::SkyboxObj()
 	check_gl_error_full();
 }
 
-void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint resolution, bool bIsSkybox, bool bIsIrradiance)
+void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint resolution)
+{
+	_createEnvironment(file_path, resolution, false, false);
+}
+
+void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint resolution, bool bIsSkybox, bool bIsIrradiance)
 {
 	GLuint TexMap = NULL;
 	//Generate Environment Map
@@ -134,7 +139,7 @@ void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint re
 		EnvironmentShader->Use();
 	}
 		
-	glUniformMatrix4fv(CamProjection_matrix, 1, false, glm::value_ptr(captureProjection));
+	glUniformMatrix4fv(CamProjectionMatrix_uniform, 1, false, glm::value_ptr(captureProjection));
 	
 	//BindTargetTexture
 	glActiveTexture(GL_TEXTURE0);
@@ -151,7 +156,7 @@ void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint re
 
 	//StartRender
 	for (int i = 0; i < 6; ++i) {
-		glUniformMatrix4fv(CamView_matrix, 1, false, glm::value_ptr(captureViews[i]));
+		glUniformMatrix4fv(CamViewMatrix_uniform, 1, false, glm::value_ptr(captureViews[i]));
 		if (!bIsSkybox && !bIsIrradiance) {
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, EnvironmentMap, 0);
@@ -175,11 +180,11 @@ void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint re
 		return;
 	}
 	if(!bIsIrradiance)
-		createEnvironment("", resolution/16, false, true);
+		_createEnvironment("", resolution/16, false, true);
 }
 
 void _NL::Object::SkyboxObj::createSkybox(const char* file_path, GLuint resolution) {
-	createEnvironment(file_path, resolution, true);
+	_createEnvironment(file_path, resolution, true);
 }
 
 void _NL::Object::SkyboxObj::createSkybox(const char * front, const char * back, const char * top, const char * bottom, const char * left, const char * right)
@@ -238,7 +243,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 {
 	if (this->SkyboxCubeMap == NULL && this->IrradienceMap != NULL) {
 		glDepthMask(GL_FALSE);
-		//glUseProgram in WindowManager
+		//glUseProgram in GameManager
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, IrradienceMap);
 		Render1x1Cube();
@@ -247,7 +252,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 		check_gl_error_full();
 	}else{
 		glDepthMask(GL_FALSE);
-		//glUseProgram in WindowManager
+		//glUseProgram in GameManager
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxCubeMap);
 		Render1x1Cube();

@@ -1,9 +1,9 @@
-#include "WindowManager.h"
+#include "GameManager.h"
 
 #define Classname_CameraObj "_NL::Object::CameraObj"
 #define Classname_LightObject "_NL::Object::LightObject"
 
-_NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
+_NL::Engine::GameManager::GameManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
 {
 	//INITIALZE WINDOW
 	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
@@ -15,10 +15,10 @@ _NL::Engine::WindowManager::WindowManager(const char* WindowName, int Width, int
 	window->setKeyRepeatEnabled(false);
 	sf::Keyboard::setVirtualKeyboardVisible(true);
 	glewInit();
-	//_toggle_gl_debug();
+	_toggle_gl_debug();
 }	
 
-void _NL::Engine::WindowManager::RunCurrentScene()
+void _NL::Engine::GameManager::RunCurrentScene()
 {
 	
 	Start();
@@ -35,9 +35,12 @@ void _NL::Engine::WindowManager::RunCurrentScene()
 		
 		//======================
 		//UPDATE SCRIPTS 
-		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
+		for each (std::vector<_NL::Core::Object*>  id in CurrentScene->ObjectList)
 		{
-			UpdateScriptsOfObj(obj);
+			for each (_NL::Core::Object* obj in id)
+			{
+				UpdateScriptsOfObj(obj);
+			}
 		}
 
 		//======================
@@ -55,12 +58,12 @@ void _NL::Engine::WindowManager::RunCurrentScene()
 	CleanUpLastSceneLoadedResources();
 }
 
-void _NL::Engine::WindowManager::EndCurrentScene()
+void _NL::Engine::GameManager::EndCurrentScene()
 {
 	bEndCurrentScene = true;
 }
 
-void _NL::Engine::WindowManager::CleanUpLastSceneLoadedResources()
+void _NL::Engine::GameManager::CleanUpLastSceneLoadedResources()
 {
 	Cameras.clear();
 	Lights.clear();
@@ -71,7 +74,7 @@ void _NL::Engine::WindowManager::CleanUpLastSceneLoadedResources()
 	CurrentScene = 0;
 }
 
-void _NL::Engine::WindowManager::UpdateScriptsOfObj(_NL::Core::Object* obj) {
+void _NL::Engine::GameManager::UpdateScriptsOfObj(_NL::Core::Object* obj) {
 	for each (_NL::Component::Script<_NL::Core::CppScript>* s in obj->Components)
 	{
 		if (s->ClassName() == "_NL::Component::Script") {
@@ -80,7 +83,7 @@ void _NL::Engine::WindowManager::UpdateScriptsOfObj(_NL::Core::Object* obj) {
 	}
 }
 
-void _NL::Engine::WindowManager::StartScriptsOfObj(_NL::Core::Object* obj) {
+void _NL::Engine::GameManager::StartScriptsOfObj(_NL::Core::Object* obj) {
 	for each (_NL::Component::Script<_NL::Core::CppScript>* s in obj->Components)
 	{
 		if (s->ClassName() == "_NL::Component::Script") {
@@ -89,7 +92,7 @@ void _NL::Engine::WindowManager::StartScriptsOfObj(_NL::Core::Object* obj) {
 	}
 }
 
-void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object::CameraObj*> Cams)
+void _NL::Engine::GameManager::GenerateCamFramebuffers(std::vector<_NL::Object::CameraObj*> Cams)
 {
 	//======================
 	//INITIALIZE FRAMEBUFFER AND TEXTURES
@@ -227,7 +230,7 @@ void _NL::Engine::WindowManager::GenerateCamFramebuffers(std::vector<_NL::Object
 	}
 }
 
-void _NL::Engine::WindowManager::OpenGLStart()
+void _NL::Engine::GameManager::OpenGLStart()
 {
 	check_gl_error_full();
 
@@ -238,23 +241,23 @@ void _NL::Engine::WindowManager::OpenGLStart()
 
 	//======================
 	//GET OBJECTS
-	for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
+	for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
 	{
 		//======================
-		_NL::Component::MeshRenderer* MR = obj->getComponent<_NL::Component::MeshRenderer>();
+		_NL::Component::MeshRenderer* MR = obj[0]->getComponent<_NL::Component::MeshRenderer>();
 		if (MR) {
 			if (!MR->bIsUnpacked) {
-				std::cout << "initialize MeshRenderer of Obj: " << obj->name << std::endl;
+				std::cout << "initialize MeshRenderer of Obj: " << obj[0]->name << std::endl;
 				MR->initGLObj();
 			}
 		}
 		//======================
-		if (obj->ClassName() == Classname_CameraObj) {
-			Cameras.push_back((_NL::Object::CameraObj*)obj);
+		if (obj[0]->ClassName() == Classname_CameraObj) {
+			Cameras.push_back((_NL::Object::CameraObj*)obj[0]);
 		}
 		//======================
-		if (obj->ClassName() == Classname_LightObject) {
-			Lights.push_back(dynamic_cast<_NL::Object::LightObject*>(obj)->LightProperties);
+		if (obj[0]->ClassName() == Classname_LightObject) {
+			Lights.push_back(dynamic_cast<_NL::Object::LightObject*>(obj[0])->LightProperties);
 		}
 	}
 
@@ -302,17 +305,17 @@ void _NL::Engine::WindowManager::OpenGLStart()
 	}
 }
 
-void _NL::Engine::WindowManager::Start()
+void _NL::Engine::GameManager::Start()
 {
 	check_gl_error_full();
-	for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
+	for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
 	{
-		StartScriptsOfObj(obj);
+		StartScriptsOfObj(obj[0]);
 	}
 	OpenGLStart();
 }
 
-void _NL::Engine::WindowManager::UpdateCurrentScene() {
+void _NL::Engine::GameManager::UpdateCurrentScene() {
 	int CamID = 0;
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
@@ -339,94 +342,124 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 		//SKYBOX RENDERING
 		if (CurrentScene->Skybox != 0) {
 			CurrentScene->Skybox->SkyboxShader->Use();
-			glUniformMatrix4fv(CurrentScene->Skybox->CamProjection_matrix, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
-			glUniformMatrix4fv(CurrentScene->Skybox->CamView_matrix, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
+			glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+			glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
 			CurrentScene->Skybox->RenderSkybox();
 			check_gl_error_full();
 		}
+
+		//======================
+		//OBJ RENDERING
 		check_gl_error();
-		for each (_NL::Core::Object* obj in CurrentScene->GetObjectList())
+		for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
 		{
-			check_gl_error();
-			//======================
-			//COMPONENTS
-			
-			_NL::Component::MeshRenderer* ObjMR = obj->getComponent<_NL::Component::MeshRenderer>();
-			
-			//======================
-			//PARENTING
-
-			_NL::Component::Transform* ObjT = obj->getComponent<_NL::Component::Transform>();
-			_NL::Component::Transform* ObjT_P;
-
-			if (obj->Parent != 0 && ObjT) {
-				ObjT_P = obj->Parent->getComponent<_NL::Component::Transform>();
-			}
-			else {
-				ObjT_P = new _NL::Component::Transform();
-			}
 
 			//======================
-			//DEBUG
-			//======================
-			
-			//OBJ RENDERING
-			if (ObjMR != NULL && ObjT != NULL && ObjT_P != NULL) {
-			
+			//MESH RENDERER
+			_NL::Component::MeshRenderer* ObjMR = obj[0]->getComponent<_NL::Component::MeshRenderer>();
+			if (ObjMR != NULL) {
 				ObjMR->Shader->Use();
-
-				///INLINE PARENTING glm::scale(glm::scale(glm::rotate(glm::rotate(glm::translate(glm::translate(Cam->projectionMatrix*Cam->getWorldToViewMatrix(), ObjT_P->transform.position), ObjT->transform.position), ObjT_P->transform.rotationAngle, ObjT_P->transform.rotationAxis), ObjT->transform.rotationAngle, ObjT->transform.rotationAxis), ObjT_P->transform.scale), ObjT->transform.scale))
-
-				glm::mat4 T = glm::translate(glm::mat4(), ObjT->transform.position) * glm::translate(glm::mat4(), ObjT_P->transform.position);
-				glm::mat4 R = ObjT->transform.RotationMatrix * ObjT_P->transform.RotationMatrix;
-				glm::mat4 S = glm::scale(glm::mat4(), ObjT->transform.scale) * glm::scale(glm::mat4(), ObjT_P->transform.scale);
-				glm::mat4 Modelmat = T * R * S;
-				
-				//glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.RotationMatrix * ObjT_P->transform.RotationMatrix * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
-				glUniformMatrix4fv(_NL::Core::ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Modelmat));
-				check_gl_error();  
-				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
-				check_gl_error();  
-				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
-				check_gl_error();
-				///RENDER
-				glUniform3f(_NL::Core::EyePos_uniform, Cam->Transform.position.x, Cam->Transform.position.y, Cam->Transform.position.z);
-				//glDrawElements(
-				//	GL_TRIANGLES,
-				//	ObjMR->Mesh->Indices.size() * 3,
-				//	GL_UNSIGNED_INT,
-				//	0
-				//);
 				glBindVertexArray(ObjMR->vao);
-				check_gl_error();
-				if(ObjMR->Material->MaterialInstanceData.size()>0)
-				for(int i = 0; i < ObjMR->Material->MaterialInstanceData.size(); i++)
+
+				//======================
+				//TRANSFORMS
+				std::vector<glm::mat4> Modelmat;
+
+				for each (_NL::Core::Object* objInstance in obj)
 				{
-					check_gl_error();
-					glUniform1i(_NL::Core::ALbedoTexture_uniform,			0);
-					glUniform1i(_NL::Core::RoughnessTexture_uniform,		1);
-					glUniform1i(_NL::Core::MetalnessTexture_uniform,		2);
-					glUniform1i(_NL::Core::NormalTexture_uniform,			3);
-					glUniform1i(_NL::Core::AmbientOculusionTexture_uniform, 4);
-					glUniform1i(_NL::Core::AmbientIrradianceTexture_uniform,5);
-					check_gl_error();
-					glActiveTexture(GL_TEXTURE0 + 0);
-					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
-					glActiveTexture(GL_TEXTURE0 + 1);
-					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
-					glActiveTexture(GL_TEXTURE0 + 2);
-					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
-					glActiveTexture(GL_TEXTURE0 + 3);
-					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
-					glActiveTexture(GL_TEXTURE0 + 4);
-					glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
-					glActiveTexture(GL_TEXTURE0 + 5);
-					glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
-					check_gl_error();
-					glDrawArrays(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3); 
-					check_gl_error();
+					//======================
+					//PARENTS
+					_NL::Component::Transform* _ObjT_P;
+					_NL::Component::Transform* _ObjT = objInstance->getComponent<_NL::Component::Transform>();
+
+					if (objInstance->Parent != 0 && _ObjT) {
+						_ObjT_P = objInstance->Parent->getComponent<_NL::Component::Transform>();
+					}
+					else {
+						_ObjT_P = new _NL::Component::Transform();
+					}
+
+					//======================
+					//INSTANCE MODEL MAT
+					glm::mat4 T = glm::translate(glm::mat4(), _ObjT->transform.position) * glm::translate(glm::mat4(), _ObjT_P->transform.position);
+					glm::mat4 R = _ObjT->transform.RotationMatrix * _ObjT_P->transform.RotationMatrix;
+					glm::mat4 S = glm::scale(glm::mat4(), _ObjT->transform.scale) * glm::scale(glm::mat4(), _ObjT_P->transform.scale);
+					glm::mat4 _Modelmat = T * R * S;
+
+					Modelmat.push_back(_Modelmat);
 				}
-				
+
+				//======================
+				//CAM UNIFORMS
+				//glUniformMatrix4fv(ObjMR->ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(glm::scale(glm::scale(ObjT->transform.RotationMatrix * ObjT_P->transform.RotationMatrix * (glm::translate(glm::translate(glm::mat4(), ObjT_P->transform.position), ObjT->transform.position)), ObjT_P->transform.scale), ObjT->transform.scale)));
+				//glUniformMatrix4fv(_NL::Core::ModelMatrix_uniform, 1, GL_FALSE, glm::value_ptr(*Modelmat));
+				check_gl_error();
+				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
+				check_gl_error();
+				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+				glUniform3f(_NL::Core::EyePos_uniform, Cam->Transform.position.x, Cam->Transform.position.y, Cam->Transform.position.z);
+				check_gl_error();
+
+				//======================
+				//BIND INSTANCE ARRAY
+				GLuint InstanceABO;
+				glGenBuffers(1, &InstanceABO);
+				glBindBuffer(GL_ARRAY_BUFFER, InstanceABO);
+				glBufferData(GL_ARRAY_BUFFER, obj.size() * sizeof(glm::mat4), glm::value_ptr(Modelmat[0]), GL_STATIC_DRAW);
+
+				//======================
+				//SETUP INSTANCE MODEL MAT ATRIB
+
+				GLsizei vec4Size = sizeof(glm::vec4);
+				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 0);
+				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 0, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(0 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 1);
+				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 1, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(1 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 2);
+				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 2, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 3);
+				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+
+				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 0, 1);
+				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 1, 1);
+				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 2, 1);
+				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 3, 1);
+
+				check_gl_error();
+				if (ObjMR->Material->MaterialInstanceData.size()>0)
+					for (int i = 0; i < ObjMR->Material->MaterialInstanceData.size(); i++)
+					{
+						check_gl_error();
+						//======================
+						//SETUP MATERIAL UNIFORMS
+						glUniform1i(_NL::Core::ALbedoTexture_uniform, 0);
+						glUniform1i(_NL::Core::RoughnessTexture_uniform, 1);
+						glUniform1i(_NL::Core::MetalnessTexture_uniform, 2);
+						glUniform1i(_NL::Core::NormalTexture_uniform, 3);
+						glUniform1i(_NL::Core::AmbientOculusionTexture_uniform, 4);
+						glUniform1i(_NL::Core::AmbientIrradianceTexture_uniform, 5);
+						check_gl_error();
+						//======================
+						//SEND MATERIAL DATA
+						glActiveTexture(GL_TEXTURE0 + 0);
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
+						glActiveTexture(GL_TEXTURE0 + 1);
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
+						glActiveTexture(GL_TEXTURE0 + 2);
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
+						glActiveTexture(GL_TEXTURE0 + 3);
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
+						glActiveTexture(GL_TEXTURE0 + 4);
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
+						glActiveTexture(GL_TEXTURE0 + 5);
+						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
+						check_gl_error();
+						//======================
+						//DRAW MESH 
+						glDrawArraysInstanced(GL_TRIANGLES, 0, ObjMR->Mesh->Indices.size() * 3, obj.size());
+						check_gl_error();
+					}
+				glDeleteBuffers(1, &InstanceABO);
 				glUseProgram(0);
 				glBindVertexArray(0);
 			}
@@ -452,7 +485,7 @@ void _NL::Engine::WindowManager::UpdateCurrentScene() {
 	//}
 }
 
-void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
+void _NL::Engine::GameManager::DrawScreenQuad(GLuint CamID)
 {
 	glViewport(Cameras[CamID]->Settings.RenderWindowPos.x, Cameras[CamID]->Settings.RenderWindowPos.y, Cameras[CamID]->Settings.RenderWindowSize.x, Cameras[CamID]->Settings.RenderWindowSize.y);
 	//glViewport(0, 0, window->getSize().x, window->getSize().y);
@@ -479,14 +512,12 @@ void _NL::Engine::WindowManager::DrawScreenQuad(GLuint CamID)
 	glUniform1f(uRenderGamma,RenderGamma);
 	glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)q.fullquad_i);
 	glDisableVertexAttribArray(aScreenQuadTexCoords);
-	
-	check_gl_error();
 
 	glUseProgram(0);
 	check_gl_error();
 }
 
-void _NL::Engine::WindowManager::ClearCurrentBuffer()
+void _NL::Engine::GameManager::ClearCurrentBuffer()
 {
 	//======================
 	//CLEAR BUFFER_BIT
@@ -495,7 +526,7 @@ void _NL::Engine::WindowManager::ClearCurrentBuffer()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void _NL::Engine::WindowManager::RenderToScreen(GLuint CamID) {
+void _NL::Engine::GameManager::RenderToScreen(GLuint CamID) {
 	
 	//======================
 	//DISPLAY
@@ -511,7 +542,7 @@ void _NL::Engine::WindowManager::RenderToScreen(GLuint CamID) {
 
 }
 
-void _NL::Engine::WindowManager::updateWindow() {
+void _NL::Engine::GameManager::updateWindow() {
 	
 	//======================
 	//UPDATE; 
@@ -522,7 +553,7 @@ void _NL::Engine::WindowManager::updateWindow() {
 	Time.Tick();
 }
 
-_NL::Engine::WindowManager::~WindowManager()
+_NL::Engine::GameManager::~GameManager()
 {
 }
 

@@ -6,7 +6,6 @@
 #include <iostream>
 #include <vector>
 
-
 namespace _NL{
 	namespace Core {
 
@@ -16,19 +15,23 @@ namespace _NL{
 		const static GLuint Tangent_atrib = 2;
 		const static GLuint TexC_atrib = 3;
 
+		const static GLuint InstModelMatrix0_atrib = 4;
+		//InstModelMatrix1_atrib = 5
+		//InstModelMatrix2_atrib = 6
+		//InstModelMatrix3_atrib = 7
 		///UNIFORMS
-		const static GLuint EyePos_uniform = 4;
-		const static GLuint ModelMatrix_uniform = 5; //Model
-		const static GLuint ViewMatrix_uniform = 6; //View
-		const static GLuint ProjectionMatrix_uniform = 7; //projection
+		const static GLuint EyePos_uniform = 8;
+		//const static GLuint ModelMatrix_uniform = 5; //Model
+		const static GLuint ViewMatrix_uniform = 9; //View
+		const static GLuint ProjectionMatrix_uniform = 10; //projection
 		
 		///TEXTURES[0-5]
-		const static GLuint ALbedoTexture_uniform = 8;
-		const static GLuint RoughnessTexture_uniform = 9;
-		const static GLuint MetalnessTexture_uniform = 10;
-		const static GLuint NormalTexture_uniform = 11;
-		const static GLuint AmbientOculusionTexture_uniform = 12;
-		const static GLuint AmbientIrradianceTexture_uniform = 13;
+		const static GLuint ALbedoTexture_uniform = 11;
+		const static GLuint RoughnessTexture_uniform = 12;
+		const static GLuint MetalnessTexture_uniform = 13;
+		const static GLuint NormalTexture_uniform = 14;
+		const static GLuint AmbientOculusionTexture_uniform = 15;
+		const static GLuint AmbientIrradianceTexture_uniform = 16;
 
 		//======================
 		/*CPPscript*/
@@ -95,7 +98,7 @@ namespace _NL{
 					}
 				}
 				Components.push_back(C);
-				std::cout << C->ClassName().c_str() << " Component Added to " << this->name.c_str() << std::endl;
+				//std::cout << C->ClassName().c_str() << " Component Added to " << this->name.c_str() << std::endl;
 
 				return 0;
 			};

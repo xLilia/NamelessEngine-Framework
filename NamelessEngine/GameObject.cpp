@@ -5,6 +5,29 @@ _NL::Object::GameObject::GameObject()
 	this->name = "_";
 }
 
+_NL::Object::GameObject::GameObject(const GameObject &CO)
+{
+	for each (_NL::Core::Component* C in CO.Components)
+	{
+		if (C->ClassName() == "_NL::Component::Script") {
+			//auto T = dynamic_cast<_NL::Component::Script<_NL::Core::CppScript>*>(C)->getScript();
+			//
+			//_NL::Component::Script<_NL::Core::CppScript>* N = new _NL::Component::Script<_NL::Core::CppScript>;
+			//
+			//N->CreateScript(T);
+			
+			//this->addComponent();
+			//this->addComponent(new _NL::Component::Script<>);
+		}
+		if (C->ClassName() == "_NL::Component::Transform") {
+			this->addComponent(new _NL::Component::Transform);
+		}
+		if (C->ClassName() == "_NL::Component::MeshRenderer") {
+			this->addComponent(C);
+		}
+	}
+}
+
 _NL::Object::GameObject::GameObject(std::string name)
 {
 	Parent = 0;

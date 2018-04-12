@@ -1,10 +1,10 @@
 ﻿  Main.cpp
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(7): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(26): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(33): warning C4305: '+=': truncation from 'double' to 'GLfloat'
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(36): warning C4305: '-=': truncation from 'double' to 'GLfloat'
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(42): warning C4305: '+=': truncation from 'double' to 'GLfloat'
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(45): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(27): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(34): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(37): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(43): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(46): warning C4305: '-=': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(47): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(53): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
   NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Debug\NamelessEngine.exe

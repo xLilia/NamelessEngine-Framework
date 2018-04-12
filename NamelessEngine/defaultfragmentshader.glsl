@@ -11,12 +11,12 @@ in vec3 vTangentLightPos[NR_LIGHTS];
 in vec3 vTangentEyePos;
 in vec3 vTangentFragPos;
 
-layout (location=8) uniform sampler2D AlbedoTexture;
-layout (location=9) uniform sampler2D RoughnessTexture;
-layout (location=10) uniform sampler2D MetalnessTexture;
-layout (location=11) uniform sampler2D NormalTexture;
-layout (location=12) uniform sampler2D AmbientOculusionTexture;
-layout (location=13) uniform samplerCube AmbientIrradianceTexture;
+layout (location=11) uniform sampler2D AlbedoTexture;
+layout (location=12) uniform sampler2D RoughnessTexture;
+layout (location=13) uniform sampler2D MetalnessTexture;
+layout (location=14) uniform sampler2D NormalTexture;
+layout (location=15) uniform sampler2D AmbientOculusionTexture;
+layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 
 struct LightProperties {
 	vec3 lightColor;

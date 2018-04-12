@@ -11,7 +11,7 @@ private:
 	glm::vec2 mouseDelta;
 	glm::vec2 oldMousePos;
 public:
-	_NL::Engine::WindowManager * W;
+	_NL::Engine::GameManager * W;
 	_NL::Object::CameraObj* _this;
 	void Start() override;
 	void Update() override;
