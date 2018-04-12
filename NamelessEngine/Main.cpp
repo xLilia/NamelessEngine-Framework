@@ -6,7 +6,7 @@
 
 int main() {
 	//check_gl_error_full();
-	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true);
+	_NL::Engine::GameManager winMan("w1", 1024, 960, true, false);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 	_NL::Engine::WorldSpace* scene2 = new _NL::Engine::WorldSpace;
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -30,8 +30,8 @@ int main() {
 	//	"sky2/rt.tga"
 	//);
 
-	sky1->createEnvironment("hdr1/japanhdri (10).jpg", 1024*2);
-	sky1->createSkybox("hdr1/japanhdri (10).jpg",1024*4);
+	sky1->createEnvironment("hdr1/gunners_lounge.jpg", 1024*2);
+	sky1->createSkybox("hdr1/gunners_lounge.jpg",1024*4);
 	//sky1->createSkybox(
 	//	"sky1/fadeaway_ft.tga", 
 	//	"sky1/fadeaway_bk.tga", 
@@ -115,30 +115,16 @@ int main() {
 	Yaz->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Yaz->getComponent<_NL::Component::MeshRenderer>()->Material = materialSphere;
 
-	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("nameless");
+	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("cube");
 	Cube->addComponent(new _NL::Component::Transform);
 	Cube->addComponent(new _NL::Component::MeshRenderer);
 	Cube->addComponent(new _NL::Component::Script<TemplateScript>);
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = cubemesh;
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = materialSphere;
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Cube;
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
-
-	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("nameless1");
-	Cube2->addComponent(new _NL::Component::Transform);
-	Cube2->addComponent(new _NL::Component::MeshRenderer);
-	Cube2->getComponent<_NL::Component::MeshRenderer>()->Mesh = cubemesh;
-	Cube2->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Cube2->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
-
-	_NL::Object::GameObject* Cube3 = new _NL::Object::GameObject("nameless1");
-	Cube3->addComponent(new _NL::Component::Transform);
-	Cube3->addComponent(new _NL::Component::MeshRenderer);
-	Cube3->getComponent<_NL::Component::MeshRenderer>()->Mesh = cubemesh;
-	Cube3->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Cube3->getComponent<_NL::Component::MeshRenderer>()->Material = material1;
 
 	_NL::Object::GameObject* Tri = new _NL::Object::GameObject("Tri");
 	Tri->addComponent(new _NL::Component::Transform());
@@ -161,17 +147,6 @@ int main() {
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Quad;
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
-
-	_NL::Object::GameObject* Quad2 = new _NL::Object::GameObject("Quad2");
-	Quad2->addComponent(new _NL::Component::Transform());
-	Quad2->addComponent(new _NL::Component::MeshRenderer());
-	Quad2->addComponent(new _NL::Component::Script<TemplateScript>);
-	Quad2->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
-	Quad2->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;//new _NL::Element::ShaderInstance("quadshade", "defaultvertexshader.glsl", "grayFrag.glsl");
-	Quad2->getComponent<_NL::Component::MeshRenderer>()->Material = materialSphere;
-	Quad2->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
-	Quad2->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Quad;
-	Quad2->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 	
 	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
@@ -187,9 +162,10 @@ int main() {
 
 	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 4;
 
-	Light->LightProperties.lightPosition.y = 8;
-	Light->LightProperties.lightPosition.x = -2;
-	Light->LightProperties.lightColor = glm::vec3(100, 150, 150);
+	Light->LightProperties.lightPosition.y = 20;
+	Light->LightProperties.lightPosition.x = 20;
+	Light->LightProperties.lightPosition.z = 20;
+	Light->LightProperties.lightColor = glm::vec3(1000, 1500, 1500);
 
 	Light2->LightProperties.lightPosition.y = 8;
 	Light2->LightProperties.lightPosition.x = 2;
@@ -210,18 +186,6 @@ int main() {
 	Light6->LightProperties.lightPosition.y = 4;
 	Light6->LightProperties.lightPosition.z = 2;
 	Light6->LightProperties.lightColor = glm::vec3(150, 100, 150);
-
-	Cube2->getComponent<_NL::Component::Transform>()->transform.position.x += 2;
-	Cube2->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
-	Cube2->getComponent<_NL::Component::Transform>()->transform.position.y += 2;
-	Cube2->getComponent<_NL::Component::Transform>()->transform.scale.y += 7;
-	Cube2->Parent = Cube;
-
-	Cube3->getComponent<_NL::Component::Transform>()->transform.position.x -= 2;
-	Cube3->getComponent<_NL::Component::Transform>()->transform.position.z += 2;
-	Cube3->getComponent<_NL::Component::Transform>()->transform.position.y += 2;
-	Cube3->getComponent<_NL::Component::Transform>()->transform.scale.y += 7;
-	Cube3->Parent = Cube;
 	
 	_NL::Component::Transform* T = Tri->getComponent<_NL::Component::Transform>();
 	T->transform.scale *= .5;
@@ -233,11 +197,7 @@ int main() {
 	T = Cube->getComponent<_NL::Component::Transform>();
 
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
-	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 5;
-
-	Quad2->getComponent<_NL::Component::Transform>()->transform.position.y -= 2;
-	Quad2->getComponent<_NL::Component::Transform>()->transform.scale *= 25;
-	Quad2->Parent = Cube;
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 200;
 
 	MyCam->Transform.position.z += -1;
 	MyCam->Transform.position.y += 1;
@@ -246,18 +206,21 @@ int main() {
 
 	//SETUP SCENE
 	
-	//scene1->addObjectToWorld(Yaz);
+	scene1->addObjectToWorld(Yaz);
 	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(Quad);
 	//scene1->addObjectToWorld(Quad2);
 	scene1->addObjectToWorld(Cube);
-	for(int i = 0; i< 1000; i++){scene1->Instantiate(Quad, T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100), T->transform.EulerRotation);
-	}
+	
+	
+	for(int i = 0; i< 1000; i++){scene1->Instantiate(Yaz, T->transform.position + glm::vec3(rand() % 100, 2, rand() % 100), T->transform.EulerRotation);}
+
+
 	//scene1->addObjectToWorld(Cube2);
 	//scene1->addObjectToWorld(Cube3);
 	//scene1->addObjectToWorld(Tri);
 	scene1->addObjectToWorld(MyCam);
-	//scene1->addObjectToWorld(Light);
+	scene1->addObjectToWorld(Light);
 	//scene1->addObjectToWorld(Light2);
 	//scene1->addObjectToWorld(Light3);
 	//scene1->addObjectToWorld(Light4);
@@ -270,7 +233,6 @@ int main() {
 
 	//scene2->addObjectToWorld(Yaz);
 	//scene2->addObjectToWorld(Tri);
-	scene2->addObjectToWorld(Quad2);
 	scene2->addObjectToWorld(MyCam);
 	scene2->addObjectToWorld(Light4);
 	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 2;

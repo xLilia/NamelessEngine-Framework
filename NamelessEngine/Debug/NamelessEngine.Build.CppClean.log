@@ -5,7 +5,6 @@ x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\gameobject.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\glerror.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\lightobject.obj
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\main.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\materialobj.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\meshobj.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\meshrenderer.obj
@@ -17,11 +16,15 @@ x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\skyboxobj.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\textureloader.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\transform.obj
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\windowmanager.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\worldspace.obj
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\main.obj
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\gamemanager.obj
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\debug\namelessengine.ilk
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\debug\namelessengine.exe
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\debug\namelessengine.pdb
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\gamemanager.obj.enc
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\main.obj.enc
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\worldspace.obj.enc
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\namelessengine.tlog\cl.command.1.tlog
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\namelessengine.tlog\cl.read.1.tlog
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\debug\namelessengine.tlog\cl.write.1.tlog

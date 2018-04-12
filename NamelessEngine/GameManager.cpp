@@ -364,6 +364,7 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 				//======================
 				//TRANSFORMS
 				std::vector<glm::mat4> Modelmat;
+				
 
 				for each (_NL::Core::Object* objInstance in obj)
 				{
@@ -372,7 +373,7 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 					_NL::Component::Transform* _ObjT_P;
 					_NL::Component::Transform* _ObjT = objInstance->getComponent<_NL::Component::Transform>();
 
-					if (objInstance->Parent != 0 && _ObjT) {
+					if (objInstance->Parent != 0 && _ObjT != 0) {
 						_ObjT_P = objInstance->Parent->getComponent<_NL::Component::Transform>();
 					}
 					else {
@@ -385,9 +386,12 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 					glm::mat4 R = _ObjT->transform.RotationMatrix * _ObjT_P->transform.RotationMatrix;
 					glm::mat4 S = glm::scale(glm::mat4(), _ObjT->transform.scale) * glm::scale(glm::mat4(), _ObjT_P->transform.scale);
 					glm::mat4 _Modelmat = T * R * S;
-
+					
+					delete _ObjT_P;
 					Modelmat.push_back(_Modelmat);
 				}
+
+				
 
 				//======================
 				//CAM UNIFORMS
