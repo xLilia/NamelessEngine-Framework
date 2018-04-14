@@ -1,9 +1,8 @@
 #version 450 core  
-precision mediump float;
 
 layout (location = 0) uniform sampler2D HDR_Texture;
-layout (location = 1) uniform float exposure;
-layout (location = 2) uniform float gamma;
+layout (location = 1) uniform float exposure = 1.0;
+layout (location = 2) uniform float gamma = 2.2;
 
 in vec2 tex_coord;
 out vec4 fragColor;

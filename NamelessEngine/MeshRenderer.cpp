@@ -9,8 +9,10 @@ glm::vec3 calculateTangent(glm::vec3 pos0, glm::vec3 pos1, glm::vec3 pos2, glm::
 	//TANGENT
 	glm::vec3 tangent;
 
-	//BITANGENT
-	//glm::vec3 bitangent;
+	//MirrorUV in Yaxis
+	//UV0 = glm::vec2(0, 1) - UV0;
+	//UV1 = glm::vec2(0, 1) - UV1;
+	//UV2 = glm::vec2(0, 1) - UV2;
 
 	glm::vec3 edge1 = pos1 - pos0;
 	glm::vec3 edge2 = pos2 - pos0;
@@ -22,13 +24,16 @@ glm::vec3 calculateTangent(glm::vec3 pos0, glm::vec3 pos1, glm::vec3 pos2, glm::
 	tangent.x = f * (deltaUV2.y * edge1.x - deltaUV1.y * edge2.x);
 	tangent.y = f * (deltaUV2.y * edge1.y - deltaUV1.y * edge2.y);
 	tangent.z = f * (deltaUV2.y * edge1.z - deltaUV1.y * edge2.z);
+	return glm::normalize(tangent);
 
 	//bitangent.x = f * (-deltaUV2.x * edge1.x + deltaUV1.x * edge2.x);
 	//bitangent.y = f * (-deltaUV2.x * edge1.y + deltaUV1.x * edge2.y);
 	//bitangent.z = f * (-deltaUV2.x * edge1.z + deltaUV1.x * edge2.z);
 	//bitangent = glm::normalize(bitangent);
 
-	return glm::normalize(tangent);
+	//average the vertex properties like normals and tangents/bitangents
+	//for each vertex to get a more smooth result. 
+	
 }
 
 void _NL::Component::MeshRenderer::UnpackData() {
@@ -38,8 +43,18 @@ void _NL::Component::MeshRenderer::UnpackData() {
 	{
 		glm::vec3 Tangent;
 
+		Tangent = calculateTangent(
+			Mesh->MeshData.vPos[vI.v[0] - 1].Pos,
+			Mesh->MeshData.vPos[vI.v[1] - 1].Pos,
+			Mesh->MeshData.vPos[vI.v[2] - 1].Pos,
+			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord,
+			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord,
+			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord
+		);
+
 		if (vI.MTL_ID == -1)vI.MTL_ID = 0;
 		///!!!THIS CAN BE OPTIMIZED!!!\\\(not using indices) 
+		//V1 ======================
 		IndicesBuf.push_back(vI.v[0] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[0] - 1].Pos.x);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[0] - 1].Pos.y);
@@ -47,20 +62,12 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[0] - 1].Norm.z);
-		Tangent = calculateTangent(
-			Mesh->MeshData.vPos[vI.v[0] - 1].Pos, 
-			Mesh->MeshData.vPos[vI.v[1] - 1].Pos, 
-			Mesh->MeshData.vPos[vI.v[2] - 1].Pos, 
-			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord, 
-			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord, 
-			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord
-			);
 		VertsBuf.push_back(Tangent.x);
 		VertsBuf.push_back(Tangent.y);
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.s);
-		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t);
-
+		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t); //MirrorUV
+		//V2 ======================
 		IndicesBuf.push_back(vI.v[1] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[1] - 1].Pos.x);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[1] - 1].Pos.y);
@@ -68,20 +75,12 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[1] - 1].Norm.z);
-		Tangent = calculateTangent(
-			Mesh->MeshData.vPos[vI.v[1] - 1].Pos,
-			Mesh->MeshData.vPos[vI.v[0] - 1].Pos,
-			Mesh->MeshData.vPos[vI.v[2] - 1].Pos,
-			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord,
-			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord,
-			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord
-		);
 		VertsBuf.push_back(Tangent.x);
 		VertsBuf.push_back(Tangent.y);
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.s);
-		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t);
-		
+		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t); //MirrorUV
+		//V3 ======================
 		IndicesBuf.push_back(vI.v[2] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[2] - 1].Pos.x);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[2] - 1].Pos.y);
@@ -89,19 +88,12 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.x);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.y);
 		VertsBuf.push_back(Mesh->MeshData.vNorm[vI.vn[2] - 1].Norm.z);
-		Tangent = calculateTangent(
-			Mesh->MeshData.vPos[vI.v[2] - 1].Pos,
-			Mesh->MeshData.vPos[vI.v[1] - 1].Pos,
-			Mesh->MeshData.vPos[vI.v[0] - 1].Pos,
-			Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord,
-			Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord,
-			Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord
-		);
 		VertsBuf.push_back(Tangent.x);
 		VertsBuf.push_back(Tangent.y);
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.s);
-		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t);
+		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t); //MirrorUV
+		//======================
 	}
 	
 	bIsUnpacked = true;

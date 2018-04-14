@@ -30,7 +30,7 @@ GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSav
 		GL_UNSIGNED_BYTE,
 		LoadedTexture.getPixelsPtr()
 	);
-	glGenerateMipmap(GLTexID);
+	//glGenerateMipmap(GLTexID);
 	if(bSaveTexID)
 		GLTexIDs.push_back(GLTexID);
 	return GLTexID;

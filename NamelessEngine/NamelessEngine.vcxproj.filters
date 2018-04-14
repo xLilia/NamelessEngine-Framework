@@ -186,5 +186,9 @@
     <None Include="HDRImageDefaultFragshader.glsl" />
     <None Include="HDRImageDefaultVertshader.glsl" />
     <None Include="blueFrag.glsl" />
+    <None Include="PreFilterDefaultVertshader.glsl" />
+    <None Include="PreFilterDefaultFragshader.glsl" />
+    <None Include="BRDFDefaultFragshader.glsl" />
+    <None Include="BRDFDefaultVertshader.glsl" />
   </ItemGroup>
 </Project>

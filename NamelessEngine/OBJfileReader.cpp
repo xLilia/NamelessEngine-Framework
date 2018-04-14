@@ -42,12 +42,6 @@ int OBJfileReader::LOAD(const char * OBJpath)
 		else if(std::strcmp(lineHeader, "f") == 0) {
 			_NL::Core::vIndices tri;
 
-			/*fscanf(file, "%i %i %i\n",
-				&tri.v[0],
-				&tri.v[1],
-				&tri.v[2]
-			);*/
-
 			fscanf(file, "%i/%i/%i %i/%i/%i %i/%i/%i\n",
 				&tri.v[0],
 				&tri.vt[0],
@@ -66,8 +60,8 @@ int OBJfileReader::LOAD(const char * OBJpath)
 		else if (std::strcmp(lineHeader, "vt") == 0) {
 			_NL::Core::VertexTexCoord vt;
 			fscanf(file, "%f %f\n", 
-				&vt.TexCoord.x,
-				&vt.TexCoord.y
+				&vt.TexCoord.s,
+				&vt.TexCoord.t
 			);
 			this->Mshd.vTexC.push_back(vt);
 		}//Vertex Normal

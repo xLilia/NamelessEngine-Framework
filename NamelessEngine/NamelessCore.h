@@ -1,10 +1,11 @@
 #pragma once
-#define NL_PI 3.1415926535897932384626433832795
+#define NL_PI 3.14159265359
 ///ExternalLibs
 #include<GL\glew.h>
 #include <glm\glm.hpp>
 #include <iostream>
 #include <vector>
+#include "GLError.h"
 
 namespace _NL{
 	namespace Core {
@@ -32,6 +33,8 @@ namespace _NL{
 		const static GLuint NormalTexture_uniform = 14;
 		const static GLuint AmbientOculusionTexture_uniform = 15;
 		const static GLuint AmbientIrradianceTexture_uniform = 16;
+		const static GLuint PreFilterTexture_uniform = 17;
+		const static GLuint BRDF2DLUTTexture_uniform = 18;
 
 		//======================
 		/*CPPscript*/
@@ -195,7 +198,7 @@ namespace _NL{
 		};
 
 		struct ScreenQuad {
-			const GLfloat fullquad_t[8] =
+			const GLfloat fullquad_v[8] =
 			{
 				-1,-1,
 				+1,-1,
@@ -207,7 +210,22 @@ namespace _NL{
 			{
 				0,1,2,3
 			};
-		};
+		}; 
+		
+		inline void RenderScreenQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, GLuint Shader) {
+			glUseProgram(Shader);
+			glViewport(w0, h0, w1, h1);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			GLuint aScreenQuadTexCoords = glGetAttribLocation(Shader, "texCoords");
+			glEnableVertexAttribArray(aScreenQuadTexCoords);
+			glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)_NL::Core::ScreenQuad().fullquad_v);
+			glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)_NL::Core::ScreenQuad().fullquad_i);
+			glDisableVertexAttribArray(aScreenQuadTexCoords);
+			glUseProgram(0);
+			check_gl_error_full();
+		}
 
 		struct LightProperties {
 			glm::vec3 lightColor = glm::vec3(1, 1, 1);

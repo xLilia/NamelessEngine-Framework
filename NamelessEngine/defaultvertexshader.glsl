@@ -1,7 +1,7 @@
 #version 450 core   
 
 //======================= DATA =========================
-const int NR_LIGHTS = 6;
+const int NR_LIGHTS = 1;
 
 layout (location=0) in vec3 aPosition;
 layout (location=1) in vec3 aNorm;
@@ -23,12 +23,14 @@ layout (location=13) uniform sampler2D MetalnessTexture;
 layout (location=14) uniform sampler2D NormalTexture;
 layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
+layout (location=17) uniform samplerCube PreFilterTexture;
+layout (location=18) uniform sampler2D BRDF2DLUTTexture;
 
 out vec3 fragPos;
 out vec2 fragTexCoord;
+//out vec3 Normal;
 out vec3 vTangentLightPos[NR_LIGHTS];
 out vec3 vTangentEyePos;
-out vec3 vEyePos;
 out vec3 vTangentFragPos;
 
 struct LightProperties {
@@ -44,20 +46,37 @@ layout (std140, binding = 0) uniform LightBlock {
 
 void main()
 {
+	//Normal = mat3(aInstanceModel) * aNorm;
+
+	//Fragment Tex Coordinates
+	fragTexCoord = aTexCoords;
+
+	//Fragment Position in World Space
+	fragPos = vec3(aInstanceModel * vec4(aPosition,1.0));
+
+
+	mat3 normalMatrix = transpose(inverse(mat3(aInstanceModel)));
+
+	vec3 T = normalize(normalMatrix * aTangent);
+    vec3 N = normalize(normalMatrix * aNorm);
+    T = normalize(T - dot(T, N) * N);
+    vec3 B = cross(N, T);
+
+	mat3 TBN = transpose(mat3(T, B, N)); 
 
 	//TBN MATRIX
-	vec3 T = normalize(vec3(aInstanceModel * vec4(aTangent, 0.0)));
-	vec3 B;
-	vec3 N = normalize(vec3(aInstanceModel * vec4(aNorm,	0.0)));
-	
-	// re-orthogonalize T with respect to N
-	T = normalize(T - dot(T, N) * N);
-	
-	// then retrieve perpendicular vector B with the cross product of T and N
-	B = cross(N, T);
-	
-	//transpose of an orthogonal matrix is equal to its inverse. && less expensive
-	mat3 TBN = transpose(mat3(T, B, N)); 
+	//vec3 T = normalize(vec3(aInstanceModel * vec4(aTangent, 0.0)));
+	//vec3 B;
+	//vec3 N = normalize(vec3(aInstanceModel * vec4(aNorm,	0.0)));
+	//
+	//// re-orthogonalize T with respect to N
+	//T = normalize(T - dot(T, N) * N);
+	//
+	//// then retrieve perpendicular vector B with the cross product of T and N
+	//B = cross(N, T);
+	//
+	////transpose of an orthogonal matrix is equal to its inverse. && less expensive
+	//mat3 TBN = transpose(mat3(T, B, N)); 
 
 	//Cnvert To Tangent Space
 
@@ -71,13 +90,7 @@ void main()
 		vTangentEyePos	   = TBN * uEyePos;
 
 		//Fragment Position in Tangent Space
-		vTangentFragPos	   = TBN * vec3(aInstanceModel * vec4(aPosition, 0.0));  
-
-	//Fragment Tex Coordinates
-	fragTexCoord = aTexCoords;
-
-	//Fragment Position in World Space
-	fragPos = vec3(aInstanceModel * vec4(aPosition,1.0));
+		vTangentFragPos	   = TBN * fragPos;  
 
 	//Fragment Position in Screen Space
 	gl_Position = uProjection * uView * aInstanceModel * vec4(aPosition, 1.0);

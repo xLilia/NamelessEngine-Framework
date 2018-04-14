@@ -12,7 +12,7 @@ namespace _NL {
 			sf::Clock Clock;
 			void Tick();
 		private:
-			sf::Clock Clk;
+			sf::Clock frameClk;
 		};
 	}
 }

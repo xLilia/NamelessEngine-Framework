@@ -299,7 +299,8 @@ void _NL::Engine::GameManager::OpenGLStart()
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 		//glFrontFace(GL_CCW);
-		///BLENDING
+		///RENDER
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
@@ -325,7 +326,8 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 		glViewport(Cam->Settings.RenderWindowPos.x, Cam->Settings.RenderWindowPos.y, Cam->Settings.RenderWindowSize.x * Cam->Settings.RenderScaleRatio, Cam->Settings.RenderWindowSize.y * Cam->Settings.RenderScaleRatio);
 		glBindFramebuffer(GL_FRAMEBUFFER, FrameBuffer[CamID]);
 		ClearCurrentBuffer();
-
+		//Lights[0].lightPosition.x += .01;
+		//Lights[0].lightPosition.y += .01;
 		//======================
 		//Update Light ubo;
 		if (Lights.size() > 0) {
@@ -341,7 +343,7 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 		//======================
 		//SKYBOX RENDERING
 		if (CurrentScene->Skybox != 0) {
-			CurrentScene->Skybox->SkyboxShader->Use();
+			CurrentScene->Skybox->SkyboxDysplayShader->Use();
 			glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
 			glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
 			CurrentScene->Skybox->RenderSkybox();
@@ -442,6 +444,8 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 						glUniform1i(_NL::Core::NormalTexture_uniform, 3);
 						glUniform1i(_NL::Core::AmbientOculusionTexture_uniform, 4);
 						glUniform1i(_NL::Core::AmbientIrradianceTexture_uniform, 5);
+						glUniform1i(_NL::Core::PreFilterTexture_uniform, 6);
+						glUniform1i(_NL::Core::BRDF2DLUTTexture_uniform, 7);
 						check_gl_error();
 						//======================
 						//SEND MATERIAL DATA
@@ -457,6 +461,10 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
 						glActiveTexture(GL_TEXTURE0 + 5);
 						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
+						glActiveTexture(GL_TEXTURE0 + 6);
+						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
+						glActiveTexture(GL_TEXTURE0 + 7);
+						glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
 						check_gl_error();
 						//======================
 						//DRAW MESH 
@@ -499,8 +507,6 @@ void _NL::Engine::GameManager::DrawScreenQuad(GLuint CamID)
 	_NL::Core::ScreenQuad q;
 	glUseProgram(ScreenShader.InstlledProgramIDs[0]);
 
-	GLuint uScreenQuadTexture = /* this->QuadTexture_uniform;//*/glGetUniformLocation(ScreenShader.InstlledProgramIDs[0], "fbo_texture");
-	glUniform1i(uScreenQuadTexture, 0);
 	GLuint aScreenQuadTexCoords =/* this->QuadTexCoords_atrib;//*/glGetAttribLocation(ScreenShader.InstlledProgramIDs[0], "texCoords");
 
 	check_gl_error();
@@ -509,7 +515,7 @@ void _NL::Engine::GameManager::DrawScreenQuad(GLuint CamID)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
 
 	glEnableVertexAttribArray(aScreenQuadTexCoords);
-	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_t);
+	glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)q.fullquad_v);
 	
 	///Uniforms
 	glUniform1f(uRenderExposure, RenderExposure);
@@ -538,7 +544,13 @@ void _NL::Engine::GameManager::RenderToScreen(GLuint CamID) {
 	glDisable(GL_DEPTH_TEST);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ColorTexture[CamID]);
+
+	//glBindTexture(GL_TEXTURE_2D,CurrentScene->Skybox->BRDF_2D_LUTMap);
+
+	//_NL::Core::RenderScreenQuad(Cameras[CamID]->Settings.RenderWindowPos.x, Cameras[CamID]->Settings.RenderWindowPos.y, Cameras[CamID]->Settings.RenderWindowSize.x, Cameras[CamID]->Settings.RenderWindowSize.y, this->ScreenShader.InstlledProgramIDs[0]);
+	
 	DrawScreenQuad(CamID); //add custom shader func
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glActiveTexture(0);
 	glEnable(GL_DEPTH_TEST);
@@ -555,6 +567,7 @@ void _NL::Engine::GameManager::updateWindow() {
 		//check_gl_error();
 	}
 	Time.Tick();
+	//std::cout << Time.Clock.getElapsedTime().asSeconds() << std::endl;
 }
 
 _NL::Engine::GameManager::~GameManager()

@@ -2,11 +2,13 @@
 
 //======================= DATA =========================
 
-#define NL_PI 3.1415926535897932384626433832795
-const int NR_LIGHTS = 6;
+#define NL_PI 3.14159265359
+const int NR_LIGHTS = 1;
+const float MAX_REFLECTION_LOD = 4.0;
 
 in vec3 fragPos;
 in vec2 fragTexCoord;
+//in vec3 Normal;
 in vec3 vTangentLightPos[NR_LIGHTS];
 in vec3 vTangentEyePos;
 in vec3 vTangentFragPos;
@@ -17,6 +19,8 @@ layout (location=13) uniform sampler2D MetalnessTexture;
 layout (location=14) uniform sampler2D NormalTexture;
 layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
+layout (location=17) uniform samplerCube PreFilterTexture;
+layout (location=18) uniform sampler2D BRDF2DLUTTexture;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -31,13 +35,31 @@ out vec4 FragColor;
 
 //======================= FUNCTIONS =========================
 
+//vec3 getNormalFromMap()
+//{
+//    vec3 tangentNormal = texture(NormalTexture, fragTexCoord).xyz * 2.0 - 1.0;
+//
+//    vec3 Q1  = dFdx(fragPos);
+//    vec3 Q2  = dFdy(fragPos);
+//    vec2 st1 = dFdx(TexCoords);
+//    vec2 st2 = dFdy(TexCoords);
+//
+//    vec3 N   = normalize(Normal);
+//    vec3 T  = normalize(Q1*st2.t - Q2*st1.t);
+//    vec3 B  = -normalize(cross(N, T));
+//    mat3 TBN = mat3(T, B, N);
+//
+//    return normalize(TBN * tangentNormal);
+//}
+
 ///Trowbridge-Reitz GGX Normal Distribution Function
 //H - Halfway Vector
-//a - measure of the surface's roughness
+//k - measure of the surface's roughness
 //N - surface normal
 
-float NDF_GGXTR(vec3 N, vec3 H, float a){
+float NDF_GGXTR(vec3 N, vec3 H, float k){
 	
+	float a = k*k;
 	float a2 = a*a;
 	float NdotH = max(dot(N, H),0.0);
 	float NdotH2 = NdotH*NdotH;
@@ -46,7 +68,7 @@ float NDF_GGXTR(vec3 N, vec3 H, float a){
 	float denom = (NdotH2 * (a2 - 1.0) + 1.0);
 	denom = NL_PI * denom * denom;
 	
-	return nom / denom;
+	return nom / max(denom,0.001); // prevent divide by zero 
 }
 
 ///Geometry function : GGX and Schlick-Beckmann approximation known as Schlick-GGX && Smith's method:
@@ -55,17 +77,25 @@ float NDF_GGXTR(vec3 N, vec3 H, float a){
 // V - view direction vector (geometry obstruction) 
 // L - light direction vector (geometry shadowing)
 
-float K_Direct(float a){
-	return ((a+1)*(a+1))/8.0;
+float K_Direct(float k){
+	return ((k+1)*(k+1))/8.0;
 }
 
-float K_IBL(float a){
-	return (a*a)/2.0;
+float K_IBL(float k){
+	return (k*k)/2.0;
 }
 
-float GeometrySchlick_GGX(float NdotV, float k){
+float GeometrySchlick_GGX(float NdotV, float k, int mode = 0){
+
+	float kf = 0;
+	if(mode == 0){
+		kf = K_Direct(k);
+	}else{
+		kf = K_IBL(k);
+	}
+
 	float nom = NdotV;
-	float denom = NdotV * (1.0 - k) + k;
+	float denom = NdotV * (1.0 - kf) + kf;
 
 	return nom / denom; 
 }
@@ -74,14 +104,10 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float k, int mode = 0){
 	float NdotV = max(dot(N, V), 0.0);
 	float NdotL = max(dot(N, L), 0.0);
 	float ggx1, ggx2;
-	if(mode == 0){
-		ggx1= GeometrySchlick_GGX(NdotV, K_Direct(k));
-		ggx2 = GeometrySchlick_GGX(NdotL, K_Direct(k));
-	}else{
-		ggx1 = GeometrySchlick_GGX(NdotV, K_IBL(k));
-		ggx2 = GeometrySchlick_GGX(NdotL, K_IBL(k));
-	}
-
+	
+	ggx1 = GeometrySchlick_GGX(NdotL, k);
+	ggx2 = GeometrySchlick_GGX(NdotV, k);
+	
 	return ggx1 * ggx2;
 }
 
@@ -102,26 +128,35 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0_IOR){
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
-}   
+   
+	//return mix( F0, vec3(1.0) ,  vec3(pow(1.0 - cosTheta, 5.0)));
+}
+
+
 
 //======================= FRAGMENT SHADER =========================
 
 void main(){
 
 	//Texture Maps
-	vec3 albedoMap = texture2D(AlbedoTexture, fragTexCoord).rgb;
+
+	vec3 albedoMap = pow( texture2D(AlbedoTexture, fragTexCoord).rgb, vec3(2.2));
 	float roughnessMap = texture2D(RoughnessTexture, fragTexCoord).x;
 	float metalnessMap = texture2D(MetalnessTexture, fragTexCoord).x;
 	vec3 normalMap = texture2D(NormalTexture, fragTexCoord).rgb;
 	float aoMap = texture2D(AmbientOculusionTexture, fragTexCoord).x;
+	
+	//Perfect Materials
+
+	//vec3 albedoMap = pow( vec3(1,0,0), vec3(2.2) );
+	//float roughnessMap = 0.1;
+	//float metalnessMap = 0.9;
+	//vec3 normalMap = vec3(0.5,0.5,1);//texture2D(NormalTexture, fragTexCoord).rgb;
+	//float aoMap = 1;
 
 	//NORMAL
 	vec3 N = normalMap;
     N = normalize(N * 2.0 - 1.0);
-
-	//Irradience
-	vec3 irradiance = texture(AmbientIrradianceTexture, N).rgb;
-	vec3 ambient;
 
 	//View direction vector
 	vec3 V = normalize(vTangentEyePos - vTangentFragPos);
@@ -138,48 +173,73 @@ void main(){
 	for(int i = 0; i < NR_LIGHTS; i++){
 		
 		//Light direction Vector
-		vec3 L = normalize(vTangentLightPos[i]- vTangentFragPos); 
+		vec3 L = normalize(vTangentLightPos[i] - vTangentFragPos); 
 
 		//Halfway direction Vector
 		vec3 H = normalize(V + L); 
 
 		//Light Radiance
-		float distance    = length(light[i].lightPosition - fragPos);
+		float distance    = length(vTangentLightPos[i] - vTangentFragPos);
 		float attenuation = 1.0 / (distance * distance);
 		vec3 radiance     = light[i].lightColor * attenuation; 
 
 		// Cook-Torrance BRDF //
+		float NDF = NDF_GGXTR(N, H, roughnessMap); //Normal Distribution Function
+		float G	  = GeometrySmith(N, V, L, roughnessMap,1); //0 DIRECT 1 IBL //Geometry Function
+		vec3 F	  = FresnelSchlick(max(dot(H, V), 0.0), F0_IOR); //Fresnel Function
 
-			//Normal Distribution Function
-			float NDF = NDF_GGXTR(N, H, roughnessMap);
+		//Solving Equation
+		vec3 numerator	  = NDF * G * F;
+		float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
+		vec3 specular     = numerator / denominator;  
 
-			//Geometry Function
-			float G	  = GeometrySmith(N, V, L, roughnessMap,0); //0 DIRECT 1 IBL
+		//Specular & Difuse Components
+		// kS is equal to Fresnel
+		vec3 kS = F;
+		// for energy conservation, the diffuse and specular light can't
+        // be above 1.0 (unless the surface emits light); to preserve this
+        // relationship the diffuse component (kD) should equal 1.0 - kS.
+		vec3 kD = vec3(1.0) - kS;
+		// multiply kD by the inverse metalness such that only non-metals 
+        // have diffuse lighting, or a linear blend if partly metal (pure metals
+        // have no diffuse light).
+		kD *= 1.0-metalnessMap;
 
-			//Fresnel Function
-			vec3 F	  = fresnelSchlickRoughness(max(dot(H, N), 0.0), F0_IOR, roughnessMap); //FresnelSchlick(max(dot(H, N), 0.0), F0_IOR);
-
-			//Specular & Difuse Components
-			vec3 kS = F;
-			vec3 kD = vec3(1.0) - kS;
-			kD *= 1.0 - metalnessMap;
-
-			//Ambient Light
-			vec3 diffuse = irradiance * albedoMap;
-			ambient = (kD * diffuse) * aoMap;
-	
-			//Solving Equation
-			float NdotL		  = max(dot(N, L), 0.0);
-			vec3 numerator	  = NDF * G * F;
-			float denominator = 4.0 * max(dot(N, V), 0.0) * NdotL;
-			vec3 specular     = numerator / max(denominator, 0.001);  
+		float NdotL = max(dot(N, L), 0.0);
 
 		// add to outgoing radiance to Lo          
 		Lo += (kD * albedoMap / NL_PI + specular) * radiance * NdotL; 
 	}
-   
+
+	//Ambient Light IBL as the ambient term
+	vec3 F = fresnelSchlickRoughness(max(dot(N, V),0.0), F0_IOR, roughnessMap);
+
+	//Specular & Difuse Components
+	vec3 kS = F;
+    vec3 kD = 1.0 - kS;
+    kD *= 1.0 - metalnessMap;
+
+	
+	//Irradience
+	vec3 irradiance = texture(AmbientIrradianceTexture, N).rgb;
+	vec3 diffuse = irradiance * albedoMap;
+
+	//REFLECT
+	vec3 R = reflect(-V, N); 
+	vec3 preFiltredColor = textureLod(PreFilterTexture, R, roughnessMap * MAX_REFLECTION_LOD).rgb;
+	vec2 brdf = texture(BRDF2DLUTTexture, vec2( max( dot(N, V) , 0.0) , roughnessMap)).rg;
+	vec3 IBLspecular = preFiltredColor * (F * brdf.x * brdf.y);
+
+
+	vec3 ambient = (kD * diffuse + IBLspecular) * aoMap;
+	
 	//Final Color with ambient
 	vec3 color = ambient + Lo;
+
+	// HDR tonemapping
+    color = color / (color + vec3(1.0));
+    // gamma correct
+    color = pow(color, vec3(1.0/2.2));
    
 	//OUT FRAG!
     FragColor = vec4(color,1.0);

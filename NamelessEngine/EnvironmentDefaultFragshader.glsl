@@ -1,6 +1,6 @@
 #version 450 core  
 
-#define NL_PI 3.1415926535897932384626433832795
+#define NL_PI 3.14159265359
 
 uniform samplerCube EnvironmentMap;
 
@@ -38,5 +38,4 @@ void main(){
 
 	frag_color = vec4(irradiance, 1.0);
 	
-	//frag_color = texture(EnvironmentMap, TexCoords);
 }

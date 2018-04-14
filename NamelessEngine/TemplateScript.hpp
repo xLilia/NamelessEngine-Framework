@@ -3,7 +3,7 @@ class TemplateScript : public _NL::Core::CppScript
 {
 private:
 	_NL::Component::Transform* T;
-	GLfloat s = 0;
+	GLfloat s1 = 0;
 	GLint Instcounter = 0;
 	bool Move = false;
 public:
@@ -24,8 +24,9 @@ void TemplateScript::Update() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) ) {
 		//T->transform.position += W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand()/10000, std::rand() / 10000, std::rand() / 10000);
 		//T->transform.position -= W->Time.DeltaTime.asSeconds() * glm::vec3(std::rand() / 10000, std::rand() / 10000, std::rand() / 10000);
-		T->EulerRotation(0, t * .5, 0);
-		s += 0.0001f;
+		s1 += 0.0001f;
+		T->EulerRotation(0, glm::cos(s1)*t, 0);
+	
 		//std::cout << s;
 		//T->transform.position.y += glm::cos(s);
 	}

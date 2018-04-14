@@ -11,5 +11,5 @@ _NL::Engine::Time::~Time()
 
 void _NL::Engine::Time::Tick()
 {
-	DeltaTime = Clk.restart();
+	DeltaTime = frameClk.restart();
 }
