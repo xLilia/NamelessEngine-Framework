@@ -6,8 +6,7 @@ class CamController : public _NL::Core::CppScript
 private:
 	GLfloat BaseMovementSpeed = 3;
 	GLfloat MovementSpeed = 3;
-	GLfloat RotationSpeed = 1;
-	_NL::Object::CameraObj_data::CamTransform* TCam;
+	GLfloat AxisSpeed = 1;
 	glm::vec2 mouseDelta;
 	glm::vec2 oldMousePos;
 public:
@@ -25,7 +24,7 @@ public:
 };
 
 void CamController::Start() {
-	TCam = &_this->Transform;
+
 }
 
 void CamController::Update() {
@@ -33,32 +32,32 @@ void CamController::Update() {
 	TrackMouse();
 
 	//SYNC WITH DELTA TIME
-	GLfloat dts = W->Time.DeltaTime.asSeconds();
+	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
 	
 	//GET SIDE VECTOR
-	glm::vec3 SIDEWAYS = glm::cross(TCam->rotation, TCam->LookAtCenter);
+	glm::vec3 SIDEWAYS = glm::cross(_this->Axis, _this->LookAt);
 
 	//FORWARD-BACKWARDS MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		TCam->position += TCam->LookAtCenter * MovementSpeed * dts;
+		_this->Position += _this->LookAt * MovementSpeed * dts;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		TCam->position -= TCam->LookAtCenter * MovementSpeed * dts;
+		_this->Position -= _this->LookAt * MovementSpeed * dts;
 	}
 	//SIDEWAYS MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 	
-		TCam->position += SIDEWAYS * MovementSpeed * dts;
+		_this->Position += SIDEWAYS * MovementSpeed * dts;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		TCam->position -= SIDEWAYS * MovementSpeed * dts;
+		_this->Position -= SIDEWAYS * MovementSpeed * dts;
 	}
 	//UP-DOWN MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		TCam->position += TCam->rotation * MovementSpeed * dts;
+		_this->Position += _this->Axis * MovementSpeed * dts;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		TCam->position -= TCam->rotation * MovementSpeed * dts;
+		_this->Position -= _this->Axis * MovementSpeed * dts;
 	}
 	//SPEED UP
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
@@ -69,10 +68,10 @@ void CamController::Update() {
 	}
 	//MOUSE BUTTONS CHANGE CAM FOV
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		_this->Settings.FOV += 1;
+		_this->FOV += 1;
 	}
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-		_this->Settings.FOV -= 1;
+		_this->FOV -= 1;
 	}
 	//LOAD NEXT SCENE
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
@@ -86,10 +85,10 @@ void CamController::Update() {
 
 //CALCULATE WERE TO lOOK AT
 void CamController::RotateCam() {
-	glm::vec3 UPDOWN = glm::cross(TCam->LookAtCenter, TCam->rotation);
-	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*RotationSpeed / 100.0f, UPDOWN), -mouseDelta.x*RotationSpeed / 100.0f, TCam->rotation);
+	glm::vec3 UPDOWN = glm::cross(_this->LookAt, _this->Axis);
+	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->Axis);
 
-	TCam->LookAtCenter = glm::mat3(rotator) * TCam->LookAtCenter;
+	_this->LookAt = glm::mat3(rotator) * _this->LookAt;
 }
 
 //TRACK MOUSE ON SCREEN

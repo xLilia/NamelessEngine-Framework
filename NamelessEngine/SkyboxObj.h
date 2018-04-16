@@ -32,7 +32,7 @@ namespace _NL {
 			GLuint PreFilterMap = NULL;
 			GLuint BRDF_2D_LUTMap = NULL;
 
-			void createEnvironment(const char* file_path, GLfloat BlurLevel = 1.2f, GLuint resolution = 512);
+			void createEnvironment(const char* file_path, GLuint resolution = 512, GLfloat BlurLevel = 1.2f);
 			void createSkybox(
 				const char* front,
 				const char* back,
@@ -45,7 +45,7 @@ namespace _NL {
 		private:
 			GLuint EnvRes = 0;
 			GLfloat EnvBlur = 0;
-			void _createEnvironment(const char* file_path, GLfloat BlurLevel, GLuint resolution, bool bIsSkybox = false, bool bIsIrradiance = false, bool bIsPreFiltering = false);
+			void _createEnvironment(const char* file_path, GLuint resolution, GLfloat BlurLevel, bool bIsSkybox = false, bool bIsIrradiance = false, bool bIsPreFiltering = false);
 			void Render1x1Cube();
 			_NL::Tools::TextureLoader TL;
 			void loadCubeSide(const char* file_path, GLenum gl_side_target);

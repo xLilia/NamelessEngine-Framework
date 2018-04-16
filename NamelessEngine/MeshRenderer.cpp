@@ -93,7 +93,7 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.s);
 		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t); //MirrorUV
-		//======================
+		//---------------------------------------------------------------------------------
 	}
 	
 	bIsUnpacked = true;
@@ -146,14 +146,14 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*VertsBuf.size(), &VertsBuf[0], GL_STATIC_DRAW);
 	
-	check_gl_error_full();
+	check_gl_error();
 
 	///STATIC ELEMENT BUFFER OBJ 
 	//glCreateBuffers(1, &ebo);
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*IndicesBuf.size(), &IndicesBuf[0], GL_STATIC_DRAW);
 
-	check_gl_error_full();
+	check_gl_error();
 
 	///GL BUFFERS && ARRAYS
 	///Init Vertex Arrays
@@ -162,7 +162,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glEnableVertexArrayAttrib(vao, _NL::Core::Norm_atrib);
 	glEnableVertexArrayAttrib(vao, _NL::Core::Tangent_atrib);
 	glEnableVertexArrayAttrib(vao, _NL::Core::TexC_atrib);
-	check_gl_error_full();
+	check_gl_error();
 	
 	//Set Vertex Arrays Format
 
@@ -181,13 +181,13 @@ void _NL::Component::MeshRenderer::initGLObj()
 	glVertexArrayAttribBinding(vao, _NL::Core::TexC_atrib, 0);
 	glVertexArrayAttribFormat(vao, _NL::Core::TexC_atrib, 2, GL_FLOAT, GL_FALSE, foatSize * 9);
 
-	check_gl_error_full();
+	check_gl_error();
 
 	///Confiugure Vertex Array and link Buffers
 	glVertexArrayVertexBuffer(vao, 0, vbo, 0, lastvaoAtrib);
 	//glVertexArrayElementBuffer(vao, ebo);
 
-	check_gl_error_full();
+	check_gl_error();
 }
 
 std::string _NL::Component::MeshRenderer::ClassName() const

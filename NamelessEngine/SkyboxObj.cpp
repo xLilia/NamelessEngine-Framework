@@ -52,7 +52,7 @@ _NL::Object::SkyboxObj::SkyboxObj()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, 3 * 36 * sizeof(GLfloat), &cube1x1[0], GL_STATIC_DRAW);
 
-	check_gl_error_full();
+	check_gl_error();
 
 	glCreateVertexArrays(1, &vao);
 	glEnableVertexArrayAttrib(vao, vPos_atrib);
@@ -62,10 +62,10 @@ _NL::Object::SkyboxObj::SkyboxObj()
 
 	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(GLfloat) * 3);
 
-	check_gl_error_full();
+	check_gl_error();
 }
 
-void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLfloat BlurLevel, GLuint resolution, bool bIsSkybox, bool bIsIrradiance, bool bIsPreFiltering)
+void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint resolution, GLfloat BlurLevel, bool bIsSkybox, bool bIsIrradiance, bool bIsPreFiltering)
 {
 	GLuint TexMap = NULL;
 	//Generate Environment Map s0i0p1
@@ -214,23 +214,23 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLfloat 
 	}
 
 	if (bIsSkybox) {
-		check_gl_error_full();
+		check_gl_error();
 		std::cout << "SkyboxMap of file \"" << file_path << "\" created successfully!" << std::endl;
 		return;
 	}
 	if (!bIsIrradiance && !bIsPreFiltering) {
-		check_gl_error_full();
+		check_gl_error();
 		std::cout << "EnvironmentMap of file \"" << file_path << "\" created successfully!" << std::endl;
-		_createEnvironment(file_path, BlurLevel, resolution / 16, false, true, false); //IRRADIANCE RENDER
+		_createEnvironment(file_path, resolution / 16, BlurLevel, false, true, false); //IRRADIANCE RENDER
 		
 	}
 	if(bIsIrradiance && !bIsPreFiltering){
-		check_gl_error_full();
+		check_gl_error();
 		std::cout << "IrradianceMap of file \"" << file_path << "\" created successfully!" << std::endl;
-		_createEnvironment(file_path, BlurLevel, resolution * 4, false, false, true); //IRRADIANCE RENDER
+		_createEnvironment(file_path, resolution * 4, BlurLevel, false, false, true); //IRRADIANCE RENDER
 	}
 	if (bIsPreFiltering) {
-		check_gl_error_full();
+		check_gl_error();
 		std::cout << "PreFilterMap of file \"" << file_path << "\" created successfully!" << std::endl;
 		
 		//BRDF 2D LUT
@@ -253,9 +253,7 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLfloat 
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, BRDF_2D_LUTMap, 0);
 
-		_NL::Core::RenderScreenQuad(0, 0, 512, 512, BRDFShader->getShaderProgram1());
-
-		std::cout << "DONE !" << std::endl;
+		_NL::Core::RenderScreenQuad(0, 0, 512, 512, BRDFShader->getShaderProgram());
 	}
 	
 	//End Render
@@ -267,13 +265,13 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLfloat 
 
 
 
-void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLfloat BlurLevel, GLuint resolution)
+void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint resolution, GLfloat BlurLevel)
 {
-	_createEnvironment(file_path, BlurLevel, resolution, false, false, false); //ENVIRONMENT RENDER
+	_createEnvironment(file_path, resolution, BlurLevel, false, false, false); //ENVIRONMENT RENDER
 }
 
 void _NL::Object::SkyboxObj::createSkybox(const char* file_path, GLuint resolution) {
-	_createEnvironment(file_path, EnvBlur, resolution, true, false, false); //SKYBOX RENDER
+	_createEnvironment(file_path, resolution, EnvBlur, true, false, false); //SKYBOX RENDER
 }
 
 
@@ -340,7 +338,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 		Render1x1Cube();
 		glUseProgram(0);
 		glDepthMask(GL_TRUE);
-		check_gl_error_full();
+		check_gl_error();
 	}else{
 		glDepthMask(GL_FALSE);
 		//glUseProgram in GameManager
@@ -350,7 +348,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 		Render1x1Cube();
 		glUseProgram(0);
 		glDepthMask(GL_TRUE);
-		check_gl_error_full();
+		check_gl_error();
 	}
 }
 

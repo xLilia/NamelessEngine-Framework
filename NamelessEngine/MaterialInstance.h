@@ -9,10 +9,14 @@ namespace _NL {
 		{
 		public:
 			MaterialInstance();
-			MaterialInstance(const char* filePath);
 			~MaterialInstance();
 
-			//int LoadMTLFile(const char* filePath);
+			void LoadAlbedoMap(const char* filePath, GLuint MTL_ID);
+			void LoadRoughnessMap(const char* filePath, GLuint MTL_ID);
+			void LoadMetalnessMap(const char* filePath, GLuint MTL_ID);
+			void LoadNormalMap(const char* filePath, GLuint MTL_ID);
+			void LoadAmbientOcclusionMap(const char* filePath, GLuint MTL_ID);
+
 			std::string ClassName() const override;
 
 			std::vector<_NL::Core::MaterialInstanceData> MaterialInstanceData;
@@ -20,7 +24,7 @@ namespace _NL {
 			void AddNew_Material();
 
 		private:
-			MTLfileReader MTLF;
+			_NL::Tools::TextureLoader TL;
 		};
 	}
 }

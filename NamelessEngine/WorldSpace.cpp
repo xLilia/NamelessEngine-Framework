@@ -5,7 +5,7 @@ _NL::Engine::WorldSpace::WorldSpace()
 
 }
 
-void _NL::Engine::WorldSpace::Instantiate(_NL::Object::GameObject * original, glm::vec3 position, glm::vec3 direction)
+_NL::Object::GameObject* _NL::Engine::WorldSpace::Instantiate(_NL::Object::GameObject * original, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
 {
 	int oid = 0;
 	for each (std::vector<_NL::Core::Object*> obj in ObjectList)
@@ -15,9 +15,11 @@ void _NL::Engine::WorldSpace::Instantiate(_NL::Object::GameObject * original, gl
 			
 			I->name += " clone(" + std::to_string(obj.size()) + ")";
 			I->getComponent<_NL::Component::Transform>()->transform.position = position;
-			I->getComponent<_NL::Component::Transform>()->transform.EulerRotation = direction;
+			I->getComponent<_NL::Component::Transform>()->EulerRotation(rotation);
+			I->getComponent<_NL::Component::Transform>()->transform.scale = scale;
 			
 			ObjectList[oid].push_back(I);
+			return I;
 			//I->getComponent<_NL::Component::Script<_NL::Core::CppScript>>()->getScript()->Start();
 		}
 		oid++;

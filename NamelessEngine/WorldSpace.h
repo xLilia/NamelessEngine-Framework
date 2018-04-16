@@ -15,7 +15,7 @@ namespace _NL {
 			WorldSpace();
 			~WorldSpace();
 			
-			void Instantiate(_NL::Object::GameObject *original, glm::vec3 position, glm::vec3 rotation);
+			_NL::Object::GameObject* Instantiate(_NL::Object::GameObject *original, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 			
 			void addObjectToWorld(_NL::Core::Object *G);
 			void showObjectList();

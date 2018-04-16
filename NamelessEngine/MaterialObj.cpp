@@ -5,10 +5,10 @@ _NL::Element::MaterialInstance::MaterialInstance()
 
 }
 
-_NL::Element::MaterialInstance::MaterialInstance(const char * filePath)
-{
-	//LoadMTLFile(filePath);
-}
+//_NL::Element::MaterialInstance::MaterialInstance(const char * filePath)
+//{
+//	//LoadMTLFile(filePath);
+//}
 
 //int _NL::Element::MaterialInstance::LoadMTLFile(const char * filePath)
 //{
@@ -33,4 +33,29 @@ void _NL::Element::MaterialInstance::AddNew_Material()
 
 _NL::Element::MaterialInstance::~MaterialInstance()
 {
+}
+
+void _NL::Element::MaterialInstance::LoadAlbedoMap(const char * filePath, GLuint MTL_ID)
+{
+	MaterialInstanceData[MTL_ID].AlbedoTexId = TL.GenerateTexure(filePath);
+}
+
+void _NL::Element::MaterialInstance::LoadRoughnessMap(const char * filePath, GLuint MTL_ID)
+{
+	MaterialInstanceData[MTL_ID].RoughnessTexId = TL.GenerateTexure(filePath);
+}
+
+void _NL::Element::MaterialInstance::LoadMetalnessMap(const char * filePath, GLuint MTL_ID)
+{
+	MaterialInstanceData[MTL_ID].MetalnessTexId = TL.GenerateTexure(filePath);
+}
+
+void _NL::Element::MaterialInstance::LoadNormalMap(const char * filePath, GLuint MTL_ID)
+{
+	MaterialInstanceData[MTL_ID].NormalTexId = TL.GenerateTexure(filePath);
+}
+
+void _NL::Element::MaterialInstance::LoadAmbientOcclusionMap(const char * filePath, GLuint MTL_ID)
+{
+	MaterialInstanceData[MTL_ID].AmbientOculusionTexId = TL.GenerateTexure(filePath);
 }

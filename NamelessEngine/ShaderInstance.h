@@ -11,8 +11,9 @@ namespace _NL {
 			ShaderInstance(const char * VertexShader, const char * FragmentShader);
 			~ShaderInstance();
 
-			GLuint getShaderProgram1() const;
+			GLuint getShaderProgram() const;
 			void Use();
+			void UnUse();
 			void InstallShader(const char * VertexShader, const char * FragmentShader);
 			std::string ClassName() const override;
 

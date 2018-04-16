@@ -19,6 +19,7 @@ namespace _NL {
 			GLuint vbo; //Vertex Buffer Object
 			GLuint ebo;	//Element Buffer Object
 			GLuint vao; //Vertex Array Object
+
 			std::vector<GLfloat> VertsBuf;
 			std::vector<GLuint> IndicesBuf;
 			_NL::Element::MeshInstance* Mesh;

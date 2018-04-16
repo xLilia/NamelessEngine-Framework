@@ -202,6 +202,8 @@
     <None Include="defaultvertexshader.glsl" />
     <None Include="EnvironmentDefaultFragshader.glsl" />
     <None Include="EnvironmentDefaultVertshader.glsl" />
+    <None Include="GaussianBlurFshader.glsl" />
+    <None Include="GaussianBlurVshader.glsl" />
     <None Include="HDRImageDefaultFragshader.glsl" />
     <None Include="HDRImageDefaultVertshader.glsl" />
     <None Include="PreFilterDefaultFragshader.glsl" />

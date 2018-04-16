@@ -3,7 +3,7 @@
 //======================= DATA =========================
 
 #define NL_PI 3.14159265359
-const int NR_LIGHTS = 1;
+const int NR_LIGHTS = 2;
 const float MAX_REFLECTION_LOD = 4.0;
 
 in vec3 fragPos;
@@ -30,8 +30,8 @@ struct LightProperties {
 layout (std140, binding = 0) uniform LightBlock {
     LightProperties light[NR_LIGHTS];
 };
-
-out vec4 FragColor;
+layout (location = 0) out vec4 FragColor;
+layout (location = 1) out vec4 BrightColor;
 
 //======================= FUNCTIONS =========================
 
@@ -57,10 +57,16 @@ out vec4 FragColor;
 //k - measure of the surface's roughness
 //N - surface normal
 
-float NDF_GGXTR(vec3 N, vec3 H, float k){
+float NDF_GGXTR(vec3 N, vec3 H, float k, int mode = 0){
 	
 	float a = k*k;
-	float a2 = a*a;
+	float a2;
+	if(mode == 0){
+		a2 = k*k;
+	}else{
+		a2 = a*a;
+	}
+	
 	float NdotH = max(dot(N, H),0.0);
 	float NdotH2 = NdotH*NdotH;
 	
@@ -105,8 +111,8 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float k, int mode = 0){
 	float NdotL = max(dot(N, L), 0.0);
 	float ggx1, ggx2;
 	
-	ggx1 = GeometrySchlick_GGX(NdotL, k);
-	ggx2 = GeometrySchlick_GGX(NdotV, k);
+	ggx1 = GeometrySchlick_GGX(NdotL, k, mode);
+	ggx2 = GeometrySchlick_GGX(NdotV, k , mode);
 	
 	return ggx1 * ggx2;
 }
@@ -121,18 +127,24 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float k, int mode = 0){
 //float sinTheta = length(cross(N,V))/(length(N)*length(N));
 //vec3 F0 = mix(F0_IOR,C,M);
 
-vec3 FresnelSchlick(float cosTheta, vec3 F0_IOR){
-	return F0_IOR + (1.0 - F0_IOR) * pow(1.0 - cosTheta, 5.0);
+vec3 FresnelSchlick(float cosTheta, vec3 F0){
+	//return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
+
+	//return mix( F0, vec3(1.0) ,  vec3(pow(1.0 - cosTheta, 5.0)));
+	
+	//Spherical Gaussian approximation
+	float p = (-5.55473 * cosTheta -6.98316)*cosTheta;
+	return F0 + (1.0 - F0) * pow(2,p);
 }
 
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
-    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
-   
-	//return mix( F0, vec3(1.0) ,  vec3(pow(1.0 - cosTheta, 5.0)));
+    //return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+
+	//Spherical Gaussian approximation
+	float p = (-5.55473 * cosTheta -6.98316)*cosTheta;
+	return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(2,p);
 }
-
-
 
 //======================= FRAGMENT SHADER =========================
 
@@ -148,11 +160,11 @@ void main(){
 	
 	//Perfect Materials
 
-	//vec3 albedoMap = pow( vec3(1,0,0), vec3(2.2) );
-	//float roughnessMap = 0.1;
-	//float metalnessMap = 0.9;
-	//vec3 normalMap = vec3(0.5,0.5,1);//texture2D(NormalTexture, fragTexCoord).rgb;
-	//float aoMap = 1;
+	//vec3 albedoMap = pow( vec3(1,1,1), vec3(2.2) );
+	//float roughnessMap = 0.0;
+	//float metalnessMap = 1.0;
+	//vec3 normalMap = vec3(0.5,0.5,1.0);
+	//float aoMap = 1.0;
 
 	//NORMAL
 	vec3 N = normalMap;
@@ -184,14 +196,14 @@ void main(){
 		vec3 radiance     = light[i].lightColor * attenuation; 
 
 		// Cook-Torrance BRDF //
-		float NDF = NDF_GGXTR(N, H, roughnessMap); //Normal Distribution Function
+		float NDF = NDF_GGXTR(N, H, roughnessMap, 1); //Normal Distribution Function
 		float G	  = GeometrySmith(N, V, L, roughnessMap,1); //0 DIRECT 1 IBL //Geometry Function
 		vec3 F	  = FresnelSchlick(max(dot(H, V), 0.0), F0_IOR); //Fresnel Function
 
 		//Solving Equation
 		vec3 numerator	  = NDF * G * F;
-		float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
-		vec3 specular     = numerator / denominator;  
+		float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
+		vec3 specular     = numerator / max(denominator, 0.001);  
 
 		//Specular & Difuse Components
 		// kS is equal to Fresnel
@@ -203,7 +215,7 @@ void main(){
 		// multiply kD by the inverse metalness such that only non-metals 
         // have diffuse lighting, or a linear blend if partly metal (pure metals
         // have no diffuse light).
-		kD *= 1.0-metalnessMap;
+		kD *= 1.0 - metalnessMap;
 
 		float NdotL = max(dot(N, L), 0.0);
 
@@ -216,19 +228,19 @@ void main(){
 
 	//Specular & Difuse Components
 	vec3 kS = F;
-    vec3 kD = 1.0 - kS;
+    vec3 kD = vec3(1.0) - kS;
     kD *= 1.0 - metalnessMap;
 
-	
 	//Irradience
 	vec3 irradiance = texture(AmbientIrradianceTexture, N).rgb;
 	vec3 diffuse = irradiance * albedoMap;
 
 	//REFLECT
+	//vec3 R = 2 * dot (N, V) * N - V;
 	vec3 R = reflect(-V, N); 
 	vec3 preFiltredColor = textureLod(PreFilterTexture, R, roughnessMap * MAX_REFLECTION_LOD).rgb;
-	vec2 brdf = texture(BRDF2DLUTTexture, vec2( max( dot(N, V) , 0.0) , roughnessMap)).rg;
-	vec3 IBLspecular = preFiltredColor * (F * brdf.x * brdf.y);
+	vec2 EnvBRDF = texture(BRDF2DLUTTexture, vec2( roughnessMap, max( dot(N, V) , 0.0))).rg;
+	vec3 IBLspecular = preFiltredColor * (F * EnvBRDF.x * EnvBRDF.y);
 
 
 	vec3 ambient = (kD * diffuse + IBLspecular) * aoMap;
@@ -243,6 +255,15 @@ void main(){
    
 	//OUT FRAG!
     FragColor = vec4(color,1.0);
+
+	//Brightness
+	float Luma = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+
+	if(Luma > 1.0){
+		BrightColor = vec4(FragColor.rgb,1.0);
+	}else{
+		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
+	}
 }
 
 //======================= END =========================

@@ -36,7 +36,7 @@ namespace _NL{
 		const static GLuint PreFilterTexture_uniform = 17;
 		const static GLuint BRDF2DLUTTexture_uniform = 18;
 
-		//======================
+		//---------------------------------------------------------------------------------
 		/*CPPscript*/
 		class CppScript 
 		{
@@ -45,7 +45,7 @@ namespace _NL{
 			virtual void Update() = 0;
 		};
 
-		//======================
+		//---------------------------------------------------------------------------------
 		/*All the Components that can be added to class: _NL::Object::GameObject*/
 		class Component {
 		public:
@@ -53,7 +53,7 @@ namespace _NL{
 			bool bactive = true;
 		};
 
-		//======================
+		//---------------------------------------------------------------------------------
 		/*All the Components that can be added to class: _NL::Core::Component*/
 		class Element {
 		public:
@@ -62,12 +62,12 @@ namespace _NL{
 		};
 
 
-		//======================
+		//---------------------------------------------------------------------------------
 		/*Object*/
 		class Object {
 		public:
 			
-			//======================
+			//---------------------------------------------------------------------------------
 			//OBJECT PROPERTIES 
 			
 			std::string name;
@@ -75,18 +75,18 @@ namespace _NL{
 			//std::vector<Object*> Childs;
 			virtual std::string ClassName() const = 0;
 			
-			//======================
+			//---------------------------------------------------------------------------------
 			//STATES
 			
 			bool bactive = true;
 			bool bstatic = false;
 			
-			//======================
+			//---------------------------------------------------------------------------------
 			//INFO
 		
 			virtual void getInfo() {};
 
-			//======================
+			//---------------------------------------------------------------------------------
 			//COMPONENTS
 
 			int addComponent(_NL::Core::Component *C)
@@ -142,9 +142,9 @@ namespace _NL{
 			std::vector<_NL::Core::Component*> Components;
 		};
 
-		//======================
+		//---------------------------------------------------------------------------------
 		/*PRIMITIVES*/
-		//======================
+		//---------------------------------------------------------------------------------
 
 		struct VertexPos {
 			glm::vec3 Pos;		//Position			
@@ -167,12 +167,6 @@ namespace _NL{
 		};
 
 		struct MaterialInstanceData {
-			///OLD MODEL
-			//GLfloat Ns;	  //Scalar
-			//glm::vec3 Ka; //Ambient ColorRGB
-			//glm::vec3 Kd; //Difuse ColorRGB
-			//glm::vec3 Ks; //Specular ColorRGB
-			//glm::vec3 Ke; //Emission ColorRGB
 			///PBR MODEL
 			GLuint AlbedoTexId;
 			GLuint RoughnessTexId;
@@ -211,20 +205,45 @@ namespace _NL{
 				0,1,2,3
 			};
 		}; 
+
+		//struct ScreenQuadVAO {
+		//	GLuint ID;
+		//	ScreenQuadVAO() {
+		//		GLuint vbo;
+		//		glGenBuffers(1, &vbo);
+		//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*8, &ScreenQuad().fullquad_v[0], GL_STATIC_DRAW);
+		//
+		//		glGenVertexArrays(1, &ID);
+		//		glEnableVertexArrayAttrib(ID, 0);
+		//
+		//		glVertexArrayAttribBinding(ID, 0, 0);
+		//		glVertexArrayAttribFormat(ID, 0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
+		//		
+		//	}
+		//};
 		
-		inline void RenderScreenQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, GLuint Shader) {
-			glUseProgram(Shader);
+
+		
+		inline void RenderScreenQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, GLuint Shader = 0, bool bGL_UseProgramZero = true) {
+			if(Shader != 0) 
+				glUseProgram(Shader);
 			glViewport(w0, h0, w1, h1);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
+			//REPLACE WITH VAO
+			glBindVertexArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			GLuint aScreenQuadTexCoords = glGetAttribLocation(Shader, "texCoords");
+			GLuint aScreenQuadTexCoords = 0;
 			glEnableVertexAttribArray(aScreenQuadTexCoords);
 			glVertexAttribPointer(aScreenQuadTexCoords, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)_NL::Core::ScreenQuad().fullquad_v);
 			glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)_NL::Core::ScreenQuad().fullquad_i);
 			glDisableVertexAttribArray(aScreenQuadTexCoords);
-			glUseProgram(0);
-			check_gl_error_full();
+			
+			if (bGL_UseProgramZero) 
+				glUseProgram(0);
+			check_gl_error();
 		}
 
 		struct LightProperties {

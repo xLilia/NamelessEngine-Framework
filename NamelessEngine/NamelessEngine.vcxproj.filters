@@ -190,5 +190,7 @@
     <None Include="PreFilterDefaultFragshader.glsl" />
     <None Include="BRDFDefaultFragshader.glsl" />
     <None Include="BRDFDefaultVertshader.glsl" />
+    <None Include="GaussianBlurVshader.glsl" />
+    <None Include="GaussianBlurFshader.glsl" />
   </ItemGroup>
 </Project>
