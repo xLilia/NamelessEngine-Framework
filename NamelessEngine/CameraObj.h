@@ -17,9 +17,9 @@ namespace _NL {
 				GLfloat NearPlane = 0.1f,
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1,
-				GLuint nMultisamples = 0,
-				GLuint nColorTextures = 1,
-				bool HasPingPongShader = false,
+				GLuint nMultisamples = 4,
+				GLuint nRenderTextures = 2,
+				bool HasPingPongShader = true,
 				GLuint PingPongIterations = 10);
 			~CameraObj();
 
@@ -55,7 +55,7 @@ namespace _NL {
 
 			glm::mat4 getWorldToViewMatrix() const;
 			glm::mat4 getViewMatrix() const;
-			glm::mat4 projectionMatrix;
+			glm::mat4 getProjectionMatrix() const;
 
 			_NL::Element::ShaderInstance* PostProcessingShader;
 			_NL::Element::ShaderInstance* PingPongShader;
@@ -63,7 +63,7 @@ namespace _NL {
 			void GenerateFrameBuffers();
 			void ClearCurrentBuffer();
 			void PrepareToRenderScene();
-			void DisplayOnScreen(sf::Window* W, GLuint* aditionalTextures = NULL);
+			void DisplayOnScreen(GLuint CamId = 0, GLuint* aditionalTextures = NULL);
 
 			GLuint GeneratePingPongTexture();
 
@@ -73,7 +73,7 @@ namespace _NL {
 
 			//TRANSFORM
 			glm::vec3 Position = glm::vec3(0, 0, 0);
-			glm::vec3 Axis = glm::vec3(0, 1, 0);
+			glm::vec3 UpAxis = glm::vec3(0, 1, 0);
 			glm::vec3 LookAt = glm::vec3(0, 0, -1);
 
 			//SETTINGS
@@ -84,14 +84,9 @@ namespace _NL {
 			glm::vec2 RenderWindowSize;
 			GLfloat RenderScaleRatio;
 			GLuint nMultisamples;
-			GLuint nColorTextures;
+			GLuint nRenderTextures;
 			bool HasPingPongShader;
 			GLuint PingPongIterations;
-
-			void updateCameraSettings();
-			void updateCameraProjectionMatrix();
-			void updateCameraViewport();
-			
 			
 			std::string ClassName() const override;
 					

@@ -3,6 +3,8 @@
 ///ExternalLibs
 #include<GL\glew.h>
 #include <glm\glm.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm\gtx\euler_angles.hpp>
 #include <iostream>
 #include <vector>
 #include "GLError.h"
@@ -59,6 +61,15 @@ namespace _NL{
 		public:
 			///INFO
 			virtual std::string ClassName() const = 0;
+		};
+
+		class UI
+		{
+		public:
+			virtual std::string ClassName() const = 0;
+			glm::vec2 PositionRelativeToAnchor = glm::vec2(0, 0);
+			glm::vec2 AnchorPosition = glm::vec2(0,0);
+			GLfloat RotationAngle;
 		};
 
 
@@ -142,9 +153,14 @@ namespace _NL{
 			std::vector<_NL::Core::Component*> Components;
 		};
 
+
+		
+
 		//---------------------------------------------------------------------------------
 		/*PRIMITIVES*/
 		//---------------------------------------------------------------------------------
+		
+		//MESH
 
 		struct VertexPos {
 			glm::vec3 Pos;		//Position			
@@ -184,12 +200,18 @@ namespace _NL{
 			std::vector<GLuint> MaterialStride;
 		};
 
+		//TRANSFORM
+
+
+
 		struct transform {
-			glm::vec3 position;
-			glm::vec3 EulerRotation;
-			glm::mat4 RotationMatrix;
-			glm::vec3 scale;
+			glm::quat QuaternionRotation = glm::quat(glm::vec3(0, 0, 0));
+			glm::vec3 position = glm::vec3(0, 0, 0);
+			glm::vec3 scale = glm::vec3(1, 1, 1);
 		};
+
+
+		//RENDER
 
 		struct ScreenQuad {
 			const GLfloat fullquad_v[8] =
@@ -225,11 +247,10 @@ namespace _NL{
 		
 
 		
-		inline void RenderScreenQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, GLuint Shader = 0, bool bGL_UseProgramZero = true) {
+		inline void RenderQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, GLuint Shader = 0, bool removeProgramAferUse = true, GLuint camId = 0) {
 			if(Shader != 0) 
 				glUseProgram(Shader);
 			glViewport(w0, h0, w1, h1);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			//REPLACE WITH VAO
 			glBindVertexArray(0);
@@ -241,7 +262,7 @@ namespace _NL{
 			glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, (GLvoid*)_NL::Core::ScreenQuad().fullquad_i);
 			glDisableVertexAttribArray(aScreenQuadTexCoords);
 			
-			if (bGL_UseProgramZero) 
+			if (removeProgramAferUse) 
 				glUseProgram(0);
 			check_gl_error();
 		}

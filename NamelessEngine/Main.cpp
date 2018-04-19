@@ -13,7 +13,7 @@ int main() {
 
 	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 60);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
-	
+
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
 	//Audio->LoadAudioFile("deeplyMono.ogg");
 	//Audio->Sound.play();
@@ -36,8 +36,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("hdr1/spacehdri.jpg", 1024 * 2);
-	sky1->createSkybox("hdr1/spacehdri.jpg", 1024*2);
+	sky1->createEnvironment("hdr1/japanhdri (14).jpg", 1024 * 2);
+	sky1->createSkybox("hdr1/japanhdri (14).jpg", 1024*2);
 
 	scene1->Skybox = sky1;
 	
@@ -62,18 +62,30 @@ int main() {
 	//===========================================================================================
 	//CAMERAS
 	//===========================================================================================
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, .5);
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 2, 2, true, 10);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x , winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 8, 1, false, 10);
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1, 0, 1, false, 10);
+
+	//_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x/2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1, 8, 2, true, 10);
+	
+	
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
 	
+	_NL::UI::UICanvas* Canvas1 = new _NL::UI::UICanvas();
+	Canvas1->ImageRenderShader = screenshader;
+	_NL::UI::UIImage* ui1 = new _NL::UI::UIImage("hdr1/FACEB.PNG");
+	ui1->scale *= 1;
+	Canvas1->addUIElement(ui1);
+
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
-	MyCam->getComponent<_NL::Component::Script<CamController>>()->CreateScript(new CamController());
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
 	MyCam->PostProcessingShader = screenshader;
 	MyCam->PingPongShader = GaussianBlur;
+
+	MyCam2->PostProcessingShader = screenshader;
+	MyCam2->PingPongShader = GaussianBlur;
 
 	//===========================================================================================
 	//MATERIAL SHADERS
@@ -88,11 +100,11 @@ int main() {
 	//(1)===========================================================================================
 	_NL::Element::MaterialInstance* Mat1 = new _NL::Element::MaterialInstance();
 	Mat1->AddNew_Material();
-	Mat1->LoadAlbedoMap				("MyTexs/A.png",	0);
-	Mat1->LoadRoughnessMap			("MyTexs/R.png",	0);
-	Mat1->LoadMetalnessMap			("MyTexs/M.png",	0);
-	Mat1->LoadNormalMap				("MyTexs/N.png",	0);
-	Mat1->LoadAmbientOcclusionMap	("MyTexs/AO.png",	0);
+	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::AlbedoMap, "MyTexs/A.png",	0);
+	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::RoughnessMap, "MyTexs/R.png",	0);
+	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::MetalnessMap, "MyTexs/M.png",	0);
+	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::NormalMap, "MyTexs/N.png",	0);
+	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, "MyTexs/AO.png",0);
 
 	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
 	Sphere->addComponent(new _NL::Component::Transform);
@@ -103,15 +115,16 @@ int main() {
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
 	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Sphere;
 	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
 
 	//(2)===========================================================================================
 	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
 	PBRGunMAT->AddNew_Material();
-	PBRGunMAT->LoadAlbedoMap			("Cerberus/Textures/Cerberus_A.tga", 0);
-	PBRGunMAT->LoadRoughnessMap			("Cerberus/Textures/Cerberus_R.tga", 0);
-	PBRGunMAT->LoadMetalnessMap			("Cerberus/Textures/Cerberus_M.tga", 0);
-	PBRGunMAT->LoadNormalMap			("Cerberus/Textures/Cerberus_N.tga", 0);
-	PBRGunMAT->LoadAmbientOcclusionMap	("Cerberus/Textures/Raw/Cerberus_AO.tga", 0);
+	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::AlbedoMap, "Cerberus/Textures/Cerberus_A.tga", 0);
+	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::RoughnessMap, "Cerberus/Textures/Cerberus_R.tga", 0);
+	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::MetalnessMap, "Cerberus/Textures/Cerberus_M.tga", 0);
+	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::NormalMap, "Cerberus/Textures/Cerberus_N.tga", 0);
+	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, "Cerberus/Textures/Raw/Cerberus_AO.tga", 0);
 
 	_NL::Object::GameObject* PBRGun = new _NL::Object::GameObject("PBRGun");
 	PBRGun->addComponent(new _NL::Component::Transform);
@@ -122,6 +135,7 @@ int main() {
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	PBRGun->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = PBRGun;
 	PBRGun->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+	PBRGun->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
 
 	//(3)===========================================================================================
 	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("cube");
@@ -131,7 +145,6 @@ int main() {
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cube.obj");
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
-	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Cube;
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 
@@ -143,10 +156,10 @@ int main() {
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->CreateScript(new TemplateScript());
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Quad;
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
-	
+	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
+
 	//===========================================================================================
 	//LIGHTS
 	//===========================================================================================
@@ -182,10 +195,20 @@ int main() {
 	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(PBRGun);
 	scene1->addObjectToWorld(Cube);
-	PBRGun->getComponent<_NL::Component::Transform>()->EulerRotation(0, 180, 0);
-	for(int i = 0; i< 100; i++){scene1->Instantiate(Cube, glm::vec3(rand() % 300, rand() % 300, rand() % 300), glm::vec3(rand() % 100+1, rand() % 100+1, rand() % 100+1), glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1));}
+	scene1->addObjectToWorld(Canvas1);
+
+	//PBRGun->getComponent<_NL::Component::Transform>()-> = glm::eulerAngleXYZ(0.0f,180.0f,0.0f);
+	for(int i = 0; i< 100; i++){
+		scene1->Instantiate(
+		Cube, 
+		glm::vec3(rand() % 300, rand() % 300, rand() % 300), 
+		glm::quat(glm::vec3(rand() % 360, rand() % 360, rand() % 360)), 
+		glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
+		);
+	}
 
 	scene1->addObjectToWorld(MyCam);
+	//scene1->addObjectToWorld(MyCam2);
 	scene1->addObjectToWorld(Light);
 	scene1->addObjectToWorld(Light2);
 	

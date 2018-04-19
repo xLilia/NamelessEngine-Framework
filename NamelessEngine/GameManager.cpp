@@ -133,6 +133,10 @@ void _NL::Engine::GameManager::OpenGLStart()
 		if (obj[0]->ClassName() == Classname_LightObject) {
 			Lights.push_back(dynamic_cast<_NL::Object::LightObject*>(obj[0])->LightProperties);
 		}
+		//---------------------------------------------------------------------------------
+		if (obj[0]->ClassName() == "_NL::UI::UICanvas") {
+			UICanvas.push_back(dynamic_cast<_NL::Core::UI*>(obj[0]));
+		}
 	}
 
 	//---------------------------------------------------------------------------------
@@ -166,6 +170,7 @@ void _NL::Engine::GameManager::OpenGLStart()
 	{
 		///GL OPTIONS
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_SCISSOR_TEST);
 		//glShadeModel(GL_SMOOTH);
 		//glDepthMask(GL_TRUE);
 		//glDepthFunc(GL_LEQUAL);
@@ -192,12 +197,12 @@ void _NL::Engine::GameManager::Start()
 }
 
 void _NL::Engine::GameManager::UpdateCurrentScene() {
+	int cami = 1;
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
 		//---------------------------------------------------------------------------------
 		//UPDATE CAM
 		check_gl_error();
-		Cam->updateCameraProjectionMatrix();
  		Cam->PrepareToRenderScene();
 		//---------------------------------------------------------------------------------
 		//Update Light ubo;
@@ -215,7 +220,7 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 		//SKYBOX RENDERING
 		if (CurrentScene->Skybox != 0) {
 			CurrentScene->Skybox->SkyboxDysplayShader->Use();
-			glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+			glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
 			glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
 			CurrentScene->Skybox->RenderSkybox();
 			check_gl_error();
@@ -255,7 +260,11 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 					//---------------------------------------------------------------------------------
 					//INSTANCE MODEL MAT
 					glm::mat4 T = glm::translate(glm::mat4(), _ObjT->transform.position) * glm::translate(glm::mat4(), _ObjT_P->transform.position);
-					glm::mat4 R = _ObjT->transform.RotationMatrix * _ObjT_P->transform.RotationMatrix;
+					
+					glm::mat4 T_RotationMatrix = glm::toMat4(_ObjT->transform.QuaternionRotation); 
+					glm::mat4 TP_RotationMatrix = glm::toMat4(_ObjT_P->transform.QuaternionRotation);
+					glm::mat4 R = T_RotationMatrix * TP_RotationMatrix;
+
 					glm::mat4 S = glm::scale(glm::mat4(), _ObjT->transform.scale) * glm::scale(glm::mat4(), _ObjT_P->transform.scale);
 					glm::mat4 _Modelmat = T * R * S;
 					
@@ -270,7 +279,7 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 				check_gl_error();
 				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
 				check_gl_error();
-				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->projectionMatrix));
+				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
 				glUniform3f(_NL::Core::EyePos_uniform, Cam->Position.x, Cam->Position.y, Cam->Position.z);
 				check_gl_error();
 
@@ -341,18 +350,33 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 					}
 				ObjMR->Shader->UnUse();
 				glDeleteBuffers(1, &InstanceABO);
+				//---------------------------------------------------------------------------------
 			}
 		}
 		//---------------------------------------------------------------------------------
 		//RENDER TO SCREEN;
 		if (Cam->HasPingPongShader && Cam->PingPongShader != NULL) {
 			GLuint ppt = Cam->GeneratePingPongTexture();
-			Cam->DisplayOnScreen(window, &ppt);
+			Cam->DisplayOnScreen(cami, &ppt);
 		}
 		else {
-			Cam->DisplayOnScreen(window);
+			Cam->DisplayOnScreen(cami);
 		}
+
+		check_gl_error();
+		cami++;
+		
 	}
+	
+	//UI Canvas Render
+	for each (_NL::UI::UICanvas* UIC in UICanvas)
+	{
+		check_gl_error();
+		UIC->DrawElements();
+		check_gl_error();
+	}
+	
+	window->display();
 }
 
 void _NL::Engine::GameManager::GameTick() {

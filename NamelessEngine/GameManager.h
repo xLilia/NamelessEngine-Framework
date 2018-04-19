@@ -20,6 +20,7 @@ namespace _NL {
 			_NL::Engine::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
+			std::vector<_NL::Core::UI*> UICanvas;
 			
 			void RunCurrentScene();
 			void EndCurrentScene();

@@ -102,6 +102,12 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
+    <ClCompile Include="UICanvas.cpp">
+      <Filter>Source Files\EngineObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="UIImage.cpp">
+      <Filter>Source Files\EngineObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -171,6 +177,12 @@
       <Filter>Header Files\Elements</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
+      <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>Source Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="UICanvas.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
   </ItemGroup>

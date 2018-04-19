@@ -1,6 +1,6 @@
 #include "CameraObj.h"
 
-_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nMultisamples, GLuint nColorTextures, bool HasPingPongShader, GLuint PingPongIterations)
+_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nMultisamples, GLuint nRenderTextures, bool HasPingPongShader, GLuint PingPongIterations)
 {
 	this->name = name;
 	this->FOV = FOV;
@@ -12,10 +12,9 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	this->RenderWindowSize.y = RenderWindowHeight;
 	this->RenderScaleRatio = RenderScaleRatio;
 	this->nMultisamples = nMultisamples;
-	this->nColorTextures = nColorTextures;
+	this->nRenderTextures = nRenderTextures;
 	this->HasPingPongShader = HasPingPongShader;
 	this->PingPongIterations = PingPongIterations;
-	updateCameraSettings();
 	updateAudioListenerWithCamTransform();
 }
 
@@ -23,7 +22,7 @@ void _NL::Object::CameraObj::updateAudioListenerWithCamTransform()
 {
 	updateAudioListenerPosition(Position);
 	updateAudioListenerDirection(LookAt);
-	updateAudioListenerRotation(Axis);
+	updateAudioListenerRotation(UpAxis);
 }
 
 void _NL::Object::CameraObj::updateAudioListenerPosition(glm::vec3 pos)
@@ -41,30 +40,19 @@ void _NL::Object::CameraObj::updateAudioListenerRotation(glm::vec3 upVec)
 	AudioListener.setUpVector(upVec.x, upVec.y, upVec.z);
 }
 
-void _NL::Object::CameraObj::updateCameraSettings()
-{
-	updateCameraViewport();
-	updateCameraProjectionMatrix();
-}
-
-void _NL::Object::CameraObj::updateCameraProjectionMatrix()
-{
-	projectionMatrix = glm::perspective(glm::radians(FOV), (GLfloat)RenderWindowSize.x / (GLfloat)RenderWindowSize.y, NearPlane, FarPlane);
-}
-
-void _NL::Object::CameraObj::updateCameraViewport()
-{
-	glViewport(RenderWindowPos.x, RenderWindowPos.y, RenderWindowSize.x, RenderWindowSize.y);
-}
-
 glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
 {
-	return glm::lookAt(Position, Position + LookAt, Axis);
+	return glm::lookAt(Position, Position + LookAt, UpAxis);
 }
 
 glm::mat4 _NL::Object::CameraObj::getViewMatrix() const
 {
-	return glm::lookAt(glm::vec3(), glm::vec3() + LookAt, Axis);
+	return glm::lookAt(glm::vec3(), glm::vec3() + LookAt, UpAxis);
+}
+
+glm::mat4 _NL::Object::CameraObj::getProjectionMatrix() const
+{
+	return glm::perspective(glm::radians(FOV), (GLfloat)RenderWindowSize.x / (GLfloat)RenderWindowSize.y, NearPlane, FarPlane);
 }
 
 void _NL::Object::CameraObj::GenerateFrameBuffers() {
@@ -89,12 +77,16 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glDeleteTextures(2, &pingPongTexture[0]);
 	glDeleteFramebuffers(2, &pingPongFBO[0]);
 
+	if (HasPingPongShader && nRenderTextures < 2) {
+		nRenderTextures = 2;
+	}
+
 	if (nMultisamples == 0) {
 
 		//---------------------------------------------------------------------------------
 		//ColorTexture
 		//---------------------------------------------------------------------------------
-		for (GLuint i = 0; i < nColorTextures; i++) {
+		for (GLuint i = 0; i < nRenderTextures; i++) {
 			GLuint ColorTexture;
 			glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
 			glBindTexture(GL_TEXTURE_2D, ColorTexture);
@@ -146,7 +138,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 
 		glCreateFramebuffers(1, &SceneRenderFrameBuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
-		for (GLuint i = 0; i < nColorTextures; i++) {
+		for (GLuint i = 0; i < nRenderTextures; i++) {
 			glFramebufferTexture2D(
 				GL_FRAMEBUFFER,
 				GL_COLOR_ATTACHMENT0+i,
@@ -172,7 +164,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		//---------------------------------------------------------------------------------
 		//MULTISAMPLE_ColorTexture
 		//---------------------------------------------------------------------------------
-		for (GLuint i = 0; i < nColorTextures; i++) {
+		for (GLuint i = 0; i < nRenderTextures; i++) {
 			GLuint ColorTexture;
 			glCreateTextures(GL_TEXTURE_2D_MULTISAMPLE, 1, &ColorTexture);
 			glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, ColorTexture);
@@ -211,7 +203,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 
 		glCreateFramebuffers(1, &SceneRenderFrameBuffer);
 		glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
-		for (GLuint i = 0; i < nColorTextures; i++) {
+		for (GLuint i = 0; i < nRenderTextures; i++) {
 			glFramebufferTexture2D(
 				GL_FRAMEBUFFER,
 				GL_COLOR_ATTACHMENT0 + i,
@@ -267,8 +259,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, PostProcessing_ColorTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
@@ -291,8 +283,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, PostProcessing_DepthTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
@@ -352,11 +344,11 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 			glTexImage2D(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGB16F,
+				GL_RGBA16F,
 				RenderWindowSize.x * RenderScaleRatio,
 				RenderWindowSize.y * RenderScaleRatio,
 				0,
-				GL_RGB,
+				GL_RGBA,
 				GL_FLOAT,
 				NULL
 			);
@@ -436,10 +428,10 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 	glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
 	if (ColorTextures.size() > 0) {
 		GLenum* atachments = new GLenum[ColorTextures.size()];
-		for (GLuint i = 0; i < nColorTextures; i++) {
+		for (GLuint i = 0; i < nRenderTextures; i++) {
 			atachments[i] = GL_COLOR_ATTACHMENT0 + i;
 		}
-		glDrawBuffers(nColorTextures, atachments);
+		glDrawBuffers(nRenderTextures, atachments);
 	}
 	glViewport(
 		RenderWindowPos.x,
@@ -452,7 +444,7 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 	//Ready for render...
 }
 
-void _NL::Object::CameraObj::DisplayOnScreen(sf::Window* W, GLuint* aditionalTextures)
+void _NL::Object::CameraObj::DisplayOnScreen(GLuint camID, GLuint* aditionalTextures)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, SceneRenderFrameBuffer);
@@ -480,7 +472,7 @@ void _NL::Object::CameraObj::DisplayOnScreen(sf::Window* W, GLuint* aditionalTex
 
 	glDisable(GL_DEPTH_TEST);
 
-	glUseProgram(PostProcessingShader->getShaderProgram());
+	PostProcessingShader->Use();
 
 	GLuint texLocation = 0;
 	glUniform1i(texLocation, 0);
@@ -496,19 +488,20 @@ void _NL::Object::CameraObj::DisplayOnScreen(sf::Window* W, GLuint* aditionalTex
 		}
 	}
 	check_gl_error();
-	
-	_NL::Core::RenderScreenQuad(
-		RenderWindowPos.x, 
-		RenderWindowPos.y, 
-		RenderWindowSize.x, 
-		RenderWindowSize.y, 
-		PostProcessingShader->getShaderProgram()
+
+
+	_NL::Core::RenderQuad(
+		RenderWindowPos.x,
+		RenderWindowPos.y,
+		RenderWindowSize.x,
+		RenderWindowSize.y,
+		PostProcessingShader->getShaderProgram(),
+		true, camID
 	);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glEnable(GL_DEPTH_TEST);
 	check_gl_error();
-	W->display();
 }
 
 std::string _NL::Object::CameraObj::ClassName() const
@@ -548,7 +541,7 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 
 	GLint amount = PingPongIterations;
 	glUseProgram(0);
-	glUseProgram(PingPongShader->getShaderProgram());
+	PingPongShader->Use();
 	for (GLuint i = 0; i < amount; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, pingPongFBO[bPingPong]);
@@ -566,7 +559,7 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 			);
 		
 		check_gl_error();
-		_NL::Core::RenderScreenQuad(
+		_NL::Core::RenderQuad(
 			RenderWindowPos.x,
 			RenderWindowPos.y,
 			RenderWindowSize.x,

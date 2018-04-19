@@ -1,7 +1,6 @@
 #pragma once
 #include "NamelessCore.h"
 #include <glm\gtc\matrix_transform.hpp>
-#include <glm\gtx\euler_angles.hpp>
 
 namespace _NL {
 	namespace Component {
@@ -12,10 +11,11 @@ namespace _NL {
 			~Transform();
 
 			_NL::Core::transform transform;
-
-			void EulerRotation(GLfloat x = 0, GLfloat y = 0, GLfloat z = 0);
-			void EulerRotation(glm::vec3 Axis);
-
+			glm::vec3 eulerAngles();
+			glm::quat LookAt(glm::vec3 target, glm::vec3 forwardAxis);
+			glm::quat RotateEuler(glm::vec3 euleAngles);
+			//glm::quat QuaternionFromAxisAngle(glm::vec3 ax, GLfloat angle);
+			//void alignUpAxisWith(glm::vec3 up);
 			///STATES
 			bool bactive = true;
 			///INFO

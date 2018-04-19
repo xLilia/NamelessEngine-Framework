@@ -10,6 +10,7 @@
 ///Components
 #include "Transform.h"
 #include "MeshRenderer.h"
+#include "UICanvas.h"
 
 ///ENGINE
 #include "GameManager.h"

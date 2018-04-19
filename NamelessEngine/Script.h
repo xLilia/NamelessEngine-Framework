@@ -8,10 +8,10 @@ namespace _NL {
 		public:
 			
 			Script() {
-				CreateScript(new T());
+				CreateNewScript(new T());
 			}
 
-			void CreateScript(T* ScriptClass) {
+			void CreateNewScript(T* ScriptClass) {
 				cpps = ScriptClass;
 			}
 

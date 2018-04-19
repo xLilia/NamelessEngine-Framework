@@ -14,7 +14,7 @@ _NL::Object::GameObject::GameObject(const GameObject &CO)
 			//
 			//_NL::Component::Script<_NL::Core::CppScript>* N = new _NL::Component::Script<_NL::Core::CppScript>;
 			//
-			//N->CreateScript(T);
+			//N->CreateNewScript(T);
 			
 			//this->addComponent();
 			//this->addComponent(new _NL::Component::Script<>);

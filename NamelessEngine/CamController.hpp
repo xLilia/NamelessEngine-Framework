@@ -1,11 +1,10 @@
-#pragma once
-#include <glm\gtc\matrix_transform.hpp>
-
+#pragma once	
 class CamController : public _NL::Core::CppScript
 {
 private:
-	GLfloat BaseMovementSpeed = 3;
-	GLfloat MovementSpeed = 3;
+	GLfloat Drag = 10;
+	glm::vec3 movementVector;
+	GLfloat movementSpeed = 1;
 	GLfloat AxisSpeed = 1;
 	glm::vec2 mouseDelta;
 	glm::vec2 oldMousePos;
@@ -17,10 +16,6 @@ public:
 	void RotateCam();
 	GLfloat TrackMouse();
 	
-	template<typename T>
-	T lerp(T v0, T v1, GLfloat t) {
-		return (1 - t) * v0 + t * v1;
-	}
 };
 
 void CamController::Start() {
@@ -35,37 +30,41 @@ void CamController::Update() {
 	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
 	
 	//GET SIDE VECTOR
-	glm::vec3 SIDEWAYS = glm::cross(_this->Axis, _this->LookAt);
+	glm::vec3 SIDEWAYS = glm::cross(_this->UpAxis, _this->LookAt);
 
-	//FORWARD-BACKWARDS MOVEMENT
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		_this->Position += _this->LookAt * MovementSpeed * dts;
+		movementVector += _this->LookAt * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		_this->Position -= _this->LookAt * MovementSpeed * dts;
+		movementVector -= _this->LookAt * movementSpeed;
 	}
-	//SIDEWAYS MOVEMENT
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-	
-		_this->Position += SIDEWAYS * MovementSpeed * dts;
+		movementVector += SIDEWAYS * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		_this->Position -= SIDEWAYS * MovementSpeed * dts;
+		movementVector -= SIDEWAYS * movementSpeed;
 	}
-	//UP-DOWN MOVEMENT
+
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		_this->Position += _this->Axis * MovementSpeed * dts;
+		movementVector += _this->UpAxis * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		_this->Position -= _this->Axis * MovementSpeed * dts;
+		movementVector -= _this->UpAxis * movementSpeed;
 	}
+
+	movementVector = glm::lerp(movementVector, glm::vec3(0.0f), dts*Drag);
+
+	_this->Position = glm::lerp(_this->Position, _this->Position + movementVector, dts);
+
 	//SPEED UP
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-		MovementSpeed = lerp(MovementSpeed, 20.0f, dts);
+		movementSpeed = glm::lerp(movementSpeed, 10.0f, 1.0f);
 	}
 	else {
-		MovementSpeed = lerp(MovementSpeed, BaseMovementSpeed, dts*2);
+		movementSpeed = glm::lerp(movementSpeed, 1.0f, 1.0f);
 	}
+
 	//MOUSE BUTTONS CHANGE CAM FOV
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 		_this->FOV += 1;
@@ -73,8 +72,9 @@ void CamController::Update() {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
 		_this->FOV -= 1;
 	}
+
 	//LOAD NEXT SCENE
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
 		std::cout << "Load next scene..." << std::endl;
 		W->EndCurrentScene();
 	}
@@ -85,8 +85,8 @@ void CamController::Update() {
 
 //CALCULATE WERE TO lOOK AT
 void CamController::RotateCam() {
-	glm::vec3 UPDOWN = glm::cross(_this->LookAt, _this->Axis);
-	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->Axis);
+	glm::vec3 UPDOWN = glm::cross(_this->LookAt, _this->UpAxis);
+	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->UpAxis);
 
 	_this->LookAt = glm::mat3(rotator) * _this->LookAt;
 }
