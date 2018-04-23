@@ -51,7 +51,7 @@ namespace _NL {
 			GLuint DepthTexture;
 			//GLuint rboDepth;
 			
-			glm::vec3 ClearScreenColor = glm::vec3(1,0,1);
+			glm::vec3 ClearScreenColor = glm::vec3(0,0,0);
 
 			glm::mat4 getWorldToViewMatrix() const;
 			glm::mat4 getViewMatrix() const;

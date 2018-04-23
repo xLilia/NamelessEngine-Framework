@@ -36,10 +36,10 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("hdr1/japanhdri (14).jpg", 1024 * 2);
-	sky1->createSkybox("hdr1/japanhdri (14).jpg", 1024*2);
+	//sky1->createEnvironment("hdr1/japanhdri (3).jpg", 1024 * 2);
+	//sky1->createSkybox("hdr1/japanhdri (3).jpg", 1024*2);
 
-	scene1->Skybox = sky1;
+	//scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
 	//	"sky2/ft.tga", 
@@ -63,20 +63,13 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x , winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 8, 1, false, 10);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x , winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 8, 2, true, 21);
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1, 0, 1, false, 10);
 
 	//_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x/2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1, 8, 2, true, 10);
-	
-	
+
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
-	
-	_NL::UI::UICanvas* Canvas1 = new _NL::UI::UICanvas();
-	Canvas1->ImageRenderShader = screenshader;
-	_NL::UI::UIImage* ui1 = new _NL::UI::UIImage("hdr1/FACEB.PNG");
-	ui1->scale *= 1;
-	Canvas1->addUIElement(ui1);
 
 	MyCam->addComponent(new _NL::Component::Script<CamController>);
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
@@ -88,6 +81,48 @@ int main() {
 	MyCam2->PingPongShader = GaussianBlur;
 
 	//===========================================================================================
+	//CANVAS
+	//===========================================================================================
+	_NL::Element::ShaderInstance* UITexShder = new _NL::Element::ShaderInstance("UITexVertshader.glsl", "UITexFragshader.glsl");
+
+	_NL::UI::UICanvas* Canvas1 = new _NL::UI::UICanvas();
+	Canvas1->ImageRenderShader = UITexShder;
+
+	_NL::Element::TextureInstance* crossairTex = new _NL::Element::TextureInstance("myTexs/nt.png", 1);
+	_NL::Element::TextureInstance* bar = new _NL::Element::TextureInstance("myTexs/nt2.png", 1);
+	_NL::Element::TextureInstance* bar2 = new _NL::Element::TextureInstance("myTexs/nt3.png", 1);
+	_NL::Element::TextureInstance* laintrain = new _NL::Element::TextureInstance("myTexs/laiin.png", 1);
+	
+	_NL::UI::UIImage* ui1 = new _NL::UI::UIImage(crossairTex);
+	ui1->scale.x *= 1;
+	ui1->scale.y *= 1;
+	ui1->AnchorPosition = glm::vec2(0, 0);
+	ui1->PositionRelativeToAnchor = glm::vec2(winMan.window->getSize().x/2, winMan.window->getSize().y/2);
+	ui1->Layer = 3;
+
+	_NL::UI::UIImage* ui2 = new _NL::UI::UIImage(bar);
+	ui2->widthHeight = glm::vec2(100,100);
+	ui2->AnchorPosition = glm::vec2(10, 10);
+	ui2->Layer = 2;
+
+	_NL::UI::UIImage* ui3 = new _NL::UI::UIImage(bar2);
+	ui3->widthHeight.x = winMan.window->getSize().x - 100;
+	ui3->widthHeight.y *= 3;
+	ui3->AnchorPosition = ui2->AnchorPosition;
+	ui3->PositionRelativeToAnchor = glm::vec2(0, 50-ui3->widthHeight.y/2);
+	ui3->Layer = 1;
+	
+	_NL::UI::UIImage* ui4 = new _NL::UI::UIImage(laintrain);
+	ui4->Layer = 0;
+	ui4->AnchorPosition = glm::vec2(100, 300);
+	//ui4->widthHeight = glm::vec2(winMan.window->getSize().x, winMan.window->getSize().y);
+
+	Canvas1->addUIElement(ui1);
+	Canvas1->addUIElement(ui2);
+	Canvas1->addUIElement(ui3);
+	Canvas1->addUIElement(ui4);
+
+	//===========================================================================================
 	//MATERIAL SHADERS
 	//===========================================================================================
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
@@ -97,14 +132,26 @@ int main() {
 	//OBJECTS 
 	//===========================================================================================
 	
+	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/A.png", 0);
+	_NL::Element::TextureInstance* mtR = new  _NL::Element::TextureInstance("MyTexs/R.png", 0);
+	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M.png", 0);
+	_NL::Element::TextureInstance* mtN = new _NL::Element::TextureInstance("MyTexs/N.png", 0);
+	_NL::Element::TextureInstance* mtAO = new _NL::Element::TextureInstance("MyTexs/AO.png", 0);
+
+	_NL::Element::TextureInstance* CerberusA = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_A.tga", 0);
+	_NL::Element::TextureInstance* CerberusR = new  _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_R.tga", 0);
+	_NL::Element::TextureInstance* CerberusM = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_M.tga", 0);
+	_NL::Element::TextureInstance* CerberusN = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_N.tga", 0);
+	_NL::Element::TextureInstance* CerberusAO = new _NL::Element::TextureInstance("Cerberus/Textures/Raw/Cerberus_AO.tga", 0);
+
 	//(1)===========================================================================================
 	_NL::Element::MaterialInstance* Mat1 = new _NL::Element::MaterialInstance();
 	Mat1->AddNew_Material();
-	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::AlbedoMap, "MyTexs/A.png",	0);
-	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::RoughnessMap, "MyTexs/R.png",	0);
-	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::MetalnessMap, "MyTexs/M.png",	0);
-	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::NormalMap, "MyTexs/N.png",	0);
-	Mat1->LoadTextureMap	(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, "MyTexs/AO.png",0);
+	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::AlbedoMap, mtA, 0);
+	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::RoughnessMap, mtR,	0);
+	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::MetalnessMap, mtM,	0);
+	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::NormalMap, mtN, 0);
+	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, mtAO ,0);
 
 	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
 	Sphere->addComponent(new _NL::Component::Transform);
@@ -120,11 +167,11 @@ int main() {
 	//(2)===========================================================================================
 	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
 	PBRGunMAT->AddNew_Material();
-	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::AlbedoMap, "Cerberus/Textures/Cerberus_A.tga", 0);
-	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::RoughnessMap, "Cerberus/Textures/Cerberus_R.tga", 0);
-	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::MetalnessMap, "Cerberus/Textures/Cerberus_M.tga", 0);
-	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::NormalMap, "Cerberus/Textures/Cerberus_N.tga", 0);
-	PBRGunMAT->LoadTextureMap(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, "Cerberus/Textures/Raw/Cerberus_AO.tga", 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AlbedoMap, CerberusA , 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::RoughnessMap, CerberusR, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::MetalnessMap, CerberusM, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::NormalMap, CerberusN, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, CerberusAO, 0);
 
 	_NL::Object::GameObject* PBRGun = new _NL::Object::GameObject("PBRGun");
 	PBRGun->addComponent(new _NL::Component::Transform);

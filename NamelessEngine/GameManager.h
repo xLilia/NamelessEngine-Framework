@@ -15,13 +15,13 @@ namespace _NL {
 			~GameManager();
 		
 			sf::Event Event;
-			sf::RenderWindow* window;
+			sf::Window* window;
 			_NL::Engine::Time GameTime;
 			_NL::Engine::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
 			std::vector<_NL::Core::UI*> UICanvas;
-			
+
 			void RunCurrentScene();
 			void EndCurrentScene();
 

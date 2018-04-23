@@ -8,6 +8,7 @@ private:
 	GLfloat AxisSpeed = 1;
 	glm::vec2 mouseDelta;
 	glm::vec2 oldMousePos;
+	
 public:
 	_NL::Engine::GameManager * W;
 	_NL::Object::CameraObj* _this;
@@ -19,12 +20,15 @@ public:
 };
 
 void CamController::Start() {
-
+	
+	//W->window->setMouseCursorVisible(false);
 }
 
 void CamController::Update() {
-
-	TrackMouse();
+	
+	if(W->window->hasFocus())
+		TrackMouse();
+		
 
 	//SYNC WITH DELTA TIME
 	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
@@ -87,12 +91,12 @@ void CamController::Update() {
 void CamController::RotateCam() {
 	glm::vec3 UPDOWN = glm::cross(_this->LookAt, _this->UpAxis);
 	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->UpAxis);
-
 	_this->LookAt = glm::mat3(rotator) * _this->LookAt;
 }
 
 //TRACK MOUSE ON SCREEN
 GLfloat CamController::TrackMouse() {
+	//sf::Mouse::setPosition(sf::Vector2i(W->window->getSize().x / 2, W->window->getSize().y / 2), *W->window);
 	glm::vec2 newMousePos((GLfloat)sf::Mouse::getPosition(*W->window).x, (GLfloat)sf::Mouse::getPosition(*W->window).y);
 	mouseDelta = (newMousePos - oldMousePos);
 	GLfloat moveSpeed = sqrt(mouseDelta.x*mouseDelta.x + mouseDelta.y*mouseDelta.y);

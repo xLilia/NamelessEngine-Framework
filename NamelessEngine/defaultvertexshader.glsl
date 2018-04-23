@@ -54,7 +54,6 @@ void main()
 	//Fragment Position in World Space
 	fragPos = vec3(aInstanceModel * vec4(aPosition,1.0));
 
-
 	mat3 normalMatrix = transpose(inverse(mat3(aInstanceModel)));
 
 	vec3 T = normalize(normalMatrix * aTangent);

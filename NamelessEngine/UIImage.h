@@ -1,21 +1,18 @@
 #pragma once
 #include "NamelessCore.h"
 #include "TextureLoader.h"
+#include "TextureInstance.h"
 namespace _NL {
 	namespace UI {
 		class UIImage : public _NL::Core::UI
 		{
 		public:
-			UIImage();
-			UIImage(char* const filepath);
+			UIImage(_NL::Element::TextureInstance* Texture);
 			~UIImage();
-			void LoadTexture(char* const filepath);
-			GLuint TextureID = NULL;
-			glm::vec2 widthHight;
-			GLfloat scale = 1;
+			_NL::Element::TextureInstance* Texture;
+			glm::vec2 scale = glm::vec2(1.0f, 1.0f);
+			glm::vec2 widthHeight;
 			std::string ClassName() const override;
-		private:
-			_NL::Tools::TextureLoader TL;
 		};
 	}
 }

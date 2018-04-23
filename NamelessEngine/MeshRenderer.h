@@ -1,6 +1,5 @@
 #pragma once
 #include "NamelessCore.h"
-#include "TextureLoader.h"
 #include "ShaderInstance.h"
 #include "MeshInstance.h"
 #include "MaterialInstance.h"

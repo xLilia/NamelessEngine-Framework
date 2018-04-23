@@ -5,11 +5,19 @@ _NL::Tools::TextureLoader::TextureLoader()
 	
 }
 
-GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSaveTexID)
+GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool Nearest, bool FlipHorizontaly, bool FlipVertically)
 {
 
 	if (filePath != 0) {
 		LoadImage(filePath);
+	}
+
+	if (FlipHorizontaly) {
+		LoadedTexture.flipHorizontally();
+	}
+
+	if (FlipVertically) {
+		LoadedTexture.flipVertically();
 	}
 	
 	GLuint GLTexID;
@@ -17,8 +25,14 @@ GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSav
 	glBindTexture(GL_TEXTURE_2D, GLTexID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if (Nearest) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	else {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
@@ -30,9 +44,7 @@ GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool bSav
 		GL_UNSIGNED_BYTE,
 		LoadedTexture.getPixelsPtr()
 	);
-	//glGenerateMipmap(GLTexID);
-	if(bSaveTexID)
-		GLTexIDs.push_back(GLTexID);
+	GLTexIDs.push_back(GLTexID);
 	return GLTexID;
 }
 

@@ -9,11 +9,6 @@ glm::vec3 calculateTangent(glm::vec3 pos0, glm::vec3 pos1, glm::vec3 pos2, glm::
 	//TANGENT
 	glm::vec3 tangent;
 
-	//MirrorUV in Yaxis
-	//UV0 = glm::vec2(0, 1) - UV0;
-	//UV1 = glm::vec2(0, 1) - UV1;
-	//UV2 = glm::vec2(0, 1) - UV2;
-
 	glm::vec3 edge1 = pos1 - pos0;
 	glm::vec3 edge2 = pos2 - pos0;
 	glm::vec2 deltaUV1 = UV1 - UV0;
@@ -66,7 +61,7 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Tangent.y);
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.s);
-		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t); //MirrorUV
+		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[0] - 1].TexCoord.t);
 		//V2 ======================
 		IndicesBuf.push_back(vI.v[1] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[1] - 1].Pos.x);
@@ -79,7 +74,7 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Tangent.y);
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.s);
-		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t); //MirrorUV
+		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[1] - 1].TexCoord.t);
 		//V3 ======================
 		IndicesBuf.push_back(vI.v[2] - 1);
 		VertsBuf.push_back(Mesh->MeshData.vPos[vI.v[2] - 1].Pos.x);
@@ -92,7 +87,7 @@ void _NL::Component::MeshRenderer::UnpackData() {
 		VertsBuf.push_back(Tangent.y);
 		VertsBuf.push_back(Tangent.z);
 		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.s);
-		VertsBuf.push_back(1-Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t); //MirrorUV
+		VertsBuf.push_back(Mesh->MeshData.vTexC[vI.vt[2] - 1].TexCoord.t);
 		//---------------------------------------------------------------------------------
 	}
 	

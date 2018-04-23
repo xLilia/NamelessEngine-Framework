@@ -108,6 +108,9 @@
     <ClCompile Include="UIImage.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
+    <ClCompile Include="TextureInstance.cpp">
+      <Filter>Source Files\Elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -179,11 +182,14 @@
     <ClInclude Include="GameManager.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
-    <ClInclude Include="UIImage.h">
-      <Filter>Source Files\Elements</Filter>
-    </ClInclude>
     <ClInclude Include="UICanvas.h">
       <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>Header Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureInstance.h">
+      <Filter>Header Files\Elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,5 +210,7 @@
     <None Include="BRDFDefaultVertshader.glsl" />
     <None Include="GaussianBlurVshader.glsl" />
     <None Include="GaussianBlurFshader.glsl" />
+    <None Include="UITexVertshader.glsl" />
+    <None Include="UITexFragshader.glsl" />
   </ItemGroup>
 </Project>

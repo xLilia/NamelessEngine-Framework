@@ -72,7 +72,7 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint r
 	if (!bIsIrradiance && !bIsPreFiltering) {
 		EnvRes = resolution;
 		EnvBlur = BlurLevel;
-		TexMap = this->TL.GenerateTexure(file_path, false);
+		TexMap = this->TL.GenerateTexure(file_path, false, false, false);
 	}
 	else {
 		TexMap = EnvironmentMap;
@@ -253,7 +253,7 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint r
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, BRDF_2D_LUTMap, 0);
 
-		_NL::Core::RenderQuad(0, 0, 512, 512, BRDFShader->getShaderProgram());
+		_NL::Core::RenderQuad(0, 0, 512, 512, true, BRDFShader->getShaderProgram());
 	}
 	
 	//End Render

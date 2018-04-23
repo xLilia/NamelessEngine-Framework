@@ -16,7 +16,7 @@ namespace _NL {
 			std::vector<_NL::Core::UI*> UIelements;
 
 			void addUIElement(_NL::Core::UI* UI);
-			void DrawElements();
+			void DrawElements(GLfloat ScreenHeight);
 
 			std::string ClassName() const override;
 		};

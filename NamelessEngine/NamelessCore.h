@@ -67,9 +67,14 @@ namespace _NL{
 		{
 		public:
 			virtual std::string ClassName() const = 0;
-			glm::vec2 PositionRelativeToAnchor = glm::vec2(0, 0);
+			glm::vec2 PositionRelativeToAnchor = glm::vec2(0,0);
 			glm::vec2 AnchorPosition = glm::vec2(0,0);
+			GLint Layer = 0;
 			GLfloat RotationAngle;
+
+			bool friend operator<(const UI& _this, const UI& other) {
+				return _this.Layer < other.Layer;
+			}
 		};
 
 
@@ -247,7 +252,7 @@ namespace _NL{
 		
 
 		
-		inline void RenderQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, GLuint Shader = 0, bool removeProgramAferUse = true, GLuint camId = 0) {
+		inline void RenderQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, bool removeProgramAferUse = true, GLuint Shader = 0, GLuint camId = 0) {
 			if(Shader != 0) 
 				glUseProgram(Shader);
 			glViewport(w0, h0, w1, h1);

@@ -8,14 +8,13 @@ _NL::Engine::GameManager::GameManager(const char* WindowName, int Width, int hei
 	//---------------------------------------------------------------------------------
 	//WINDOW INITIALIZATION
 	//---------------------------------------------------------------------------------
-	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
+	window = new sf::Window(sf::VideoMode(Width, height), WindowName);
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
 	}
 	window->setFramerateLimit(fpsLimit);
 	window->setVerticalSyncEnabled(bVSync);
 	window->setKeyRepeatEnabled(false);
-	sf::Keyboard::setVirtualKeyboardVisible(true);
 	glewInit();
 	//_toggle_gl_debug();
 	//---------------------------------------------------------------------------------
@@ -328,20 +327,32 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 						//SEND MATERIAL DATA
 						glActiveTexture(GL_TEXTURE0 + 0);
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
+						
 						glActiveTexture(GL_TEXTURE0 + 1);
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
+						
 						glActiveTexture(GL_TEXTURE0 + 2);
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
+						
 						glActiveTexture(GL_TEXTURE0 + 3);
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
+						
 						glActiveTexture(GL_TEXTURE0 + 4);
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
-						glActiveTexture(GL_TEXTURE0 + 5);
-						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
-						glActiveTexture(GL_TEXTURE0 + 6);
-						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
-						glActiveTexture(GL_TEXTURE0 + 7);
-						glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
+						
+						if (this->CurrentScene->Skybox) {
+							glActiveTexture(GL_TEXTURE0 + 5);
+							if (this->CurrentScene->Skybox->IrradienceMap)
+								glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
+
+							glActiveTexture(GL_TEXTURE0 + 6);
+							if (this->CurrentScene->Skybox->PreFilterMap)
+								glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
+
+							glActiveTexture(GL_TEXTURE0 + 7);
+							if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
+								glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
+						}
 						check_gl_error();
 						//---------------------------------------------------------------------------------
 						//DRAW MESH 
@@ -372,7 +383,7 @@ void _NL::Engine::GameManager::UpdateCurrentScene() {
 	for each (_NL::UI::UICanvas* UIC in UICanvas)
 	{
 		check_gl_error();
-		UIC->DrawElements();
+		UIC->DrawElements(window->getSize().y);
 		check_gl_error();
 	}
 	

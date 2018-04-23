@@ -495,8 +495,9 @@ void _NL::Object::CameraObj::DisplayOnScreen(GLuint camID, GLuint* aditionalText
 		RenderWindowPos.y,
 		RenderWindowSize.x,
 		RenderWindowSize.y,
+		true,
 		PostProcessingShader->getShaderProgram(),
-		true, camID
+		camID
 	);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -564,8 +565,7 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 			RenderWindowPos.y,
 			RenderWindowSize.x,
 			RenderWindowSize.y,
-			PingPongShader->getShaderProgram(),
-			0
+			false
 		);
 		bPingPong = !bPingPong;
 		if (first_iteration) first_iteration = false;

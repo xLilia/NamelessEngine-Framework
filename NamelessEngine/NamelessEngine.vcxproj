@@ -164,6 +164,7 @@
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="NL_Time.cpp" />
     <ClCompile Include="SkyboxObj.cpp" />
+    <ClCompile Include="TextureInstance.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="ShaderWizard.h" />
     <ClInclude Include="NL_Time.h" />
     <ClInclude Include="TemplateScript.hpp" />
+    <ClInclude Include="TextureInstance.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="GameManager.h" />
@@ -216,6 +218,8 @@
     <None Include="screenQuadVshader.glsl" />
     <None Include="SkyboxDefaultFragshader.glsl" />
     <None Include="SkyboxDefaultVertshader.glsl" />
+    <None Include="UITexFragshader.glsl" />
+    <None Include="UITexVertshader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
