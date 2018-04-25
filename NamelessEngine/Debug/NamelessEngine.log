@@ -8,7 +8,7 @@ x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(46): warning C4305: '+=': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(53): warning C4305: '-=': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\templatescript.hpp(56): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(65): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(66): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(67): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(109): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(115): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
   NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Debug\NamelessEngine.exe

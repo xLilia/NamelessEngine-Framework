@@ -8,7 +8,6 @@ const float MAX_REFLECTION_LOD = 4.0;
 
 in vec3 fragPos;
 in vec2 fragTexCoord;
-//in vec3 Normal;
 in vec3 vTangentLightPos[NR_LIGHTS];
 in vec3 vTangentEyePos;
 in vec3 vTangentFragPos;

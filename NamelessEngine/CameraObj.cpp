@@ -18,6 +18,8 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	updateAudioListenerWithCamTransform();
 }
 
+
+
 void _NL::Object::CameraObj::updateAudioListenerWithCamTransform()
 {
 	updateAudioListenerPosition(Position);
@@ -40,6 +42,8 @@ void _NL::Object::CameraObj::updateAudioListenerRotation(glm::vec3 upVec)
 	AudioListener.setUpVector(upVec.x, upVec.y, upVec.z);
 }
 
+
+
 glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
 {
 	return glm::lookAt(Position, Position + LookAt, UpAxis);
@@ -52,7 +56,7 @@ glm::mat4 _NL::Object::CameraObj::getViewMatrix() const
 
 glm::mat4 _NL::Object::CameraObj::getProjectionMatrix() const
 {
-	return glm::perspective(glm::radians(FOV), (GLfloat)RenderWindowSize.x / (GLfloat)RenderWindowSize.y, NearPlane, FarPlane);
+	return glm::perspective(glm::radians(FOV), (GLfloat)RenderWindowSize.x / (GLfloat)RenderWindowSize.y, NearPlane, FarPlane);	
 }
 
 void _NL::Object::CameraObj::GenerateFrameBuffers() {
@@ -61,21 +65,25 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//CLEAN & UPDATE
 	//---------------------------------------------------------------------------------
 	GLboolean success = true;
-	glDeleteTextures(1, &PostProcessing_ColorTexture);
-	glDeleteTextures(1, &PostProcessing_DepthTexture);
-	glDeleteFramebuffers(1, &PostProcessingFrameBuffer);
-
+	glDeleteTextures(1, &FinalQuad_ColorTexture);
+	glDeleteTextures(1, &FinalQuad_DepthTexture);
+	glDeleteFramebuffers(1, &FinalQuadFrameBuffer);
+	
 	if(ColorTextures.size()>0)
 		glDeleteTextures(ColorTextures.size(), &ColorTextures[0]);
 	ColorTextures.clear();
-
+	
 	glDeleteTextures(1, &DepthTexture);
 	glDeleteFramebuffers(1, &SceneRenderFrameBuffer);
-
-	//glDeleteRenderbuffers(1, &rboDepth);
 	
 	glDeleteTextures(2, &pingPongTexture[0]);
 	glDeleteFramebuffers(2, &pingPongFBO[0]);
+
+	glEnable(GL_DEPTH_TEST);
+
+	if (nRenderTextures <= 0) {
+		nRenderTextures = 1;
+	}
 
 	if (HasPingPongShader && nRenderTextures < 2) {
 		nRenderTextures = 2;
@@ -90,8 +98,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 			GLuint ColorTexture;
 			glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
 			glBindTexture(GL_TEXTURE_2D, ColorTexture);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexImage2D(
@@ -152,9 +160,6 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 			GL_TEXTURE_2D,
 			DepthTexture,
 			0);
-		check_gl_error();
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		check_gl_error();
 	}
 	else {
@@ -218,8 +223,6 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 			DepthTexture,
 			0);
 		check_gl_error();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		check_gl_error();
 	}
 
 	//---------------------------------------------------------------------------------
@@ -244,21 +247,18 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
 		success = false;
 	}
-		
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 	check_gl_error();
 
 	
 
 	//---------------------------------------------------------------------------------
-	//PostProcessing_ColorTexture
+	//FinalQuad_ColorTexture
 	//---------------------------------------------------------------------------------
 
-	glCreateTextures(GL_TEXTURE_2D, 1, &PostProcessing_ColorTexture);
-	glBindTexture(GL_TEXTURE_2D, PostProcessing_ColorTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glCreateTextures(GL_TEXTURE_2D, 1, &FinalQuad_ColorTexture);
+	glBindTexture(GL_TEXTURE_2D, FinalQuad_ColorTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(
@@ -276,11 +276,11 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 
 
 	//---------------------------------------------------------------------------------
-	//PostProcessing_DepthTexture
+	//FinalQuad_DepthTexture
 	//---------------------------------------------------------------------------------
 
-	glCreateTextures(GL_TEXTURE_2D, 1, &PostProcessing_DepthTexture);
-	glBindTexture(GL_TEXTURE_2D, PostProcessing_DepthTexture);
+	glCreateTextures(GL_TEXTURE_2D, 1, &FinalQuad_DepthTexture);
+	glBindTexture(GL_TEXTURE_2D, FinalQuad_DepthTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -303,19 +303,19 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//PostProcessing_FrameBuffer
 	//---------------------------------------------------------------------------------
 
-	glCreateFramebuffers(1, &PostProcessingFrameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, PostProcessingFrameBuffer);
+	glCreateFramebuffers(1, &FinalQuadFrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, FinalQuadFrameBuffer);
 	glFramebufferTexture2D(
 		GL_FRAMEBUFFER,
 		GL_COLOR_ATTACHMENT0,
 		GL_TEXTURE_2D,
-		PostProcessing_ColorTexture,
+		FinalQuad_ColorTexture,
 		0);
 	glFramebufferTexture2D(
 		GL_FRAMEBUFFER,
 		GL_DEPTH_ATTACHMENT,
 		GL_TEXTURE_2D,
-		PostProcessing_DepthTexture,
+		FinalQuad_DepthTexture,
 		0);
 	check_gl_error();
 
@@ -325,9 +325,6 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
 		success = false;
 	}
-	
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	check_gl_error();
 	
 	//---------------------------------------------------------------------------------
@@ -369,42 +366,9 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 				std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
 				success = false;
 			}
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 		check_gl_error();
 	}
-	/*else if (HasPingPongShader && nMultisamples > 0) {
-		glGenFramebuffers(2, pingPongFBO);
-		glGenTextures(2, pingPongTexture);
-		for (GLuint i = 0; i < 2; i++)
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, pingPongFBO[i]);
-			glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, pingPongTexture[i]);
-			glTexImage2DMultisample(
-				GL_TEXTURE_2D_MULTISAMPLE,
-				nMultisamples,
-				GL_RGB16F,
-				RenderWindowSize.x * RenderScaleRatio,
-				RenderWindowSize.y * RenderScaleRatio,
-				GL_TRUE
-			);
-			glFramebufferTexture2D(
-				GL_FRAMEBUFFER,
-				GL_COLOR_ATTACHMENT0,
-				GL_TEXTURE_2D_MULTISAMPLE,
-				pingPongTexture[i],
-				0
-			);
-			fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
-				check_gl_error();
-				std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
-				success = false;
-			}
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		}
-		check_gl_error();
-	}*/
 	
 	if (success) {
 		std::cout << name.c_str() << " 's Framebuffers Installation Successful!" << std::endl;
@@ -416,15 +380,15 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 }
 
 void _NL::Object::CameraObj::ClearCurrentBuffer()
-{
+{	
+	glEnable(GL_SCISSOR_TEST);
 	glClearColor(ClearScreenColor.x, ClearScreenColor.y, ClearScreenColor.z, 1.0f);
-	glClearDepth(1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_SCISSOR_TEST);
 }
 
 void _NL::Object::CameraObj::PrepareToRenderScene()
 {	
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
 	if (ColorTextures.size() > 0) {
 		GLenum* atachments = new GLenum[ColorTextures.size()];
@@ -434,8 +398,15 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 		glDrawBuffers(nRenderTextures, atachments);
 	}
 	glViewport(
-		RenderWindowPos.x,
-		RenderWindowPos.y,
+		0,
+		0,
+		RenderWindowSize.x * RenderScaleRatio,
+		RenderWindowSize.y * RenderScaleRatio
+	);
+	//glOrtho(-RenderWindowSize.x / 2, RenderWindowSize.x / 2, -RenderWindowSize.y / 2, RenderWindowSize.y / 2, NearPlane, FarPlane);
+	glScissor(
+		0,
+		0,
 		RenderWindowSize.x * RenderScaleRatio,
 		RenderWindowSize.y * RenderScaleRatio
 	);
@@ -444,21 +415,23 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 	//Ready for render...
 }
 
-void _NL::Object::CameraObj::DisplayOnScreen(GLuint camID, GLuint* aditionalTextures)
+void _NL::Object::CameraObj::DisplayOnScreen(GLuint CamID,  GLuint* aditionalTextures)
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, SceneRenderFrameBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, PostProcessingFrameBuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FinalQuadFrameBuffer);
+	glReadBuffer(GL_COLOR_ATTACHMENT0);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 	check_gl_error();
 
 	glBlitFramebuffer(
-		RenderWindowPos.x,
-		RenderWindowPos.y,
+		0,
+		0,
 		RenderWindowSize.x * RenderScaleRatio,
 		RenderWindowSize.y * RenderScaleRatio,
-		RenderWindowPos.x,
-		RenderWindowPos.y,
+		0,
+		0,
 		RenderWindowSize.x * RenderScaleRatio,
 		RenderWindowSize.y * RenderScaleRatio,
 		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
@@ -468,7 +441,8 @@ void _NL::Object::CameraObj::DisplayOnScreen(GLuint camID, GLuint* aditionalText
 	check_gl_error();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	ClearCurrentBuffer();
+
+	check_gl_error();
 
 	glDisable(GL_DEPTH_TEST);
 
@@ -476,8 +450,10 @@ void _NL::Object::CameraObj::DisplayOnScreen(GLuint camID, GLuint* aditionalText
 
 	GLuint texLocation = 0;
 	glUniform1i(texLocation, 0);
+
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, PostProcessing_ColorTexture);
+	glBindTexture(GL_TEXTURE_2D, FinalQuad_ColorTexture);
+
 	check_gl_error();
 	texLocation++;
 	if (aditionalTextures != NULL) {
@@ -489,19 +465,17 @@ void _NL::Object::CameraObj::DisplayOnScreen(GLuint camID, GLuint* aditionalText
 	}
 	check_gl_error();
 
-
 	_NL::Core::RenderQuad(
 		RenderWindowPos.x,
 		RenderWindowPos.y,
 		RenderWindowSize.x,
 		RenderWindowSize.y,
 		true,
-		PostProcessingShader->getShaderProgram(),
-		camID
+		PostProcessingShader->getShaderProgram()
 	);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
 	glEnable(GL_DEPTH_TEST);
+	
 	check_gl_error();
 }
 
@@ -516,22 +490,20 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 	bool bPingPong = true, first_iteration = true;
 
 	if (first_iteration) {
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, SceneRenderFrameBuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, pingPongFBO[0]);
-		glReadBuffer(GL_COLOR_ATTACHMENT0);
+		glReadBuffer(GL_COLOR_ATTACHMENT1);
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
 		check_gl_error();
 
 		glBlitFramebuffer(
-			RenderWindowPos.x,
-			RenderWindowPos.y,
+			0,
+			0,
 			RenderWindowSize.x * RenderScaleRatio,
 			RenderWindowSize.y * RenderScaleRatio,
-			RenderWindowPos.x,
-			RenderWindowPos.y,
+			0,
+			0,
 			RenderWindowSize.x * RenderScaleRatio,
 			RenderWindowSize.y * RenderScaleRatio,
 			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
@@ -561,8 +533,8 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 		
 		check_gl_error();
 		_NL::Core::RenderQuad(
-			RenderWindowPos.x,
-			RenderWindowPos.y,
+			0,
+			0,
 			RenderWindowSize.x,
 			RenderWindowSize.y,
 			false
@@ -571,7 +543,6 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 		if (first_iteration) first_iteration = false;
 	}
 	glUseProgram(0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	check_gl_error();
 	return pingPongTexture[!bPingPong];
 }

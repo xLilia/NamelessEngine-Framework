@@ -156,16 +156,16 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint r
 	}
 		
 	glUniformMatrix4fv(CamProjectionMatrix_uniform, 1, false, glm::value_ptr(captureProjection));
-	
+
 	//BindTargetTexture
 	glActiveTexture(GL_TEXTURE0);
-	if (bIsSkybox) {
+	if (!bIsIrradiance && !bIsPreFiltering) {
 		glBindTexture(GL_TEXTURE_2D, TexMap);
 	}
 	else {
 		glBindTexture(GL_TEXTURE_CUBE_MAP, TexMap);
 	}
-	
+
 	//SetUpRender
 	glViewport(0, 0, resolution, resolution); //set viewport to the capture dimensions
 	glBindFramebuffer(GL_FRAMEBUFFER, captureFBO);
@@ -213,6 +213,8 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint r
 		}
 	}
 
+	check_gl_error();
+
 	if (bIsSkybox) {
 		check_gl_error();
 		std::cout << "SkyboxMap of file \"" << file_path << "\" created successfully!" << std::endl;
@@ -257,7 +259,6 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint r
 	}
 	
 	//End Render
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glUseProgram(0);
 	glDeleteFramebuffers(1, &captureFBO);
 	glDeleteRenderbuffers(1, &captureRBO);
@@ -336,6 +337,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, PreFilterMap);
 		Render1x1Cube();
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		glUseProgram(0);
 		glDepthMask(GL_TRUE);
 		check_gl_error();
@@ -346,6 +348,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxMap);
 		Render1x1Cube();
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		glUseProgram(0);
 		glDepthMask(GL_TRUE);
 		check_gl_error();

@@ -38,18 +38,17 @@ namespace _NL {
 			//FRAMEBUFFERS & RENDER
 			//---------------------------------------------------------------------------------
 			
-			GLuint PostProcessingFrameBuffer;
+			GLuint FinalQuadFrameBuffer;
 			GLuint SceneRenderFrameBuffer;
 			
-			GLuint PostProcessing_ColorTexture;
-			GLuint PostProcessing_DepthTexture;
+			GLuint FinalQuad_ColorTexture;
+			GLuint FinalQuad_DepthTexture;
 
 			GLuint pingPongFBO[2];
 			GLuint pingPongTexture[2];
 
 			std::vector<GLuint> ColorTextures;
 			GLuint DepthTexture;
-			//GLuint rboDepth;
 			
 			glm::vec3 ClearScreenColor = glm::vec3(0,0,0);
 
@@ -60,10 +59,11 @@ namespace _NL {
 			_NL::Element::ShaderInstance* PostProcessingShader;
 			_NL::Element::ShaderInstance* PingPongShader;
 			
-			void GenerateFrameBuffers();
 			void ClearCurrentBuffer();
+
+			void GenerateFrameBuffers();
 			void PrepareToRenderScene();
-			void DisplayOnScreen(GLuint CamId = 0, GLuint* aditionalTextures = NULL);
+			void DisplayOnScreen(GLuint CamID, GLuint* aditionalTextures = NULL);
 
 			GLuint GeneratePingPongTexture();
 

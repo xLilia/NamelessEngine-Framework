@@ -43,6 +43,18 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{5e998d53-af88-4d58-b6ce-814abd7eab51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UserProject">
+      <UniqueIdentifier>{e63c14d8-eb42-40b8-8855-0800edd2cd88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{48ec0470-4d43-484c-a40c-250f07030134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders\Fragment">
+      <UniqueIdentifier>{fc3cb7f5-02b9-4214-a012-73193e4f6143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders\Vertex">
+      <UniqueIdentifier>{c08a1a53-c6ec-46f8-b810-f58027999f9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GLError.cpp">
@@ -96,9 +108,6 @@
     <ClCompile Include="WorldSpace.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
@@ -110,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="TextureInstance.cpp">
       <Filter>Source Files\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\UserProject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,12 +176,6 @@
     <ClInclude Include="SkyboxObj.h">
       <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
-    <ClInclude Include="TemplateScript.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CamController.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="MaterialInstance.h">
       <Filter>Header Files\Elements</Filter>
     </ClInclude>
@@ -191,26 +197,70 @@
     <ClInclude Include="TextureInstance.h">
       <Filter>Header Files\Elements</Filter>
     </ClInclude>
+    <ClInclude Include="CamController.hpp">
+      <Filter>Source Files\UserProject</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateScript.hpp">
+      <Filter>Source Files\UserProject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="defaultvertexshader.glsl" />
-    <None Include="defaultfragmentshader.glsl" />
-    <None Include="SkyboxDefaultVertshader.glsl" />
-    <None Include="SkyboxDefaultFragshader.glsl" />
-    <None Include="screenQuadVshader.glsl" />
-    <None Include="screenQuadFshader.glsl" />
-    <None Include="EnvironmentDefaultVertshader.glsl" />
-    <None Include="EnvironmentDefaultFragshader.glsl" />
-    <None Include="HDRImageDefaultFragshader.glsl" />
-    <None Include="HDRImageDefaultVertshader.glsl" />
-    <None Include="blueFrag.glsl" />
-    <None Include="PreFilterDefaultVertshader.glsl" />
-    <None Include="PreFilterDefaultFragshader.glsl" />
-    <None Include="BRDFDefaultFragshader.glsl" />
-    <None Include="BRDFDefaultVertshader.glsl" />
-    <None Include="GaussianBlurVshader.glsl" />
-    <None Include="GaussianBlurFshader.glsl" />
-    <None Include="UITexVertshader.glsl" />
-    <None Include="UITexFragshader.glsl" />
+    <None Include="BRDFDefaultFragshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="BRDFDefaultVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="defaultfragmentshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="EnvironmentDefaultVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="EnvironmentDefaultFragshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="defaultvertexshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="GaussianBlurFshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="GaussianBlurVshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="HDRImageDefaultFragshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="HDRImageDefaultVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="PreFilterDefaultFragshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="PreFilterDefaultVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="screenQuadFshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="screenQuadVshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="SkyboxDefaultFragshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="SkyboxDefaultVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="UITexFragshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="UITexVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="simpleFrag.glsl">
+      <Filter>Source Files\UserProject</Filter>
+    </None>
   </ItemGroup>
 </Project>

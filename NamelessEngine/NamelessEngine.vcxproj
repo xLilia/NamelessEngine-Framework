@@ -201,7 +201,7 @@
     <ClInclude Include="WorldSpace.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="blueFrag.glsl" />
+    <None Include="simpleFrag.glsl" />
     <None Include="BRDFDefaultFragshader.glsl" />
     <None Include="BRDFDefaultVertshader.glsl" />
     <None Include="defaultfragmentshader.glsl" />

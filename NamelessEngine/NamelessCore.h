@@ -189,12 +189,12 @@ namespace _NL{
 
 		struct MaterialInstanceData {
 			///PBR MODEL
-			GLuint AlbedoTexId;
-			GLuint RoughnessTexId;
-			GLuint MetalnessTexId;
-			GLuint NormalTexId;
-			GLuint AmbientOculusionTexId;
-			GLuint MTL_ID;
+			GLuint AlbedoTexId = NULL;
+			GLuint RoughnessTexId = NULL;
+			GLuint MetalnessTexId = NULL;
+			GLuint NormalTexId = NULL;
+			GLuint AmbientOculusionTexId = NULL;
+			GLuint MTL_ID = NULL;
 		};
 
 		struct MeshData {
@@ -252,10 +252,10 @@ namespace _NL{
 		
 
 		
-		inline void RenderQuad(GLfloat w0, GLfloat h0, GLfloat w1, GLfloat h1, bool removeProgramAferUse = true, GLuint Shader = 0, GLuint camId = 0) {
+		inline void RenderQuad(GLfloat x, GLfloat y, GLfloat w, GLfloat h, bool removeProgramAferUse = true, GLuint Shader = 0, GLuint camId = 0) {
 			if(Shader != 0) 
 				glUseProgram(Shader);
-			glViewport(w0, h0, w1, h1);
+			glViewport(x, y, w, h);
 			
 			//REPLACE WITH VAO
 			glBindVertexArray(0);
@@ -277,8 +277,6 @@ namespace _NL{
 			GLfloat PADDING0;
 			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
 			GLfloat PADDING1;
-			//GLfloat radiusOfInfluence = 1;
-			
 			//glm::vec3 rotationAxis = glm::vec3(1, 0, 0);
 			//GLfloat rotationAngle = 45.0f;
 		};

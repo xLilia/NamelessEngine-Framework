@@ -25,34 +25,34 @@ void TemplateScript::Start(){
 void TemplateScript::Update() {
 	GLfloat t = W->GameTime.DeltaTime.asSeconds();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) ) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2) ) {
 		T->transform.QuaternionRotation = glm::slerp(T->transform.QuaternionRotation, T->LookAt(*target, glm::vec3(0, 1, 0)),t);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8)) {
 		x1 -= 0.1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5)) {
 		x1 += 0.1;
 	}
 	else {
 		x1 = glm::lerp(x1, 0.0f, t*2);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad9)) {
 		y1 -= 0.1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad7)) {
 		y1 += 0.1;
 	}
 	else {
 		y1 = glm::lerp(y1, 0.0f, t*2);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6)) {
 		z1 -= 0.1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4)) {
 		z1 += 0.1;
 	}
 	else {

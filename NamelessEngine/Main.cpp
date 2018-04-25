@@ -36,10 +36,9 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	//sky1->createEnvironment("hdr1/japanhdri (3).jpg", 1024 * 2);
-	//sky1->createSkybox("hdr1/japanhdri (3).jpg", 1024*2);
-
-	//scene1->Skybox = sky1;
+	sky1->createEnvironment("hdr1/lainPolar.png", 1024 * 2);
+	//sky1->createSkybox("hdr1/lainPolar.png", 1024 * 2);
+	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
 	//	"sky2/ft.tga", 
@@ -63,10 +62,8 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x , winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 8, 2, true, 21);
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1, 0, 1, false, 10);
-
-	//_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x/2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1, 8, 2, true, 10);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x/2, winMan.window->getSize().y, winMan.window->getSize().x/2, 0, 90, 0.1, 500, 1, 8, 2, true, 21);
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x/2, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, .2, 0, 1, false);
 
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
@@ -76,9 +73,15 @@ int main() {
 	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
 	MyCam->PostProcessingShader = screenshader;
 	MyCam->PingPongShader = GaussianBlur;
+	MyCam->ClearScreenColor = glm::vec3(1, 0, 0);
 
+	MyCam2->addComponent(new _NL::Component::Script<CamController>);
+	MyCam2->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam2;
+	MyCam2->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
 	MyCam2->PostProcessingShader = screenshader;
 	MyCam2->PingPongShader = GaussianBlur;
+	MyCam2->ClearScreenColor = glm::vec3(0, 1, 0);
+
 
 	//===========================================================================================
 	//CANVAS
@@ -120,21 +123,21 @@ int main() {
 	Canvas1->addUIElement(ui1);
 	Canvas1->addUIElement(ui2);
 	Canvas1->addUIElement(ui3);
-	Canvas1->addUIElement(ui4);
+	//Canvas1->addUIElement(ui4);
 
 	//===========================================================================================
 	//MATERIAL SHADERS
 	//===========================================================================================
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
+	_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
 	
 	//===========================================================================================
 	//OBJECTS 
 	//===========================================================================================
 	
 	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/A.png", 0);
-	_NL::Element::TextureInstance* mtR = new  _NL::Element::TextureInstance("MyTexs/R.png", 0);
-	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M.png", 0);
+	_NL::Element::TextureInstance* mtR = new  _NL::Element::TextureInstance("MyTexs/R2.png", 0);
+	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M2.png", 0);
 	_NL::Element::TextureInstance* mtN = new _NL::Element::TextureInstance("MyTexs/N.png", 0);
 	_NL::Element::TextureInstance* mtAO = new _NL::Element::TextureInstance("MyTexs/AO.png", 0);
 
@@ -190,8 +193,8 @@ int main() {
 	Cube->addComponent(new _NL::Component::MeshRenderer);
 	Cube->addComponent(new _NL::Component::Script<TemplateScript>);
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cube.obj");
-	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "blueFrag.glsl");
-	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Cube;
 	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 
@@ -207,13 +210,22 @@ int main() {
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
 	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
 
+
+	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 10;
+
 	//===========================================================================================
 	//LIGHTS
 	//===========================================================================================
 
 	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
+
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
-	
+	Light2->addComponent(new _NL::Component::MeshRenderer);
+	Light2->addComponent(new _NL::Component::Transform);
+	Light2->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
+	Light2->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cube.obj");
+	Light2->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
 
 	Sphere->getComponent<_NL::Component::Transform>()->transform.position.x = 150;
 	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 150;
@@ -224,15 +236,13 @@ int main() {
 	Light->LightProperties.lightPosition.y = 150;
 	Light->LightProperties.lightPosition.x = 100;
 	Light->LightProperties.lightPosition.z = 150;
-	Light->LightProperties.lightColor = glm::vec3(0, 2500, 2500);
+	Light->LightProperties.lightColor = glm::vec3(2500, 2500, 2500);
 
 	Light2->LightProperties.lightPosition.y = 8;
 	Light2->LightProperties.lightPosition.x = 0;
 	Light2->LightProperties.lightPosition.z = 0;
 	Light2->LightProperties.lightColor = glm::vec3(150, 250, 350);
-
-	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
-	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 10;
+	Light2->getComponent<_NL::Component::Transform>()->transform.position = Light2->LightProperties.lightPosition;
 
 	//===========================================================================================
 	//SCENES 
@@ -244,7 +254,6 @@ int main() {
 	scene1->addObjectToWorld(Cube);
 	scene1->addObjectToWorld(Canvas1);
 
-	//PBRGun->getComponent<_NL::Component::Transform>()-> = glm::eulerAngleXYZ(0.0f,180.0f,0.0f);
 	for(int i = 0; i< 100; i++){
 		scene1->Instantiate(
 		Cube, 
@@ -255,7 +264,8 @@ int main() {
 	}
 
 	scene1->addObjectToWorld(MyCam);
-	//scene1->addObjectToWorld(MyCam2);
+	scene1->addObjectToWorld(MyCam2);
+	
 	scene1->addObjectToWorld(Light);
 	scene1->addObjectToWorld(Light2);
 	

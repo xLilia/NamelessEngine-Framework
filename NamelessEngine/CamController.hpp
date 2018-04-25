@@ -84,6 +84,13 @@ void CamController::Update() {
 	}
 
 	_this->updateAudioListenerWithCamTransform();
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+		//_this->RenderScaleRatio -= 0.001;
+		_this->RenderWindowPos.x--;
+		//_this->RenderWindowSize.x++;
+		_this->GenerateFrameBuffers();
+	}
 	
 }
 

@@ -21,9 +21,28 @@ namespace _NL {
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
 			std::vector<_NL::Core::UI*> UICanvas;
+			glm::vec3 ClearScreenColor = glm::vec3();
 
 			void RunCurrentScene();
 			void EndCurrentScene();
+
+			void Start();
+			void OpenGLStart();
+
+			void GameTick();
+
+			void RenderCurrentScene();
+
+			void UpdateSceneLights();
+			void RenderSceneSkybox(_NL::Object::CameraObj* Cam);
+			void RenderSceneObjects(_NL::Object::CameraObj* Cam);
+			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
+			void RenderSceneCanvas();
+
+			void UpdateScriptsOfObj(_NL::Core::Object* obj);
+			void StartScriptsOfObj(_NL::Core::Object* obj);
+
+			void CleanUpLastSceneLoadedResources();
 
 		private:
 
@@ -36,19 +55,6 @@ namespace _NL {
 			GLuint uRenderExposure = 1;
 			GLuint uRenderGamma = 2;
 
-			void Start();
-			void OpenGLStart();
-			
-			void GameTick();
-			void UpdateCurrentScene();			    
-		
-			void UpdateScriptsOfObj(_NL::Core::Object* obj);
-			void StartScriptsOfObj(_NL::Core::Object* obj);
-
-			void CleanUpLastSceneLoadedResources();
-			///SwitchFrameBuffer
-			//CurrentDrawBuff += 1;
-			//CurrentDrawBuff %= 2;
 		};
 	}
 }
