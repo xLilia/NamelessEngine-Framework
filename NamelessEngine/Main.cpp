@@ -1,6 +1,6 @@
 #pragma once
 #include "NL.hpp"
-#include "TemplateScript.hpp"
+#include "TestScript.hpp"
 #include "CamController.hpp"
 
 
@@ -62,22 +62,22 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x/2, winMan.window->getSize().y, winMan.window->getSize().x/2, 0, 90, 0.1, 500, 1, 8, 2, true, 21);
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x/2, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, .2, 0, 1, false);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 16, 2, true, 21);
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 500, 1, 0, 1, false);
 
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("screenQuadVshader.glsl", "screenQuadFshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
 
-	MyCam->addComponent(new _NL::Component::Script<CamController>);
-	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam;
-	MyCam->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
+	MyCam->addComponent(new _NL::Component::CppScript<CamController>);
+	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam;
+	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
 	MyCam->PostProcessingShader = screenshader;
 	MyCam->PingPongShader = GaussianBlur;
 	MyCam->ClearScreenColor = glm::vec3(1, 0, 0);
 
-	MyCam2->addComponent(new _NL::Component::Script<CamController>);
-	MyCam2->getComponent<_NL::Component::Script<CamController>>()->getScript()->_this = MyCam2;
-	MyCam2->getComponent<_NL::Component::Script<CamController>>()->getScript()->W = &winMan;
+	MyCam2->addComponent(new _NL::Component::CppScript<CamController>);
+	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam2;
+	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
 	MyCam2->PostProcessingShader = screenshader;
 	MyCam2->PingPongShader = GaussianBlur;
 	MyCam2->ClearScreenColor = glm::vec3(0, 1, 0);
@@ -94,7 +94,6 @@ int main() {
 	_NL::Element::TextureInstance* crossairTex = new _NL::Element::TextureInstance("myTexs/nt.png", 1);
 	_NL::Element::TextureInstance* bar = new _NL::Element::TextureInstance("myTexs/nt2.png", 1);
 	_NL::Element::TextureInstance* bar2 = new _NL::Element::TextureInstance("myTexs/nt3.png", 1);
-	_NL::Element::TextureInstance* laintrain = new _NL::Element::TextureInstance("myTexs/laiin.png", 1);
 	
 	_NL::UI::UIImage* ui1 = new _NL::UI::UIImage(crossairTex);
 	ui1->scale.x *= 1;
@@ -114,22 +113,16 @@ int main() {
 	ui3->AnchorPosition = ui2->AnchorPosition;
 	ui3->PositionRelativeToAnchor = glm::vec2(0, 50-ui3->widthHeight.y/2);
 	ui3->Layer = 1;
-	
-	_NL::UI::UIImage* ui4 = new _NL::UI::UIImage(laintrain);
-	ui4->Layer = 0;
-	ui4->AnchorPosition = glm::vec2(100, 300);
-	//ui4->widthHeight = glm::vec2(winMan.window->getSize().x, winMan.window->getSize().y);
 
 	Canvas1->addUIElement(ui1);
 	Canvas1->addUIElement(ui2);
 	Canvas1->addUIElement(ui3);
-	//Canvas1->addUIElement(ui4);
 
 	//===========================================================================================
 	//MATERIAL SHADERS
 	//===========================================================================================
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
-	_NL::Element::ShaderInstance* trishade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
+	_NL::Element::ShaderInstance* simpleshade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
 	
 	//===========================================================================================
 	//OBJECTS 
@@ -159,13 +152,12 @@ int main() {
 	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
 	Sphere->addComponent(new _NL::Component::Transform);
 	Sphere->addComponent(new _NL::Component::MeshRenderer);
-	Sphere->addComponent(new _NL::Component::Script<TemplateScript>);
+	Sphere->addComponent(new _NL::Component::CppScript<TestScript>);
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Sphere.obj");
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Sphere;
-	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
-	Sphere->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
+	Sphere->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Sphere;
+	Sphere->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
 	//(2)===========================================================================================
 	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
@@ -179,37 +171,58 @@ int main() {
 	_NL::Object::GameObject* PBRGun = new _NL::Object::GameObject("PBRGun");
 	PBRGun->addComponent(new _NL::Component::Transform);
 	PBRGun->addComponent(new _NL::Component::MeshRenderer);
-	PBRGun->addComponent(new _NL::Component::Script<TemplateScript>);
+	PBRGun->addComponent(new _NL::Component::CppScript<TestScript>);
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cerberus/PBRGun.obj");
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
-	PBRGun->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = PBRGun;
-	PBRGun->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
-	PBRGun->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
+	PBRGun->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = PBRGun;
+	PBRGun->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
 	//(3)===========================================================================================
-	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("cube");
+	_NL::Element::MeshInstance* Cubemesh = new _NL::Element::MeshInstance("Cube.obj");
+	
+	_NL::Object::GameObject* Cube = new _NL::Object::GameObject("cube1");
 	Cube->addComponent(new _NL::Component::Transform);
 	Cube->addComponent(new _NL::Component::MeshRenderer);
-	Cube->addComponent(new _NL::Component::Script<TemplateScript>);
-	Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cube.obj");
-	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
+	Cube->addComponent(new _NL::Component::CppScript<TestScript>);
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
+	Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
 	Cube->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Cube;
-	Cube->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
+	Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Cube;
+	Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
+
+	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("cube2");
+	Cube2->addComponent(new _NL::Component::Transform);
+	Cube2->addComponent(new _NL::Component::MeshRenderer);
+	Cube2->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
+	Cube2->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	Cube2->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
+
+	_NL::Object::GameObject* Cube3 = new _NL::Object::GameObject("cube3");
+	Cube3->addComponent(new _NL::Component::Transform);
+	Cube3->addComponent(new _NL::Component::MeshRenderer);
+	Cube3->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
+	Cube3->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	Cube3->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
+	
+	Cube2->getComponent<_NL::Component::Transform>()->transform.position = glm::vec3(3, 0, -3);
+	Cube2->getComponent<_NL::Component::Transform>()->transform.scale = glm::vec3(1, 5, 1);
+	Cube2->Parent = Cube;
+
+	Cube3->getComponent<_NL::Component::Transform>()->transform.position = glm::vec3(3, 0, 3);
+	Cube3->getComponent<_NL::Component::Transform>()->transform.scale = glm::vec3(1, 5, 1);
+	Cube3->Parent = Cube;
 
 	//(4)===========================================================================================
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
 	Quad->addComponent(new _NL::Component::MeshRenderer());
-	Quad->addComponent(new _NL::Component::Script<TemplateScript>);
+	Quad->addComponent(new _NL::Component::CppScript<TestScript>);
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->_this = Quad;
-	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->W = &winMan;
-	Quad->getComponent<_NL::Component::Script<TemplateScript>>()->getScript()->target = &MyCam->Position;
-
+	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Quad;
+	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
 	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 10;
@@ -224,7 +237,7 @@ int main() {
 	Light2->addComponent(new _NL::Component::MeshRenderer);
 	Light2->addComponent(new _NL::Component::Transform);
 	Light2->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Light2->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cube.obj");
+	Light2->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
 	Light2->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
 
 	Sphere->getComponent<_NL::Component::Transform>()->transform.position.x = 150;
@@ -249,12 +262,14 @@ int main() {
 	//===========================================================================================
 	
 	scene1->addObjectToWorld(Quad);
-	scene1->addObjectToWorld(Sphere);
-	scene1->addObjectToWorld(PBRGun);
+	//scene1->addObjectToWorld(Sphere);
+	//scene1->addObjectToWorld(PBRGun);
 	scene1->addObjectToWorld(Cube);
-	scene1->addObjectToWorld(Canvas1);
+	scene1->addObjectToWorld(Cube2);
+	scene1->addObjectToWorld(Cube3);
+	//scene1->addObjectToWorld(Canvas1);
 
-	for(int i = 0; i< 100; i++){
+	for(int i = 0; i< 500; i++){
 		scene1->Instantiate(
 		Cube, 
 		glm::vec3(rand() % 300, rand() % 300, rand() % 300), 
@@ -264,15 +279,13 @@ int main() {
 	}
 
 	scene1->addObjectToWorld(MyCam);
-	scene1->addObjectToWorld(MyCam2);
+	//scene1->addObjectToWorld(MyCam2);
 	
 	scene1->addObjectToWorld(Light);
 	scene1->addObjectToWorld(Light2);
 	
 	//scene1->showObjectList();
-	winMan.CurrentScene = scene1;
-	winMan.RunCurrentScene();
-
+	winMan.RunScene(scene1);
 	return 0;
 }
 

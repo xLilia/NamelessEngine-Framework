@@ -39,19 +39,12 @@ namespace _NL{
 		const static GLuint BRDF2DLUTTexture_uniform = 18;
 
 		//---------------------------------------------------------------------------------
-		/*CPPscript*/
-		class CppScript 
-		{
-		public:
-			virtual void Start() = 0;
-			virtual void Update() = 0;
-		};
 
 		//---------------------------------------------------------------------------------
 		/*All the Components that can be added to class: _NL::Object::GameObject*/
 		class Component {
 		public:
-			virtual std::string ClassName() const = 0;
+			virtual char* ClassName() const = 0;
 			bool bactive = true;
 		};
 
@@ -60,13 +53,13 @@ namespace _NL{
 		class Element {
 		public:
 			///INFO
-			virtual std::string ClassName() const = 0;
+			virtual char* ClassName() const = 0;
 		};
 
 		class UI
 		{
 		public:
-			virtual std::string ClassName() const = 0;
+			virtual char* ClassName() const = 0;
 			glm::vec2 PositionRelativeToAnchor = glm::vec2(0,0);
 			glm::vec2 AnchorPosition = glm::vec2(0,0);
 			GLint Layer = 0;
@@ -82,6 +75,12 @@ namespace _NL{
 		/*Object*/
 		class Object {
 		public:
+
+			//---------------------------------------------------------------------------------
+			//OBJECT Constructors 
+			Object() {
+				this->name = "namelessObj";
+			}
 			
 			//---------------------------------------------------------------------------------
 			//OBJECT PROPERTIES 
@@ -89,7 +88,9 @@ namespace _NL{
 			std::string name;
 			Object *Parent = 0;
 			//std::vector<Object*> Childs;
-			virtual std::string ClassName() const = 0;
+			virtual char* ClassName() const {
+				return "_NL::Core::Object";
+			};
 			
 			//---------------------------------------------------------------------------------
 			//STATES
@@ -112,7 +113,7 @@ namespace _NL{
 					if (c->ClassName() == "_NL::Component::Script") {
 						//LET ADD MULTIPLE SCRIPTS
 					}else if (c->ClassName() == C->ClassName()) {
-						std::cout << "ERROR -1 :" << this->name.c_str() << " Object Component List Already Has a " << C->ClassName().c_str() << " Component." << std::endl;
+						std::cout << "ERROR -1 :" << this->name.c_str() << " Object Component List Already Has a " << C->ClassName() << " Component." << std::endl;
 						return -1;
 					}
 				}
@@ -133,33 +134,24 @@ namespace _NL{
 						return dynamic_cast<T*>(c);
 					}
 				}
-				return NULL;
+				return nullptr;
 			}
 
-			//template<typename T>
-			//T* getScriptComponent()
-			//{
-			//	std::vector<_NL::Core::Component*> Ss;
-			//	for each (_NL::Core::Component* c in this->Components)
-			//	{
-			//		//std::cout << c->ClassName() << std::endl;
-			//		if (c->ClassName() == "_NL::Component::Script") {
-			//			Ss.push_back(c);
-			//		}
-			//	}
-			//	for each (_NL::Component::Script <_NL::Core::CppScript> * S in Ss)
-			//	{
-			//		if (typeid(S) == typeid(Ss)) {
-			//			return dynamic_cast<T&>(*S);
-			//		}
-			//	}
-			//};
+
 		   
 			std::vector<_NL::Core::Component*> Components;
 		};
 
-
-		
+		/*CoreScript*/
+		class Script
+		{
+		public:
+			_NL::Core::Object* _this;
+			bool awake = false;
+			virtual void Start() = 0 { awake = true; };
+			virtual void Update() = 0;
+			virtual void End() { awake = false; };
+		};
 
 		//---------------------------------------------------------------------------------
 		/*PRIMITIVES*/

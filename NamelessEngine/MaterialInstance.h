@@ -18,7 +18,7 @@ namespace _NL {
 			MaterialInstance();
 			~MaterialInstance();
 
-			std::string ClassName() const override;
+			char* ClassName() const override;
 
 			std::vector<_NL::Core::MaterialInstanceData> MaterialInstanceData;
 

@@ -14,7 +14,7 @@ namespace _NL {
 			int LoadOBJFile(const char* filePath);
 			_NL::Core::MeshData MeshData;
 			std::vector<_NL::Core::vIndices> Indices;
-			std::string ClassName() const override;
+			char* ClassName() const override;
 		private:
 			OBJfileReader OBJF;
 		};

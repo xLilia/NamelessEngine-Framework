@@ -415,7 +415,7 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 	//Ready for render...
 }
 
-void _NL::Object::CameraObj::DisplayOnScreen(GLuint CamID,  GLuint* aditionalTextures)
+void _NL::Object::CameraObj::DisplayOnScreen(GLuint* aditionalTextures)
 {
 
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, SceneRenderFrameBuffer);
@@ -479,7 +479,7 @@ void _NL::Object::CameraObj::DisplayOnScreen(GLuint CamID,  GLuint* aditionalTex
 	check_gl_error();
 }
 
-std::string _NL::Object::CameraObj::ClassName() const
+char* _NL::Object::CameraObj::ClassName() const
 {
 	return "_NL::Object::CameraObj";
 }

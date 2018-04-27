@@ -1,5 +1,6 @@
-#pragma once	
-class CamController : public _NL::Core::CppScript
+#pragma once
+#include "CppScript.h"
+class CamController : public _NL::Core::Script
 {
 private:
 	GLfloat Drag = 10;
@@ -12,11 +13,12 @@ private:
 public:
 	_NL::Engine::GameManager * W;
 	_NL::Object::CameraObj* _this;
-	void Start() override;
-	void Update() override;
 	void RotateCam();
 	GLfloat TrackMouse();
-	
+
+	void Start() override;
+	void Update() override;
+
 };
 
 void CamController::Start() {

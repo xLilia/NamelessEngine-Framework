@@ -41,7 +41,7 @@ void _NL::UI::UICanvas::DrawElements(GLfloat ScreenHeight)
 	glEnable(GL_DEPTH_TEST);
 }
 
-std::string _NL::UI::UICanvas::ClassName() const
+char* _NL::UI::UICanvas::ClassName() const
 {
 	return "_NL::UI::UICanvas";
 }

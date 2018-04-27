@@ -23,26 +23,23 @@ namespace _NL {
 			std::vector<_NL::Core::UI*> UICanvas;
 			glm::vec3 ClearScreenColor = glm::vec3();
 
-			void RunCurrentScene();
-			void EndCurrentScene();
-
-			void Start();
+			void RunScene(_NL::Engine::WorldSpace* set_current_scene);
+			void EndCurrentScene(_NL::Engine::WorldSpace* load_next_scene = nullptr);
 			void OpenGLStart();
 
 			void GameTick();
 
 			void RenderCurrentScene();
-
 			void UpdateSceneLights();
 			void RenderSceneSkybox(_NL::Object::CameraObj* Cam);
 			void RenderSceneObjects(_NL::Object::CameraObj* Cam);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
 			void RenderSceneCanvas();
 
-			void UpdateScriptsOfObj(_NL::Core::Object* obj);
-			void StartScriptsOfObj(_NL::Core::Object* obj);
+			void StartUpdateScriptsOfObj(_NL::Core::Object* obj);
+			void EndScriptsOfObj(_NL::Core::Object * obj);
 
-			void CleanUpLastSceneLoadedResources();
+			void CleanUpCurrentSceneLoadedResources();
 
 		private:
 

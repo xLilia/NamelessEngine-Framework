@@ -12,14 +12,14 @@ namespace _NL {
 
 			_NL::Core::transform transform;
 			glm::vec3 eulerAngles();
-			glm::quat LookAt(glm::vec3 target, glm::vec3 forwardAxis);
+			glm::quat LookAt(glm::vec3 target, glm::vec3 EyeAxis = glm::vec3(0,1,0));
 			glm::quat RotateEuler(glm::vec3 euleAngles);
 			//glm::quat QuaternionFromAxisAngle(glm::vec3 ax, GLfloat angle);
 			//void alignUpAxisWith(glm::vec3 up);
 			///STATES
 			bool bactive = true;
 			///INFO
-			std::string ClassName() const override;
+			char* ClassName() const override;
 			
 		};
 	}

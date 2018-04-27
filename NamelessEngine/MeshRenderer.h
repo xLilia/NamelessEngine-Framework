@@ -25,7 +25,7 @@ namespace _NL {
 			_NL::Element::ShaderInstance* Shader;
 			_NL::Element::MaterialInstance* Material;
 			///INFO
-			std::string ClassName() const override;
+			char* ClassName() const override;
 			bool bIsUnpacked = false;
 		private:		
 			void UnpackData();

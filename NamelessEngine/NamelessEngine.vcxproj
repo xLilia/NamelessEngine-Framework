@@ -160,6 +160,7 @@
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="MTLfileReader.cpp" />
     <ClCompile Include="OBJfileReader.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="NL_Time.cpp" />
@@ -186,12 +187,13 @@
     <ClInclude Include="NL.hpp" />
     <ClInclude Include="OBJfileReader.h" />
     <ClInclude Include="NamelessCore.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="SkyboxObj.h" />
-    <ClInclude Include="Script.h" />
+    <ClInclude Include="CppScript.h" />
     <ClInclude Include="ShaderInstance.h" />
     <ClInclude Include="ShaderWizard.h" />
     <ClInclude Include="NL_Time.h" />
-    <ClInclude Include="TemplateScript.hpp" />
+    <ClInclude Include="TestScript.hpp" />
     <ClInclude Include="TextureInstance.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Transform.h" />

@@ -30,7 +30,7 @@ void _NL::Element::ShaderInstance::UnUse()
 	glUseProgram(0);
 }
 
-std::string _NL::Element::ShaderInstance::ClassName() const
+char* _NL::Element::ShaderInstance::ClassName() const
 {
 	return "_NL::Element::ShaderInstance";
 }

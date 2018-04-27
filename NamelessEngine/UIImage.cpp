@@ -12,7 +12,7 @@ _NL::UI::UIImage::~UIImage()
 }
 	
 
-std::string _NL::UI::UIImage::ClassName() const
+char* _NL::UI::UIImage::ClassName() const
 {
 	return "_NL::UI::UIImage";
 }

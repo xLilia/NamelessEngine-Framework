@@ -21,7 +21,7 @@ _NL::Element::MaterialInstance::MaterialInstance()
 //	return 0;
 //}
 
-std::string _NL::Element::MaterialInstance::ClassName() const
+char* _NL::Element::MaterialInstance::ClassName() const
 {
 	return "_NL::Element::MaterialInstance";
 }

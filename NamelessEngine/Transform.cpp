@@ -5,7 +5,7 @@ _NL::Component::Transform::Transform()
 	
 }
 
-std::string _NL::Component::Transform::ClassName() const
+char* _NL::Component::Transform::ClassName() const
 {
 	return "_NL::Component::Transform";
 }
@@ -19,12 +19,12 @@ glm::vec3 _NL::Component::Transform::eulerAngles()
 	return glm::eulerAngles(transform.QuaternionRotation);
 }
 
-glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, glm::vec3 forwardAxis)
+glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, glm::vec3 EyeAxis)
 {
 
 	glm::vec3 forward = glm::normalize(target - transform.position); //get new Local Z
 	
-	glm::vec3 worldForward = forwardAxis; //get World Z
+	glm::vec3 worldForward = EyeAxis; //get World Z
 	GLfloat dot = glm::dot(worldForward, forward); //getAngle LocalZ > WorldZ
 	GLfloat rotationAngle = glm::acos(dot); //AngleIn degrees
 	glm::vec3 rotationAxis = glm::normalize(glm::cross(forward, worldForward)); //localUP

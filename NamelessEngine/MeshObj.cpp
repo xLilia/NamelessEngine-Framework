@@ -20,7 +20,7 @@ int _NL::Element::MeshInstance::LoadOBJFile(const char * filePath)
 	return 0;
 }
 
-std::string _NL::Element::MeshInstance::ClassName() const
+char* _NL::Element::MeshInstance::ClassName() const
 {
 	return "_NL::Element::MeshInstance";
 }

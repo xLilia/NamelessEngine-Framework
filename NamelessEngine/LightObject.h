@@ -13,7 +13,7 @@ namespace _NL {
 			LightObject(std::string name);
 			~LightObject();
 			_NL::Core::LightProperties LightProperties;
-			std::string ClassName() const override;
+			char* ClassName() const override;
 		};
 	}
 }

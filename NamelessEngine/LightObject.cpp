@@ -9,7 +9,7 @@ _NL::Object::LightObject::~LightObject()
 {
 }
 
-std::string _NL::Object::LightObject::ClassName() const
+char* _NL::Object::LightObject::ClassName() const
 {
 	return "_NL::Object::LightObject";
 }

@@ -185,7 +185,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	check_gl_error();
 }
 
-std::string _NL::Component::MeshRenderer::ClassName() const
+char* _NL::Component::MeshRenderer::ClassName() const
 {
 	return "_NL::Component::MeshRenderer";
 }

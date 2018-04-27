@@ -63,7 +63,7 @@ namespace _NL {
 
 			void GenerateFrameBuffers();
 			void PrepareToRenderScene();
-			void DisplayOnScreen(GLuint CamID, GLuint* aditionalTextures = NULL);
+			void DisplayOnScreen(GLuint* aditionalTextures = NULL);
 
 			GLuint GeneratePingPongTexture();
 
@@ -88,7 +88,7 @@ namespace _NL {
 			bool HasPingPongShader;
 			GLuint PingPongIterations;
 			
-			std::string ClassName() const override;
+			char* ClassName() const override;
 					
 			
 		};

@@ -123,6 +123,9 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files\UserProject</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -167,9 +170,6 @@
     <ClInclude Include="LightObject.h">
       <Filter>Header Files\WorldObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Script.h">
-      <Filter>Header Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="AudioSource.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
@@ -200,8 +200,14 @@
     <ClInclude Include="CamController.hpp">
       <Filter>Source Files\UserProject</Filter>
     </ClInclude>
-    <ClInclude Include="TemplateScript.hpp">
+    <ClInclude Include="CppScript.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScript.hpp">
       <Filter>Source Files\UserProject</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -241,7 +241,6 @@ void main(){
 	vec2 EnvBRDF = texture(BRDF2DLUTTexture, vec2( roughnessMap, max( dot(N, V) , 0.0))).rg;
 	vec3 IBLspecular = preFiltredColor * (F * EnvBRDF.x * EnvBRDF.y);
 
-
 	vec3 ambient = (kD * diffuse + IBLspecular) * aoMap;
 	
 	//Final Color with ambient
