@@ -11,7 +11,7 @@ namespace _NL {
 		class GameManager
 		{
 		public:
-			GameManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
+			GameManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 60);
 			~GameManager();
 		
 			sf::Event Event;

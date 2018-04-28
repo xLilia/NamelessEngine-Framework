@@ -16,6 +16,7 @@ namespace _NL {
 			~WorldSpace();
 			
 			_NL::Core::Object* Instantiate(_NL::Core::Object *original, glm::vec3 position, glm::quat quaternionRotation, glm::vec3 scale);
+			void KillObjectInstance(_NL::Core::Object *object);
 			void addObjectToWorld(_NL::Core::Object *G);
 			void showObjectList();
 			_NL::Object::SkyboxObj* Skybox = NULL;

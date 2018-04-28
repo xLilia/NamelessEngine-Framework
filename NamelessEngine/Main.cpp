@@ -12,7 +12,7 @@ int main() {
 	//START!
 	//===========================================================================================
 
-	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 60);
+	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -263,14 +263,54 @@ int main() {
 	//===========================================================================================
 
 	_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
-	PS1->Particle = new _NL::Object::ParticleObj();
-	PS1->Particle->addComponent(Cube->getComponent<_NL::Component::MeshRenderer>());
+	ParticleScript* Pbehaviour = new ParticleScript();
+	Pbehaviour->W = &winMan;
+	_NL::Object::ParticleObj* Particle1 = new _NL::Object::ParticleObj(Cube->getComponent<_NL::Component::MeshRenderer>());
+	Particle1->lifeTime = 10;
+	PS1->Particle = Particle1;
+	PS1->ParticlesBehavior = Pbehaviour;
+	PS1->SpawnerTransform.PM = _NL::Object::ParticleSystem::CONE;
 	PS1->SpawnerTransform.Position.y = 10;
-	PS1->SpawnerTransform.Scale *= .2;
-	PS1->ParticlesBehavior = new ParticleScript();
+	PS1->SpawnerTransform.Scale *= .1f;
+	PS1->SpawnerTransform.SpawnerHeight = 5;
+	PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
+	PS1->SpawnerTransform.SpawnerRadius = 2;
+
 	PS1->TimeScale = &winMan.GameTime;
-	PS1->ON();
+	PS1->SpawnRate = 0.0;
 	scene1->addObjectToWorld(PS1);
+
+
+	_NL::Object::ParticleSystem* PS2 = new _NL::Object::ParticleSystem();
+	Pbehaviour->W = &winMan;
+	PS2->Particle = new _NL::Object::ParticleObj(Cube->getComponent<_NL::Component::MeshRenderer>());
+	PS2->ParticlesBehavior = Pbehaviour;
+	PS2->SpawnerTransform.Position.y = 10;
+	PS2->SpawnerTransform.Position.x = -10;
+	PS2->SpawnerTransform.PM = _NL::Object::ParticleSystem::CONE;
+	PS2->SpawnerTransform.Scale *= .1f;
+	PS2->SpawnerTransform.SpawnerHeight = 10;
+	PS2->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
+	PS2->SpawnerTransform.SpawnerRadius = 5;
+	PS2->TimeScale = &winMan.GameTime;
+	PS2->SpawnRate = 0.1f;
+	PS2->BEHAVIOUR_OFF();
+	//scene1->addObjectToWorld(PS2);
+
+	_NL::Object::ParticleSystem* PS3 = new _NL::Object::ParticleSystem();
+	Pbehaviour->W = &winMan;
+	PS3->Particle = new _NL::Object::ParticleObj(Cube->getComponent<_NL::Component::MeshRenderer>());;
+	PS3->ParticlesBehavior = Pbehaviour;
+	PS3->SpawnerTransform.Position.y = 10;
+	PS3->SpawnerTransform.Position.x = -5;
+	PS3->SpawnerTransform.Scale *= .1f;
+	PS3->SpawnerTransform.SpawnerHeight = 10;
+	PS3->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
+	PS3->SpawnerTransform.SpawnerRadius = 5;
+	PS3->TimeScale = &winMan.GameTime;
+	PS3->SpawnRate = 0.1f;
+	PS3->BEHAVIOUR_OFF();
+	//scene1->addObjectToWorld(PS3);
 
 	//===========================================================================================
 	//SCENES 
@@ -284,14 +324,14 @@ int main() {
 	scene1->addObjectToWorld(Cube3);
 	//scene1->addObjectToWorld(Canvas1);
 
-	for(int i = 0; i< 500; i++){
-		scene1->Instantiate(
-		Cube, 
-		glm::vec3(rand() % 300, rand() % 300, rand() % 300), 
-		glm::quat(glm::vec3(rand() % 360, rand() % 360, rand() % 360)), 
-		glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
-		);
-	}
+	//for(int i = 0; i< 500; i++){
+	//	scene1->Instantiate(
+	//	Cube, 
+	//	glm::vec3(rand() % 300, rand() % 300, rand() % 300), 
+	//	glm::quat(glm::vec3(rand() % 360, rand() % 360, rand() % 360)), 
+	//	glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
+	//	);
+	//}
 	
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);

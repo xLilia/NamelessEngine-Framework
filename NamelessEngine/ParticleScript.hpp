@@ -19,6 +19,6 @@ void ParticleScript::Update() {
 	T = _this->getComponent<_NL::Component::Transform>();
 	GLfloat t = W->GameTime.DeltaTime.asSeconds();
 
-	T->transform.position.y += t;
+	T->transform.position.y += t*5;
 }
 
