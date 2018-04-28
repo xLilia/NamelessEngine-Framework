@@ -22,9 +22,9 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 
 void _NL::Object::CameraObj::updateAudioListenerWithCamTransform()
 {
-	updateAudioListenerPosition(Position);
-	updateAudioListenerDirection(LookAt);
-	updateAudioListenerRotation(UpAxis);
+	updateAudioListenerPosition(TransformCam.Position);
+	updateAudioListenerDirection(TransformCam.LookAt);
+	updateAudioListenerRotation(TransformCam.UpAxis);
 }
 
 void _NL::Object::CameraObj::updateAudioListenerPosition(glm::vec3 pos)
@@ -46,12 +46,12 @@ void _NL::Object::CameraObj::updateAudioListenerRotation(glm::vec3 upVec)
 
 glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
 {
-	return glm::lookAt(Position, Position + LookAt, UpAxis);
+	return glm::lookAt(TransformCam.Position, TransformCam.Position + TransformCam.LookAt, TransformCam.UpAxis);
 }
 
 glm::mat4 _NL::Object::CameraObj::getViewMatrix() const
 {
-	return glm::lookAt(glm::vec3(), glm::vec3() + LookAt, UpAxis);
+	return glm::lookAt(glm::vec3(), glm::vec3() + TransformCam.LookAt, TransformCam.UpAxis);
 }
 
 glm::mat4 _NL::Object::CameraObj::getProjectionMatrix() const

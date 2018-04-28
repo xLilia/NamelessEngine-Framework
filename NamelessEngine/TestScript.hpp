@@ -25,7 +25,7 @@ void TestScript::Start(){
 }
 
 void TestScript::Update() {
-	target = W->Cameras[0]->Position;
+	target = W->Cameras[0]->TransformCam.Position;
 	T = _this->getComponent<_NL::Component::Transform>();
 	GLfloat t = W->GameTime.DeltaTime.asSeconds();
 	
@@ -36,7 +36,7 @@ void TestScript::Update() {
 			T->transform.QuaternionRotation = glm::slerp(T->transform.QuaternionRotation, T->LookAt(target, glm::vec3(0, 1, 0)), t / 2);
 		}
 		else {
-			T->transform.position = glm::lerp(T->transform.position, T->transform.position-glm::normalize(vec), t*2);
+			T->transform.position = glm::lerp(T->transform.position, glm::cross(T->transform.position-glm::normalize(vec),glm::normalize(vec)), t*2);
 			T->transform.QuaternionRotation = glm::slerp(T->transform.QuaternionRotation, T->LookAt(target, glm::vec3(0, 1, 0)), t / 2);
 		}
 	}

@@ -62,6 +62,7 @@ int _NL::Tools::TextureLoader::LoadImage(const char* filePath)
 void _NL::Tools::TextureLoader::RESET()
 {
 	GLTexIDs.clear();
+	GLTexIDs.shrink_to_fit();
 }
 
 _NL::Tools::TextureLoader::~TextureLoader() {

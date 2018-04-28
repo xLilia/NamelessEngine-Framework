@@ -20,6 +20,7 @@ namespace _NL {
 			_NL::Engine::WorldSpace* CurrentScene;
 			std::vector<_NL::Object::CameraObj*> Cameras;
 			std::vector<_NL::Core::LightProperties> Lights;
+			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
 			std::vector<_NL::Core::UI*> UICanvas;
 			glm::vec3 ClearScreenColor = glm::vec3();
 
@@ -31,6 +32,7 @@ namespace _NL {
 
 			void RenderCurrentScene();
 			void UpdateSceneLights();
+			void UpdateParticleSystems();
 			void RenderSceneSkybox(_NL::Object::CameraObj* Cam);
 			void RenderSceneObjects(_NL::Object::CameraObj* Cam);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);

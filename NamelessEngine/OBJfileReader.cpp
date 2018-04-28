@@ -8,10 +8,20 @@ OBJfileReader::OBJfileReader()
 void OBJfileReader::RESET()
 {
 	this->Is.clear();
+	this->Is.shrink_to_fit();
+
 	this->Mshd.vPos.clear();
+	this->Mshd.vPos.shrink_to_fit();
+
 	this->Mshd.vCol.clear();
+	this->Mshd.vCol.shrink_to_fit();
+
 	this->Mshd.vNorm.clear();
+	this->Mshd.vNorm.shrink_to_fit();
+
 	this->Mshd.vTexC.clear();
+	this->Mshd.vTexC.shrink_to_fit();
+
 	this->MTL_counter = -1;
 }
 

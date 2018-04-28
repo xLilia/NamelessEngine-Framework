@@ -6,6 +6,7 @@ MTLfileReader::MTLfileReader()
 
 void MTLfileReader::RESET() {
 	this->MTLD.clear();
+	this->MTLD.shrink_to_fit();
 	this->inMTLfile_counter = -1;
 	TL.RESET();
 }

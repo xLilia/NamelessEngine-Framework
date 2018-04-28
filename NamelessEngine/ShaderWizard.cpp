@@ -95,6 +95,7 @@ void ShaderWizard::installShaders(const char * VertexShader, const char * Fragme
 void ShaderWizard::clearPrograms()
 {
 	InstlledProgramIDs.clear();
+	InstlledProgramIDs.shrink_to_fit();
 }
 
 

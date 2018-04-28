@@ -4,6 +4,7 @@
 #include "CameraObj.h"
 #include "LightObject.h"
 #include "AudioSource.h"
+#include "ParticleSystem.h"
 
 ///Components
 #include "Transform.h"

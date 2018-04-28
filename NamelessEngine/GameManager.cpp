@@ -83,7 +83,13 @@ void _NL::Engine::GameManager::CleanUpCurrentSceneLoadedResources()
 		}
 	}
 	Cameras.clear();
+	Cameras.shrink_to_fit();
 	Lights.clear();
+	Lights.shrink_to_fit();
+	UICanvas.clear();
+	UICanvas.shrink_to_fit();
+	ParticleSystems.clear();
+	ParticleSystems.shrink_to_fit();
 	glDeleteBuffers(1, &LightsBlockUBO);
 	CurrentScene = 0;
 }
@@ -151,6 +157,10 @@ void _NL::Engine::GameManager::OpenGLStart()
 			if (inst->ClassName() == "_NL::UI::UICanvas") {
 				UICanvas.push_back(dynamic_cast<_NL::Core::UI*>(inst));
 			}
+			//---------------------------------------------------------------------------------
+			if (inst->ClassName() == "_NL::Object::ParticleSystem") {
+				ParticleSystems.push_back(dynamic_cast<_NL::Object::ParticleSystem*>(inst));
+			}
 		}
 	}
 
@@ -217,6 +227,10 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 		RenderSceneSkybox(Cam);
 
 		//---------------------------------------------------------------------------------
+		//PARTICLE SYSTEMS
+		UpdateParticleSystems();
+
+		//---------------------------------------------------------------------------------
 		//SCENE RENDERING
 		RenderSceneObjects(Cam);
 
@@ -238,6 +252,16 @@ void _NL::Engine::GameManager::UpdateSceneLights() {
 			&Lights[0]);
 		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 		check_gl_error();
+	}
+}
+
+void _NL::Engine::GameManager::UpdateParticleSystems() {
+	if (ParticleSystems.size() > 0) {
+		for each (_NL::Object::ParticleSystem* PS in ParticleSystems)
+		{
+			PS->CurrentScene = this->CurrentScene;
+			PS->TickSystem();
+		}
 	}
 }
 
@@ -303,7 +327,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 			check_gl_error();
 			glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
 			glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
-			glUniform3f(_NL::Core::EyePos_uniform, Cam->Position.x, Cam->Position.y, Cam->Position.z);
+			glUniform3f(_NL::Core::EyePos_uniform, Cam->TransformCam.Position.x, Cam->TransformCam.Position.y, Cam->TransformCam.Position.z);
 			check_gl_error();
 
 			//---------------------------------------------------------------------------------

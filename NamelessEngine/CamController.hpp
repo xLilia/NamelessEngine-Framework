@@ -36,13 +36,13 @@ void CamController::Update() {
 	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
 	
 	//GET SIDE VECTOR
-	glm::vec3 SIDEWAYS = glm::cross(_this->UpAxis, _this->LookAt);
+	glm::vec3 SIDEWAYS = glm::cross(_this->TransformCam.UpAxis, _this->TransformCam.LookAt);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		movementVector += _this->LookAt * movementSpeed;
+		movementVector += _this->TransformCam.LookAt * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		movementVector -= _this->LookAt * movementSpeed;
+		movementVector -= _this->TransformCam.LookAt * movementSpeed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
@@ -53,15 +53,15 @@ void CamController::Update() {
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		movementVector += _this->UpAxis * movementSpeed;
+		movementVector += _this->TransformCam.UpAxis * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		movementVector -= _this->UpAxis * movementSpeed;
+		movementVector -= _this->TransformCam.UpAxis * movementSpeed;
 	}
 
 	movementVector = glm::lerp(movementVector, glm::vec3(0.0f), dts*Drag);
 
-	_this->Position = glm::lerp(_this->Position, _this->Position + movementVector, dts);
+	_this->TransformCam.Position = glm::lerp(_this->TransformCam.Position, _this->TransformCam.Position + movementVector, dts);
 
 	//SPEED UP
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
@@ -98,9 +98,9 @@ void CamController::Update() {
 
 //CALCULATE WERE TO lOOK AT
 void CamController::RotateCam() {
-	glm::vec3 UPDOWN = glm::cross(_this->LookAt, _this->UpAxis);
-	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->UpAxis);
-	_this->LookAt = glm::mat3(rotator) * _this->LookAt;
+	glm::vec3 UPDOWN = glm::cross(_this->TransformCam.LookAt, _this->TransformCam.UpAxis);
+	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->TransformCam.UpAxis);
+	_this->TransformCam.LookAt = glm::mat3(rotator) * _this->TransformCam.LookAt;
 }
 
 //TRACK MOUSE ON SCREEN

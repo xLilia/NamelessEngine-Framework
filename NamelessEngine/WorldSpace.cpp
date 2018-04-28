@@ -31,6 +31,8 @@ _NL::Core::Object* _NL::Engine::WorldSpace::Instantiate(_NL::Core::Object* origi
 		}
 		objID++;
 	}
+	this->addObjectToWorld(original);
+	return original;
 }
 
 void _NL::Engine::WorldSpace::addObjectToWorld(_NL::Core::Object *G)

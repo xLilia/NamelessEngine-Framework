@@ -72,9 +72,11 @@ namespace _NL {
 			//---------------------------------------------------------------------------------
 
 			//TRANSFORM
-			glm::vec3 Position = glm::vec3(0, 0, 0);
-			glm::vec3 UpAxis = glm::vec3(0, 1, 0);
-			glm::vec3 LookAt = glm::vec3(0, 0, -1);
+			struct Transform {
+				glm::vec3 Position = glm::vec3(0, 0, 0);
+				glm::vec3 UpAxis = glm::vec3(0, 1, 0);
+				glm::vec3 LookAt = glm::vec3(0, 0, -1);
+			} TransformCam;
 
 			//SETTINGS
 			GLfloat FOV;

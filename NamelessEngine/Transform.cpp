@@ -34,7 +34,7 @@ glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, glm::vec3 EyeAxis)
 }
 
 //glm::quat _NL::Component::Transform::QuaternionFromAxisAngle(glm::vec3 ax, GLfloat angle) {
-//	
+//		
 //	ax = glm::normalize(ax);
 //	GLfloat qw = cos(angle / 2);
 //	GLfloat qx = ax.x * sin(angle / 2);

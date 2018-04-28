@@ -2,6 +2,7 @@
 #include "NL.hpp"
 #include "TestScript.hpp"
 #include "CamController.hpp"
+#include "ParticleScript.hpp"
 
 
 int main() {
@@ -258,6 +259,20 @@ int main() {
 	Light2->getComponent<_NL::Component::Transform>()->transform.position = Light2->LightProperties.lightPosition;
 
 	//===========================================================================================
+	//PARTICLE SYSTEMS
+	//===========================================================================================
+
+	_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
+	PS1->Particle = new _NL::Object::ParticleObj();
+	PS1->Particle->addComponent(Cube->getComponent<_NL::Component::MeshRenderer>());
+	PS1->SpawnerTransform.Position.y = 10;
+	PS1->SpawnerTransform.Scale *= .2;
+	PS1->ParticlesBehavior = new ParticleScript();
+	PS1->TimeScale = &winMan.GameTime;
+	PS1->ON();
+	scene1->addObjectToWorld(PS1);
+
+	//===========================================================================================
 	//SCENES 
 	//===========================================================================================
 	
@@ -277,7 +292,7 @@ int main() {
 		glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
 		);
 	}
-
+	
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);
 	
