@@ -7,10 +7,6 @@ _NL::UI::UICanvas::UICanvas()
 }
 
 
-_NL::UI::UICanvas::~UICanvas()
-{
-}
-
 bool sortFunc(_NL::Core::UI* a, _NL::Core::UI* b) { return (a->Layer < b->Layer); };
 
 void _NL::UI::UICanvas::addUIElement(_NL::Core::UI* UI)

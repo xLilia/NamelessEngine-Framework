@@ -13,7 +13,6 @@ namespace _NL {
 		public:
 			GameObject(std::string name);
 			GameObject(const _NL::Core::Object &CO);
-			~GameObject();
 			void getInfo() override; 
 			char* ClassName() const override;
 

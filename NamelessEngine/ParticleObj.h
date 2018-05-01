@@ -8,8 +8,7 @@ namespace _NL{
 		class ParticleObj : public _NL::Core::Object
 		{
 		public:
-			ParticleObj(_NL::Component::MeshRenderer* PMesh);
-			~ParticleObj();
+			ParticleObj();
 			GLfloat lifeTime;
 			bool Awake;
 			bool Alive;

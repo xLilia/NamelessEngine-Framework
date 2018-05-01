@@ -21,7 +21,6 @@ namespace _NL {
 				GLuint nRenderTextures = 2,
 				bool HasPingPongShader = true,
 				GLuint PingPongIterations = 10);
-			~CameraObj();
 
 			//---------------------------------------------------------------------------------
 			//AUDIO

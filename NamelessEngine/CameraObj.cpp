@@ -547,7 +547,4 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 	return pingPongTexture[!bPingPong];
 }
 
-_NL::Object::CameraObj::~CameraObj()
-{
-}
 

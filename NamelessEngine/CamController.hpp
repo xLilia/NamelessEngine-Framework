@@ -64,7 +64,7 @@ void CamController::Update() {
 	_this->TransformCam.Position = glm::lerp(_this->TransformCam.Position, _this->TransformCam.Position + movementVector, dts);
 
 	//SPEED UP
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
 		movementSpeed = glm::lerp(movementSpeed, 10.0f, 1.0f);
 	}
 	else {
@@ -80,7 +80,7 @@ void CamController::Update() {
 	}
 
 	//LOAD NEXT SCENE
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		std::cout << "Load next scene..." << std::endl;
 		W->EndCurrentScene();
 	}

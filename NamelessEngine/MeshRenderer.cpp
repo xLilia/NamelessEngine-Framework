@@ -31,6 +31,18 @@ glm::vec3 calculateTangent(glm::vec3 pos0, glm::vec3 pos1, glm::vec3 pos2, glm::
 	
 }
 
+void _NL::Component::MeshRenderer::UpdateGLSettings()
+{
+	if (GL_CullFace) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_CullFaceMode);
+		glFrontFace(GL_CullFaceOrientation);
+	}
+	else {
+		glDisable(GL_CULL_FACE);
+	}
+}
+
 void _NL::Component::MeshRenderer::UnpackData() {
 	///UNPACK VERTEX DATA
 	

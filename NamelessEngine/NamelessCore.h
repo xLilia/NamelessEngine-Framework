@@ -75,13 +75,19 @@ namespace _NL{
 		/*Object*/
 		class Object {
 		public:
-
 			//---------------------------------------------------------------------------------
 			//OBJECT Constructors 
 			Object() {
 				this->name = "namelessObj";
 			}
-			
+
+			virtual~Object() {
+				for each(_NL::Core::Component* C in Components) {
+					delete C;
+				}
+				this->Components.erase(Components.begin(), Components.end());
+				this->Components.clear();
+			}
 			//---------------------------------------------------------------------------------
 			//OBJECT PROPERTIES 
 			
@@ -110,7 +116,7 @@ namespace _NL{
 			{
 				for each (_NL::Core::Component* c in Components)
 				{
-					if (c->ClassName() == "_NL::Component::Script") {
+					if (c->ClassName() == "_NL::Component::CppScript") {
 						//LET ADD MULTIPLE SCRIPTS
 					}else if (c->ClassName() == C->ClassName()) {
 						std::cout << "ERROR -1 :" << this->name.c_str() << " Object Component List Already Has a " << C->ClassName() << " Component." << std::endl;
@@ -137,8 +143,6 @@ namespace _NL{
 				return nullptr;
 			}
 
-
-		   
 			std::vector<_NL::Core::Component*> Components;
 		};
 

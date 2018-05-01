@@ -12,7 +12,7 @@ int main() {
 	//START!
 	//===========================================================================================
 
-	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true);
+	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 1000);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -192,6 +192,7 @@ int main() {
 	Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Cube;
 	Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
+
 	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("cube2");
 	Cube2->addComponent(new _NL::Component::Transform);
 	Cube2->addComponent(new _NL::Component::MeshRenderer);
@@ -228,12 +229,14 @@ int main() {
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
 	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 10;
 
+
+
 	//===========================================================================================
 	//LIGHTS
 	//===========================================================================================
 
 	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
-
+		
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
 	Light2->addComponent(new _NL::Component::MeshRenderer);
 	Light2->addComponent(new _NL::Component::Transform);
@@ -262,55 +265,39 @@ int main() {
 	//PARTICLE SYSTEMS
 	//===========================================================================================
 
+
+	_NL::Object::ParticleObj* flameParticle = new _NL::Object::ParticleObj();
+
+	_NL::Element::TextureInstance* FlameAlbedo = new _NL::Element::TextureInstance("MyTexs/fire.png", false);
+
+	_NL::Element::MaterialInstance* flameMat = new _NL::Element::MaterialInstance();
+	flameMat->AddNew_Material();
+	flameMat->LoadTexture(_NL::Element::AlbedoMap, FlameAlbedo, 0);
+
+	flameParticle->addComponent(new _NL::Component::MeshRenderer);
+	flameParticle->addComponent(new _NL::Component::Transform);
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
+	flameParticle->lifeTime = 1;
+
+
 	_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
-	ParticleScript* Pbehaviour = new ParticleScript();
-	Pbehaviour->W = &winMan;
-	_NL::Object::ParticleObj* Particle1 = new _NL::Object::ParticleObj(Cube->getComponent<_NL::Component::MeshRenderer>());
-	Particle1->lifeTime = 10;
-	PS1->Particle = Particle1;
-	PS1->ParticlesBehavior = Pbehaviour;
+	_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
+	Pbehaviour->getScript()->W = &winMan;
+	PS1->Particle = flameParticle;
+	PS1->ParticlesBehavior = Pbehaviour->getScript();
 	PS1->SpawnerTransform.PM = _NL::Object::ParticleSystem::CONE;
 	PS1->SpawnerTransform.Position.y = 10;
-	PS1->SpawnerTransform.Scale *= .1f;
-	PS1->SpawnerTransform.SpawnerHeight = 5;
+	PS1->SpawnerTransform.Scale *= 1.0f;
+	PS1->SpawnerTransform.SpawnerHeight = 2;
 	PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
-	PS1->SpawnerTransform.SpawnerRadius = 2;
-
+	PS1->SpawnerTransform.SpawnerRadius = 1;
 	PS1->TimeScale = &winMan.GameTime;
 	PS1->SpawnRate = 0.0;
 	scene1->addObjectToWorld(PS1);
 
-
-	_NL::Object::ParticleSystem* PS2 = new _NL::Object::ParticleSystem();
-	Pbehaviour->W = &winMan;
-	PS2->Particle = new _NL::Object::ParticleObj(Cube->getComponent<_NL::Component::MeshRenderer>());
-	PS2->ParticlesBehavior = Pbehaviour;
-	PS2->SpawnerTransform.Position.y = 10;
-	PS2->SpawnerTransform.Position.x = -10;
-	PS2->SpawnerTransform.PM = _NL::Object::ParticleSystem::CONE;
-	PS2->SpawnerTransform.Scale *= .1f;
-	PS2->SpawnerTransform.SpawnerHeight = 10;
-	PS2->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
-	PS2->SpawnerTransform.SpawnerRadius = 5;
-	PS2->TimeScale = &winMan.GameTime;
-	PS2->SpawnRate = 0.1f;
-	PS2->BEHAVIOUR_OFF();
-	//scene1->addObjectToWorld(PS2);
-
-	_NL::Object::ParticleSystem* PS3 = new _NL::Object::ParticleSystem();
-	Pbehaviour->W = &winMan;
-	PS3->Particle = new _NL::Object::ParticleObj(Cube->getComponent<_NL::Component::MeshRenderer>());;
-	PS3->ParticlesBehavior = Pbehaviour;
-	PS3->SpawnerTransform.Position.y = 10;
-	PS3->SpawnerTransform.Position.x = -5;
-	PS3->SpawnerTransform.Scale *= .1f;
-	PS3->SpawnerTransform.SpawnerHeight = 10;
-	PS3->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
-	PS3->SpawnerTransform.SpawnerRadius = 5;
-	PS3->TimeScale = &winMan.GameTime;
-	PS3->SpawnRate = 0.1f;
-	PS3->BEHAVIOUR_OFF();
-	//scene1->addObjectToWorld(PS3);
 
 	//===========================================================================================
 	//SCENES 

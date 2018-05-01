@@ -43,6 +43,12 @@ glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, glm::vec3 EyeAxis)
 //	return glm::normalize(glm::quat(qw, qx, qy, qz));
 //}
 
+glm::quat _NL::Component::Transform::RotateEuler(GLfloat x, GLfloat y, GLfloat z)
+{
+	return RotateEuler(glm::vec3(x, y, z));
+}
+
+
 glm::quat _NL::Component::Transform::RotateEuler(glm::vec3 eulerAngles)
 {
 	return transform.QuaternionRotation *= glm::quat(eulerAngles);

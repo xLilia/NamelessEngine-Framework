@@ -17,8 +17,11 @@ void ParticleScript::Start(){
 
 void ParticleScript::Update() {
 	T = _this->getComponent<_NL::Component::Transform>();
+
+	T->transform.QuaternionRotation = T->LookAt(W->Cameras[0]->TransformCam.Position);
+	
 	GLfloat t = W->GameTime.DeltaTime.asSeconds();
 
-	T->transform.position.y += t*5;
+	//T->transform.position.y += t*5;
 }
 

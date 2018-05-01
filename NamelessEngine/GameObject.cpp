@@ -20,6 +20,7 @@ _NL::Object::GameObject::GameObject(const _NL::Core::Object &CO)
 		}
 		else if (C->ClassName() == "_NL::Component::MeshRenderer") {
 			this->addComponent(C);
+			//this->addComponent(new _NL::Component::MeshRenderer(*static_cast<_NL::Component::MeshRenderer*>(C)));
 		}
 	}
 }
@@ -51,6 +52,3 @@ char* _NL::Object::GameObject::ClassName() const
 	return "_NL::Object::GameObject";
 }
 
-_NL::Object::GameObject::~GameObject()
-{
-}

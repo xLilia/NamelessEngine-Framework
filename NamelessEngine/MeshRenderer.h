@@ -27,6 +27,14 @@ namespace _NL {
 			///INFO
 			char* ClassName() const override;
 			bool bIsUnpacked = false;
+
+			//GLSETTINGS
+			GLenum GL_RenderMode = GL_TRIANGLES;
+			bool GL_CullFace = true;
+			GLenum GL_CullFaceMode = GL_BACK;
+			GLenum GL_CullFaceOrientation = GL_CCW;
+
+			void UpdateGLSettings();
 		private:		
 			void UnpackData();
 		};

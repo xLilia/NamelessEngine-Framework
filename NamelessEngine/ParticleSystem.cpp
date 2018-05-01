@@ -66,7 +66,8 @@ glm::quat _NL::Object::ParticleSystem::getDirectionQuaternion(glm::vec3 dir, glm
 void _NL::Object::ParticleSystem::TickSystem()
 {
 	if (ON_OFF) {
-		SpawnItTime += TimeScale->Clock.getElapsedTime().asSeconds();
+		GLfloat t = TimeScale->DeltaTime.asSeconds();
+		SpawnItTime += t;
 
 		if (SpawnItTime >= SpawnRate) {
 			SpawnItTime = 0;
@@ -111,9 +112,11 @@ void _NL::Object::ParticleSystem::TickSystem()
 			//
 			//newSpawnPoint = quaternionDir * newSpawnPoint;
 
+			_NL::Object::ParticleObj* SpawnParticle = new _NL::Object::ParticleObj(*Particle);
+
 			ActiveParticles.push_back(static_cast<_NL::Object::ParticleObj*>(
 				CurrentScene->Instantiate(
-					Particle, newSpawnPoint, glm::quat(), SpawnerTransform.Scale)
+					SpawnParticle, newSpawnPoint, glm::quat(), SpawnerTransform.Scale)
 				)
 			);
 			//COPY DEFAULT PARTICLE
@@ -124,26 +127,37 @@ void _NL::Object::ParticleSystem::TickSystem()
 		}
 
 		for (int i = 0; i < ActiveParticles.size(); i++) {
+			
 			ActiveParticles[i]->lifeTime -= TimeScale->DeltaTime.asSeconds();
+
 			if (ActiveParticles[i]->lifeTime <= 0) {
 				ActiveParticles[i]->Alive = false;
 			}
 			//UPDATE BEHAVIOUR
-			ParticlesBehavior->_this = ActiveParticles[i];
-			if (BON_BOFF) {
+			if (ParticlesBehavior != NULL && BON_BOFF == true) {
+				
+				ParticlesBehavior->_this = ActiveParticles[i];
+				
 				if (!ActiveParticles[i]->Awake) {
 					ActiveParticles[i]->Awake = true;
 					ParticlesBehavior->Start();
 				}
-			}
-			if (ActiveParticles[i]->Alive) {
-				if (BON_BOFF) ParticlesBehavior->Update();
-			}
-			else { //KILL PARTICLE
-				if (BON_BOFF) ParticlesBehavior->End();
-				CurrentScene->KillObjectInstance(ActiveParticles[i]);
-				ActiveParticles.erase(std::remove(ActiveParticles.begin(), ActiveParticles.end(), ActiveParticles[i]), ActiveParticles.end());
 				
+				if (ActiveParticles[i]->Alive) {
+					ParticlesBehavior->Update();
+				}
+				else { //KILL PARTICLE
+					ParticlesBehavior->End();
+					CurrentScene->KillObjectInstance<_NL::Object::ParticleObj>(ActiveParticles[i]);
+					ActiveParticles.erase(ActiveParticles.begin() + i);
+				}
+			}
+			else {
+				if (!ActiveParticles[i]->Alive) {
+					//KILL PARTICLE
+					CurrentScene->KillObjectInstance<_NL::Object::ParticleObj>(ActiveParticles[i]);
+					ActiveParticles.erase(ActiveParticles.begin() + i);
+				}
 			}
 		}
 	}
@@ -152,8 +166,4 @@ void _NL::Object::ParticleSystem::TickSystem()
 char * _NL::Object::ParticleSystem::ClassName() const
 {
 	return "_NL::Object::ParticleSystem";
-}
-
-_NL::Object::ParticleSystem::~ParticleSystem()
-{
 }

@@ -9,7 +9,6 @@ namespace _NL {
 		{
 		public:
 			UICanvas();
-			~UICanvas();
 
 			_NL::Element::ShaderInstance* ImageRenderShader;
 

@@ -3,8 +3,8 @@
 layout (location = 0) uniform sampler2D HDR_Texture;
 layout (location = 1) uniform sampler2D bloomBlur;
 
-const float exposure = 2.0;
-const float gamma = 1.0;
+const float exposure = 2.3;
+const float gamma = 0.8;
 
 in vec2 tex_coord;
 out vec4 fragColor;
@@ -27,6 +27,5 @@ void main(){
     mapped = pow(mapped, vec3(1.0 / gamma));
 
 	fragColor = vec4(mapped,1.0);
-	//fragColor = vec4(HDRcolor,1.0);
 	
 }

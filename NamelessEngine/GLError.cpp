@@ -22,16 +22,6 @@ void _check_gl_error(const char *file, int line) {
 		//case GL_FRAMEBUFFER_UNSUPPORTED:					error = "FRAMEBUFFER_UNSUPPORTED";						break;
 		
 		}
-		
-		//switch (level)
-		//{
-		//case 1:
-		// cout << "GL_" << error.c_str() << " :" << line << endl;
-		// break;
-		//default:
-		// cout << "GL_" << error.c_str() << " - " << file << ":" << line << endl;
-		// break;
-		//}
 
 		if (_b_gl_debug_enabled)
 			cout << "GL_" << error.c_str() << " - " << file << ":" << line << endl;

@@ -31,6 +31,6 @@ layout (std140, binding = 0) uniform LightBlock {
 layout (location = 0) out vec4 FragColor;
 
 void main(){
-	vec3 color = texture(AlbedoTexture, fragTexCoord).rgb;
-	FragColor = vec4(color*5,1.0);
+	vec4 color = texture(AlbedoTexture, fragTexCoord);
+	FragColor = color;
 }

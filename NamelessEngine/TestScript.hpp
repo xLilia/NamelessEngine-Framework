@@ -21,7 +21,7 @@ public:
 void TestScript::Start(){
 	//target = W->Cameras[0]->Position;
 	T = _this->getComponent<_NL::Component::Transform>();
-	T->transform.scale *= 0.1;
+	//T->transform.scale *= 0.1;
 }
 
 void TestScript::Update() {

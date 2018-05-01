@@ -13,12 +13,11 @@ namespace _NL {
 				CONE = 1	
 			};
 			ParticleSystem();
-			~ParticleSystem();
 			std::vector<_NL::Object::ParticleObj*> ActiveParticles;
-			_NL::Core::Script* ParticlesBehavior;
-			_NL::Object::ParticleObj* Particle;
+			_NL::Core::Script* ParticlesBehavior = NULL;
+			_NL::Object::ParticleObj* Particle = NULL;
 			_NL::Engine::WorldSpace* CurrentScene = NULL;
-			_NL::Engine::Time* TimeScale;
+			_NL::Engine::Time* TimeScale = NULL;
 			GLfloat SpawnRate = 1;
 			struct SpwTransform {
 				glm::vec3 Position = glm::vec3(0, 0, 0);
