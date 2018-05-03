@@ -17,10 +17,29 @@ void ParticleScript::Start(){
 
 void ParticleScript::Update() {
 	T = _this->getComponent<_NL::Component::Transform>();
+	GLfloat t = W->GameTime.DeltaTime.asSeconds();
+	
+	GLfloat LO;
+	GLfloat HI;
+	GLfloat RandomX;
+	GLfloat RandomY;
+	GLfloat RandomZ;
+
+
+	LO = -5;
+	HI = 5;
+	RandomX = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+	RandomY = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+	RandomZ = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+
+	glm::vec3 rv(RandomX, RandomY, RandomZ);
 
 	T->transform.QuaternionRotation = T->LookAt(W->Cameras[0]->TransformCam.Position);
 	
-	GLfloat t = W->GameTime.DeltaTime.asSeconds();
+	T->transform.position = glm::lerp(T->transform.position, T->transform.position + rv,t);
+
+
 
 	//T->transform.position.y += t*5;
 }

@@ -9,8 +9,9 @@ namespace _NL {
 		{
 		public:
 			enum PARTICLE_SPAWN_MODE {
-				SPHERE = 0,
-				CONE = 1	
+				CUBE = 0,
+				SPHERE = 1,
+				CONE = 2	
 			};
 			ParticleSystem();
 			std::vector<_NL::Object::ParticleObj*> ActiveParticles;
@@ -18,15 +19,16 @@ namespace _NL {
 			_NL::Object::ParticleObj* Particle = NULL;
 			_NL::Engine::WorldSpace* CurrentScene = NULL;
 			_NL::Engine::Time* TimeScale = NULL;
-			GLfloat SpawnRate = 1;
+			GLfloat SpawnPerFrame = 1;
 			struct SpwTransform {
 				glm::vec3 Position = glm::vec3(0, 0, 0);
 				glm::vec3 Direction = glm::vec3(0, 1, 0);
 				glm::vec3 Scale = glm::vec3(1, 1, 1);
-				GLfloat SpawnerRadius = 1;
+				GLfloat SpawnerHeightY = 1;
+				GLfloat SpawnerWidthX = 1;
+				GLfloat SpawnerWidthZ = 1;
 				GLfloat SpawnerConeVertexRadius = .5;
-				GLfloat SpawnerHeight = 1;
-				PARTICLE_SPAWN_MODE PM = PARTICLE_SPAWN_MODE::SPHERE;
+				PARTICLE_SPAWN_MODE SpawnerShape = PARTICLE_SPAWN_MODE::CUBE;
 			} SpawnerTransform;
 			glm::vec3 coneClamp(glm::vec3 pos);
 			glm::quat getDirectionQuaternion(glm::vec3 dir, glm::vec3 newdir);
@@ -37,7 +39,7 @@ namespace _NL {
 			void TickSystem();
 			char* ClassName() const override;
 		private:
-			GLfloat SpawnItTime = 0;
+			GLfloat SpawnN = 0;
 			bool ON_OFF;
 			bool BON_BOFF;
 		};

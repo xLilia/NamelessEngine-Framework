@@ -30,20 +30,53 @@ void _NL::Object::ParticleSystem::BEHAVIOUR_OFF()
 
 glm::vec3 _NL::Object::ParticleSystem::coneClamp(glm::vec3 pos) {
 
-	GLfloat RadiusBase = SpawnerTransform.SpawnerRadius * SpawnerTransform.SpawnerConeVertexRadius;
-	GLfloat InvRadiusBase = SpawnerTransform.SpawnerRadius - RadiusBase;
-	GLfloat InvNewHeightRadius = (pos.y * InvRadiusBase) / (SpawnerTransform.SpawnerHeight);
-	GLfloat NewHeightRadius = SpawnerTransform.SpawnerRadius - InvNewHeightRadius;
+	//GLfloat RadiusBase = SpawnerTransform.SpawnerConeBaseRadius * SpawnerTransform.SpawnerConeVertexRadius;
+	//GLfloat InvRadiusBase = SpawnerTransform.SpawnerConeBaseRadius - RadiusBase;
+	//GLfloat InvNewHeightRadius = (pos.y * InvRadiusBase) / (SpawnerTransform.SpawnerHeightY);
+	//GLfloat NewHeightRadius = SpawnerTransform.SpawnerConeBaseRadius - InvNewHeightRadius;
 
+	GLfloat RadiusBaseX = SpawnerTransform.SpawnerWidthX * SpawnerTransform.SpawnerConeVertexRadius;
+	GLfloat InvRadiusBaseX = SpawnerTransform.SpawnerWidthX - RadiusBaseX;
+	GLfloat InvNewHeightRadiusX = (pos.y * InvRadiusBaseX) / (SpawnerTransform.SpawnerHeightY);
+	GLfloat NewHeightRadiusX = SpawnerTransform.SpawnerWidthX - InvNewHeightRadiusX;
+	
+	GLfloat RadiusBaseZ = SpawnerTransform.SpawnerWidthZ * SpawnerTransform.SpawnerConeVertexRadius;
+	GLfloat InvRadiusBaseZ = SpawnerTransform.SpawnerWidthZ - RadiusBaseZ;
+	GLfloat InvNewHeightRadiusZ = (pos.y * InvRadiusBaseZ) / (SpawnerTransform.SpawnerHeightY);
+	GLfloat NewHeightRadiusZ = SpawnerTransform.SpawnerWidthZ - InvNewHeightRadiusZ;
 
 	glm::vec3 checkpos = glm::vec3(pos.x, 0, pos.z);
+	glm::vec3 clampC = glm::vec3(NewHeightRadiusX, 0, NewHeightRadiusZ);
 
-	if (glm::length(checkpos) > NewHeightRadius) {
-		checkpos = glm::normalize(checkpos)*NewHeightRadius;
+	//if (glm::length(checkpos) > NewHeightRadius) {
+	//	checkpos = glm::normalize(checkpos)*NewHeightRadius;
+	//} 
+	//else
+	//if (glm::length(checkpos) < -NewHeightRadius) {
+	//	checkpos = glm::normalize(checkpos)*-NewHeightRadius;
+	//}
+
+	//if (glm::length(checkpos) > glm::length(clampC)) {
+	//	checkpos = glm::normalize(checkpos)*clampC;
+	//} 
+	//else
+	//if (glm::length(checkpos) < -glm::length(clampC)) {
+	//	checkpos = glm::normalize(checkpos)*-clampC;
+	//}
+
+	if (checkpos.x > clampC.x) {
+		checkpos.x = clampC.x;
+	}else
+	if(checkpos.x < -clampC.x) {
+		checkpos.x = -clampC.x;
 	}
-	else
-	if (glm::length(checkpos) < -NewHeightRadius) {
-		checkpos = glm::normalize(checkpos)*-NewHeightRadius;
+	
+	if (checkpos.z > clampC.z) {
+		checkpos.z = clampC.z;
+	}			
+	else		
+	if (checkpos.z < -clampC.z) {
+		checkpos.z = -clampC.z;
 	}
 
 	pos.x = checkpos.x;
@@ -66,64 +99,111 @@ glm::quat _NL::Object::ParticleSystem::getDirectionQuaternion(glm::vec3 dir, glm
 void _NL::Object::ParticleSystem::TickSystem()
 {
 	if (ON_OFF) {
-		GLfloat t = TimeScale->DeltaTime.asSeconds();
-		SpawnItTime += t;
 
-		if (SpawnItTime >= SpawnRate) {
-			SpawnItTime = 0;
-			//CALCULATE NEW RANDOM POINT IN SPAWN CILINDER
-			glm::vec3 newSpawnPoint(0,0,0);
-			GLfloat LO;
-			GLfloat HI;
-			GLfloat RandomX;
-			GLfloat RandomY;
-			GLfloat RandomZ;
-			if (SpawnerTransform.PM == PARTICLE_SPAWN_MODE::SPHERE) {
-				LO = -SpawnerTransform.SpawnerRadius;
-				HI = SpawnerTransform.SpawnerRadius;
-				RandomX = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-				RandomY = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-				RandomZ = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-				GLfloat RandomR = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-				
-				newSpawnPoint = glm::normalize(glm::vec3(RandomX, RandomY, RandomZ)) * RandomR;
-				newSpawnPoint += SpawnerTransform.Position;
-			}
+		if (SpawnPerFrame < 1.0) {
+			SpawnN += SpawnPerFrame;
+		}
+		else {
+			SpawnN = SpawnPerFrame;
+		}
 
-			if (SpawnerTransform.PM == PARTICLE_SPAWN_MODE::CONE) {
-				
-				LO = -SpawnerTransform.SpawnerRadius;
-				HI = SpawnerTransform.SpawnerRadius;
-
-				RandomX = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-				RandomZ = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-
-				LO = 0;
-				HI = SpawnerTransform.SpawnerHeight;
-				RandomY = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
-				newSpawnPoint = glm::vec3(RandomX, RandomY, RandomZ);
-
-				//CLAMP TO SPAWN CONE
-				newSpawnPoint = -coneClamp(newSpawnPoint);
-				newSpawnPoint += SpawnerTransform.Position * 2.0f;
-			}
-
-			//glm::quat quaternionDir = getDirectionQuaternion(newSpawnPoint, -SpawnerTransform.Direction);
-			//
-			//newSpawnPoint = quaternionDir * newSpawnPoint;
-
-			_NL::Object::ParticleObj* SpawnParticle = new _NL::Object::ParticleObj(*Particle);
-
-			ActiveParticles.push_back(static_cast<_NL::Object::ParticleObj*>(
-				CurrentScene->Instantiate(
-					SpawnParticle, newSpawnPoint, glm::quat(), SpawnerTransform.Scale)
-				)
-			);
-			//COPY DEFAULT PARTICLE
-			ActiveParticles[ActiveParticles.size() - 1]->lifeTime = Particle->lifeTime;
-			ActiveParticles[ActiveParticles.size() - 1]->Awake = Particle->Awake;
-			ActiveParticles[ActiveParticles.size() - 1]->Alive = Particle->Alive;
+		if (SpawnN >= 1.0) {
 			
+			
+			GLuint oldSize = ActiveParticles.size();
+			//ActiveParticles.reserve(ActiveParticles.capacity() + SpawnPerFrame);
+			ActiveParticles.resize(ActiveParticles.size() + (int)SpawnN);
+			//CurrentScene->ObjectList.resize(CurrentScene->ObjectList.size() + SpawnPerFrame);
+
+			for (int spf = 0; spf < (int)SpawnN; spf++) {
+				//CALCULATE NEW RANDOM POINT 
+
+				glm::vec3 newSpawnPoint(0, 0, 0);
+				GLfloat LO;
+				GLfloat HI;
+				GLfloat RandomX;
+				GLfloat RandomY;
+				GLfloat RandomZ;
+
+				LO = -SpawnerTransform.SpawnerWidthX;
+				HI = SpawnerTransform.SpawnerWidthX;
+				RandomX = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+				LO = -SpawnerTransform.SpawnerHeightY;
+				HI = SpawnerTransform.SpawnerHeightY;
+				RandomY = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+				LO = -SpawnerTransform.SpawnerWidthZ;
+				HI = SpawnerTransform.SpawnerWidthZ;
+				RandomZ = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+
+				if (SpawnerTransform.SpawnerShape == PARTICLE_SPAWN_MODE::CUBE) {
+
+					newSpawnPoint = glm::vec3(RandomX, RandomY, RandomZ);
+					newSpawnPoint += SpawnerTransform.Position;
+				}
+
+				if (SpawnerTransform.SpawnerShape == PARTICLE_SPAWN_MODE::SPHERE) {
+
+					//LO = -SpawnerTransform.SpawnerHeightY;
+					//HI = SpawnerTransform.SpawnerHeightY;
+					//RandomX = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+					//RandomY = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+					//RandomZ = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+					glm::vec3 RandomR(0);
+
+					LO = -SpawnerTransform.SpawnerWidthX;
+					HI = SpawnerTransform.SpawnerWidthX;
+					RandomR.x = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+					LO = -SpawnerTransform.SpawnerHeightY;
+					HI = SpawnerTransform.SpawnerHeightY;
+					RandomR.y = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+					LO = -SpawnerTransform.SpawnerWidthZ;
+					HI = SpawnerTransform.SpawnerWidthZ;
+					RandomR.z = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
+
+					newSpawnPoint = glm::normalize(glm::vec3(RandomX, RandomY, RandomZ)) * RandomR;
+					newSpawnPoint += SpawnerTransform.Position;
+				}
+
+				if (SpawnerTransform.SpawnerShape == PARTICLE_SPAWN_MODE::CONE) {
+
+					//CLAMP TO SPAWN CONE
+					newSpawnPoint = -coneClamp(glm::vec3(RandomX, RandomY, RandomZ));
+					newSpawnPoint += SpawnerTransform.Position * 2.0f;
+				}
+
+				//glm::quat quaternionDir = getDirectionQuaternion(newSpawnPoint, -SpawnerTransform.Direction);
+				//
+				//newSpawnPoint = quaternionDir * newSpawnPoint;
+
+				_NL::Object::ParticleObj* SpawnParticle = new _NL::Object::ParticleObj(*Particle);
+
+				if (ActiveParticles.size() == 1) {
+					SpawnParticle->getComponent<_NL::Component::Transform>()->transform.position = newSpawnPoint;
+					SpawnParticle->getComponent<_NL::Component::Transform>()->transform.scale = SpawnerTransform.Scale;
+					ActiveParticles[oldSize + spf] = SpawnParticle;
+
+					CurrentScene->addObjectToWorld(SpawnParticle);
+				}
+				else {
+					ActiveParticles[oldSize + spf] = (static_cast<_NL::Object::ParticleObj*>(
+						CurrentScene->Instantiate(
+							SpawnParticle, newSpawnPoint, glm::quat(), SpawnerTransform.Scale)
+						)
+						);
+				}
+
+				//COPY DEFAULT PARTICLE
+				ActiveParticles[oldSize + spf]->lifeTime = Particle->lifeTime;
+				ActiveParticles[oldSize + spf]->Awake = Particle->Awake;
+				ActiveParticles[oldSize + spf]->Alive = Particle->Alive;
+			}
+			SpawnN = 0;
 		}
 
 		for (int i = 0; i < ActiveParticles.size(); i++) {

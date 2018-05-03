@@ -192,7 +192,6 @@ int main() {
 	Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Cube;
 	Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
-
 	_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("cube2");
 	Cube2->addComponent(new _NL::Component::Transform);
 	Cube2->addComponent(new _NL::Component::MeshRenderer);
@@ -288,14 +287,15 @@ int main() {
 	Pbehaviour->getScript()->W = &winMan;
 	PS1->Particle = flameParticle;
 	PS1->ParticlesBehavior = Pbehaviour->getScript();
-	PS1->SpawnerTransform.PM = _NL::Object::ParticleSystem::CONE;
+	PS1->SpawnerTransform.SpawnerShape = _NL::Object::ParticleSystem::SPHERE;
 	PS1->SpawnerTransform.Position.y = 10;
-	PS1->SpawnerTransform.Scale *= 1.0f;
-	PS1->SpawnerTransform.SpawnerHeight = 2;
+	PS1->SpawnerTransform.Scale *= 0.1f;
+	PS1->SpawnerTransform.SpawnerHeightY = 10;
+	PS1->SpawnerTransform.SpawnerWidthX = 10;
+	PS1->SpawnerTransform.SpawnerWidthZ = 10;
 	PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
-	PS1->SpawnerTransform.SpawnerRadius = 1;
 	PS1->TimeScale = &winMan.GameTime;
-	PS1->SpawnRate = 0.0;
+	PS1->SpawnPerFrame = 1;
 	scene1->addObjectToWorld(PS1);
 
 
