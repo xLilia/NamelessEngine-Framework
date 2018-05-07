@@ -1,5 +1,5 @@
 #pragma once
-#include "NamelessCore.h"
+#include "NamelessCore.hpp"
 #include "ShaderInstance.h"
 #include "MeshInstance.h"
 #include "MaterialInstance.h"

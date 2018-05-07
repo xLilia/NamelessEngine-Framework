@@ -5,13 +5,16 @@
 #include "ParticleScript.hpp"
 
 
+
 int main() {
 	//check_gl_error();
 
 	//===========================================================================================
 	//START!
 	//===========================================================================================
-
+	XMLfileReader X;
+	X.Load("COLLADATEST/houseColladaAnim.dae",true,false);
+	
 	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 1000);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
@@ -83,7 +86,7 @@ int main() {
 	MyCam2->PingPongShader = GaussianBlur;
 	MyCam2->ClearScreenColor = glm::vec3(0, 1, 0);
 
-
+	
 	//===========================================================================================
 	//CANVAS
 	//===========================================================================================
@@ -131,9 +134,18 @@ int main() {
 	
 	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/A.png", 0);
 	_NL::Element::TextureInstance* mtR = new  _NL::Element::TextureInstance("MyTexs/R2.png", 0);
-	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M2.png", 0);
+	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M.png", 0);
 	_NL::Element::TextureInstance* mtN = new _NL::Element::TextureInstance("MyTexs/N.png", 0);
 	_NL::Element::TextureInstance* mtAO = new _NL::Element::TextureInstance("MyTexs/AO.png", 0);
+
+	_NL::Element::MaterialInstance* Mat1 = new _NL::Element::MaterialInstance();
+	Mat1->AddNew_Material();
+	Mat1->LoadTexture(_NL::Element::TEXTURE_TYPE::AlbedoMap, mtA, 0);
+	Mat1->LoadTexture(_NL::Element::TEXTURE_TYPE::RoughnessMap, mtR, 0);
+	Mat1->LoadTexture(_NL::Element::TEXTURE_TYPE::MetalnessMap, mtM, 0);
+	Mat1->LoadTexture(_NL::Element::TEXTURE_TYPE::NormalMap, mtN, 0);
+	Mat1->LoadTexture(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, mtAO, 0);
+
 
 	_NL::Element::TextureInstance* CerberusA = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_A.tga", 0);
 	_NL::Element::TextureInstance* CerberusR = new  _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_R.tga", 0);
@@ -141,14 +153,17 @@ int main() {
 	_NL::Element::TextureInstance* CerberusN = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_N.tga", 0);
 	_NL::Element::TextureInstance* CerberusAO = new _NL::Element::TextureInstance("Cerberus/Textures/Raw/Cerberus_AO.tga", 0);
 
+	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
+	PBRGunMAT->AddNew_Material();
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AlbedoMap, CerberusA, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::RoughnessMap, CerberusR, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::MetalnessMap, CerberusM, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::NormalMap, CerberusN, 0);
+	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, CerberusAO, 0);
+
+
 	//(1)===========================================================================================
-	_NL::Element::MaterialInstance* Mat1 = new _NL::Element::MaterialInstance();
-	Mat1->AddNew_Material();
-	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::AlbedoMap, mtA, 0);
-	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::RoughnessMap, mtR,	0);
-	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::MetalnessMap, mtM,	0);
-	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::NormalMap, mtN, 0);
-	Mat1->LoadTexture	(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, mtAO ,0);
+
 
 	_NL::Object::GameObject* Sphere = new _NL::Object::GameObject("Shpere");
 	Sphere->addComponent(new _NL::Component::Transform);
@@ -156,18 +171,17 @@ int main() {
 	Sphere->addComponent(new _NL::Component::CppScript<TestScript>);
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Sphere.obj");
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	Sphere->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Sphere;
 	Sphere->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
+	Sphere->getComponent<_NL::Component::Transform>()->transform.position.x = -25;
+	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 10;
+	Sphere->getComponent<_NL::Component::Transform>()->transform.position.z = 0;
+	Sphere->getComponent<_NL::Component::Transform>()->transform.scale *= 2;
+	//Sphere->getComponent<_NL::Component::Transform>()->transform.scale.y *= 2;
+
 	//(2)===========================================================================================
-	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
-	PBRGunMAT->AddNew_Material();
-	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AlbedoMap, CerberusA , 0);
-	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::RoughnessMap, CerberusR, 0);
-	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::MetalnessMap, CerberusM, 0);
-	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::NormalMap, CerberusN, 0);
-	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, CerberusAO, 0);
 
 	_NL::Object::GameObject* PBRGun = new _NL::Object::GameObject("PBRGun");
 	PBRGun->addComponent(new _NL::Component::Transform);
@@ -221,12 +235,12 @@ int main() {
 	Quad->addComponent(new _NL::Component::CppScript<TestScript>);
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Quad;
 	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
 	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
-	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 10;
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 100;
 
 
 
@@ -234,31 +248,26 @@ int main() {
 	//LIGHTS
 	//===========================================================================================
 
-	_NL::Object::LightObject* Light = new _NL::Object::LightObject("Light");
-		
-	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
-	Light2->addComponent(new _NL::Component::MeshRenderer);
-	Light2->addComponent(new _NL::Component::Transform);
-	Light2->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Light2->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
-	Light2->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
+	_NL::Object::LightObject* Light1 = new _NL::Object::LightObject("Light1");
+	Light1->addComponent(new _NL::Component::CppScript<TestScript>);
+	Light1->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = Light1;
+	Light1->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
+	Light1->addComponent(new _NL::Component::MeshRenderer);
+	Light1->addComponent(new _NL::Component::Transform);
+	Light1->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
+	Light1->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
+	Light1->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
+	
 
-	Sphere->getComponent<_NL::Component::Transform>()->transform.position.x = 150;
-	Sphere->getComponent<_NL::Component::Transform>()->transform.position.y = 150;
-	Sphere->getComponent<_NL::Component::Transform>()->transform.position.z = 150;
-	Sphere->getComponent<_NL::Component::Transform>()->transform.scale *= 15;
-	Sphere->getComponent<_NL::Component::Transform>()->transform.scale.y *= 2;
+	Light1->getComponent<_NL::Component::Transform>()->transform.position = glm::vec3(0, 15, 0);
 
-	Light->LightProperties.lightPosition.y = 150;
-	Light->LightProperties.lightPosition.x = 100;
-	Light->LightProperties.lightPosition.z = 150;
-	Light->LightProperties.lightColor = glm::vec3(2500, 2500, 2500);
+	Light1->LightProperties.lightPosition = Light1->getComponent<_NL::Component::Transform>()->transform.position;
+	
+	Light1->LightProperties.lightColor = glm::vec3(1000, 1000, 1000);
+	
+	Light1->LightProperties.lightDirection = glm::vec3(0, -1, 0);
 
-	Light2->LightProperties.lightPosition.y = 8;
-	Light2->LightProperties.lightPosition.x = 0;
-	Light2->LightProperties.lightPosition.z = 0;
-	Light2->LightProperties.lightColor = glm::vec3(150, 250, 350);
-	Light2->getComponent<_NL::Component::Transform>()->transform.position = Light2->LightProperties.lightPosition;
+	Light1->LightProperties.lightSpotAngle = glm::cos(glm::radians(15.0f));
 
 	//===========================================================================================
 	//PARTICLE SYSTEMS
@@ -280,7 +289,6 @@ int main() {
 	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
 	flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
 	flameParticle->lifeTime = 1;
-
 
 	_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
 	_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
@@ -304,11 +312,11 @@ int main() {
 	//===========================================================================================
 	
 	scene1->addObjectToWorld(Quad);
-	//scene1->addObjectToWorld(Sphere);
+	scene1->addObjectToWorld(Sphere);
 	//scene1->addObjectToWorld(PBRGun);
-	scene1->addObjectToWorld(Cube);
-	scene1->addObjectToWorld(Cube2);
-	scene1->addObjectToWorld(Cube3);
+	//scene1->addObjectToWorld(Cube);
+	//scene1->addObjectToWorld(Cube2);
+	//scene1->addObjectToWorld(Cube3);
 	//scene1->addObjectToWorld(Canvas1);
 
 	//for(int i = 0; i< 500; i++){
@@ -323,8 +331,8 @@ int main() {
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);
 	
-	scene1->addObjectToWorld(Light);
-	scene1->addObjectToWorld(Light2);
+	scene1->addObjectToWorld(Light1);
+	//scene1->addObjectToWorld(Light2);
 	
 	//scene1->showObjectList();
 	winMan.RunScene(scene1);

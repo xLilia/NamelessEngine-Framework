@@ -16,6 +16,9 @@
 #include "CppScript.h"
 #include "NL_Time.h"
 
-#include"NamelessCore.h"
+//TOOLS
+#include "XMLfileReader.h"
+
+#include"NamelessCore.hpp"
 
 

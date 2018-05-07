@@ -1,5 +1,5 @@
 #pragma once
-#include "NamelessCore.h"
+#include "NamelessCore.hpp"
 #include <SFML\Audio\Sound.hpp>
 #include <SFML\Audio\SoundBuffer.hpp>
 #include <SFML\Audio\Music.hpp>

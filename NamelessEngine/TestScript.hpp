@@ -32,7 +32,11 @@ void TestScript::Update() {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add) ) {
 		glm::vec3 vec = target - T->transform.position;
 		if (glm::length(vec) > 10) {
+
 			T->transform.position = glm::lerp(T->transform.position, target, t / 2);
+			if (_this->name == "Light1") {
+				dynamic_cast<_NL::Object::LightObject*>(_this)->LightProperties.lightPosition = T->transform.position;
+			}
 			T->transform.QuaternionRotation = glm::slerp(T->transform.QuaternionRotation, T->LookAt(target, glm::vec3(0, 1, 0)), t / 2);
 		}
 		else {

@@ -129,6 +129,15 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files\WorldObjects</Filter>
     </ClCompile>
+    <ClCompile Include="NLphysxCollider.cpp">
+      <Filter>Source Files\Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="NLphysxRigidBody.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLfileReader.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -151,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\WorldObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="NamelessCore.h">
-      <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
     <ClInclude Include="NL.hpp">
       <Filter>Header Files\EngineObjects</Filter>
@@ -217,6 +223,18 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Header Files\WorldObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="NamelessCore.hpp">
+      <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="NLphysxCollider.h">
+      <Filter>Header Files\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="NLphysxRigidBody.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLfileReader.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

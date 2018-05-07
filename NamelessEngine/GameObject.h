@@ -1,5 +1,5 @@
 #pragma once
-#include "NamelessCore.h"
+#include "NamelessCore.hpp"
 #include "CppScript.h"
 #include "Transform.h"
 #include "MeshRenderer.h"

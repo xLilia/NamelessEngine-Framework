@@ -1,19 +1,15 @@
 #version 450 core   
 
 //======================= DATA =========================
-const int NR_LIGHTS = 2;
+const int NR_LIGHTS = 1;
 
 layout (location=0) in vec3 aPosition;
 layout (location=1) in vec3 aNorm;
 layout (location=2) in vec3 aTangent;
 layout (location=3) in vec2 aTexCoords;
 layout (location=4) in mat4 aInstanceModel;
-//location=5
-//location=6
-//location=7
 
 layout (location=8) uniform vec3 uEyePos;
-//layout (location=5) uniform mat4 uModel;
 layout (location=9) uniform mat4 uView;
 layout (location=10) uniform mat4 uProjection;
 
@@ -30,12 +26,15 @@ out vec3 fragPos;
 out vec2 fragTexCoord;
 //out vec3 Normal;
 out vec3 vTangentLightPos[NR_LIGHTS];
+out vec3 vTangentLightDir[NR_LIGHTS];
 out vec3 vTangentEyePos;
 out vec3 vTangentFragPos;
 
 struct LightProperties {
 	vec3 lightColor;
 	vec3 lightPosition;
+	vec3 lightDirection;
+	float lightSpotAngle;
 };
 
 layout (std140, binding = 0) uniform LightBlock {
@@ -83,6 +82,7 @@ void main()
 		for(int i = 0; i < NR_LIGHTS; i++)
 		{
 			vTangentLightPos[i] = TBN * light[i].lightPosition;
+			vTangentLightDir[i] = TBN * light[i].lightDirection;
 		}
 
 		//Eye Position in Tangent Space

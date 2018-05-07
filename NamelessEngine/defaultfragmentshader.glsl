@@ -3,12 +3,13 @@
 //======================= DATA =========================
 
 #define NL_PI 3.14159265359
-const int NR_LIGHTS = 2;
+const int NR_LIGHTS = 1;
 const float MAX_REFLECTION_LOD = 4.0;
 
 in vec3 fragPos;
 in vec2 fragTexCoord;
 in vec3 vTangentLightPos[NR_LIGHTS];
+in vec3 vTangentLightDir[NR_LIGHTS];
 in vec3 vTangentEyePos;
 in vec3 vTangentFragPos;
 
@@ -24,6 +25,8 @@ layout (location=18) uniform sampler2D BRDF2DLUTTexture;
 struct LightProperties {
 	vec3 lightColor;
 	vec3 lightPosition;
+	vec3 lightDirection;
+	float lightSpotAngle;
 };
 
 layout (std140, binding = 0) uniform LightBlock {
@@ -182,17 +185,43 @@ void main(){
 	vec3 Lo = vec3(0.0);
 
 	for(int i = 0; i < NR_LIGHTS; i++){
-		
+
+		//Light Radiance
+		float distance;
+		float attenuation;
+		vec3 radiance;
+
 		//Light direction Vector
-		vec3 L = normalize(vTangentLightPos[i] - vTangentFragPos); 
+		vec3 L;
+		
+		if(length(light[i].lightDirection) > 0.0 && light[i].lightSpotAngle != 0){
+		
+			L = normalize(vTangentLightPos[i] - vTangentFragPos); 
+
+			float theta = dot(L, normalize(-vTangentLightDir[i]) );
+
+			if(theta > light[i].lightSpotAngle){
+				//distance    = length(vTangentLightPos[i] - vTangentFragPos);
+				//attenuation = 1.0 / (distance * distance);
+				//radiance    = light[i].lightColor * attenuation;
+				radiance = vec3(10,0,0);
+			}else{
+				radiance = vec3(0,10,0);
+			}
+
+		}else if(length(light[i].lightDirection) > 0.0){
+			radiance = light[i].lightColor;
+			L = normalize(-vTangentLightDir[i]); 
+		}else{
+			distance    = length(vTangentLightPos[i] - vTangentFragPos);
+			attenuation = 1.0 / (distance * distance);
+			radiance     = light[i].lightColor * attenuation;
+				
+			L = normalize(vTangentLightPos[i] - vTangentFragPos); 
+		}
 
 		//Halfway direction Vector
 		vec3 H = normalize(V + L); 
-
-		//Light Radiance
-		float distance    = length(vTangentLightPos[i] - vTangentFragPos);
-		float attenuation = 1.0 / (distance * distance);
-		vec3 radiance     = light[i].lightColor * attenuation; 
 
 		// Cook-Torrance BRDF //
 		float NDF = NDF_GGXTR(N, H, roughnessMap, 1); //Normal Distribution Function

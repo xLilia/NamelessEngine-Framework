@@ -1,5 +1,5 @@
 #pragma once
-#include "NamelessCore.h"
+#include "NamelessCore.hpp"
 #include "ShaderInstance.h"
 #include <SFML\Window\Window.hpp>
 #include <SFML\Audio\Listener.hpp>

@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\include\;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glm;$(IncludePath)</IncludePath>
-    <LibraryPath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\lib;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\PhysX-3.4-master\PxShared\include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\PhysX-3.4-master\PhysX_3.4\Include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\include;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\include\;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glm;$(IncludePath)</IncludePath>
+    <LibraryPath>X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\PhysX-3.4-master\PxShared\lib\vc14win32;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\PhysX-3.4-master\PhysX_3.4\Lib\vc14win32;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\SFML-2.4.2\lib;X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\Libs\glew-2.1.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -96,10 +96,11 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ShowIncludes>false</ShowIncludes>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;PhysX3CHECKED_x86.lib;PhysX3CommonCHECKED_x86.lib;PxFoundationCHECKED_x86.lib;PxTaskCHECKED_x86.lib;PxPvdSDKCHECKED_x86.lib;SceneQueryCHECKED.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -162,6 +163,8 @@
     <ClCompile Include="OBJfileReader.cpp" />
     <ClCompile Include="ParticleObj.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="NLphysxCollider.cpp" />
+    <ClCompile Include="NLphysxRigidBody.cpp" />
     <ClCompile Include="ShaderObj.cpp" />
     <ClCompile Include="ShaderWizard.cpp" />
     <ClCompile Include="NL_Time.cpp" />
@@ -173,6 +176,7 @@
     <ClCompile Include="UICanvas.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="WorldSpace.cpp" />
+    <ClCompile Include="XMLfileReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioSource.h" />
@@ -187,10 +191,12 @@
     <ClInclude Include="MTLfileReader.h" />
     <ClInclude Include="NL.hpp" />
     <ClInclude Include="OBJfileReader.h" />
-    <ClInclude Include="NamelessCore.h" />
+    <ClInclude Include="NamelessCore.hpp" />
     <ClInclude Include="ParticleObj.h" />
     <ClInclude Include="ParticleScript.hpp" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="NLphysxCollider.h" />
+    <ClInclude Include="NLphysxRigidBody.h" />
     <ClInclude Include="SkyboxObj.h" />
     <ClInclude Include="CppScript.h" />
     <ClInclude Include="ShaderInstance.h" />
@@ -204,6 +210,7 @@
     <ClInclude Include="UICanvas.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="WorldSpace.h" />
+    <ClInclude Include="XMLfileReader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="simpleFrag.glsl" />

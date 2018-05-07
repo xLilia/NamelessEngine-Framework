@@ -1,5 +1,5 @@
 #pragma once
-#include "NamelessCore.h"
+#include "NamelessCore.hpp"
 #include "OBJfileReader.h"
 
 namespace _NL {

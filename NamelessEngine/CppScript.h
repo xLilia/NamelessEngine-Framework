@@ -1,5 +1,5 @@
 #pragma once
-#include "NamelessCore.h"
+#include "NamelessCore.hpp"
 namespace _NL {
 	namespace Component {
 		template<typename ScriptType = void>

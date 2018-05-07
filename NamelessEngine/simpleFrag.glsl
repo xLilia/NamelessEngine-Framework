@@ -1,7 +1,7 @@
 #version 450 core  
 
 #define NL_PI 3.14159265359
-const int NR_LIGHTS = 2;
+const int NR_LIGHTS = 1;
 const float MAX_REFLECTION_LOD = 4.0;
 
 in vec3 fragPos;
@@ -22,6 +22,8 @@ layout (location=18) uniform sampler2D BRDF2DLUTTexture;
 struct LightProperties {
 	vec3 lightColor;
 	vec3 lightPosition;
+	vec3 lightDirection;
+	float lightSpotAngle;
 };
 
 layout (std140, binding = 0) uniform LightBlock {
@@ -32,5 +34,5 @@ layout (location = 0) out vec4 FragColor;
 
 void main(){
 	vec4 color = texture(AlbedoTexture, fragTexCoord);
-	FragColor = color;
+	FragColor = vec4(color.rgb*7,color.a);
 }
