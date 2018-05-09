@@ -295,5 +295,11 @@
     <None Include="simpleFrag.glsl">
       <Filter>Source Files\UserProject</Filter>
     </None>
+    <None Include="DepthPassVertshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="DepthPassFragshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
   </ItemGroup>
 </Project>

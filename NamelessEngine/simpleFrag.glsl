@@ -18,6 +18,7 @@ layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
+layout (location=19) uniform int NumberOfLights;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -26,8 +27,8 @@ struct LightProperties {
 	float lightSpotAngle;
 };
 
-layout (std140, binding = 0) uniform LightBlock {
-    LightProperties light[NR_LIGHTS];
+layout (std430, binding = 0) buffer LightBlock {
+    LightProperties light[];
 };
 
 layout (location = 0) out vec4 FragColor;

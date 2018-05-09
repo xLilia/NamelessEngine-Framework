@@ -1,6 +1,16 @@
-﻿  Main.cpp
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(278): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(278): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+﻿  GameManager.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(280): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(280): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(37): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(40): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(288): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(304): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(377): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(498): warning C4244: 'argument': conversion from 'unsigned int' to 'GLfloat', possible loss of data
+  Main.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(280): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(280): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(49): warning C4305: '-=': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(52): warning C4305: '+=': truncation from 'double' to 'GLfloat'
@@ -11,4 +21,5 @@ x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(69): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(70): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(115): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+  Generating Code...
   NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Debug\NamelessEngine.exe

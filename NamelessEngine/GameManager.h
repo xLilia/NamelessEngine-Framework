@@ -18,8 +18,10 @@ namespace _NL {
 			sf::Window* window;
 			_NL::Engine::Time GameTime;
 			_NL::Engine::WorldSpace* CurrentScene;
+			_NL::Element::ShaderInstance DepthPassShader;
 			std::vector<_NL::Object::CameraObj*> Cameras;
-			std::vector<_NL::Core::LightProperties> Lights;
+			std::vector<_NL::Core::LightProperties*> LightsProperties;
+			std::vector<GLuint*> LightsFramebuffers;
 			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
 			std::vector<_NL::Core::UI*> UICanvas;
 			glm::vec3 ClearScreenColor = glm::vec3();
@@ -33,8 +35,8 @@ namespace _NL {
 			void RenderCurrentScene();
 			void UpdateSceneLights();
 			void UpdateParticleSystems();
-			void RenderSceneSkybox(_NL::Object::CameraObj* Cam);
-			void RenderSceneObjects(_NL::Object::CameraObj* Cam);
+			void RenderSceneSkybox(glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix);
+			void RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseAlternativeShaderProgram = NULL);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
 			void RenderSceneCanvas();
 
@@ -49,10 +51,6 @@ namespace _NL {
 
 			GLuint LightsBlockUBO;
 			GLuint uIndexLightsBlock = 0;
-
-			ShaderWizard ScreenShader;
-			GLuint uRenderExposure = 1;
-			GLuint uRenderGamma = 2;
 
 		};
 	}

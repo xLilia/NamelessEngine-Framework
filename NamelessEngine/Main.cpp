@@ -259,15 +259,16 @@ int main() {
 	Light1->getComponent<_NL::Component::MeshRenderer>()->Shader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
 	
 
-	Light1->getComponent<_NL::Component::Transform>()->transform.position = glm::vec3(0, 15, 0);
+	Light1->getComponent<_NL::Component::Transform>()->
+		transform.position = glm::vec3(0, 10, 0);
 
 	Light1->LightProperties.lightPosition = Light1->getComponent<_NL::Component::Transform>()->transform.position;
 	
-	Light1->LightProperties.lightColor = glm::vec3(1000, 1000, 1000);
+	Light1->LightProperties.lightColor = glm::vec3(100, 100, 100);
 	
 	Light1->LightProperties.lightDirection = glm::vec3(0, -1, 0);
 
-	Light1->LightProperties.lightSpotAngle = glm::cos(glm::radians(15.0f));
+	Light1->LightProperties.lightSpotAngle = 12.5f;
 
 	//===========================================================================================
 	//PARTICLE SYSTEMS

@@ -42,8 +42,6 @@ void _NL::Object::CameraObj::updateAudioListenerRotation(glm::vec3 upVec)
 	AudioListener.setUpVector(upVec.x, upVec.y, upVec.z);
 }
 
-
-
 glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
 {
 	return glm::lookAt(TransformCam.Position, TransformCam.Position + TransformCam.LookAt, TransformCam.UpAxis);

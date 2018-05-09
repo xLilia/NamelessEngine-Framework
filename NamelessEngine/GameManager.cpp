@@ -89,8 +89,10 @@ void _NL::Engine::GameManager::CleanUpCurrentSceneLoadedResources()
 	}
 	Cameras.clear();
 	Cameras.shrink_to_fit();
-	Lights.clear();
-	Lights.shrink_to_fit();
+	LightsProperties.clear();
+	LightsProperties.shrink_to_fit();
+	LightsFramebuffers.clear();
+	LightsFramebuffers.shrink_to_fit();
 	UICanvas.clear();
 	UICanvas.shrink_to_fit();
 	ParticleSystems.clear();
@@ -155,7 +157,9 @@ void _NL::Engine::GameManager::OpenGLStart()
 			}
 			//---------------------------------------------------------------------------------
 			if (inst->ClassName() == "_NL::Object::LightObject") {
-				Lights.push_back(dynamic_cast<_NL::Object::LightObject*>(inst)->LightProperties);
+				_NL::Object::LightObject* L = dynamic_cast<_NL::Object::LightObject*>(inst);
+				LightsProperties.push_back(&L->LightProperties);
+				LightsFramebuffers.push_back(&L->Framebuffer);
 			}
 			//---------------------------------------------------------------------------------
 			if (inst->ClassName() == "_NL::UI::UICanvas") {
@@ -181,15 +185,18 @@ void _NL::Engine::GameManager::OpenGLStart()
 
 	//---------------------------------------------------------------------------------
 	//INITIALIZE LIGHT UBO
-	if (Lights.size() > 0) {
-		//Create Uniform Buffer
+	if (LightsProperties.size() > 0) {
+
 		glGenBuffers(1, &LightsBlockUBO);
-		glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(_NL::Core::LightProperties)*Lights.size(), &Lights[0], GL_DYNAMIC_DRAW);
-		//Bind Uniform Buffer base to index in program
-		glBindBufferBase(GL_UNIFORM_BUFFER, uIndexLightsBlock, LightsBlockUBO);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
-		
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsBlockUBO);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(_NL::Core::LightProperties)*LightsProperties.size(), &LightsProperties[0], GL_DYNAMIC_DRAW);
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO);
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		check_gl_error();
+
+		//Generate Light's Framebuffers
+
 		check_gl_error();
 	}
 
@@ -228,11 +235,11 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 
 		//---------------------------------------------------------------------------------
 		//SKYBOX RENDERING
-		RenderSceneSkybox(Cam);
+		RenderSceneSkybox(Cam->getViewMatrix(), Cam->getProjectionMatrix());
 
 		//---------------------------------------------------------------------------------
 		//SCENE RENDERING
-		RenderSceneObjects(Cam);
+		RenderSceneObjects(Cam->TransformCam.Position, Cam->getWorldToViewMatrix(), Cam->getProjectionMatrix());
 
 		//---------------------------------------------------------------------------------
 		//RENDER TO SCREEN;
@@ -244,13 +251,14 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 }
 
 void _NL::Engine::GameManager::UpdateSceneLights() {
-	if (Lights.size() > 0) {
-		glBindBuffer(GL_UNIFORM_BUFFER, LightsBlockUBO);
-		glBufferSubData(GL_UNIFORM_BUFFER,
+	if (LightsProperties.size() > 0) {
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsBlockUBO);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER,
 			0,
-			sizeof(_NL::Core::LightProperties)*Lights.size(),
-			&Lights[0]);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+			sizeof(_NL::Core::LightProperties)*LightsProperties.size(),
+			&LightsProperties[0]);
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 }
 
@@ -264,17 +272,17 @@ void _NL::Engine::GameManager::UpdateParticleSystems() {
 	}
 }
 
-void _NL::Engine::GameManager::RenderSceneSkybox(_NL::Object::CameraObj* Cam) {
+void _NL::Engine::GameManager::RenderSceneSkybox(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix) {
 	if (CurrentScene->Skybox != 0) {
 		CurrentScene->Skybox->SkyboxDysplayShader->Use();
-		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
-		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
+		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
+		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ViewMatrix));
 		CurrentScene->Skybox->RenderSkybox();
 		check_gl_error();
 	}
 }
 
-void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
+void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseAlternativeShaderProgram) {
 	check_gl_error();
 	for(int objN = 0; objN < CurrentScene->ObjectList.size(); objN++)
 	//for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
@@ -285,7 +293,13 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 			_NL::Component::MeshRenderer* ObjMR = obj[0]->getComponent<_NL::Component::MeshRenderer>();
 
 			if (ObjMR != NULL) {
-				ObjMR->Shader->Use();
+				if (UseAlternativeShaderProgram == NULL) {
+					ObjMR->Shader->Use();
+				}
+				else {
+					glUseProgram(UseAlternativeShaderProgram);
+				}
+				
 				glBindVertexArray(ObjMR->vao);
 
 				//---------------------------------------------------------------------------------
@@ -328,9 +342,14 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 				//---------------------------------------------------------------------------------
 				//CAM UNIFORMS
 				check_gl_error();
-				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
-				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
-				glUniform3f(_NL::Core::EyePos_uniform, Cam->TransformCam.Position.x, Cam->TransformCam.Position.y, Cam->TransformCam.Position.z);
+				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(WorldToViewMatrix));
+				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
+				glUniform3f(_NL::Core::EyePos_uniform, EyePos.x, EyePos.y, EyePos.z);
+				check_gl_error();
+			
+				//---------------------------------------------------------------------------------
+				//LIGHT UNIFORMS
+				glUniform1i(_NL::Core::NumberOfLights_uniform, LightsProperties.size());
 				check_gl_error();
 
 				//---------------------------------------------------------------------------------

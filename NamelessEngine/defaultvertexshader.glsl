@@ -21,24 +21,26 @@ layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
+layout (location=19) uniform int NumberOfLights;
 
 out vec3 fragPos;
 out vec2 fragTexCoord;
 //out vec3 Normal;
+
 out vec3 vTangentLightPos[NR_LIGHTS];
 out vec3 vTangentLightDir[NR_LIGHTS];
 out vec3 vTangentEyePos;
 out vec3 vTangentFragPos;
 
 struct LightProperties {
-	vec3 lightColor;
+	vec3 lightColor; 
 	vec3 lightPosition;
 	vec3 lightDirection;
 	float lightSpotAngle;
 };
 
-layout (std140, binding = 0) uniform LightBlock {
-    LightProperties light[NR_LIGHTS];
+layout (std430, binding = 0) buffer LightBlock {
+    LightProperties light[];
 };
 
 //======================= VERTEX SHADER =========================
@@ -79,7 +81,7 @@ void main()
 	//Cnvert To Tangent Space
 
 		//Lights Position in Tangent Space
-		for(int i = 0; i < NR_LIGHTS; i++)
+		for(int i = 0; i < light.length(); i++)
 		{
 			vTangentLightPos[i] = TBN * light[i].lightPosition;
 			vTangentLightDir[i] = TBN * light[i].lightDirection;

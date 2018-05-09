@@ -21,6 +21,7 @@ layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
+layout (location=19) uniform int NumberOfLights;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -29,9 +30,10 @@ struct LightProperties {
 	float lightSpotAngle;
 };
 
-layout (std140, binding = 0) uniform LightBlock {
-    LightProperties light[NR_LIGHTS];
+layout (std430, binding = 0) buffer LightBlock {
+    LightProperties light[];
 };
+
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
@@ -184,7 +186,7 @@ void main(){
 	//Reflectance Equation
 	vec3 Lo = vec3(0.0);
 
-	for(int i = 0; i < NR_LIGHTS; i++){
+	for(int i = 0; i < light.length(); i++){
 
 		//Light Radiance
 		float distance;
@@ -194,25 +196,30 @@ void main(){
 		//Light direction Vector
 		vec3 L;
 		
-		if(length(light[i].lightDirection) > 0.0 && light[i].lightSpotAngle != 0){
-		
+
+		//Decide Light Type
+		if(light[i].lightSpotAngle != 0 && length(light[i].lightDirection) > 0.0){
+			//SpotLight
 			L = normalize(vTangentLightPos[i] - vTangentFragPos); 
 
-			float theta = dot(L, normalize(-vTangentLightDir[i]) );
+			float theta = dot(L, normalize(-vTangentLightDir[i]));
+			theta = acos(theta);
 
-			if(theta > light[i].lightSpotAngle){
+			if(theta < light[i].lightSpotAngle){
 				//distance    = length(vTangentLightPos[i] - vTangentFragPos);
 				//attenuation = 1.0 / (distance * distance);
 				//radiance    = light[i].lightColor * attenuation;
-				radiance = vec3(10,0,0);
-			}else{
 				radiance = vec3(0,10,0);
+			}else{
+				radiance = vec3(10,0,0);
 			}
 
-		}else if(length(light[i].lightDirection) > 0.0){
+		}else if(length(light[i].lightDirection) > 0.0 && light[i].lightSpotAngle == 0.0){
+			//Directional Light
 			radiance = light[i].lightColor;
 			L = normalize(-vTangentLightDir[i]); 
 		}else{
+			//Point Light
 			distance    = length(vTangentLightPos[i] - vTangentFragPos);
 			attenuation = 1.0 / (distance * distance);
 			radiance     = light[i].lightColor * attenuation;

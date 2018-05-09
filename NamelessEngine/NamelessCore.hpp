@@ -62,6 +62,8 @@ namespace _NL{
 		const static GLuint PreFilterTexture_uniform = 17;
 		const static GLuint BRDF2DLUTTexture_uniform = 18;
 
+		const static GLuint NumberOfLights_uniform = 19;
+
 		//---------------------------------------------------------------------------------
 
 		//---------------------------------------------------------------------------------
@@ -293,19 +295,18 @@ namespace _NL{
 		}
 
 		struct LightProperties {
-			glm::vec3 lightColor = glm::vec3(1, 1, 1);
-			GLfloat PADDING1;
+			glm::vec3 lightColor = glm::vec3(0.0f);		
+			GLfloat PADDING0 = 0;
+																		 
+			glm::vec3 lightPosition = glm::vec3(0.0f);	
+			GLfloat PADDING1 = 0;
+																		 
+			glm::vec3 lightDirection = glm::vec3(0.0f); 
+			GLfloat PADDING2 = 0;
 			
-			glm::vec3 lightPosition = glm::vec3(0, 0, 0);
-			GLfloat PADDING2;
+			GLfloat lightSpotAngle = 0.0f;				
 			
-			glm::vec3 lightDirection = glm::vec3(0, 0, 0);
-			GLfloat PADDING3;
-			
-			GLfloat lightSpotAngle = 0.0f;
-			GLfloat PADDING4;
-			GLfloat PADDING5;
-			GLfloat PADDING6;
+			GLfloat PADDING3[3] = {0,0,0}; //NEEDS FIX
 		};
 
 	}

@@ -213,6 +213,8 @@
     <ClInclude Include="XMLfileReader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DepthPassFragshader.glsl" />
+    <None Include="DepthPassVertshader.glsl" />
     <None Include="simpleFrag.glsl" />
     <None Include="BRDFDefaultFragshader.glsl" />
     <None Include="BRDFDefaultVertshader.glsl" />
