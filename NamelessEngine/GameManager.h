@@ -18,12 +18,18 @@ namespace _NL {
 			sf::Window* window;
 			_NL::Engine::Time GameTime;
 			_NL::Engine::WorldSpace* CurrentScene;
-			_NL::Element::ShaderInstance DepthPassShader;
+			_NL::Element::ShaderInstance* DepthPassShader;
+			
+			std::vector<GLuint> ShadowMaps;
+			GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+
 			std::vector<_NL::Object::CameraObj*> Cameras;
-			std::vector<_NL::Core::LightProperties*> LightsProperties;
-			std::vector<GLuint*> LightsFramebuffers;
+			std::vector<_NL::Core::LightProperties> LightsProperties; //MAKE REFERENCE
+			std::vector<_NL::Object::LightObject*>Lights;
+
 			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
 			std::vector<_NL::Core::UI*> UICanvas;
+
 			glm::vec3 ClearScreenColor = glm::vec3();
 
 			void RunScene(_NL::Engine::WorldSpace* set_current_scene);

@@ -264,11 +264,11 @@ int main() {
 
 	Light1->LightProperties.lightPosition = Light1->getComponent<_NL::Component::Transform>()->transform.position;
 	
-	Light1->LightProperties.lightColor = glm::vec3(100, 100, 100);
+	Light1->LightProperties.lightColor = glm::vec3(1000, 500, 1000);
 	
 	Light1->LightProperties.lightDirection = glm::vec3(0, -1, 0);
 
-	Light1->LightProperties.lightSpotAngle = 12.5f;
+	//Light1->LightProperties.lightSpotAngle = 12.5f;
 
 	//===========================================================================================
 	//PARTICLE SYSTEMS
@@ -314,11 +314,11 @@ int main() {
 	
 	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(Sphere);
-	//scene1->addObjectToWorld(PBRGun);
+	scene1->addObjectToWorld(PBRGun);
 	//scene1->addObjectToWorld(Cube);
 	//scene1->addObjectToWorld(Cube2);
 	//scene1->addObjectToWorld(Cube3);
-	//scene1->addObjectToWorld(Canvas1);
+	scene1->addObjectToWorld(Canvas1);
 
 	//for(int i = 0; i< 500; i++){
 	//	scene1->Instantiate(

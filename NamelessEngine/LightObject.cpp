@@ -5,7 +5,7 @@ _NL::Object::LightObject::LightObject(std::string name)
 	this->name = name;
 }
 
-void _NL::Object::LightObject::GenerateFramebuffer()
+void _NL::Object::LightObject::GenerateFramebuffer(GLuint Shadow_Width, GLuint Shadow_Height)
 {
 
 	//Generate Textures
@@ -16,8 +16,8 @@ void _NL::Object::LightObject::GenerateFramebuffer()
 		GL_TEXTURE_2D, 
 		0,
 		GL_DEPTH_COMPONENT,
-		SHADOW_WIDTH, 
-		SHADOW_HEIGHT, 
+		Shadow_Width,
+		Shadow_Height,
 		0, 
 		GL_DEPTH_COMPONENT,
 		GL_FLOAT, 
@@ -39,28 +39,6 @@ void _NL::Object::LightObject::GenerateFramebuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void _NL::Object::LightObject::UpdateFramebuffer(_NL::Engine::GameManager* G)
-{
-	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-	glBindFramebuffer(GL_FRAMEBUFFER, Framebuffer);
-	glClear(GL_DEPTH_BUFFER_BIT);
-
-
-	float near_plane = 1.0f, far_plane = 7.5f;
-	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-
-	glm::mat4 lightView = glm::lookAt(
-		LightProperties.lightPosition,
-		LightProperties.lightDirection,
-		glm::vec3(0.0f, 1.0f, 0.0f)
-	);
-
-	G->RenderSceneObjects(LightProperties.lightPosition, lightView, lightProjection, G->DepthPassShader.getShaderProgram());
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
-}
 
 char* _NL::Object::LightObject::ClassName() const
 {

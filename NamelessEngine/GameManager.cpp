@@ -88,15 +88,10 @@ void _NL::Engine::GameManager::CleanUpCurrentSceneLoadedResources()
 		}
 	}
 	Cameras.clear();
-	Cameras.shrink_to_fit();
 	LightsProperties.clear();
-	LightsProperties.shrink_to_fit();
-	LightsFramebuffers.clear();
-	LightsFramebuffers.shrink_to_fit();
+	Lights.clear();
 	UICanvas.clear();
-	UICanvas.shrink_to_fit();
 	ParticleSystems.clear();
-	ParticleSystems.shrink_to_fit();
 	glDeleteBuffers(1, &LightsBlockUBO);
 }
 
@@ -158,8 +153,9 @@ void _NL::Engine::GameManager::OpenGLStart()
 			//---------------------------------------------------------------------------------
 			if (inst->ClassName() == "_NL::Object::LightObject") {
 				_NL::Object::LightObject* L = dynamic_cast<_NL::Object::LightObject*>(inst);
-				LightsProperties.push_back(&L->LightProperties);
-				LightsFramebuffers.push_back(&L->Framebuffer);
+				L->GenerateFramebuffer(SHADOW_WIDTH, SHADOW_HEIGHT);
+				LightsProperties.push_back(L->LightProperties);
+				Lights.push_back(L);
 			}
 			//---------------------------------------------------------------------------------
 			if (inst->ClassName() == "_NL::UI::UICanvas") {
@@ -260,6 +256,26 @@ void _NL::Engine::GameManager::UpdateSceneLights() {
 		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
+
+	//for (GLuint i = 0; i < Lights.size(); i++) {
+	//	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+	//	glBindFramebuffer(GL_FRAMEBUFFER, Lights[i]->Framebuffer);
+	//	glClear(GL_DEPTH_BUFFER_BIT);
+	//
+	//	float near_plane = 1.0f, far_plane = 7.5f;
+	//	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	//
+	//	glm::mat4 lightView = glm::lookAt(
+	//		Lights[i]->LightProperties.lightPosition,
+	//		Lights[i]->LightProperties.lightDirection,
+	//		glm::vec3(0.0f, 1.0f, 0.0f)
+	//	);
+	//
+	//	//RenderSceneObjects(Lights[i]->LightProperties.lightPosition, lightView, lightProjection, this->DepthPassShader->getShaderProgram());
+	//	
+	//
+	//
+	//}
 }
 
 void _NL::Engine::GameManager::UpdateParticleSystems() {

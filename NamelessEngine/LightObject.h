@@ -1,6 +1,5 @@
 #pragma once
 #include "NamelessCore.hpp"
-#include "GameManager.h"
 #include <vector>
 
 namespace _NL {
@@ -9,12 +8,10 @@ namespace _NL {
 		{
 		public:
 			LightObject(std::string name);
-			void GenerateFramebuffer();
-			void UpdateFramebuffer(_NL::Engine::GameManager* G);
+			void GenerateFramebuffer(GLuint Shadow_Width, GLuint Shadow_Height);
 			_NL::Core::LightProperties LightProperties;
-			GLuint Framebuffer;
 			GLuint ShadowMap;
-			const GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+			GLuint Framebuffer;
 			char* ClassName() const override;
 		};
 	}
