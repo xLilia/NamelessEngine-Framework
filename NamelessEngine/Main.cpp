@@ -12,10 +12,14 @@ int main() {
 	//===========================================================================================
 	//START!
 	//===========================================================================================
-	XMLfileReader X;
-	X.Load("COLLADATEST/houseColladaAnim.dae",true,false);
+	//XMLfileReader X;
+	//X.Load("COLLADATEST/houseColladaAnim.dae",true,false);
 	
-	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 1000);
+	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 120);
+
+	//_NL::Element::ShaderInstance* DEPTHshader = new _NL::Element::ShaderInstance("DepthPassVertshader.glsl", "DepthPassFragshader.glsl");
+	//winMan.DepthPassShader = DEPTHshader;
+
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
@@ -40,8 +44,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("hdr1/lainPolar.png", 1024 * 2);
-	//sky1->createSkybox("hdr1/lainPolar.png", 1024 * 2);
+	sky1->createEnvironment("hdr1/japanhdri (4).jpg", 1024 * 2);
+	sky1->createSkybox("hdr1/japanhdri (4).jpg", 1024 * 2);
 	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
@@ -92,7 +96,7 @@ int main() {
 	//===========================================================================================
 	_NL::Element::ShaderInstance* UITexShder = new _NL::Element::ShaderInstance("UITexVertshader.glsl", "UITexFragshader.glsl");
 
-	_NL::UI::UICanvas* Canvas1 = new _NL::UI::UICanvas();
+	_NL::UI::UICanvas* Canvas1 = new _NL::UI::UICanvas(winMan.window);
 	Canvas1->ImageRenderShader = UITexShder;
 
 	_NL::Element::TextureInstance* crossairTex = new _NL::Element::TextureInstance("myTexs/nt.png", 1);
@@ -118,9 +122,14 @@ int main() {
 	ui3->PositionRelativeToAnchor = glm::vec2(0, 50-ui3->widthHeight.y/2);
 	ui3->Layer = 1;
 
-	Canvas1->addUIElement(ui1);
-	Canvas1->addUIElement(ui2);
-	Canvas1->addUIElement(ui3);
+	_NL::UI::UIText* ut1 = new _NL::UI::UIText("fonts/Consolas.ttf", "Hello World ! ^_^");
+	ut1->AnchorPosition = glm::vec2(100, 100);
+	ut1->Layer = 10;
+
+	Canvas1->addUIElement(ut1);
+	//Canvas1->addUIElement(ui1);
+	//Canvas1->addUIElement(ui2);
+	//Canvas1->addUIElement(ui3);
 
 	//===========================================================================================
 	//MATERIAL SHADERS
@@ -169,7 +178,7 @@ int main() {
 	Sphere->addComponent(new _NL::Component::Transform);
 	Sphere->addComponent(new _NL::Component::MeshRenderer);
 	Sphere->addComponent(new _NL::Component::CppScript<TestScript>);
-	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Sphere.obj");
+	Sphere->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/houseColladaAnim.dae");
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Sphere->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	Sphere->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Sphere;
@@ -264,9 +273,9 @@ int main() {
 
 	Light1->LightProperties.lightPosition = Light1->getComponent<_NL::Component::Transform>()->transform.position;
 	
-	Light1->LightProperties.lightColor = glm::vec3(1000, 500, 1000);
+	Light1->LightProperties.lightColor = glm::vec3(1000, 1000, 1000);
 	
-	Light1->LightProperties.lightDirection = glm::vec3(0, -1, 0);
+	//Light1->LightProperties.lightDirection = glm::vec3(0, -1, 0);
 
 	//Light1->LightProperties.lightSpotAngle = 12.5f;
 
@@ -315,19 +324,19 @@ int main() {
 	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(Sphere);
 	scene1->addObjectToWorld(PBRGun);
-	//scene1->addObjectToWorld(Cube);
+	scene1->addObjectToWorld(Cube);
 	//scene1->addObjectToWorld(Cube2);
 	//scene1->addObjectToWorld(Cube3);
 	scene1->addObjectToWorld(Canvas1);
 
-	//for(int i = 0; i< 500; i++){
-	//	scene1->Instantiate(
-	//	Cube, 
-	//	glm::vec3(rand() % 300, rand() % 300, rand() % 300), 
-	//	glm::quat(glm::vec3(rand() % 360, rand() % 360, rand() % 360)), 
-	//	glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
-	//	);
-	//}
+	for(int i = 0; i< 500; i++){
+		scene1->Instantiate(
+		Cube, 
+		glm::vec3(rand() % 300, rand() % 300, rand() % 300), 
+		glm::quat(glm::vec3(rand() % 360, rand() % 360, rand() % 360)), 
+		glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
+		);
+	}
 	
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);

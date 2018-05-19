@@ -175,6 +175,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="UICanvas.cpp" />
     <ClCompile Include="UIImage.cpp" />
+    <ClCompile Include="UIText.cpp" />
     <ClCompile Include="WorldSpace.cpp" />
     <ClCompile Include="XMLfileReader.cpp" />
   </ItemGroup>
@@ -209,6 +210,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="UICanvas.h" />
     <ClInclude Include="UIImage.h" />
+    <ClInclude Include="UIText.h" />
     <ClInclude Include="WorldSpace.h" />
     <ClInclude Include="XMLfileReader.h" />
   </ItemGroup>

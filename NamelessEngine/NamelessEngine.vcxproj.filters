@@ -138,6 +138,9 @@
     <ClCompile Include="XMLfileReader.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="UIText.cpp">
+      <Filter>Source Files\EngineObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -200,9 +203,6 @@
     <ClInclude Include="UICanvas.h">
       <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
-    <ClInclude Include="UIImage.h">
-      <Filter>Header Files\Elements</Filter>
-    </ClInclude>
     <ClInclude Include="TextureInstance.h">
       <Filter>Header Files\Elements</Filter>
     </ClInclude>
@@ -235,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="XMLfileReader.h">
       <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="UIImage.h">
+      <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="UIText.h">
+      <Filter>Header Files\EngineObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

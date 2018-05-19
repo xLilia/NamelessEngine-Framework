@@ -9,6 +9,8 @@ void _NL::Object::LightObject::GenerateFramebuffer(GLuint Shadow_Width, GLuint S
 {
 
 	//Generate Textures
+	glDeleteTextures(1, &ShadowMap);
+	glDeleteFramebuffers(1, &Framebuffer);
 
 	glGenTextures(1, &ShadowMap);
 	glBindTexture(GL_TEXTURE_2D, ShadowMap);

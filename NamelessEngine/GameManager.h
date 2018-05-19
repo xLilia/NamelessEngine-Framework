@@ -1,7 +1,12 @@
 #pragma once
-#include "NL.hpp"
-#include "GLError.h"
+#include "NamelessCore.hpp"
+#include "NL_Time.h"
+#include "WorldSpace.h"
+#include "LightObject.h"
+#include "ParticleSystem.h"
+#include "UICanvas.h"
 
+#include "GLError.h"
 #include <SFML\Graphics.hpp>
 #include <GL\glew.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -15,7 +20,7 @@ namespace _NL {
 			~GameManager();
 		
 			sf::Event Event;
-			sf::Window* window;
+			sf::RenderWindow* window;
 			_NL::Engine::Time GameTime;
 			_NL::Engine::WorldSpace* CurrentScene;
 			_NL::Element::ShaderInstance* DepthPassShader;
@@ -28,7 +33,7 @@ namespace _NL {
 			std::vector<_NL::Object::LightObject*>Lights;
 
 			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
-			std::vector<_NL::Core::UI*> UICanvas;
+			std::vector<_NL::UI::UICanvas*> UICanvas;
 
 			glm::vec3 ClearScreenColor = glm::vec3();
 
@@ -42,7 +47,7 @@ namespace _NL {
 			void UpdateSceneLights();
 			void UpdateParticleSystems();
 			void RenderSceneSkybox(glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix);
-			void RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseAlternativeShaderProgram = NULL);
+			void RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseOverrideShaderProgram = NULL);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
 			void RenderSceneCanvas();
 

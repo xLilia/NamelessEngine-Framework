@@ -1,6 +1,7 @@
 #pragma once
 #include "NamelessCore.hpp"
 #include "OBJfileReader.h"
+#include "XMLfileReader.h"
 
 namespace _NL {
 	namespace Element {
@@ -11,12 +12,17 @@ namespace _NL {
 			MeshInstance(const char * filePath);
 			~MeshInstance();
 
+			int LoadColladaFile(const char * filePath);
 			int LoadOBJFile(const char* filePath);
+
 			_NL::Core::MeshData MeshData;
 			std::vector<_NL::Core::vIndices> Indices;
+
+			//MeshAnimator
 			char* ClassName() const override;
 		private:
 			OBJfileReader OBJF;
+			XMLfileReader ColladaF;
 		};
 	}
 }

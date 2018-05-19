@@ -6,35 +6,35 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm\gtx\euler_angles.hpp>
 
-#include <PxPhysicsAPI.h>
+//#include <PxPhysicsAPI.h>
 
 #include <iostream>
 #include <vector>
 #include "GLError.h"
 
-namespace physx {
-	///NV_PHYSX 3.4
-	//https://docs.nvidia.com/gameworks/content/gameworkslibrary/physx/guide/3.3.4/Manual/Startup.html
-
-	struct _NLPhysXFoundation {
-		static PxDefaultErrorCallback gDefaultErrorCallback;
-		static PxDefaultAllocator gDefaultAllocatorCallback;
-		static PxFoundation* mFoundation;
-		static void initialize() {
-			if (!mFoundation) {
-				mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
-				if (!mFoundation) printf("PxCreateFoundation failed!");
-			}
-		}
-	};
-
-}
+//namespace physx {
+//	///NV_PHYSX 3.4
+//	//https://docs.nvidia.com/gameworks/content/gameworkslibrary/physx/guide/3.3.4/Manual/Startup.html
+//
+//	struct _NLPhysXFoundation {
+//		static PxDefaultErrorCallback gDefaultErrorCallback;
+//		static PxDefaultAllocator gDefaultAllocatorCallback;
+//		static PxFoundation* mFoundation;
+//		static void initialize() {
+//			if (!mFoundation) {
+//				mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
+//				if (!mFoundation) printf("PxCreateFoundation failed!");
+//			}
+//		}
+//	};
+//
+//}
 
 namespace _NL{
 	namespace Core {
 
 		///NV_PHYSX 3.4
-		static physx::_NLPhysXFoundation PhysXFoundation;
+		//static physx::_NLPhysXFoundation PhysXFoundation;
 
 		///ATRIBUTES
 		const static GLuint Pos_atrib = 0;
@@ -271,8 +271,7 @@ namespace _NL{
 		//		
 		//	}
 		//};
-		
-
+	
 		
 		inline void RenderQuad(GLfloat x, GLfloat y, GLfloat w, GLfloat h, bool removeProgramAferUse = true, GLuint Shader = 0, GLuint camId = 0) {
 			if(Shader != 0) 

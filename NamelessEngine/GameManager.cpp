@@ -5,7 +5,7 @@ _NL::Engine::GameManager::GameManager(const char* WindowName, int Width, int hei
 	//---------------------------------------------------------------------------------
 	//WINDOW INITIALIZATION
 	//---------------------------------------------------------------------------------
-	window = new sf::Window(sf::VideoMode(Width, height), WindowName);
+	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
 	if (fullscreen) {
 		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
 	}
@@ -21,13 +21,12 @@ _NL::Engine::GameManager::GameManager(const char* WindowName, int Width, int hei
 void _NL::Engine::GameManager::RunScene(_NL::Engine::WorldSpace* set_current_scene)
 {
 	this->CurrentScene = set_current_scene;
-	
+
 	OpenGLStart();
 
 	while (window->isOpen()) {
-		check_gl_error();
 
-		while (window->pollEvent(Event))
+		while (window->pollEvent(Event));
 		{
 			//PROCESS INPUT STACK
 		}	
@@ -56,9 +55,18 @@ void _NL::Engine::GameManager::RunScene(_NL::Engine::WorldSpace* set_current_sce
 		}
 		
 		//---------------------------------------------------------------------------------
-		//UPDATE WINDOW 
+		//UPDATE WINDOW  
+		if (Cameras.size() > 0) {
+			window->setActive(true);
+			RenderCurrentScene();
+			check_gl_error();
+			window->setActive(false);
+		}
+		//---------------------------------------------------------------------------------
+		//TICK TIME  
 		GameTick();
 	}
+
 }
 
 //---------------------------------------------------------------------------------
@@ -159,7 +167,7 @@ void _NL::Engine::GameManager::OpenGLStart()
 			}
 			//---------------------------------------------------------------------------------
 			if (inst->ClassName() == "_NL::UI::UICanvas") {
-				UICanvas.push_back(dynamic_cast<_NL::Core::UI*>(inst));
+				UICanvas.push_back(dynamic_cast<_NL::UI::UICanvas*>(inst));
 			}
 			//---------------------------------------------------------------------------------
 			if (inst->ClassName() == "_NL::Object::ParticleSystem") {
@@ -222,7 +230,6 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 	//---------------------------------------------------------------------------------
 	//Update Lights
 	UpdateSceneLights();
-
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
 		//---------------------------------------------------------------------------------
@@ -241,22 +248,14 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 		//RENDER TO SCREEN;
 		RenderScreenQuad(Cam);
 	}
-	RenderSceneCanvas();
 
+	RenderSceneCanvas();
 	window->display();
+
 }
 
 void _NL::Engine::GameManager::UpdateSceneLights() {
-	if (LightsProperties.size() > 0) {
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsBlockUBO);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER,
-			0,
-			sizeof(_NL::Core::LightProperties)*LightsProperties.size(),
-			&LightsProperties[0]);
-		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-	}
-
+	
 	//for (GLuint i = 0; i < Lights.size(); i++) {
 	//	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
 	//	glBindFramebuffer(GL_FRAMEBUFFER, Lights[i]->Framebuffer);
@@ -271,11 +270,19 @@ void _NL::Engine::GameManager::UpdateSceneLights() {
 	//		glm::vec3(0.0f, 1.0f, 0.0f)
 	//	);
 	//
-	//	//RenderSceneObjects(Lights[i]->LightProperties.lightPosition, lightView, lightProjection, this->DepthPassShader->getShaderProgram());
-	//	
-	//
+	//	RenderSceneObjects(Lights[i]->LightProperties.lightPosition, lightView, lightProjection, this->DepthPassShader->getShaderProgram());
 	//
 	//}
+
+	if (LightsProperties.size() > 0) {
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsBlockUBO);
+		glBufferSubData(GL_SHADER_STORAGE_BUFFER,
+			0,
+			sizeof(_NL::Core::LightProperties)*LightsProperties.size(),
+			&LightsProperties[0]);
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+	}
 }
 
 void _NL::Engine::GameManager::UpdateParticleSystems() {
@@ -298,7 +305,7 @@ void _NL::Engine::GameManager::RenderSceneSkybox(glm::mat4 ViewMatrix, glm::mat4
 	}
 }
 
-void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseAlternativeShaderProgram) {
+void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseOverrideShaderProgram) {
 	check_gl_error();
 	for(int objN = 0; objN < CurrentScene->ObjectList.size(); objN++)
 	//for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
@@ -309,11 +316,11 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 			_NL::Component::MeshRenderer* ObjMR = obj[0]->getComponent<_NL::Component::MeshRenderer>();
 
 			if (ObjMR != NULL) {
-				if (UseAlternativeShaderProgram == NULL) {
+				if (UseOverrideShaderProgram == NULL) {
 					ObjMR->Shader->Use();
 				}
 				else {
-					glUseProgram(UseAlternativeShaderProgram);
+					glUseProgram(UseOverrideShaderProgram);
 				}
 				
 				glBindVertexArray(ObjMR->vao);
@@ -515,22 +522,14 @@ void _NL::Engine::GameManager::RenderScreenQuad(_NL::Object::CameraObj* Cam) {
 void _NL::Engine::GameManager::RenderSceneCanvas() {
 	for each (_NL::UI::UICanvas* UIC in UICanvas)
 	{
-		
-		UIC->DrawElements(window->getSize().y);
+		UIC->DrawElements();
 		check_gl_error();
 	}
 }
 
 void _NL::Engine::GameManager::GameTick() {
 	
-	//---------------------------------------------------------------------------------
-	//UPDATE; 
-	if (Cameras.size() > 0) {
-		RenderCurrentScene();
-		//check_gl_error();
-	}
 	GameTime.Tick();
-	//std::cout << Time.Clock.getElapsedTime().asSeconds() << std::endl;
 }
 
 _NL::Engine::GameManager::~GameManager()
