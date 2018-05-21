@@ -189,25 +189,25 @@ namespace _NL{
 		
 		//MESH
 
-		struct VertexPos {
-			glm::vec3 Pos;		//Position			
-		};
-		struct VertexNorm {
-			glm::vec3 Norm;		//Normal
-		};
-		struct VertexCol {
-			glm::vec3 Col;		//Color
-		};
-		struct VertexTexCoord {
-			glm::vec2 TexCoord;	//TexCoordinates 
-		};
-
-		struct vIndices {
-			GLuint v[3];
-			GLuint vt[3];
-			GLuint vn[3];
-			GLint MTL_ID;
-		};
+		//struct VertexPos {
+		//	glm::vec3 Pos;		//Position			
+		//};
+		//struct VertexNorm {
+		//	glm::vec3 Norm;		//Normal
+		//};
+		//struct VertexCol {
+		//	glm::vec3 Col;		//Color
+		//};
+		//struct VertexTexCoord {
+		//	glm::vec2 TexCoord;	//TexCoordinates 
+		//};
+		//
+		//struct vIndices {
+		//	GLuint v[3];
+		//	GLuint vt[3];
+		//	GLuint vn[3];
+		//	GLint MTL_ID;
+		//};
 
 		struct MaterialInstanceData {
 			///PBR MODEL
@@ -219,12 +219,17 @@ namespace _NL{
 			GLuint MTL_ID = NULL;
 		};
 
-		struct MeshData {
-			std::vector<VertexPos> vPos;
-			std::vector<VertexCol> vCol;
-			std::vector<VertexNorm> vNorm;
-			std::vector<VertexTexCoord> vTexC;
-			std::vector<GLuint> MaterialStride;
+		struct MeshInstanceData {
+			std::vector<std::vector<glm::vec3>>mesh_positions_array;
+			std::vector<std::vector<glm::vec3>>mesh_normals_array;
+			std::vector<std::vector<glm::vec2>>mesh_map_array;
+			std::vector<std::vector<glm::vec3>>mesh_triangles_array;
+
+			//std::vector<VertexPos> vPos;
+			//std::vector<VertexCol> vCol;
+			//std::vector<VertexNorm> vNorm;
+			//std::vector<VertexTexCoord> vTexC;
+			//std::vector<GLuint> MaterialStride;
 		};
 
 		//TRANSFORM

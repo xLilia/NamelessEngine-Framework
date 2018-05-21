@@ -297,6 +297,9 @@ void _NL::Engine::GameManager::UpdateParticleSystems() {
 
 void _NL::Engine::GameManager::RenderSceneSkybox(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix) {
 	if (CurrentScene->Skybox != 0) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glFrontFace(GL_CCW);
 		CurrentScene->Skybox->SkyboxDysplayShader->Use();
 		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
 		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ViewMatrix));
@@ -456,8 +459,9 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 						//DRAW MESH 
 
 						ObjMR->UpdateGLSettings();
+						glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, 0, obj.size());
 
-						glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->Mesh->Indices.size() * 3, obj.size());
+						//glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->IndicesBuf.size(), obj.size());
 						check_gl_error();
 
 						//---------------------------------------------------------------------------------

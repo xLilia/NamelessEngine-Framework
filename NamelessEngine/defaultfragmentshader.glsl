@@ -288,7 +288,8 @@ void main(){
     color = pow(color, vec3(1.0/2.2));
    
 	//OUT FRAG!
-    FragColor = vec4(color,1.0);
+    //FragColor = vec4(color,1.0);
+    FragColor = vec4(albedoMap,1.0);
 
 	//Brightness
 	float Luma = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

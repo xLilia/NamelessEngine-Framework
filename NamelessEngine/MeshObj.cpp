@@ -21,24 +21,32 @@ _NL::Element::MeshInstance::MeshInstance(const char * filePath)
 
 int _NL::Element::MeshInstance::LoadColladaFile(const char * filePath)
 {
-	if (ColladaF.Load(filePath,true,true) != 0) {
+	file_Path = filePath;
+
+	if (ColladaF.Load(filePath) != 0) {
 		return -1;
 	}
 
 	ColladaF.GetColladaData();
+
+	this->MeshData = ColladaF.MeshData;
 
 	return 0;
 }
 
 int _NL::Element::MeshInstance::LoadOBJFile(const char * filePath)
 {
-	if (OBJF.LOAD(filePath) != 0) {
-		return -1;
-	}
-	MeshData = OBJF.Mshd;
-	Indices = OBJF.Is;
-	OBJF.RESET();
-	return 0;
+
+	//file_Path = filePath;
+	//
+	//if (OBJF.LOAD(filePath) != 0) {
+	//	return -1;
+	//}
+	//MeshData = OBJF.Mshd;
+	////Indices = OBJF.Is;
+	//OBJF.RESET();
+	//return 0;
+	return 0; 
 }
 
 char* _NL::Element::MeshInstance::ClassName() const

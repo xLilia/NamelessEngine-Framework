@@ -37,13 +37,13 @@ void XMLfileReader::GetColladaData(){
 					size_t fA_M = XMLData[n1].find("-map-array");
 
 					if (fA_P != -1)
-						this->mesh_positions_array.push_back(std::vector<glm::vec3>());
+						this->MeshData.mesh_positions_array.push_back(std::vector<glm::vec3>());
 					if (fA_N != -1)
-						this->mesh_normals_array.push_back(std::vector<glm::vec3>());
+						this->MeshData.mesh_normals_array.push_back(std::vector<glm::vec3>());
 					if (fA_M != -1)
-						this->mesh_map_array.push_back(std::vector<glm::vec2>());
+						this->MeshData.mesh_map_array.push_back(std::vector<glm::vec2>());
 					if (TriArray != -1)
-						this->mesh_triangles_array.push_back(std::vector<glm::vec3>());
+						this->MeshData.mesh_triangles_array.push_back(std::vector<glm::vec3>());
 
 					size_t start = XMLData[n1].find('>');
 					size_t end = XMLData[n1].find('</');
@@ -59,12 +59,11 @@ void XMLfileReader::GetColladaData(){
 								case 0: newV.x = std::stof(Num); break;
 								case 1: newV.y = std::stof(Num); break;
 								case 2: newV.z = std::stof(Num); 
-								default:
 									xyz = -1;
-									if (fA_P != -1) mesh_positions_array[mesh_positions_array.size() - 1].push_back(newV);
-									if (fA_N != -1) mesh_normals_array[mesh_normals_array.size() - 1].push_back(newV);
-									if (TriArray != -1) 
-										mesh_triangles_array[mesh_triangles_array.size() - 1].push_back(newV);
+									if (fA_P != -1) MeshData.mesh_positions_array[MeshData.mesh_positions_array.size() - 1].push_back(newV);
+									if (fA_N != -1) MeshData.mesh_normals_array[MeshData.mesh_normals_array.size() - 1].push_back(newV);
+									if (TriArray != -1)
+										MeshData.mesh_triangles_array[MeshData.mesh_triangles_array.size() - 1].push_back(newV);
 								}
 							}
 							else {
@@ -72,9 +71,8 @@ void XMLfileReader::GetColladaData(){
 								{
 								case 0: newV.s = std::stof(Num); break;
 								case 1: newV.t = std::stof(Num);
-								default:
 									xyz = -1;
-									if (fA_M != -1) mesh_map_array[mesh_map_array.size() - 1].push_back(newV);
+									if (fA_M != -1) MeshData.mesh_map_array[MeshData.mesh_map_array.size() - 1].push_back(newV);
 								}
 							}
 							xyz = xyz++;
@@ -103,7 +101,7 @@ void XMLfileReader::GetColladaData(){
 	}
 }
 
-int XMLfileReader::Load(const char* File_Path, bool Full_headers, bool debugMode) {
+int XMLfileReader::Load(const char* File_Path, bool debugMode) {
 	
 
 	std::ifstream f(File_Path);
