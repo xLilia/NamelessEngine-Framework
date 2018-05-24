@@ -36,14 +36,14 @@ void XMLfileReader::GetColladaData(){
 					size_t fA_N = XMLData[n1].find("-normals-array");
 					size_t fA_M = XMLData[n1].find("-map-array");
 
-					if (fA_P != -1)
-						this->MeshData.mesh_positions_array.push_back(std::vector<glm::vec3>());
-					if (fA_N != -1)
-						this->MeshData.mesh_normals_array.push_back(std::vector<glm::vec3>());
-					if (fA_M != -1)
-						this->MeshData.mesh_map_array.push_back(std::vector<glm::vec2>());
-					if (TriArray != -1)
-						this->MeshData.mesh_triangles_array.push_back(std::vector<glm::vec3>());
+					//if (fA_P != -1)
+					//	this->MeshData.mesh_positions_array.push_back(glm::vec3);
+					//if (fA_N != -1)
+					//	this->MeshData.mesh_normals_array.push_back(glm::vec3);
+					//if (fA_M != -1)
+					//	this->MeshData.mesh_map_array.push_back(std::vector<glm::vec2>());
+					//if (TriArray != -1)
+					//	this->MeshData.mesh_triangles_array.push_back(std::vector<glm::vec3>());
 
 					size_t start = XMLData[n1].find('>');
 					size_t end = XMLData[n1].find('</');
@@ -60,10 +60,10 @@ void XMLfileReader::GetColladaData(){
 								case 1: newV.y = std::stof(Num); break;
 								case 2: newV.z = std::stof(Num); 
 									xyz = -1;
-									if (fA_P != -1) MeshData.mesh_positions_array[MeshData.mesh_positions_array.size() - 1].push_back(newV);
-									if (fA_N != -1) MeshData.mesh_normals_array[MeshData.mesh_normals_array.size() - 1].push_back(newV);
+									if (fA_P != -1) MeshData.mesh_positions_array.push_back(newV);
+									if (fA_N != -1) MeshData.mesh_normals_array.push_back(newV);
 									if (TriArray != -1)
-										MeshData.mesh_triangles_array[MeshData.mesh_triangles_array.size() - 1].push_back(newV);
+										MeshData.mesh_triangles_array.push_back(newV);
 								}
 							}
 							else {
@@ -72,7 +72,7 @@ void XMLfileReader::GetColladaData(){
 								case 0: newV.s = std::stof(Num); break;
 								case 1: newV.t = std::stof(Num);
 									xyz = -1;
-									if (fA_M != -1) MeshData.mesh_map_array[MeshData.mesh_map_array.size() - 1].push_back(newV);
+									if (fA_M != -1) MeshData.mesh_map_array.push_back(newV);
 								}
 							}
 							xyz = xyz++;
@@ -99,6 +99,14 @@ void XMLfileReader::GetColladaData(){
 
 		}
 	}
+	////MESH OPTIMIZATION
+	//for (size_t i = 0; i < Vmesh_positions_array.size(); i++)
+	//	for (size_t j = 0; j < MeshData.mesh_positions_array.size(); j++)
+	//	{
+	//		glm::vec3::bool_type EQ = glm::equal(Vmesh_positions_array[i], MeshData.mesh_positions_array[j]);
+	//		
+	//	}
+	//return;
 }
 
 int XMLfileReader::Load(const char* File_Path, bool debugMode) {

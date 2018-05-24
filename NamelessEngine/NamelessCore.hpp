@@ -7,7 +7,6 @@
 #include <glm\gtx\euler_angles.hpp>
 
 //#include <PxPhysicsAPI.h>
-
 #include <iostream>
 #include <vector>
 #include "GLError.h"
@@ -220,10 +219,10 @@ namespace _NL{
 		};
 
 		struct MeshInstanceData {
-			std::vector<std::vector<glm::vec3>>mesh_positions_array;
-			std::vector<std::vector<glm::vec3>>mesh_normals_array;
-			std::vector<std::vector<glm::vec2>>mesh_map_array;
-			std::vector<std::vector<glm::vec3>>mesh_triangles_array;
+			std::vector<glm::vec3>mesh_positions_array;
+			std::vector<glm::vec3>mesh_normals_array;
+			std::vector<glm::vec2>mesh_map_array;
+			std::vector<glm::vec3>mesh_triangles_array;
 
 			//std::vector<VertexPos> vPos;
 			//std::vector<VertexCol> vCol;

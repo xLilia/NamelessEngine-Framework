@@ -48,42 +48,32 @@ void _NL::Component::MeshRenderer::UnpackObjData() {
 
 	//VBuffer: |Pos:v3|Norm:v3|Tangent:v3|Map:v2|
 	
-	VertsBuf.resize(Mesh->MeshData.mesh_positions_array[0].size() * 11);
+	VertsBuf.resize(Mesh->MeshData.mesh_positions_array.size() * 11);
 	glm::vec3 LastTriPos[3];
 	glm::vec2 LastTriMap[3];
 	GLuint LastTriVbufferLoc[3];
 	GLuint TangentCount = 0;
 	GLuint It = 0;
-	for each (auto I in Mesh->MeshData.mesh_triangles_array[0])
+	for each (auto I in Mesh->MeshData.mesh_triangles_array)
 	{
 		GLuint V = I.x * 11;
 		IndicesBuf.push_back(I.x);
-		VertsBuf[V]=(Mesh->MeshData.mesh_positions_array[0][I.x].x);
-		VertsBuf[V+1]=(Mesh->MeshData.mesh_positions_array[0][I.x].y);
-		VertsBuf[V+2]=(Mesh->MeshData.mesh_positions_array[0][I.x].z);
-		VertsBuf[V+3]=(Mesh->MeshData.mesh_normals_array[0][I.y].x);
-		VertsBuf[V+4]=(Mesh->MeshData.mesh_normals_array[0][I.y].y);
-		VertsBuf[V+5]=(Mesh->MeshData.mesh_normals_array[0][I.y].z);
+		VertsBuf[V]=Mesh->MeshData.mesh_positions_array[I.x].x;
+		VertsBuf[V+1]=Mesh->MeshData.mesh_positions_array[I.x].y;
+		VertsBuf[V+2]=Mesh->MeshData.mesh_positions_array[I.x].z;
+		VertsBuf[V+3]=Mesh->MeshData.mesh_normals_array[I.y].x;
+		VertsBuf[V+4]=Mesh->MeshData.mesh_normals_array[I.y].y;
+		VertsBuf[V+5]=Mesh->MeshData.mesh_normals_array[I.y].z;
+		
 		//VertsBuf[V+6]= //TangentX
 		//VertsBuf[V+7]= //TangentY
 		//VertsBuf[V+8]= //TangentZ
 
-		//while (Mesh->MeshData.mesh_map_array[0][I.z].x > 1) {
-		//	Mesh->MeshData.mesh_map_array[0][I.z].x -= 1;
-		//}
-		//while (Mesh->MeshData.mesh_map_array[0][I.z].x < 0) {
-		//	Mesh->MeshData.mesh_map_array[0][I.z].x += 1;
-		//}
-		VertsBuf[V + 9] = (Mesh->MeshData.mesh_map_array[0][I.z].x);
-
-		//while (Mesh->MeshData.mesh_map_array[0][I.z].y > 1) {
-		//	Mesh->MeshData.mesh_map_array[0][I.z].y -= 1;
-		//}
-		//while (Mesh->MeshData.mesh_map_array[0][I.z].y < 0) {
-		//	Mesh->MeshData.mesh_map_array[0][I.z].y += 1;
-		//}
-		VertsBuf[V + 10] = (Mesh->MeshData.mesh_map_array[0][I.z].y);
+		VertsBuf[V + 9] = Mesh->MeshData.mesh_map_array[I.z].x;
+		VertsBuf[V + 10] = Mesh->MeshData.mesh_map_array[I.z].y;
 		
+		glm::vec3 Tangent;
+
 		switch (TangentCount)
 		{
 		case 0:
@@ -101,8 +91,6 @@ void _NL::Component::MeshRenderer::UnpackObjData() {
 			LastTriMap[2] = glm::vec2(VertsBuf[V + 9], VertsBuf[V + 10]);
 			LastTriVbufferLoc[2] = V;
 			
-			glm::vec3 Tangent;
-
 			Tangent = calculateTangent(
 				LastTriPos[0],
 				LastTriPos[1],
@@ -112,23 +100,24 @@ void _NL::Component::MeshRenderer::UnpackObjData() {
 				LastTriMap[2]
 			);
 
-			VertsBuf[LastTriVbufferLoc[0] + 6] = Tangent.x; //TangentX
-			VertsBuf[LastTriVbufferLoc[0] + 7] = Tangent.y; //TangentY
-			VertsBuf[LastTriVbufferLoc[0] + 8] = Tangent.z; //TangentZ
+			VertsBuf[LastTriVbufferLoc[0] + 6] = Tangent.x; //TangentX1
+			VertsBuf[LastTriVbufferLoc[0] + 7] = Tangent.y; //TangentY1
+			VertsBuf[LastTriVbufferLoc[0] + 8] = Tangent.z; //TangentZ1
 					
-			VertsBuf[LastTriVbufferLoc[1] + 6] = Tangent.x; //TangentX
-			VertsBuf[LastTriVbufferLoc[1] + 7] = Tangent.y; //TangentY
-			VertsBuf[LastTriVbufferLoc[1] + 8] = Tangent.z; //TangentZ
+			VertsBuf[LastTriVbufferLoc[1] + 6] = Tangent.x; //TangentX2
+			VertsBuf[LastTriVbufferLoc[1] + 7] = Tangent.y; //TangentY2
+			VertsBuf[LastTriVbufferLoc[1] + 8] = Tangent.z; //TangentZ2
 				
-			VertsBuf[LastTriVbufferLoc[2] + 6] = Tangent.x; //TangentX
-			VertsBuf[LastTriVbufferLoc[2] + 7] = Tangent.y; //TangentY
-			VertsBuf[LastTriVbufferLoc[2] + 8] = Tangent.z; //TangentZ
-
+			VertsBuf[LastTriVbufferLoc[2] + 6] = Tangent.x; //TangentX3
+			VertsBuf[LastTriVbufferLoc[2] + 7] = Tangent.y; //TangentY3
+			VertsBuf[LastTriVbufferLoc[2] + 8] = Tangent.z; //TangentZ3
+		//	break;
+		///*case QUAD*/ case 3:
 			TangentCount = -1;
 			break;
 		}
 		TangentCount++;
-	}
+		}
 	
 	//for each (_NL::Core::vIndices vI in Mesh->Indices)
 	//{

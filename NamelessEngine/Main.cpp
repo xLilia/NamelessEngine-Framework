@@ -44,8 +44,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("hdr1/japanhdri (4).jpg", 1024 * 2);
-	sky1->createSkybox("hdr1/japanhdri (4).jpg", 1024 * 2);
+	sky1->createEnvironment("myTexs/A.png", 1024 * 2);
+	//sky1->createSkybox("hdr1/japanhdri (4).jpg", 1024 * 2);
 	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
@@ -70,7 +70,7 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 16, 2, true, 21);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 7000, 1, 16, 2, true, 21);
 	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 500, 1, 0, 1, false);
 
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("screenQuadVshader.glsl", "screenQuadFshader.glsl");
@@ -177,8 +177,8 @@ int main() {
 	HouseCollada->addComponent(new _NL::Component::Transform);
 	HouseCollada->addComponent(new _NL::Component::MeshRenderer);
 	HouseCollada->addComponent(new _NL::Component::CppScript<TestScript>);
-	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/ColladaCube.dae");
-	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/ColladaPlanes.dae");
+	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
 	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	HouseCollada->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = HouseCollada;
 	HouseCollada->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;

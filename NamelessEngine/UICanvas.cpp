@@ -30,6 +30,10 @@ void _NL::UI::UICanvas::DrawElements()
 
 		if (UI->ClassName() == "_NL::UI::UIImage") {
 			
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			glFrontFace(GL_CCW);
+
 			_NL::UI::UIImage* UII = dynamic_cast<_NL::UI::UIImage*>(UI);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, UII->Texture->getTextureID());
@@ -40,6 +44,10 @@ void _NL::UI::UICanvas::DrawElements()
 		}
 
 		if (UI->ClassName() == "_NL::UI::UIText") {
+
+			glDisable(GL_CULL_FACE);
+			glFrontFace(GL_CW);
+
 			_NL::UI::UIText* UII = dynamic_cast<_NL::UI::UIText*>(UI);
 			UII->DrawText(this->WindowTarget);
 		}

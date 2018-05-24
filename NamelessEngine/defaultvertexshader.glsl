@@ -47,7 +47,6 @@ layout (std430, binding = 0) buffer LightBlock {
 
 void main()
 {
-	//Normal = mat3(aInstanceModel) * aNorm;
 
 	//Fragment Tex Coordinates
 	fragTexCoord = aTexCoords;
@@ -56,27 +55,14 @@ void main()
 	fragPos = vec3(aInstanceModel * vec4(aPosition,1.0));
 
 	mat3 normalMatrix = transpose(inverse(mat3(aInstanceModel)));
-
+	
+	//TBN MATRIX
 	vec3 T = normalize(normalMatrix * aTangent);
     vec3 N = normalize(normalMatrix * aNorm);
     T = normalize(T - dot(T, N) * N);
     vec3 B = cross(N, T);
 
 	mat3 TBN = transpose(mat3(T, B, N)); 
-
-	//TBN MATRIX
-	//vec3 T = normalize(vec3(aInstanceModel * vec4(aTangent, 0.0)));
-	//vec3 B;
-	//vec3 N = normalize(vec3(aInstanceModel * vec4(aNorm,	0.0)));
-	//
-	//// re-orthogonalize T with respect to N
-	//T = normalize(T - dot(T, N) * N);
-	//
-	//// then retrieve perpendicular vector B with the cross product of T and N
-	//B = cross(N, T);
-	//
-	////transpose of an orthogonal matrix is equal to its inverse. && less expensive
-	//mat3 TBN = transpose(mat3(T, B, N)); 
 
 	//Cnvert To Tangent Space
 

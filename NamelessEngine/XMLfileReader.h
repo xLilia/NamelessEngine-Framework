@@ -1,6 +1,7 @@
 #pragma once
 #include "NamelessCore.hpp"
 #include <vector>
+#include <set>
 #include <string>
 #include <fstream>
 #include <streambuf>

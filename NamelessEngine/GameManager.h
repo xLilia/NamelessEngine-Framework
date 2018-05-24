@@ -35,8 +35,6 @@ namespace _NL {
 			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
 			std::vector<_NL::UI::UICanvas*> UICanvas;
 
-			glm::vec3 ClearScreenColor = glm::vec3();
-
 			void RunScene(_NL::Engine::WorldSpace* set_current_scene);
 			void EndCurrentScene(_NL::Engine::WorldSpace* load_next_scene = nullptr);
 			void OpenGLStart();
