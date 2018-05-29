@@ -32,8 +32,8 @@ void _NL::Object::GameObject::getInfo()
 	std::cout << "|Object Name: " << this->name.c_str() << std::endl;
 	std::cout << "|Object Class: " << this->ClassName() << std::endl;
 	std::cout << "|--------------------------------------|" << std::endl;
-	std::cout << "|Is Active: " << bactive << std::endl;
-	std::cout << "|Is Static: " << bstatic << std::endl;
+	//std::cout << "|Is Active: " << bactive << std::endl;
+	//std::cout << "|Is Static: " << bstatic << std::endl;
 	//Parent
 	//Child tree
 	std::cout << "|--------------------------------------|" << std::endl;

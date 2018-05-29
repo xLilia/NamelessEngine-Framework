@@ -368,14 +368,14 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				//---------------------------------------------------------------------------------
 				//CAM UNIFORMS
 				check_gl_error();
-				glUniformMatrix4fv(_NL::Core::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(WorldToViewMatrix));
-				glUniformMatrix4fv(_NL::Core::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
-				glUniform3f(_NL::Core::EyePos_uniform, EyePos.x, EyePos.y, EyePos.z);
+				glUniformMatrix4fv(_NL::Core::GLSL_AU::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(WorldToViewMatrix));
+				glUniformMatrix4fv(_NL::Core::GLSL_AU::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
+				glUniform3f(_NL::Core::GLSL_AU::EyePos_uniform, EyePos.x, EyePos.y, EyePos.z);
 				check_gl_error();
 			
 				//---------------------------------------------------------------------------------
 				//LIGHT UNIFORMS
-				glUniform1i(_NL::Core::NumberOfLights_uniform, LightsProperties.size());
+				glUniform1i(_NL::Core::GLSL_AU::NumberOfLights_uniform, LightsProperties.size());
 				check_gl_error();
 
 				//---------------------------------------------------------------------------------
@@ -389,19 +389,19 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				//SETUP INSTANCE MODEL MAT ATRIB
 
 				GLsizei vec4Size = sizeof(glm::vec4);
-				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 0);
-				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 0, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(0 * vec4Size));
-				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 1);
-				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 1, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(1 * vec4Size));
-				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 2);
-				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 2, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
-				glEnableVertexAttribArray(_NL::Core::InstModelMatrix0_atrib + 3);
-				glVertexAttribPointer(_NL::Core::InstModelMatrix0_atrib + 3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 0);
+				glVertexAttribPointer(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 0, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(0 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 1);
+				glVertexAttribPointer(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 1, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(1 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 2);
+				glVertexAttribPointer(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 2, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(2 * vec4Size));
+				glEnableVertexAttribArray(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 3);
+				glVertexAttribPointer(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 3, 4, GL_FLOAT, GL_FALSE, 4 * vec4Size, (void*)(3 * vec4Size));
 
-				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 0, 1);
-				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 1, 1);
-				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 2, 1);
-				glVertexAttribDivisor(_NL::Core::InstModelMatrix0_atrib + 3, 1);
+				glVertexAttribDivisor(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 0, 1);
+				glVertexAttribDivisor(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 1, 1);
+				glVertexAttribDivisor(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 2, 1);
+				glVertexAttribDivisor(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 3, 1);
 
 				check_gl_error();
 				if (ObjMR->Material->MaterialInstanceData.size()>0)
@@ -410,14 +410,14 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 						check_gl_error();
 						//---------------------------------------------------------------------------------
 						//SETUP MATERIAL UNIFORMS
-						glUniform1i(_NL::Core::ALbedoTexture_uniform, 0);
-						glUniform1i(_NL::Core::RoughnessTexture_uniform, 1);
-						glUniform1i(_NL::Core::MetalnessTexture_uniform, 2);
-						glUniform1i(_NL::Core::NormalTexture_uniform, 3);
-						glUniform1i(_NL::Core::AmbientOculusionTexture_uniform, 4);
-						glUniform1i(_NL::Core::AmbientIrradianceTexture_uniform, 5);
-						glUniform1i(_NL::Core::PreFilterTexture_uniform, 6);
-						glUniform1i(_NL::Core::BRDF2DLUTTexture_uniform, 7);
+						glUniform1i(_NL::Core::GLSL_AU::ALbedoTexture_uniform, 0);
+						glUniform1i(_NL::Core::GLSL_AU::RoughnessTexture_uniform, 1);
+						glUniform1i(_NL::Core::GLSL_AU::MetalnessTexture_uniform, 2);
+						glUniform1i(_NL::Core::GLSL_AU::NormalTexture_uniform, 3);
+						glUniform1i(_NL::Core::GLSL_AU::AmbientOculusionTexture_uniform, 4);
+						glUniform1i(_NL::Core::GLSL_AU::AmbientIrradianceTexture_uniform, 5);
+						glUniform1i(_NL::Core::GLSL_AU::PreFilterTexture_uniform, 6);
+						glUniform1i(_NL::Core::GLSL_AU::BRDF2DLUTTexture_uniform, 7);
 						check_gl_error();
 						//---------------------------------------------------------------------------------
 						//SEND MATERIAL DATA

@@ -240,10 +240,10 @@ void _NL::Component::MeshRenderer::initGLObj()
 	///GL BUFFERS && ARRAYS
 	///Init Vertex Arrays
 	glCreateVertexArrays(1, &vao);
-	glEnableVertexArrayAttrib(vao, _NL::Core::Pos_atrib);
-	glEnableVertexArrayAttrib(vao, _NL::Core::Norm_atrib);
-	glEnableVertexArrayAttrib(vao, _NL::Core::Tangent_atrib);
-	glEnableVertexArrayAttrib(vao, _NL::Core::TexC_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::GLSL_AU::Pos_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::GLSL_AU::Norm_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::GLSL_AU::Tangent_atrib);
+	glEnableVertexArrayAttrib(vao, _NL::Core::GLSL_AU::TexC_atrib);
 	check_gl_error();
 	
 	//Set Vertex Arrays Format
@@ -251,17 +251,17 @@ void _NL::Component::MeshRenderer::initGLObj()
 	GLsizei foatSize = sizeof(GLfloat);
 	GLsizei lastvaoAtrib = (foatSize * 11);
 	
-	glVertexArrayAttribBinding(vao, _NL::Core::Pos_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Pos_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 0);
+	glVertexArrayAttribBinding(vao, _NL::Core::GLSL_AU::Pos_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::GLSL_AU::Pos_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 0);
 
-	glVertexArrayAttribBinding(vao, _NL::Core::Norm_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Norm_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 3);
+	glVertexArrayAttribBinding(vao, _NL::Core::GLSL_AU::Norm_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::GLSL_AU::Norm_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 3);
 
-	glVertexArrayAttribBinding(vao, _NL::Core::Tangent_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::Tangent_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 6);
+	glVertexArrayAttribBinding(vao, _NL::Core::GLSL_AU::Tangent_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::GLSL_AU::Tangent_atrib, 3, GL_FLOAT, GL_FALSE, foatSize * 6);
 	
-	glVertexArrayAttribBinding(vao, _NL::Core::TexC_atrib, 0);
-	glVertexArrayAttribFormat(vao, _NL::Core::TexC_atrib, 2, GL_FLOAT, GL_FALSE, foatSize * 9);
+	glVertexArrayAttribBinding(vao, _NL::Core::GLSL_AU::TexC_atrib, 0);
+	glVertexArrayAttribFormat(vao, _NL::Core::GLSL_AU::TexC_atrib, 2, GL_FLOAT, GL_FALSE, foatSize * 9);
 
 	check_gl_error();
 

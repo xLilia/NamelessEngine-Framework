@@ -1,6 +1,5 @@
 #pragma once
-#define NL_PI 3.14159265359
-///ExternalLibs
+
 #include<GL\glew.h>
 #include <glm\glm.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -29,83 +28,109 @@
 //
 //}
 
+/// ROOT of Nameless Engine API.
+/// Use this namespace to access all other Namespaces and Classes in the Engine.
 namespace _NL{
+	/// Nameless Engine Core.
+	/// Namespace containing Structs, Functions, Static values and Virtual Classes that make the 
+	/// core of the engine.
 	namespace Core {
 
-		///NV_PHYSX 3.4
+		/// Value of PI accurate to the 12th decimal place:
+		/// 3.14159265359
+		#define NL_PI 3.14159265359
+
+		/// GLSL Atributes and Uniforms, Default Shader Locations.
+		/// Used to send data to specific binded Locations in this Program's Out of the box default shaders. */
+		static const struct GLSL_AU {
+			const static GLuint Pos_atrib = 0;									///< Vertex Position Atribute
+			const static GLuint Norm_atrib = 1;									///< Vertex Normal Atribute
+			const static GLuint Tangent_atrib = 2;								///< Vertex Tangent Atribute
+			const static GLuint TexC_atrib = 3;									///< Vertex Texture Coordinates Atribute						
+			const static GLuint InstModelMatrix0_atrib = 4;						///< Model Matrix Atribute
+																				///< Binding points 4 to 7																	  
+			const static GLuint EyePos_uniform = 8;								///< Camera Eye Position Uniform			
+			const static GLuint ViewMatrix_uniform = 9; 						///< Camera View Matrix Uniform
+			const static GLuint ProjectionMatrix_uniform = 10; 					///< Camera Projection Matrix Uniform
+																				  
+			const static GLuint ALbedoTexture_uniform = 11;						///< Albedo Texture Uniform
+			const static GLuint RoughnessTexture_uniform = 12;					///< Roughness Texture Uniform
+			const static GLuint MetalnessTexture_uniform = 13;					///< Metalness Texture Uniform
+			const static GLuint NormalTexture_uniform = 14;						///< Normal Texture Uniform
+			const static GLuint AmbientOculusionTexture_uniform = 15;			///< Ambient Oculusion Texture Uniform
+			const static GLuint AmbientIrradianceTexture_uniform = 16;			///< Ambient Irradiance Texture Uniform
+			const static GLuint PreFilterTexture_uniform = 17;					///< Pre-Filtered Texture Texture Uniform
+			const static GLuint BRDF2DLUTTexture_uniform = 18;					///< BRDF 2D LUT Texture Texture Uniform
+																				  
+			const static GLuint NumberOfLights_uniform = 19;					///< Number Of Processed Scene Lights Uniform
+		};
+		
+
+		//NV_PHYSX 3.4
 		//static physx::_NLPhysXFoundation PhysXFoundation;
 
-		///ATRIBUTES
-		const static GLuint Pos_atrib = 0;
-		const static GLuint Norm_atrib = 1;
-		const static GLuint Tangent_atrib = 2;
-		const static GLuint TexC_atrib = 3;
 
-		const static GLuint InstModelMatrix0_atrib = 4;
-		//InstModelMatrix1_atrib = 5
-		//InstModelMatrix2_atrib = 6
-		//InstModelMatrix3_atrib = 7
-		///UNIFORMS
-		const static GLuint EyePos_uniform = 8;
-		//const static GLuint ModelMatrix_uniform = 5; //Model
-		const static GLuint ViewMatrix_uniform = 9; //View
-		const static GLuint ProjectionMatrix_uniform = 10; //projection
-		
-		///TEXTURES[0-5]
-		const static GLuint ALbedoTexture_uniform = 11;
-		const static GLuint RoughnessTexture_uniform = 12;
-		const static GLuint MetalnessTexture_uniform = 13;
-		const static GLuint NormalTexture_uniform = 14;
-		const static GLuint AmbientOculusionTexture_uniform = 15;
-		const static GLuint AmbientIrradianceTexture_uniform = 16;
-		const static GLuint PreFilterTexture_uniform = 17;
-		const static GLuint BRDF2DLUTTexture_uniform = 18;
-
-		const static GLuint NumberOfLights_uniform = 19;
-
-		//---------------------------------------------------------------------------------
-
-		//---------------------------------------------------------------------------------
-		/*All the Components that can be added to class: _NL::Object::GameObject*/
+		/// Virtual Class of _NL::Core::Component.
+		/// Objects that inherit from this class can be added to a List of Components 
+		/// belonging to Objects that inherit from the class "_NL::Object::GameObject".
 		class Component {
 		public:
+			/// Every Sub Class must Overload this method.
+			/// e.g : " return "_NL::Compoent::subclassName" "
 			virtual char* ClassName() const = 0;
+			/// Turn Component ON -> true |or| OFF -> false.
+			/// Default value true.
+			/// !!!Not Imlemented!!!
 			bool bactive = true;
 		};
 
-		//---------------------------------------------------------------------------------
-		/*All the Components that can be added to class: _NL::Core::Component*/
+		/// Virtual Class of _NL::Core::Element.
+		/// Objects that inherit from this class are usually treated as singular entities
+		/// that can be referenced by multiple components.
 		class Element {
 		public:
-			///INFO
+			/// Every Sub Class must Overload this method.
+			/// e.g : " return "_NL::Element::subclassName" "
 			virtual char* ClassName() const = 0;
 		};
 
+		/// Virtual Class of _NL::Core::Component.
+		/// Objects that inherit from this class represent User Interface elements.
 		class UI
 		{
 		public:
+			/// Every Sub Class must Overload this method.
+			/// e.g : " return "_NL::UI::subclassName" "
 			virtual char* ClassName() const = 0;
+			/// XY pixel coordinates on the screen for this UIelement.
+			glm::vec2 AnchorPosition = glm::vec2(0, 0);
+			/// XY pixel coordinates on the screen relative to AnchorPosition.
+			/// Final Screen Position = [AnchorPosition + PositionRelativeToAnchor].
 			glm::vec2 PositionRelativeToAnchor = glm::vec2(0,0);
-			glm::vec2 AnchorPosition = glm::vec2(0,0);
+			/// UI Element Layer value.
+			/// Used to sort visibility between Overlapping UI Elements
 			GLint Layer = 0;
+			/// Rotation of UI Element.
+			/// !!!Not Imlemented!!!
 			GLfloat RotationAngle;
-
+			/// Operator Overload < .
+			/// Used to sort UI Elementes by Layers
 			bool friend operator<(const UI& _this, const UI& other) {
 				return _this.Layer < other.Layer;
 			}
 		};
 
-
-		//---------------------------------------------------------------------------------
-		/*Object*/
+		/// Virtual Class of _NL::Core::Object.
+		/// Objects that inherit from this class can be added "_NL::Engine::WorldSpace"s scenes.
 		class Object {
 		public:
-			//---------------------------------------------------------------------------------
-			//OBJECT Constructors 
+			/// Default Empty Constructor.
+			/// Default Name : namelessObj
 			Object() {
 				this->name = "namelessObj";
 			}
-
+			/// Default Destructor.
+			/// Clears stored Components
 			virtual~Object() {
 				for each(_NL::Core::Component* C in Components) {
 					delete C;
@@ -113,21 +138,26 @@ namespace _NL{
 				this->Components.erase(Components.begin(), Components.end());
 				this->Components.clear();
 			}
-			//---------------------------------------------------------------------------------
-			//OBJECT PROPERTIES 
-			
+			/// Object Name.
+			/// Can be used for object Identification
 			std::string name;
+			/// Reference of Parent Object for this object.
+			/// Parent Object Affects this Object's Transform.
 			Object *Parent = 0;
+			
+			//Reference of Parent Object for this object.
+			//Parent Object Affects this Object's Transform.
 			//std::vector<Object*> Childs;
-			virtual char* ClassName() const {
-				return "_NL::Core::Object";
-			};
+
+			/// Every Sub Class must Overload this method.
+			/// e.g : " return "_NL::UI::subclassName" "
+			virtual char* ClassName() const = 0;
 			
 			//---------------------------------------------------------------------------------
 			//STATES
 			
-			bool bactive = true;
-			bool bstatic = false;
+			//bool bactive = true;
+			//bool bstatic = false;
 			
 			//---------------------------------------------------------------------------------
 			//INFO
