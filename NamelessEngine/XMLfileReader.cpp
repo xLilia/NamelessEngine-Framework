@@ -12,7 +12,8 @@ XMLfileReader::XMLfileReader(const const char* File_Path)
 
 void XMLfileReader::GetColladaData(){
 	for (GLuint n = 0; n < XMLData.size(); n++) {
-
+		
+		GLuint n1;
 		size_t G = XMLData[n].find("<geometry id=");
 		size_t A = XMLData[n].find("<animation id=");
 		size_t C = XMLData[n].find("<controller id =");
@@ -20,7 +21,6 @@ void XMLfileReader::GetColladaData(){
 
 
 		if (G != -1) {
-			GLuint n1;
 			for (n1 = n; n < XMLData.size(); n1++) {
 				size_t END = XMLData[n1].find("</geometry>");
 
@@ -35,15 +35,6 @@ void XMLfileReader::GetColladaData(){
 					size_t fA_P = XMLData[n1].find("-positions-array");
 					size_t fA_N = XMLData[n1].find("-normals-array");
 					size_t fA_M = XMLData[n1].find("-map-array");
-
-					//if (fA_P != -1)
-					//	this->MeshData.mesh_positions_array.push_back(glm::vec3);
-					//if (fA_N != -1)
-					//	this->MeshData.mesh_normals_array.push_back(glm::vec3);
-					//if (fA_M != -1)
-					//	this->MeshData.mesh_map_array.push_back(std::vector<glm::vec2>());
-					//if (TriArray != -1)
-					//	this->MeshData.mesh_triangles_array.push_back(std::vector<glm::vec3>());
 
 					size_t start = XMLData[n1].find('>');
 					size_t end = XMLData[n1].find('</');
@@ -148,6 +139,14 @@ int XMLfileReader::Load(const char* File_Path, bool debugMode) {
 			DataSnipOUT = -1;
 		}
 	}
-
 	return 0;
+}
+
+void XMLfileReader::RESET()
+{
+	MeshData.mesh_map_array.clear();
+	MeshData.mesh_normals_array.clear();
+	MeshData.mesh_positions_array.clear();
+	MeshData.mesh_triangles_array.clear();
+	XMLData.clear();
 }

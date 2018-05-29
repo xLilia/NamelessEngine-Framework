@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animator.cpp" />
     <ClCompile Include="AudioSource.cpp" />
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="XMLfileReader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animator.h" />
     <ClInclude Include="AudioSource.h" />
     <ClInclude Include="CamController.hpp" />
     <ClInclude Include="CameraObj.h" />

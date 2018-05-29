@@ -201,6 +201,7 @@ namespace _NL{
 		//	glm::vec2 TexCoord;	//TexCoordinates 
 		//};
 		//
+		
 		//struct vIndices {
 		//	GLuint v[3];
 		//	GLuint vt[3];
@@ -223,17 +224,9 @@ namespace _NL{
 			std::vector<glm::vec3>mesh_normals_array;
 			std::vector<glm::vec2>mesh_map_array;
 			std::vector<glm::vec3>mesh_triangles_array;
-
-			//std::vector<VertexPos> vPos;
-			//std::vector<VertexCol> vCol;
-			//std::vector<VertexNorm> vNorm;
-			//std::vector<VertexTexCoord> vTexC;
-			//std::vector<GLuint> MaterialStride;
 		};
 
 		//TRANSFORM
-
-
 
 		struct transform {
 			glm::quat QuaternionRotation = glm::quat(glm::vec3(0, 0, 0));
@@ -310,6 +303,16 @@ namespace _NL{
 			GLfloat lightSpotAngle = 0.0f;				
 			
 			GLfloat PADDING3[3] = {0,0,0}; //NEEDS FIX
+		};
+
+		struct AnimationBone {
+			std::vector<glm::mat4> TRANSFORM_Frame;
+			std::vector<AnimationBone> Childs;
+			AnimationBone* Parent = NULL;
+			void addChild(AnimationBone& AB) {
+				Childs.push_back(AB);
+				AB.Parent = this;
+			}
 		};
 
 	}

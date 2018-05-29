@@ -1,6 +1,6 @@
 #pragma once
 #include "NamelessCore.hpp"
-//#include "OBJfileReader.h"
+#include "OBJfileReader.h"
 #include "XMLfileReader.h"
 
 namespace _NL {
@@ -16,12 +16,11 @@ namespace _NL {
 			int LoadOBJFile(const char* filePath);
 
 			_NL::Core::MeshInstanceData MeshData;
-			//std::vector<_NL::Core::vIndices> Indices;
-			std::string file_Path;
+			std::string file_Format;
 			//MeshAnimator
 			char* ClassName() const override;
 		private:
-			//OBJfileReader OBJF;
+			OBJfileReader OBJF;
 			XMLfileReader ColladaF;
 		};
 	}

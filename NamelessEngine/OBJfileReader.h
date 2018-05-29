@@ -10,7 +10,7 @@ public:
 	int LOAD(const char* OBJpath);
 	_NL::Core::MeshInstanceData Mshd;
 	//std::vector<_NL::Core::vIndices> Is;
-	GLint MTL_counter = -1;
+	//GLint MTL_counter = -1;
 	void RESET();
 
 };

@@ -2,7 +2,7 @@
 
 _NL::Component::NLphysxRigidBody::NLphysxRigidBody()
 {
-	//_NL::Core::PhysXFoundation.initialize();
+	 //_NL::Core::PhysXFoundation.initialize();
 }
 
 

@@ -15,6 +15,7 @@ namespace _NL {
 		class MaterialInstance : public _NL::Core::Element
 		{
 		public:
+
 			MaterialInstance();
 			~MaterialInstance();
 
@@ -26,8 +27,8 @@ namespace _NL {
 			void AddNew_Material();
 
 			//WIP
-			GLboolean IsFlipbook = false;
-			void LoadFlipbookTextureMap(TEXTURE_TYPE Texture_type, const char* filePath, GLuint MTL_ID, GLuint Rows, GLuint Columns, GLuint* AnimationPhase);
+			//GLboolean IsFlipbook = false;
+			//void LoadFlipbookTextureMap(TEXTURE_TYPE Texture_type, const char* filePath, GLuint MTL_ID, GLuint Rows, GLuint Columns, GLuint* AnimationPhase);
 		};
 	}
 }

@@ -141,6 +141,9 @@
     <ClCompile Include="UIText.cpp">
       <Filter>Source Files\EngineObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShaderWizard.h">
@@ -241,6 +244,9 @@
     </ClInclude>
     <ClInclude Include="UIText.h">
       <Filter>Header Files\EngineObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

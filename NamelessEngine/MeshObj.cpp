@@ -21,7 +21,8 @@ _NL::Element::MeshInstance::MeshInstance(const char * filePath)
 
 int _NL::Element::MeshInstance::LoadColladaFile(const char * filePath)
 {
-	file_Path = filePath;
+	file_Format = std::string(filePath);
+	file_Format = file_Format.substr(file_Format.size() - 4, file_Format.size() - 1);
 
 	if (ColladaF.Load(filePath) != 0) {
 		return -1;
@@ -30,22 +31,22 @@ int _NL::Element::MeshInstance::LoadColladaFile(const char * filePath)
 	ColladaF.GetColladaData();
 
 	this->MeshData = ColladaF.MeshData;
-
+	ColladaF.RESET();
 	return 0;
 }
 
 int _NL::Element::MeshInstance::LoadOBJFile(const char * filePath)
 {
 
-	//file_Path = filePath;
-	//
-	//if (OBJF.LOAD(filePath) != 0) {
-	//	return -1;
-	//}
-	//MeshData = OBJF.Mshd;
-	////Indices = OBJF.Is;
-	//OBJF.RESET();
-	//return 0;
+	file_Format = std::string(filePath);
+	file_Format = file_Format.substr(file_Format.size() - 4, file_Format.size() - 1);
+	
+	if (OBJF.LOAD(filePath) != 0) {
+		return -1;
+	}
+	MeshData = OBJF.Mshd;
+	//Indices = OBJF.Is;
+	OBJF.RESET();
 	return 0; 
 }
 

@@ -459,9 +459,9 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 						//DRAW MESH 
 
 						ObjMR->UpdateGLSettings();
-						glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, 0, obj.size());
+						//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
 
-						//glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->IndicesBuf.size(), obj.size());
+						glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), obj.size());
 						check_gl_error();
 
 						//---------------------------------------------------------------------------------

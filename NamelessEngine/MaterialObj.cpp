@@ -49,10 +49,10 @@ void _NL::Element::MaterialInstance::LoadTexture(TEXTURE_TYPE Texture_type, _NL:
 		MaterialInstanceData[MTL_ID].AmbientOculusionTexId = Texture->getTextureID();
 }
 
-void _NL::Element::MaterialInstance::LoadFlipbookTextureMap(TEXTURE_TYPE Texture_type, const char * filePath, GLuint MTL_ID, GLuint Rows, GLuint Columns, GLuint* AnimationPhase)
-{
-	//WIP
-}
+//void _NL::Element::MaterialInstance::LoadFlipbookTextureMap(TEXTURE_TYPE Texture_type, const char * filePath, GLuint MTL_ID, GLuint Rows, GLuint Columns, GLuint* AnimationPhase)
+//{
+//	//WIP
+//}
 
 _NL::Element::MaterialInstance::~MaterialInstance()
 {

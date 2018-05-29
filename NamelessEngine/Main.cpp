@@ -144,7 +144,7 @@ int main() {
 
 	_NL::Element::MaterialInstance* Mat1 = new _NL::Element::MaterialInstance();
 	Mat1->AddNew_Material();
-	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/A.png", 0);
+	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/fire.png", 0);
 	_NL::Element::TextureInstance* mtR = new  _NL::Element::TextureInstance("MyTexs/R2.png", 0);
 	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M.png", 0);
 	_NL::Element::TextureInstance* mtN = new _NL::Element::TextureInstance("MyTexs/N.png", 0);
@@ -158,7 +158,7 @@ int main() {
 
 	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
 	PBRGunMAT->AddNew_Material();
-	_NL::Element::TextureInstance* CerberusA = new _NL::Element::TextureInstance("COLLADATEST/UVMap.png", 0);
+	_NL::Element::TextureInstance* CerberusA = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_A.tga", 0);
 	_NL::Element::TextureInstance* CerberusR = new  _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_R.tga", 0);
 	_NL::Element::TextureInstance* CerberusM = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_M.tga", 0);
 	_NL::Element::TextureInstance* CerberusN = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_N.tga", 0);
@@ -177,11 +177,11 @@ int main() {
 	HouseCollada->addComponent(new _NL::Component::Transform);
 	HouseCollada->addComponent(new _NL::Component::MeshRenderer);
 	HouseCollada->addComponent(new _NL::Component::CppScript<TestScript>);
-	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/ColladaPlanes.dae");
+	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/colladaScene.obj");
 	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
 	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
-	HouseCollada->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = HouseCollada;
-	HouseCollada->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
+	HouseCollada->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = HouseCollada;
+	HouseCollada->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 
 	HouseCollada->getComponent<_NL::Component::Transform>()->transform.position.x = 0;
 	HouseCollada->getComponent<_NL::Component::Transform>()->transform.position.y = 0;
@@ -236,18 +236,18 @@ int main() {
 	//Cube3->Parent = Cube;
 	//
 	////(4)===========================================================================================
-	//_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
-	//Quad->addComponent(new _NL::Component::Transform());
-	//Quad->addComponent(new _NL::Component::MeshRenderer());
-	//Quad->addComponent(new _NL::Component::CppScript<TestScript>);
-	//Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
-	//Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	//Quad->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
-	//Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Quad;
-	//Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
-	//
-	//Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
-	//Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 100;
+	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
+	Quad->addComponent(new _NL::Component::Transform());
+	Quad->addComponent(new _NL::Component::MeshRenderer());
+	Quad->addComponent(new _NL::Component::CppScript<TestScript>);
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
+	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Quad;
+	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
+	
+	Quad->getComponent<_NL::Component::Transform>()->transform.position.y -= 1;
+	Quad->getComponent<_NL::Component::Transform>()->transform.scale *= 100;
 
 
 
@@ -282,44 +282,44 @@ int main() {
 	//===========================================================================================
 
 
-	//_NL::Object::ParticleObj* flameParticle = new _NL::Object::ParticleObj();
-	//
-	//_NL::Element::TextureInstance* FlameAlbedo = new _NL::Element::TextureInstance("MyTexs/fire.png", false);
-	//
-	//_NL::Element::MaterialInstance* flameMat = new _NL::Element::MaterialInstance();
-	//flameMat->AddNew_Material();
-	//flameMat->LoadTexture(_NL::Element::AlbedoMap, FlameAlbedo, 0);
-	//
-	//flameParticle->addComponent(new _NL::Component::MeshRenderer);
-	//flameParticle->addComponent(new _NL::Component::Transform);
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
-	//flameParticle->lifeTime = 1;
-	//
-	//_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
-	//_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
-	//Pbehaviour->getScript()->W = &winMan;
-	//PS1->Particle = flameParticle;
-	//PS1->ParticlesBehavior = Pbehaviour->getScript();
-	//PS1->SpawnerTransform.SpawnerShape = _NL::Object::ParticleSystem::SPHERE;
-	//PS1->SpawnerTransform.Position.y = 10;
-	//PS1->SpawnerTransform.Scale *= 0.1f;
-	//PS1->SpawnerTransform.SpawnerHeightY = 10;
-	//PS1->SpawnerTransform.SpawnerWidthX = 10;
-	//PS1->SpawnerTransform.SpawnerWidthZ = 10;
-	//PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
-	//PS1->TimeScale = &winMan.GameTime;
-	//PS1->SpawnPerFrame = 1;
-	//scene1->addObjectToWorld(PS1);
+	_NL::Object::ParticleObj* flameParticle = new _NL::Object::ParticleObj();
+	
+	_NL::Element::TextureInstance* FlameAlbedo = new _NL::Element::TextureInstance("MyTexs/fire.png", false);
+	
+	_NL::Element::MaterialInstance* flameMat = new _NL::Element::MaterialInstance();
+	flameMat->AddNew_Material();
+	flameMat->LoadTexture(_NL::Element::AlbedoMap, FlameAlbedo, 0);
+	
+	flameParticle->addComponent(new _NL::Component::MeshRenderer);
+	flameParticle->addComponent(new _NL::Component::Transform);
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
+	flameParticle->lifeTime = 1;
+	
+	_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
+	_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
+	Pbehaviour->getScript()->W = &winMan;
+	PS1->Particle = flameParticle;
+	PS1->ParticlesBehavior = Pbehaviour->getScript();
+	PS1->SpawnerTransform.SpawnerShape = _NL::Object::ParticleSystem::SPHERE;
+	PS1->SpawnerTransform.Position.y = 10;
+	PS1->SpawnerTransform.Scale *= 0.1f;
+	PS1->SpawnerTransform.SpawnerHeightY = 10;
+	PS1->SpawnerTransform.SpawnerWidthX = 10;
+	PS1->SpawnerTransform.SpawnerWidthZ = 10;
+	PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
+	PS1->TimeScale = &winMan.GameTime;
+	PS1->SpawnPerFrame = 1;
+	scene1->addObjectToWorld(PS1);
 
 
 	//===========================================================================================
 	//SCENES 
 	//===========================================================================================
 	
-	//scene1->addObjectToWorld(Quad);
+	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(HouseCollada);
 	//scene1->addObjectToWorld(PBRGun);
 	//scene1->addObjectToWorld(Cube);
