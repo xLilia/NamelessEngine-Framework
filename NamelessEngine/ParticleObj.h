@@ -13,7 +13,6 @@ namespace _NL{
 			bool Awake;
 			bool Alive;
 			char* ClassName() const override;
-		
 		};
 	}
 }

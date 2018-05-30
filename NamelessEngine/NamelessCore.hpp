@@ -61,8 +61,6 @@ namespace _NL{
 			const static GLuint AmbientIrradianceTexture_uniform = 16;			///< Ambient Irradiance Texture Uniform
 			const static GLuint PreFilterTexture_uniform = 17;					///< Pre-Filtered Texture Texture Uniform
 			const static GLuint BRDF2DLUTTexture_uniform = 18;					///< BRDF 2D LUT Texture Texture Uniform
-																				  
-			const static GLuint NumberOfLights_uniform = 19;					///< Number Of Processed Scene Lights Uniform
 		};
 		
 
@@ -151,7 +149,9 @@ namespace _NL{
 
 			/// Every Sub Class must Overload this method.
 			/// e.g : " return "_NL::UI::subclassName" "
-			virtual char* ClassName() const = 0;
+			virtual char* ClassName() const {
+				return "_NL::Core::Object";
+			};
 			
 			//---------------------------------------------------------------------------------
 			//STATES
@@ -321,20 +321,42 @@ namespace _NL{
 		}
 
 		struct LightProperties {
-			glm::vec3 lightColor = glm::vec3(0.0f);		
+			glm::vec3 lightColor = glm::vec3(1,0,1);		
 			GLfloat PADDING0 = 0;
 																		 
-			glm::vec3 lightPosition = glm::vec3(0.0f);	
+			glm::vec3 lightPosition = glm::vec3(0.0f);
 			GLfloat PADDING1 = 0;
-																		 
-			glm::vec3 lightDirection = glm::vec3(0.0f); 
+									 
+			glm::vec3 lightDirection = glm::vec3(0.0f);
 			GLfloat PADDING2 = 0;
-			
-			GLfloat lightSpotAngle = 0.0f;				
-			
-			GLfloat PADDING3[3] = {0,0,0}; //NEEDS FIX
-		};
 
+			GLfloat lightSpotInnerAngle = 0.0f;
+			GLfloat lightSpotOuterAngle = 0.0f;
+			GLfloat PADDING3[2] = {0,0}; 
+
+			void setPointLightProperties(glm::vec3 lightColor, glm::vec3 lightPosition) {
+				this->lightColor = lightColor;
+				this->lightPosition = lightPosition;
+				this->lightDirection = glm::vec3(0.0f);
+				this->lightSpotInnerAngle = 0.0f;
+				this->lightSpotOuterAngle = 0.0f;
+			}
+
+			void setDirectionalLightProperties(glm::vec3 lightColor, glm::vec3 lightPosition, glm::vec3 lightDirection) {
+				setPointLightProperties(lightColor, lightPosition);
+				this->lightDirection = lightDirection;
+				this->lightSpotInnerAngle = 0.0f;
+				this->lightSpotOuterAngle = 0.0f;
+			}
+
+			void setSpotLightProperties(glm::vec3 lightColor, glm::vec3 lightPosition, glm::vec3 lightDirection, GLfloat InnerAngle, GLfloat OuterAngle) {
+				setDirectionalLightProperties(lightColor, lightPosition, lightDirection);
+				this->lightSpotInnerAngle = glm::cos(glm::radians(InnerAngle));
+				this->lightSpotOuterAngle = glm::cos(glm::radians(OuterAngle));
+			}
+		};
+		
+		///WIP
 		struct AnimationBone {
 			std::vector<glm::mat4> TRANSFORM_Frame;
 			std::vector<AnimationBone> Childs;

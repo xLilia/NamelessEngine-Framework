@@ -59,7 +59,6 @@ namespace _NL {
 			_NL::Element::ShaderInstance* PingPongShader;
 			
 			void ClearCurrentBuffer();
-
 			void GenerateFrameBuffers();
 			void PrepareToRenderScene();
 			void DisplayOnScreen(GLuint* aditionalTextures = NULL);

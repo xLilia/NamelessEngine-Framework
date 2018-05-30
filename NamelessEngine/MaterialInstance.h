@@ -21,10 +21,9 @@ namespace _NL {
 
 			char* ClassName() const override;
 
-			std::vector<_NL::Core::MaterialInstanceData> MaterialInstanceData;
+			_NL::Core::MaterialInstanceData MaterialInstanceData;
 
 			void LoadTexture(TEXTURE_TYPE Texture_type, _NL::Element::TextureInstance* Texture, GLuint MTL_ID);
-			void AddNew_Material();
 
 			//WIP
 			//GLboolean IsFlipbook = false;

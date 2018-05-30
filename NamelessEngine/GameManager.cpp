@@ -100,7 +100,7 @@ void _NL::Engine::GameManager::CleanUpCurrentSceneLoadedResources()
 	Lights.clear();
 	UICanvas.clear();
 	ParticleSystems.clear();
-	glDeleteBuffers(1, &LightsBlockUBO);
+	glDeleteBuffers(1, &LightsSSBO);
 }
 
 //---------------------------------------------------------------------------------
@@ -188,14 +188,14 @@ void _NL::Engine::GameManager::OpenGLStart()
 	}
 
 	//---------------------------------------------------------------------------------
-	//INITIALIZE LIGHT UBO
+	//INITIALIZE LIGHT SSBO
 	if (LightsProperties.size() > 0) {
 
-		glGenBuffers(1, &LightsBlockUBO);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsBlockUBO);
+		glGenBuffers(1, &LightsSSBO);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsSSBO);
 		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(_NL::Core::LightProperties)*LightsProperties.size(), &LightsProperties[0], GL_DYNAMIC_DRAW);
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO);
-		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 		check_gl_error();
 
@@ -275,12 +275,12 @@ void _NL::Engine::GameManager::UpdateSceneLights() {
 	//}
 
 	if (LightsProperties.size() > 0) {
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsBlockUBO);
+		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsSSBO);
 		glBufferSubData(GL_SHADER_STORAGE_BUFFER,
 			0,
 			sizeof(_NL::Core::LightProperties)*LightsProperties.size(),
 			&LightsProperties[0]);
-		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, uIndexLightsBlock, LightsBlockUBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 }
@@ -321,13 +321,17 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 			if (ObjMR != NULL) {
 				if (UseOverrideShaderProgram == NULL) {
 					ObjMR->Shader->Use();
+					//glShaderStorageBlockBinding(ObjMR->Shader->getShaderProgram(), LightsSSBOBindingPoint, LightsSSBO);
+					check_gl_error();
 				}
 				else {
 					glUseProgram(UseOverrideShaderProgram);
+					//glShaderStorageBlockBinding(UseOverrideShaderProgram, LightsSSBOBindingPoint, LightsSSBO);
+					check_gl_error();
 				}
 				
 				glBindVertexArray(ObjMR->vao);
-
+				check_gl_error();
 				//---------------------------------------------------------------------------------
 				//TRANSFORMS
 				std::vector<glm::mat4> Modelmat;
@@ -375,7 +379,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 			
 				//---------------------------------------------------------------------------------
 				//LIGHT UNIFORMS
-				glUniform1i(_NL::Core::GLSL_AU::NumberOfLights_uniform, LightsProperties.size());
+				//glUniform1i(_NL::Core::GLSL_AU::NumberOfLights_uniform, LightsProperties.size());
 				check_gl_error();
 
 				//---------------------------------------------------------------------------------
@@ -404,102 +408,100 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				glVertexAttribDivisor(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 3, 1);
 
 				check_gl_error();
-				if (ObjMR->Material->MaterialInstanceData.size()>0)
-					for (int i = 0; i < ObjMR->Material->MaterialInstanceData.size(); i++)
-					{
-						check_gl_error();
-						//---------------------------------------------------------------------------------
-						//SETUP MATERIAL UNIFORMS
-						glUniform1i(_NL::Core::GLSL_AU::ALbedoTexture_uniform, 0);
-						glUniform1i(_NL::Core::GLSL_AU::RoughnessTexture_uniform, 1);
-						glUniform1i(_NL::Core::GLSL_AU::MetalnessTexture_uniform, 2);
-						glUniform1i(_NL::Core::GLSL_AU::NormalTexture_uniform, 3);
-						glUniform1i(_NL::Core::GLSL_AU::AmbientOculusionTexture_uniform, 4);
-						glUniform1i(_NL::Core::GLSL_AU::AmbientIrradianceTexture_uniform, 5);
-						glUniform1i(_NL::Core::GLSL_AU::PreFilterTexture_uniform, 6);
-						glUniform1i(_NL::Core::GLSL_AU::BRDF2DLUTTexture_uniform, 7);
-						check_gl_error();
-						//---------------------------------------------------------------------------------
-						//SEND MATERIAL DATA
-						glActiveTexture(GL_TEXTURE0 + 0);
-						if (ObjMR->Material->MaterialInstanceData[i].AlbedoTexId)
-							glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AlbedoTexId);
+				if (ObjMR->Material) {
+					check_gl_error();
+					//---------------------------------------------------------------------------------
+					//SETUP MATERIAL UNIFORMS
+					glUniform1i(_NL::Core::GLSL_AU::ALbedoTexture_uniform, 0);
+					glUniform1i(_NL::Core::GLSL_AU::RoughnessTexture_uniform, 1);
+					glUniform1i(_NL::Core::GLSL_AU::MetalnessTexture_uniform, 2);
+					glUniform1i(_NL::Core::GLSL_AU::NormalTexture_uniform, 3);
+					glUniform1i(_NL::Core::GLSL_AU::AmbientOculusionTexture_uniform, 4);
+					glUniform1i(_NL::Core::GLSL_AU::AmbientIrradianceTexture_uniform, 5);
+					glUniform1i(_NL::Core::GLSL_AU::PreFilterTexture_uniform, 6);
+					glUniform1i(_NL::Core::GLSL_AU::BRDF2DLUTTexture_uniform, 7);
+					check_gl_error();
+					//---------------------------------------------------------------------------------
+					//SEND MATERIAL DATA
+					glActiveTexture(GL_TEXTURE0 + 0);
+					if (ObjMR->Material->MaterialInstanceData.AlbedoTexId)
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.AlbedoTexId);
 
-						glActiveTexture(GL_TEXTURE0 + 1);
-						if (ObjMR->Material->MaterialInstanceData[i].RoughnessTexId)
-							glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].RoughnessTexId);
+					glActiveTexture(GL_TEXTURE0 + 1);
+					if (ObjMR->Material->MaterialInstanceData.RoughnessTexId)
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.RoughnessTexId);
 
-						glActiveTexture(GL_TEXTURE0 + 2);
-						if (ObjMR->Material->MaterialInstanceData[i].MetalnessTexId)
-							glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].MetalnessTexId);
+					glActiveTexture(GL_TEXTURE0 + 2);
+					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId)
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.MetalnessTexId);
 
-						glActiveTexture(GL_TEXTURE0 + 3);
-						if (ObjMR->Material->MaterialInstanceData[i].NormalTexId)
-							glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].NormalTexId);
+					glActiveTexture(GL_TEXTURE0 + 3);
+					if (ObjMR->Material->MaterialInstanceData.NormalTexId)
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.NormalTexId);
 
-						glActiveTexture(GL_TEXTURE0 + 4);
-						if (ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId)
-							glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId);
+					glActiveTexture(GL_TEXTURE0 + 4);
+					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId)
+						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId);
 
-						if (this->CurrentScene->Skybox) {
-							glActiveTexture(GL_TEXTURE0 + 5);
-							if (this->CurrentScene->Skybox->IrradienceMap)
-								glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
+					if (this->CurrentScene->Skybox) {
+						glActiveTexture(GL_TEXTURE0 + 5);
+						if (this->CurrentScene->Skybox->IrradienceMap)
+							glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
 
-							glActiveTexture(GL_TEXTURE0 + 6);
-							if (this->CurrentScene->Skybox->PreFilterMap)
-								glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
+						glActiveTexture(GL_TEXTURE0 + 6);
+						if (this->CurrentScene->Skybox->PreFilterMap)
+							glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
 
-							glActiveTexture(GL_TEXTURE0 + 7);
-							if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
-								glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
-						}
-						check_gl_error();
-						//---------------------------------------------------------------------------------
-						//DRAW MESH 
-
-						ObjMR->UpdateGLSettings();
-						//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
-
-						glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), obj.size());
-						check_gl_error();
-
-						//---------------------------------------------------------------------------------
-						//CLEAR MATERIAL DATA
-						glActiveTexture(GL_TEXTURE0 + 0);
-						if (ObjMR->Material->MaterialInstanceData[i].AlbedoTexId)
-							glBindTexture(GL_TEXTURE_2D, 0);
-
-						glActiveTexture(GL_TEXTURE0 + 1);
-						if (ObjMR->Material->MaterialInstanceData[i].RoughnessTexId)
-							glBindTexture(GL_TEXTURE_2D, 0);
-
-						glActiveTexture(GL_TEXTURE0 + 2);
-						if (ObjMR->Material->MaterialInstanceData[i].MetalnessTexId)
-							glBindTexture(GL_TEXTURE_2D, 0);
-
-						glActiveTexture(GL_TEXTURE0 + 3);
-						if (ObjMR->Material->MaterialInstanceData[i].NormalTexId)
-							glBindTexture(GL_TEXTURE_2D, 0);
-
-						glActiveTexture(GL_TEXTURE0 + 4);
-						if (ObjMR->Material->MaterialInstanceData[i].AmbientOculusionTexId)
-							glBindTexture(GL_TEXTURE_2D, 0);
-
-						if (this->CurrentScene->Skybox) {
-							glActiveTexture(GL_TEXTURE0 + 5);
-							if (this->CurrentScene->Skybox->IrradienceMap)
-								glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-
-							glActiveTexture(GL_TEXTURE0 + 6);
-							if (this->CurrentScene->Skybox->PreFilterMap)
-								glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-
-							glActiveTexture(GL_TEXTURE0 + 7);
-							if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
-								glBindTexture(GL_TEXTURE_2D, 0);
-						}
+						glActiveTexture(GL_TEXTURE0 + 7);
+						if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
+							glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
 					}
+					check_gl_error();
+					//---------------------------------------------------------------------------------
+					//DRAW MESH 
+
+					ObjMR->UpdateGLSettings();
+					//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
+
+					glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), obj.size());
+					check_gl_error();
+
+					//---------------------------------------------------------------------------------
+					//CLEAR MATERIAL DATA
+					glActiveTexture(GL_TEXTURE0 + 0);
+					if (ObjMR->Material->MaterialInstanceData.AlbedoTexId)
+						glBindTexture(GL_TEXTURE_2D, 0);
+
+					glActiveTexture(GL_TEXTURE0 + 1);
+					if (ObjMR->Material->MaterialInstanceData.RoughnessTexId)
+						glBindTexture(GL_TEXTURE_2D, 0);
+
+					glActiveTexture(GL_TEXTURE0 + 2);
+					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId)
+						glBindTexture(GL_TEXTURE_2D, 0);
+
+					glActiveTexture(GL_TEXTURE0 + 3);
+					if (ObjMR->Material->MaterialInstanceData.NormalTexId)
+						glBindTexture(GL_TEXTURE_2D, 0);
+
+					glActiveTexture(GL_TEXTURE0 + 4);
+					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId)
+						glBindTexture(GL_TEXTURE_2D, 0);
+
+					if (this->CurrentScene->Skybox) {
+						glActiveTexture(GL_TEXTURE0 + 5);
+						if (this->CurrentScene->Skybox->IrradienceMap)
+							glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+						glActiveTexture(GL_TEXTURE0 + 6);
+						if (this->CurrentScene->Skybox->PreFilterMap)
+							glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+						glActiveTexture(GL_TEXTURE0 + 7);
+						if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
+							glBindTexture(GL_TEXTURE_2D, 0);
+					}
+				}
 				ObjMR->Shader->UnUse();
 				glDeleteBuffers(1, &InstanceABO);
 				//---------------------------------------------------------------------------------

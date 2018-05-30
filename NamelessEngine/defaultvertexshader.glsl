@@ -21,11 +21,9 @@ layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
-layout (location=19) uniform int NumberOfLights;
 
 out vec3 fragPos;
 out vec2 fragTexCoord;
-//out vec3 Normal;
 
 out vec3 vTangentLightPos[NR_LIGHTS];
 out vec3 vTangentLightDir[NR_LIGHTS];
@@ -33,10 +31,15 @@ out vec3 vTangentEyePos;
 out vec3 vTangentFragPos;
 
 struct LightProperties {
-	vec3 lightColor; 
+	vec3 lightColor;
+	float padding_1;
 	vec3 lightPosition;
+	float padding_2;
 	vec3 lightDirection;
-	float lightSpotAngle;
+	float padding_3;
+	float lightSpotInnerAngle;
+	float lightSpotOuterAngle;
+	float padding_4[2];
 };
 
 layout (std430, binding = 0) buffer LightBlock {

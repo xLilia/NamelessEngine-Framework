@@ -58,8 +58,8 @@ namespace _NL {
 
 			bool bEndCurrentScene = false;
 
-			GLuint LightsBlockUBO;
-			GLuint uIndexLightsBlock = 0;
+			GLuint LightsSSBO;
+			GLuint LightsSSBOBindingPoint = 0;
 
 		};
 	}

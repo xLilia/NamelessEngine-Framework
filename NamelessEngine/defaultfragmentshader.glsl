@@ -21,13 +21,17 @@ layout (location=15) uniform sampler2D AmbientOculusionTexture;
 layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
-layout (location=19) uniform int NumberOfLights;
 
 struct LightProperties {
 	vec3 lightColor;
+	float padding_1;
 	vec3 lightPosition;
+	float padding_2;
 	vec3 lightDirection;
-	float lightSpotAngle;
+	float padding_3;
+	float lightSpotInnerAngle;
+	float lightSpotOuterAngle;
+	float padding_4[2];
 };
 
 layout (std430, binding = 0) buffer LightBlock {
@@ -35,7 +39,7 @@ layout (std430, binding = 0) buffer LightBlock {
 };
 
 layout (location = 0) out vec4 FragColor;
-layout (location = 1) out vec4 BrightColor;
+layout (location = 1) out vec4 BloomColor;
 
 //======================= FUNCTIONS =========================
 
@@ -195,28 +199,23 @@ void main(){
 
 		//Light direction Vector
 		vec3 L;
-		
 
 		//Decide Light Type
-		if(light[i].lightSpotAngle != 0 && length(light[i].lightDirection) > 0.0){
+		if(light[i].lightSpotInnerAngle != 0 && length(light[i].lightDirection) > 0.0){
 			//SpotLight
 			L = normalize(vTangentLightPos[i] - vTangentFragPos); 
-
+		
 			float theta = dot(L, normalize(-vTangentLightDir[i]));
-			theta = acos(theta);
+			float epsilon = light[i].lightSpotInnerAngle - light[i].lightSpotOuterAngle;
+			float intensity = clamp((theta - light[i].lightSpotOuterAngle) / epsilon, 0.0, 1.0); 
 
-			if(theta < light[i].lightSpotAngle){
-				//distance    = length(vTangentLightPos[i] - vTangentFragPos);
-				//attenuation = 1.0 / (distance * distance);
-				//radiance    = light[i].lightColor * attenuation;
-				radiance = vec3(0,10,0);
-			}else{
-				radiance = vec3(10,0,0);
-			}
+			distance    = length(vTangentLightPos[i] - vTangentFragPos);
+			attenuation = 1.0 / (distance * distance);
+			radiance     = light[i].lightColor * attenuation * intensity;
 
-		}else if(length(light[i].lightDirection) > 0.0 && light[i].lightSpotAngle == 0.0){
+		}else if(length(light[i].lightDirection) > 0.0 && light[i].lightSpotInnerAngle == 0.0){
 			//Directional Light
-			radiance = light[i].lightColor;
+			radiance = light[i].lightColor/10;
 			L = normalize(-vTangentLightDir[i]); 
 		}else{
 			//Point Light
@@ -295,9 +294,9 @@ void main(){
 	float Luma = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
 
 	if(Luma > 1.0){
-		BrightColor = vec4(FragColor.rgb,1.0);
+		BloomColor = vec4(FragColor.rgb,1.0);
 	}else{
-		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
+		BloomColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}
 }
 
