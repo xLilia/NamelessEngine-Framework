@@ -30,13 +30,13 @@ layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
 
 layout (location = 0) out vec4 OUT_TangentFragPosColor;
-layout (location = 1) out vec4 OUT_TangentEyePosColor;
+layout (location = 1) out vec4 OUT_TangentEyePosColor_Alpha;
 layout (location = 2) out vec4 OUT_TMatR;
 layout (location = 3) out vec4 OUT_BMatM;
 layout (location = 4) out vec4 OUT_NMatAo;
-layout (location = 5) out vec4 OUT_NormalsColor;
-layout (location = 6) out vec4 OUT_DiffuseColor;
-layout (location = 7) out vec4 OUT_SpecularColor;
+layout (location = 5) out vec4 OUT_NormalsColor_ALr;
+layout (location = 6) out vec4 OUT_DiffuseColor_ALg;
+layout (location = 7) out vec4 OUT_SpecularColor_ALb;
 
 //======================= FUNCTIONS =========================
 
@@ -104,20 +104,18 @@ void main(){
 	vec2 EnvBRDF = texture(BRDF2DLUTTexture, vec2( roughnessMap, max( dot(N, V) , 0.0))).rg;
 	vec3 IBLspecular = preFiltredColor * (F * EnvBRDF.x * EnvBRDF.y);
 
-
-
 	//OUT FRAG!
 
 	OUT_TangentFragPosColor = vec4(vTangentFragPos,1.0);
-	OUT_TangentEyePosColor = vec4(V,1.0);
+	OUT_TangentEyePosColor_Alpha = vec4(V,albedoMap.a);
 
 	OUT_TMatR = vec4(TBN[0],roughnessMap);
 	OUT_BMatM = vec4(TBN[1],metalnessMap);
 	OUT_NMatAo = vec4(TBN[2],aoMap);
 	
-	OUT_NormalsColor = vec4(N,1.0);
-	OUT_DiffuseColor = vec4(diffuse,albedoMap.a);
-	OUT_SpecularColor = vec4(IBLspecular,1.0);
+	OUT_NormalsColor_ALr = vec4(N,albedoMap.r);
+	OUT_DiffuseColor_ALg = vec4(diffuse,albedoMap.g);
+	OUT_SpecularColor_ALb = vec4(IBLspecular,albedoMap.b);
 }
 
 //======================= END =========================

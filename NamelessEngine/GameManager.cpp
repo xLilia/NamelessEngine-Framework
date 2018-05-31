@@ -208,7 +208,6 @@ void _NL::Engine::GameManager::OpenGLStart()
 	//GL SETTINGS
 	{
 		///GL OPTIONS
-		
 		glShadeModel(GL_SMOOTH);
 		//glDepthMask(GL_TRUE);
 		//glDepthFunc(GL_LEQUAL);
@@ -219,8 +218,8 @@ void _NL::Engine::GameManager::OpenGLStart()
 		//glFrontFace(GL_CCW);
 		///RENDER
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glEnable(GL_BLEND);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }
 
@@ -462,8 +461,9 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 
 					ObjMR->UpdateGLSettings();
 					//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
-
+					glDisable(GL_BLEND);
 					glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), obj.size());
+					glEnable(GL_BLEND);
 					check_gl_error();
 
 					//---------------------------------------------------------------------------------

@@ -5,13 +5,13 @@
 #define NL_PI 3.14159265359
 
 layout (location = 0) uniform sampler2D IN_TangentFragPosColor;
-layout (location = 1) uniform sampler2D IN_TangentEyePosColor;
+layout (location = 1) uniform sampler2D IN_TangentEyePosColor_Alpha;
 layout (location = 2) uniform sampler2D IN_TMatR;
 layout (location = 3) uniform sampler2D IN_BMatM;
 layout (location = 4) uniform sampler2D IN_NMatAo;
-layout (location = 5) uniform sampler2D IN_NormalsColor;
-layout (location = 6) uniform sampler2D IN_DiffuseColor;
-layout (location = 7) uniform sampler2D IN_SpecularColor;
+layout (location = 5) uniform sampler2D IN_NormalsColor_ALr;
+layout (location = 6) uniform sampler2D IN_DiffuseColor_ALg;
+layout (location = 7) uniform sampler2D IN_SpecularColor_ALb;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -65,7 +65,7 @@ float NDF_GGXTR(vec3 N, vec3 H, float k, int mode = 0){
 ///Geometry function : GGX and Schlick-Beckmann approximation known as Schlick-GGX && Smith's method:
 // k - remapping of "a" based on whether we're using the geometry function for either direct lighting or IBL lighting
 // N - Normal vector
-// V - view direction vector (geometry obstruction) 
+// TangentEyePosColor - view direction vector (geometry obstruction) 
 // L - light direction vector (geometry shadowing)
 
 float K_Direct(float k){
@@ -91,8 +91,8 @@ float GeometrySchlick_GGX(float NdotV, float k, int mode = 0){
 	return nom / denom; 
 }
 
-float GeometrySmith(vec3 N, vec3 V, vec3 L, float k, int mode = 0){
-	float NdotV = max(dot(N, V), 0.0);
+float GeometrySmith(vec3 N, vec3 TangentEyePosColor, vec3 L, float k, int mode = 0){
+	float NdotV = max(dot(N, TangentEyePosColor), 0.0);
 	float NdotL = max(dot(N, L), 0.0);
 	float ggx1, ggx2;
 	
@@ -108,8 +108,8 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float k, int mode = 0){
 //F0_IOR - Index of refraction at 0 degrees
 //C - SurfaceColor
 //M - Metalness
-//float cosTheta = max(dot(N,V), 0.0);
-//float sinTheta = length(cross(N,V))/(length(N)*length(N));
+//float cosTheta = max(dot(N,TangentEyePosColor), 0.0);
+//float sinTheta = length(cross(N,TangentEyePosColor))/(length(N)*length(N));
 //vec3 F0 = mix(F0_IOR,C,M);
 
 vec3 FresnelSchlick(float cosTheta, vec3 F0){
@@ -125,27 +125,106 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0){
 
 void main(){
 	
-	vec3 TangentFragPosColor = texture2D(IN_TangentFragPosColor , tex_coord).rgb;
-	vec3 TangentEyePosColor  = texture2D(IN_TangentEyePosColor  , tex_coord).rgb;
-	vec4 TMatR				 = texture2D(IN_TMatR				  , tex_coord).rgba;
-	vec4 BMatM				 = texture2D(IN_BMatM				  , tex_coord).rgba;
-	vec4 NMatAo				 = texture2D(IN_NMatAo				  , tex_coord).rgba;
+	vec3 TangentFragPosColor = texture(IN_TangentFragPosColor		, tex_coord).rgb;
+	vec4 TangentEyePosColor  = texture(IN_TangentEyePosColor_Alpha	, tex_coord).rgba;
+	vec4 TMatR				 = texture(IN_TMatR						, tex_coord).rgba;
+	vec4 BMatM				 = texture(IN_BMatM						, tex_coord).rgba;
+	vec4 NMatAo				 = texture(IN_NMatAo					, tex_coord).rgba;
+	vec4 NormalsColor		 = texture(IN_NormalsColor_ALr			, tex_coord).rgba;
+	vec4 DiffuseColor		 = texture(IN_DiffuseColor_ALg			, tex_coord).rgba;
+	vec4 SpecularColor		 = texture(IN_SpecularColor_ALb			, tex_coord).rgba;
 	mat3 TBNmatrix = mat3(TMatR.xyz,BMatM.xyz,NMatAo.xyz);
-	vec3 NormalsColor		 = texture2D(IN_NormalsColor		  , tex_coord).rgb;
-	vec4 DiffuseColor		 = texture2D(IN_DiffuseColor		  , tex_coord).rgba;
-	vec3 SpecularColor		 = texture2D(IN_SpecularColor		  , tex_coord).rgb;
 	float RoughnessMap = TMatR.a;
 	float MetalnessMap = BMatM.a;
 	float AoMap = NMatAo.a;
+	float alpha = TangentEyePosColor.a;
+	vec3 AlbedoMap = vec3(NormalsColor.a,DiffuseColor.a,SpecularColor.a);
+	vec3 N = NormalsColor.rgb;
+	vec3 V = TangentEyePosColor.rgb;
 
 	///LIGHT CALCULATIONS
 
-	//...
+	//F0 Index of Refraction
+	vec3 F0_IOR  = vec3(0.04);
+	F0_IOR		 = mix(F0_IOR, AlbedoMap, MetalnessMap);
 
-	vec3 ambient = (DiffuseColor.rgb + SpecularColor) * AoMap;
+	//Reflectance Equation
+	vec3 Lo = vec3(0.0);
+
+	for(int i = 0; i < light.length(); i++){
+
+		vec3 TangentLightPos = TBNmatrix * light[i].lightPosition;
+		vec3 TangentLightDir = TBNmatrix * light[i].lightDirection;
+
+		//Light Radiance
+		float distance;
+		float attenuation;
+		vec3 radiance;
+
+		//Light direction Vector
+		vec3 L;
+
+		//Decide Light Type
+		if(light[i].lightSpotInnerAngle != 0 && length(light[i].lightDirection) > 0.0){
+			//SpotLight
+			L = normalize(TangentLightPos - TangentFragPosColor); 
+		
+			float theta = dot(L, normalize(-TangentLightDir));
+			float epsilon = light[i].lightSpotInnerAngle - light[i].lightSpotOuterAngle;
+			float intensity = clamp((theta - light[i].lightSpotOuterAngle) / epsilon, 0.0, 1.0); 
+
+			distance    = length(TangentLightPos - TangentFragPosColor);
+			attenuation = 1.0 / (distance * distance);
+			radiance     = light[i].lightColor * attenuation * intensity;
+
+		}else if(length(light[i].lightDirection) > 0.0 && light[i].lightSpotInnerAngle == 0.0){
+			//Directional Light
+			radiance = light[i].lightColor/10;
+			L = normalize(-TangentLightDir); 
+		}else{
+			//Point Light
+			distance    = length(TangentLightPos - TangentFragPosColor);
+			attenuation = 1.0 / (distance * distance);
+			radiance     = light[i].lightColor * attenuation;
+				
+			L = normalize(TangentLightPos - TangentFragPosColor); 
+		}
+
+		//Halfway direction Vector
+		vec3 H = normalize(V + L); 
+
+		// Cook-Torrance BRDF //
+		float NDF = NDF_GGXTR(N, H, RoughnessMap, 1); //Normal Distribution Function
+		float G	  = GeometrySmith(N, V, L, RoughnessMap,1); //0 DIRECT 1 IBL //Geometry Function
+		vec3 F	  = FresnelSchlick(max(dot(H, V), 0.0), F0_IOR); //Fresnel Function
+
+		//Solving Equation
+		vec3 numerator	  = NDF * G * F;
+		float denominator = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);
+		vec3 specular     = numerator / max(denominator, 0.001);  
+
+		//Specular & Difuse Components
+		// kS is equal to Fresnel
+		vec3 kS = F;
+		// for energy conservation, the diffuse and specular light can't
+        // be above 1.0 (unless the surface emits light); to preserve this
+        // relationship the diffuse component (kD) should equal 1.0 - kS.
+		vec3 kD = vec3(1.0) - kS;
+		// multiply kD by the inverse metalness such that only non-metals 
+        // have diffuse lighting, or a linear blend if partly metal (pure metals
+        // have no diffuse light).
+		kD *= 1.0 - MetalnessMap;
+
+		float NdotL = max(dot(N, L), 0.0);
+
+		// add to outgoing radiance to Lo          
+		Lo += (kD * AlbedoMap  / NL_PI + specular) * radiance * NdotL; 
+	}
+
+	vec3 ambient = (DiffuseColor.rgb + SpecularColor.rgb) * AoMap;
 	
 	//Final Color with ambient
-	vec3 color = ambient ;//+ Lo;
+	vec3 color = ambient + Lo;
 
 	// HDR tonemapping
     color = color / (color + vec3(1.0));
@@ -160,6 +239,6 @@ void main(){
 	// gamma correction 
     mapped = pow(mapped, vec3(1.0 / gamma));
 
-	fragColor = vec4(color,DiffuseColor.a);
+	fragColor = vec4(color,1.0);
 	
 }

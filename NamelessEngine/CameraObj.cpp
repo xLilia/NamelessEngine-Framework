@@ -392,7 +392,7 @@ void _NL::Object::CameraObj::ClearCurrentBuffer()
 {	
 	glEnable(GL_SCISSOR_TEST);
 	glClearColor(ClearScreenColor.x, ClearScreenColor.y, ClearScreenColor.z, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glDisable(GL_SCISSOR_TEST);
 }
 
@@ -479,6 +479,7 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 
 	glEnable(GL_DEPTH_TEST);
 	
+
 	check_gl_error();
 }
 

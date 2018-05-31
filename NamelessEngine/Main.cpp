@@ -42,9 +42,9 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("myTexs/1st_day.gif", 1024 * 3);
-	//sky1->createSkybox("myTexs/BLACK.png", 1024 * 2);
-	scene1->Skybox = sky1;
+	//sky1->createEnvironment("mytexs/japanhdri (7).jpg", 1024 * 3);
+	//sky1->createSkybox("hdr1/japanhdri (7).jpg", 1024 * 3);
+	//scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
 	//	"sky2/ft.tga", 
@@ -78,7 +78,7 @@ int main() {
 	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
 	MyCam->PostProcessingShader = screenshader;
 	MyCam->PingPongShader = GaussianBlur;
-	MyCam->ClearScreenColor = glm::vec3(1, 0, 0);
+	MyCam->ClearScreenColor = glm::vec3(0, 0, 0);
 
 	
 	//===========================================================================================
@@ -242,19 +242,28 @@ int main() {
 	//===========================================================================================
 
 	_NL::Object::LightObject* Light1 = new _NL::Object::LightObject("Light1");
-	Light1->addComponent(new _NL::Component::CppScript<TestScript>);
-	Light1->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = Light1;
-	Light1->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
-	Light1->addComponent(new _NL::Component::MeshRenderer);
-	Light1->addComponent(new _NL::Component::Transform);
-	Light1->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	Light1->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
-	Light1->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	
-	Light1->getComponent<_NL::Component::Transform>()->
-		transform.position = glm::vec3(0, 10, 0);
+	Light1->LightProperties.setDirectionalLightProperties(glm::vec3(10, 10, 10), glm::vec3(0, 10, 0),glm::vec3(0,-1,0));
+	scene1->addObjectToWorld(Light1);
 
-	Light1->LightProperties.setPointLightProperties(glm::vec3(100, 100, 50), glm::vec3(0, 10, 0));
+	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
+	Light2->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 100), glm::vec3(10, 10, 0), glm::vec3(0, -1, 0), 12, 45);
+	scene1->addObjectToWorld(Light2);
+
+	_NL::Object::LightObject* Light3 = new _NL::Object::LightObject("Light2");
+	Light3->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 100), glm::vec3(30, 10, 0), glm::vec3(0, -1, 0), 12, 45);
+	scene1->addObjectToWorld(Light3);
+
+	_NL::Object::LightObject* Light4 = new _NL::Object::LightObject("Light2");
+	Light4->LightProperties.setSpotLightProperties(glm::vec3(50, 1000, 100), glm::vec3(10, 10, 40), glm::vec3(0, -1, 0), 12, 45);
+	scene1->addObjectToWorld(Light4);
+
+	_NL::Object::LightObject* Light5 = new _NL::Object::LightObject("Light2");
+	Light5->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 1000), glm::vec3(60, 10, 20), glm::vec3(0, -1, 0), 12, 45);
+	scene1->addObjectToWorld(Light5);
+
+	_NL::Object::LightObject* Light6 = new _NL::Object::LightObject("Light2");
+	Light6->LightProperties.setPointLightProperties(glm::vec3(500, 100, 100), glm::vec3(10, 10, 70));
+	scene1->addObjectToWorld(Light6);
 
 	//===========================================================================================
 	//PARTICLE SYSTEMS
@@ -317,9 +326,7 @@ int main() {
 	
 	scene1->addObjectToWorld(MyCam);
 	//scene1->addObjectToWorld(MyCam2);
-	
-	scene1->addObjectToWorld(Light1);
-	//scene1->addObjectToWorld(Light2);
+
 	
 	//scene1->showObjectList();
 	winMan.RunScene(scene1);
