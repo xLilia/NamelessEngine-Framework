@@ -67,7 +67,7 @@ void main()
 
 	mat3 TBN = transpose(mat3(T, B, N)); 
 
-	//Cnvert To Tangent Space
+	//Convert To Tangent Space
 
 		//Lights Position in Tangent Space
 		for(int i = 0; i < light.length(); i++)

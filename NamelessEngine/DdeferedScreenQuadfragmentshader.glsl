@@ -4,10 +4,14 @@
 
 #define NL_PI 3.14159265359
 
-layout (location = 0) uniform sampler2D PositionColor;
-layout (location = 1) uniform sampler2D NormalsColor;
-layout (location = 2) uniform sampler2D DiffuseColor;
-layout (location = 3) uniform sampler2D RoughMetalColor;
+layout (location = 0) uniform sampler2D IN_TangentFragPosColor;
+layout (location = 1) uniform sampler2D IN_TangentEyePosColor;
+layout (location = 2) uniform sampler2D IN_TMatR;
+layout (location = 3) uniform sampler2D IN_BMatM;
+layout (location = 4) uniform sampler2D IN_NMatAo;
+layout (location = 5) uniform sampler2D IN_NormalsColor;
+layout (location = 6) uniform sampler2D IN_DiffuseColor;
+layout (location = 7) uniform sampler2D IN_SpecularColor;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -121,36 +125,34 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0){
 
 void main(){
 	
-	vec3 PosMap = texture2D(PositionColor, tex_coord).rgb;
-	vec3 NormMap = texture2D(NormalsColor, tex_coord).rgb;
-	vec4 DiffMap = texture2D(DiffuseColor, tex_coord).rgba;
-	vec2 RoughMetalMap = texture2D(RoughMetalColor, tex_coord).rg;
-	float roughnessMap = RoughMetalMap.x;
-	float metalnessMap = RoughMetalMap.y;
+	vec3 TangentFragPosColor = texture2D(IN_TangentFragPosColor , tex_coord).rgb;
+	vec3 TangentEyePosColor  = texture2D(IN_TangentEyePosColor  , tex_coord).rgb;
+	vec4 TMatR				 = texture2D(IN_TMatR				  , tex_coord).rgba;
+	vec4 BMatM				 = texture2D(IN_BMatM				  , tex_coord).rgba;
+	vec4 NMatAo				 = texture2D(IN_NMatAo				  , tex_coord).rgba;
+	mat3 TBNmatrix = mat3(TMatR.xyz,BMatM.xyz,NMatAo.xyz);
+	vec3 NormalsColor		 = texture2D(IN_NormalsColor		  , tex_coord).rgb;
+	vec4 DiffuseColor		 = texture2D(IN_DiffuseColor		  , tex_coord).rgba;
+	vec3 SpecularColor		 = texture2D(IN_SpecularColor		  , tex_coord).rgb;
+	float RoughnessMap = TMatR.a;
+	float MetalnessMap = BMatM.a;
+	float AoMap = NMatAo.a;
 
+	///LIGHT CALCULATIONS
 
-	vec3 Lo = vec3(0.0);
+	//...
 
-	for(int i = 0; i < light.length(); i++){
-
-		if(length(light[i].lightPosition - PosMap) < 10){
-			Lo = vec3(0,10.0,0);
-		}else{
-			Lo = vec3(10.0,0,0);
-		}
-		
-	}
-
-
-	//Final Color with ambient
-	vec3 color = DiffMap.rgb ;//* Lo;
+	vec3 ambient = (DiffuseColor.rgb + SpecularColor) * AoMap;
 	
+	//Final Color with ambient
+	vec3 color = ambient ;//+ Lo;
+
 	// HDR tonemapping
     color = color / (color + vec3(1.0));
     // gamma correct
     color = pow(color, vec3(1.0/2.2));
-	
-	///HDRcolor
+
+	//HDRcolor
 	
 	// Exposure tone mapping
     vec3 mapped = vec3(1.0) - exp(-color * exposure);
@@ -158,6 +160,6 @@ void main(){
 	// gamma correction 
     mapped = pow(mapped, vec3(1.0 / gamma));
 
-	fragColor = vec4(PosMap,DiffMap.a);
+	fragColor = vec4(color,DiffuseColor.a);
 	
 }

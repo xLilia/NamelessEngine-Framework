@@ -95,6 +95,10 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		nRenderTextures = 1;
 	}
 
+	if (nRenderTextures > 8) {
+		nRenderTextures = 8;
+	}
+
 	if (HasPingPongShader && nRenderTextures < 2) {
 		nRenderTextures = 2;
 	}
@@ -225,6 +229,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 				GL_TEXTURE_2D_MULTISAMPLE,
 				ColorTextures[i],
 				0);
+			check_gl_error();
 		}
 		glFramebufferTexture2D(
 			GL_FRAMEBUFFER,
@@ -313,6 +318,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 			GL_TEXTURE_2D,
 			FinalQuad_ColorTextures[i],
 			0);
+		check_gl_error();
 	}
 	glFramebufferTexture2D(
 		GL_FRAMEBUFFER,
