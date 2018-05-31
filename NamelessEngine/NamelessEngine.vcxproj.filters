@@ -313,5 +313,17 @@
     <None Include="DepthPassFragshader.glsl">
       <Filter>Source Files\Shaders\Fragment</Filter>
     </None>
+    <None Include="Ddeferedvertexshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="Ddeferedfragmentshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
+    <None Include="DdeferedScreenQuadvertexshader.glsl">
+      <Filter>Source Files\Shaders\Vertex</Filter>
+    </None>
+    <None Include="DdeferedScreenQuadfragmentshader.glsl">
+      <Filter>Source Files\Shaders\Fragment</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -63,17 +63,29 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//CLEAN & UPDATE
 	//---------------------------------------------------------------------------------
 	GLboolean success = true;
-	glDeleteTextures(1, &FinalQuad_ColorTexture);
-	glDeleteTextures(1, &FinalQuad_DepthTexture);
-	glDeleteFramebuffers(1, &FinalQuadFrameBuffer);
+	
+	//G framebuffer
+
+	glDeleteFramebuffers(1, &G_FrameBuffer);
 	
 	if(ColorTextures.size()>0)
 		glDeleteTextures(ColorTextures.size(), &ColorTextures[0]);
 	ColorTextures.clear();
-	
+
 	glDeleteTextures(1, &DepthTexture);
-	glDeleteFramebuffers(1, &SceneRenderFrameBuffer);
+
+	//FinalQuad framebuffer
+
+	glDeleteFramebuffers(1, &FinalQuad_FrameBuffer);
+
+	if (FinalQuad_ColorTextures.size()>0)
+		glDeleteTextures(FinalQuad_ColorTextures.size(), &FinalQuad_ColorTextures[0]);
+	ColorTextures.clear();
 	
+	glDeleteTextures(1, &FinalQuad_DepthTexture);
+	
+	//pingpong
+
 	glDeleteTextures(2, &pingPongTexture[0]);
 	glDeleteFramebuffers(2, &pingPongFBO[0]);
 
@@ -142,8 +154,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		//Render_FrameBuffers
 		//---------------------------------------------------------------------------------
 
-		glCreateFramebuffers(1, &SceneRenderFrameBuffer);
-		glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
+		glCreateFramebuffers(1, &G_FrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
 		for (GLuint i = 0; i < nRenderTextures; i++) {
 			glFramebufferTexture2D(
 				GL_FRAMEBUFFER,
@@ -204,8 +216,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		//MULTISAMPLE_Render_FrameBuffer
 		//---------------------------------------------------------------------------------
 
-		glCreateFramebuffers(1, &SceneRenderFrameBuffer);
-		glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
+		glCreateFramebuffers(1, &G_FrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
 		for (GLuint i = 0; i < nRenderTextures; i++) {
 			glFramebufferTexture2D(
 				GL_FRAMEBUFFER,
@@ -226,18 +238,6 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//---------------------------------------------------------------------------------
 	//RENDER BUFFER & RENDER_ATACHMENTS
 	//---------------------------------------------------------------------------------
-	
-	//glGenRenderbuffers(1, &rboDepth);
-	//glBindRenderbuffer(GL_RENDERBUFFER, rboDepth);
-	//glRenderbufferStorage(
-	//	GL_RENDERBUFFER,
-	//	GL_DEPTH_COMPONENT,
-	//	RenderWindowSize.x * RenderScaleRatio,
-	//	RenderWindowSize.y * RenderScaleRatio
-	//);
-	//glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
-	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rboDepth);
-	//glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
 	GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
@@ -253,25 +253,28 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//FinalQuad_ColorTexture
 	//---------------------------------------------------------------------------------
 
-	glCreateTextures(GL_TEXTURE_2D, 1, &FinalQuad_ColorTexture);
-	glBindTexture(GL_TEXTURE_2D, FinalQuad_ColorTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		GL_RGBA16F, //high dynamic range (HDR) 
-		RenderWindowSize.x * RenderScaleRatio,
-		RenderWindowSize.y * RenderScaleRatio,
-		0,
-		GL_RGBA,
-		GL_FLOAT,
-		NULL);
-	glBindTexture(GL_TEXTURE_2D, 0);
-	check_gl_error();
-
+	for (GLuint i = 0; i < nRenderTextures; i++) {
+		GLuint ColorTexture;
+		glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
+		glBindTexture(GL_TEXTURE_2D, ColorTexture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA16F, //high dynamic range (HDR) 
+			RenderWindowSize.x * RenderScaleRatio,
+			RenderWindowSize.y * RenderScaleRatio,
+			0,
+			GL_RGBA,
+			GL_FLOAT,
+			NULL);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		check_gl_error();
+		FinalQuad_ColorTextures.push_back(ColorTexture);
+	}
 
 	//---------------------------------------------------------------------------------
 	//FinalQuad_DepthTexture
@@ -298,17 +301,19 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 
 
 	//---------------------------------------------------------------------------------
-	//PostProcessing_FrameBuffer
+	//FinalProcessing_FrameBuffer
 	//---------------------------------------------------------------------------------
 
-	glCreateFramebuffers(1, &FinalQuadFrameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, FinalQuadFrameBuffer);
-	glFramebufferTexture2D(
-		GL_FRAMEBUFFER,
-		GL_COLOR_ATTACHMENT0,
-		GL_TEXTURE_2D,
-		FinalQuad_ColorTexture,
-		0);
+	glCreateFramebuffers(1, &FinalQuad_FrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, FinalQuad_FrameBuffer);
+	for (GLuint i = 0; i < nRenderTextures; i++) {
+		glFramebufferTexture2D(
+			GL_FRAMEBUFFER,
+			GL_COLOR_ATTACHMENT0+i,
+			GL_TEXTURE_2D,
+			FinalQuad_ColorTextures[i],
+			0);
+	}
 	glFramebufferTexture2D(
 		GL_FRAMEBUFFER,
 		GL_DEPTH_ATTACHMENT,
@@ -387,13 +392,14 @@ void _NL::Object::CameraObj::ClearCurrentBuffer()
 
 void _NL::Object::CameraObj::PrepareToRenderScene()
 {	
-	glBindFramebuffer(GL_FRAMEBUFFER, SceneRenderFrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
 	if (ColorTextures.size() > 0) {
 		GLenum* atachments = new GLenum[ColorTextures.size()];
 		for (GLuint i = 0; i < nRenderTextures; i++) {
 			atachments[i] = GL_COLOR_ATTACHMENT0 + i;
 		}
 		glDrawBuffers(nRenderTextures, atachments);
+		delete[] atachments;
 	}
 	glViewport(
 		0,
@@ -401,7 +407,6 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 		RenderWindowSize.x * RenderScaleRatio,
 		RenderWindowSize.y * RenderScaleRatio
 	);
-	//glOrtho(-RenderWindowSize.x / 2, RenderWindowSize.x / 2, -RenderWindowSize.y / 2, RenderWindowSize.y / 2, NearPlane, FarPlane);
 	glScissor(
 		0,
 		0,
@@ -413,29 +418,30 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 	//Ready for render...
 }
 
-void _NL::Object::CameraObj::DisplayOnScreen(GLuint* aditionalTextures)
+void _NL::Object::CameraObj::DisplayOnScreen()
 {
-
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, SceneRenderFrameBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FinalQuadFrameBuffer);
-	glReadBuffer(GL_COLOR_ATTACHMENT0);
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
-
-	check_gl_error();
-
-	glBlitFramebuffer(
-		0,
-		0,
-		RenderWindowSize.x * RenderScaleRatio,
-		RenderWindowSize.y * RenderScaleRatio,
-		0,
-		0,
-		RenderWindowSize.x * RenderScaleRatio,
-		RenderWindowSize.y * RenderScaleRatio,
-		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
-		GL_NEAREST
-	);
-
+	for (GLint nRt = 0; nRt < nRenderTextures; nRt++) {
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FinalQuad_FrameBuffer);
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + nRt);
+		glDrawBuffer(GL_COLOR_ATTACHMENT0 + nRt);
+		
+		check_gl_error();
+		
+		glBlitFramebuffer(
+			0,
+			0,
+			RenderWindowSize.x * RenderScaleRatio,
+			RenderWindowSize.y * RenderScaleRatio,
+			0,
+			0,
+			RenderWindowSize.x * RenderScaleRatio,
+			RenderWindowSize.y * RenderScaleRatio,
+			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
+			GL_NEAREST
+		);
+	}
+	
 	check_gl_error();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -447,20 +453,13 @@ void _NL::Object::CameraObj::DisplayOnScreen(GLuint* aditionalTextures)
 	PostProcessingShader->Use();
 
 	GLuint texLocation = 0;
-	glUniform1i(texLocation, 0);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, FinalQuad_ColorTexture);
-
-	check_gl_error();
-	texLocation++;
-	if (aditionalTextures != NULL) {
-		for (int i = 0; i < sizeof(aditionalTextures) / sizeof(GLuint); i++) {
-			glUniform1i(texLocation + i, texLocation + i);
-			glActiveTexture(GL_TEXTURE1 + i);
-			glBindTexture(GL_TEXTURE_2D, aditionalTextures[i]);
-		}
+	for (int i = 0; i < nRenderTextures; i++) {
+		glUniform1i(texLocation + i, texLocation + i);
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, FinalQuad_ColorTextures[i]);
 	}
+
 	check_gl_error();
 
 	_NL::Core::RenderQuad(
@@ -488,7 +487,7 @@ GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
 	bool bPingPong = true, first_iteration = true;
 
 	if (first_iteration) {
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, SceneRenderFrameBuffer);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, pingPongFBO[0]);
 		glReadBuffer(GL_COLOR_ATTACHMENT1);
 		glDrawBuffer(GL_COLOR_ATTACHMENT0);

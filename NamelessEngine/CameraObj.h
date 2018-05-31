@@ -19,7 +19,7 @@ namespace _NL {
 				GLfloat RenderScaleRatio = 1,
 				GLuint nMultisamples = 4,
 				GLuint nRenderTextures = 2,
-				bool HasPingPongShader = true,
+				bool HasPingPongShader = false,
 				GLuint PingPongIterations = 10);
 
 			//---------------------------------------------------------------------------------
@@ -37,16 +37,15 @@ namespace _NL {
 			//FRAMEBUFFERS & RENDER
 			//---------------------------------------------------------------------------------
 			
-			GLuint FinalQuadFrameBuffer;
-			GLuint SceneRenderFrameBuffer;
+			GLuint FinalQuad_FrameBuffer;
+			GLuint G_FrameBuffer;
 			
-			GLuint FinalQuad_ColorTexture;
-			GLuint FinalQuad_DepthTexture;
-
 			GLuint pingPongFBO[2];
 			GLuint pingPongTexture[2];
 
 			std::vector<GLuint> ColorTextures;
+			std::vector<GLuint> FinalQuad_ColorTextures;
+			GLuint FinalQuad_DepthTexture;
 			GLuint DepthTexture;
 			
 			glm::vec3 ClearScreenColor = glm::vec3(0,0,0);
@@ -61,7 +60,7 @@ namespace _NL {
 			void ClearCurrentBuffer();
 			void GenerateFrameBuffers();
 			void PrepareToRenderScene();
-			void DisplayOnScreen(GLuint* aditionalTextures = NULL);
+			void DisplayOnScreen();
 
 			GLuint GeneratePingPongTexture();
 

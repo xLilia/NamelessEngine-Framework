@@ -380,7 +380,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				//---------------------------------------------------------------------------------
 				//LIGHT UNIFORMS
 				//glUniform1i(_NL::Core::GLSL_AU::NumberOfLights_uniform, LightsProperties.size());
-				check_gl_error();
+				//check_gl_error();
 
 				//---------------------------------------------------------------------------------
 				//BIND INSTANCE ARRAY
@@ -517,7 +517,7 @@ void _NL::Engine::GameManager::RenderScreenQuad(_NL::Object::CameraObj* Cam) {
 	check_gl_error();
 	if (Cam->HasPingPongShader && Cam->PingPongShader != NULL) {
 		GLuint ppt = Cam->GeneratePingPongTexture();
-		Cam->DisplayOnScreen(&ppt);
+		Cam->DisplayOnScreen();
 	}
 	else {
 		Cam->DisplayOnScreen();

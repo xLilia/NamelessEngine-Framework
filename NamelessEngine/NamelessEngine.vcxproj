@@ -217,6 +217,10 @@
     <ClInclude Include="XMLfileReader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Ddeferedfragmentshader.glsl" />
+    <None Include="DdeferedScreenQuadfragmentshader.glsl" />
+    <None Include="DdeferedScreenQuadvertexshader.glsl" />
+    <None Include="Ddeferedvertexshader.glsl" />
     <None Include="DepthPassFragshader.glsl" />
     <None Include="DepthPassVertshader.glsl" />
     <None Include="simpleFrag.glsl" />

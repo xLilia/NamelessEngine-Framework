@@ -30,7 +30,7 @@ namespace _NL {
 
 			//GLSETTINGS
 			GLenum GL_RenderMode = GL_TRIANGLES;
-			bool GL_CullFace = false;
+			bool GL_CullFace = true;
 			GLenum GL_CullFaceMode = GL_BACK;
 			GLenum GL_CullFaceOrientation = GL_CCW;
 

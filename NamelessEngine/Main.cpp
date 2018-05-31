@@ -42,8 +42,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("myTexs/A.png", 1024 * 2);
-	//sky1->createSkybox("hdr1/japanhdri (4).jpg", 1024 * 2);
+	sky1->createEnvironment("myTexs/BLACKSUN.png", 1024 * 3);
+	//sky1->createSkybox("myTexs/BLACK.png", 1024 * 2);
 	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
@@ -68,10 +68,9 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 16, 2, true, 21);
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 500, 1, 0, 1, false);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 4, 4);
 
-	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("screenQuadVshader.glsl", "screenQuadFshader.glsl");
+	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("DdeferedScreenQuadvertexshader.glsl", "DdeferedScreenQuadfragmentshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
 
 	MyCam->addComponent(new _NL::Component::CppScript<CamController>);
@@ -80,13 +79,6 @@ int main() {
 	MyCam->PostProcessingShader = screenshader;
 	MyCam->PingPongShader = GaussianBlur;
 	MyCam->ClearScreenColor = glm::vec3(1, 0, 0);
-
-	MyCam2->addComponent(new _NL::Component::CppScript<CamController>);
-	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam2;
-	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
-	MyCam2->PostProcessingShader = screenshader;
-	MyCam2->PingPongShader = GaussianBlur;
-	MyCam2->ClearScreenColor = glm::vec3(0, 1, 0);
 
 	
 	//===========================================================================================
@@ -132,7 +124,7 @@ int main() {
 	//===========================================================================================
 	//MATERIAL SHADERS
 	//===========================================================================================
-	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "defaultfragmentshader.glsl");
+	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("Ddeferedvertexshader.glsl", "Ddeferedfragmentshader.glsl");
 	_NL::Element::ShaderInstance* simpleshade = new _NL::Element::ShaderInstance("defaultvertexshader.glsl", "simpleFrag.glsl");
 	
 	//===========================================================================================
@@ -173,8 +165,8 @@ int main() {
 	HouseCollada->addComponent(new _NL::Component::Transform);
 	HouseCollada->addComponent(new _NL::Component::MeshRenderer);
 	HouseCollada->addComponent(new _NL::Component::CppScript<TestScript>);
-	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/colladaScene.obj");
-	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/PBRGUNv.obj");
+	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	HouseCollada->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = HouseCollada;
 	HouseCollada->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
@@ -307,7 +299,7 @@ int main() {
 	//===========================================================================================
 	
 	scene1->addObjectToWorld(Quad);
-	//scene1->addObjectToWorld(HouseCollada);
+	scene1->addObjectToWorld(HouseCollada);
 	//scene1->addObjectToWorld(PBRGun);
 	//scene1->addObjectToWorld(Cube);
 	//scene1->addObjectToWorld(Cube2);
