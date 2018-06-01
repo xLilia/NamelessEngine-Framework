@@ -17,10 +17,9 @@ namespace _NL {
 				GLfloat NearPlane = 0.1f,
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1,
-				GLuint nMultisamples = 4,
-				GLuint nRenderTextures = 2,
-				bool HasPingPongShader = false,
-				GLuint PingPongIterations = 10);
+				GLuint nRenderTextures = 8,
+				GLuint nMultisamples = 0
+			);
 
 			//---------------------------------------------------------------------------------
 			//AUDIO
@@ -40,13 +39,17 @@ namespace _NL {
 			GLuint FinalQuad_FrameBuffer;
 			GLuint G_FrameBuffer;
 			
-			GLuint pingPongFBO[2];
-			GLuint pingPongTexture[2];
+			
+			//GLuint pingPongFBO[2];
+			//GLuint pingPongTexture[2];
 
 			std::vector<GLuint> ColorTextures;
 			std::vector<GLuint> FinalQuad_ColorTextures;
-			GLuint FinalQuad_DepthTexture;
-			GLuint DepthTexture;
+			//GLuint FinalQuad_DepthTexture;
+			//GLuint DepthTexture;
+
+			GLuint DepthStencilTexture;
+			GLuint StencilViewTexture;
 			
 			glm::vec3 ClearScreenColor = glm::vec3(0,0,0);
 
@@ -54,15 +57,15 @@ namespace _NL {
 			glm::mat4 getViewMatrix() const;
 			glm::mat4 getProjectionMatrix() const;
 
-			_NL::Element::ShaderInstance* PostProcessingShader;
-			_NL::Element::ShaderInstance* PingPongShader;
+			_NL::Element::ShaderInstance* FinalPassShader;
+			//_NL::Element::ShaderInstance* PingPongShader;
 			
 			void ClearCurrentBuffer();
 			void GenerateFrameBuffers();
 			void PrepareToRenderScene();
 			void DisplayOnScreen();
 
-			GLuint GeneratePingPongTexture();
+			//GLuint GeneratePingPongTexture();
 
 			//---------------------------------------------------------------------------------
 			//VARIABLES & UPDATES
@@ -84,12 +87,11 @@ namespace _NL {
 			GLfloat RenderScaleRatio;
 			GLuint nMultisamples;
 			GLuint nRenderTextures;
-			bool HasPingPongShader;
-			GLuint PingPongIterations;
+			//bool HasPingPongShader;
+			//GLuint PingPongIterations;
 			
 			char* ClassName() const override;
-					
-			
+
 		};
 	}
 }

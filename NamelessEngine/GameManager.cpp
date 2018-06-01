@@ -209,23 +209,16 @@ void _NL::Engine::GameManager::OpenGLStart()
 	{
 		///GL OPTIONS
 		glShadeModel(GL_SMOOTH);
-		//glDepthMask(GL_TRUE);
-		//glDepthFunc(GL_LEQUAL);
-		//glDepthRange(0.0f, 1.0f);
-		///FACE CULLIG
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
-		//glFrontFace(GL_CCW);
 		///RENDER
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-		//glEnable(GL_BLEND);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 }
 
 void _NL::Engine::GameManager::RenderCurrentScene() {
 	int camID = 0;
 	camID++;
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	//---------------------------------------------------------------------------------
 	//Update Lights
 	UpdateSceneLights();
@@ -233,22 +226,64 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 	{	
 		//---------------------------------------------------------------------------------
 		//UPDATE CAM
- 		Cam->PrepareToRenderScene();
 
-		//---------------------------------------------------------------------------------
-		//SKYBOX RENDERING
-		RenderSceneSkybox(Cam->getViewMatrix(), Cam->getProjectionMatrix());
+		Cam->PrepareToRenderScene();
+		Cam->ClearCurrentBuffer();
 
-		//---------------------------------------------------------------------------------
-		//SCENE RENDERING
+		glEnable(GL_DEPTH_TEST);
+
 		RenderSceneObjects(Cam->TransformCam.Position, Cam->getWorldToViewMatrix(), Cam->getProjectionMatrix());
 
+		glDisable(GL_DEPTH_TEST);
+
+		Cam->DisplayOnScreen();
+
+		/*
 		//---------------------------------------------------------------------------------
-		//RENDER TO SCREEN;
-		RenderScreenQuad(Cam);
+		//SKYBOX STENCIL
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glEnable(GL_STENCIL_TEST);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+		Cam->ClearCurrentBuffer();
+
+		glDisable(GL_DEPTH_TEST);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+		RenderSceneObjects(Cam->TransformCam.Position, Cam->getWorldToViewMatrix(), Cam->getProjectionMatrix(), DepthStencilPassShader->getShaderProgram());
+
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(0x00);
+		RenderSceneSkybox(Cam->getViewMatrix(), Cam->getProjectionMatrix());
+
+		glEnable(GL_DEPTH_TEST);
+
+		
+
+		//---------------------------------------------------------------------------------
+		//OBJ STENCIL
+		glEnable(GL_DEPTH_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+		//check_gl_error();
+
+		//---------------------------------------------------------------------------------
+		//SCREEN QUAD STENCIL
+		Cam->DisplayOnScreen();
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF);
+
+		//RenderScreenQuad(Cam);
+
+		glDisable(GL_STENCIL_TEST);
+
+		check_gl_error();
+		//---------------------------------------------------------------------------------
+		*/
 	}
 
-	RenderSceneCanvas();
+	//RenderSceneCanvas();
 	window->display();
 
 }
@@ -296,18 +331,17 @@ void _NL::Engine::GameManager::UpdateParticleSystems() {
 
 void _NL::Engine::GameManager::RenderSceneSkybox(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix) {
 	if (CurrentScene->Skybox != 0) {
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CCW);
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
+		//glFrontFace(GL_CCW);
 		CurrentScene->Skybox->SkyboxDysplayShader->Use();
 		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
 		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ViewMatrix));
 		CurrentScene->Skybox->RenderSkybox();
-		check_gl_error();
 	}
 }
 
-void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseOverrideShaderProgram) {
+void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseOverrideShaderProgram) {	
 	check_gl_error();
 	for(int objN = 0; objN < CurrentScene->ObjectList.size(); objN++)
 	//for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
@@ -320,12 +354,10 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 			if (ObjMR != NULL) {
 				if (UseOverrideShaderProgram == NULL) {
 					ObjMR->Shader->Use();
-					//glShaderStorageBlockBinding(ObjMR->Shader->getShaderProgram(), LightsSSBOBindingPoint, LightsSSBO);
 					check_gl_error();
 				}
 				else {
 					glUseProgram(UseOverrideShaderProgram);
-					//glShaderStorageBlockBinding(UseOverrideShaderProgram, LightsSSBOBindingPoint, LightsSSBO);
 					check_gl_error();
 				}
 				
@@ -464,6 +496,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 					glDisable(GL_BLEND);
 					glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), obj.size());
 					glEnable(GL_BLEND);
+
 					check_gl_error();
 
 					//---------------------------------------------------------------------------------
@@ -515,14 +548,14 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 
 void _NL::Engine::GameManager::RenderScreenQuad(_NL::Object::CameraObj* Cam) {
 	check_gl_error();
-	if (Cam->HasPingPongShader && Cam->PingPongShader != NULL) {
-		GLuint ppt = Cam->GeneratePingPongTexture();
-		Cam->DisplayOnScreen();
-	}
-	else {
-		Cam->DisplayOnScreen();
-	}
-
+	//if (Cam->HasPingPongShader && Cam->PingPongShader != NULL) {
+	//	GLuint ppt = Cam->GeneratePingPongTexture();
+	//	Cam->DisplayOnScreen();
+	//}
+	//else {
+	//	Cam->DisplayOnScreen();
+	//}
+	Cam->DisplayOnScreen();
 }
 
 void _NL::Engine::GameManager::RenderSceneCanvas() {

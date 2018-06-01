@@ -13,10 +13,10 @@ int main() {
 	//START!
 	//===========================================================================================
 	
-	_NL::Engine::GameManager winMan("w1", 1024, 960, true, true, 120);
-
-	//_NL::Element::ShaderInstance* DEPTHshader = new _NL::Element::ShaderInstance("DepthPassVertshader.glsl", "DepthPassFragshader.glsl");
-	//winMan.DepthPassShader = DEPTHshader;
+	_NL::Engine::GameManager winMan("w1", 1920, 1080, true, false, 0);
+	
+	_NL::Element::ShaderInstance* DepthStencilPass = new _NL::Element::ShaderInstance("DepthPassVertshader.glsl", "DepthPassFragshader.glsl");
+	winMan.DepthStencilPassShader = DepthStencilPass;
 
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
@@ -42,9 +42,9 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	//sky1->createEnvironment("mytexs/japanhdri (7).jpg", 1024 * 3);
-	//sky1->createSkybox("hdr1/japanhdri (7).jpg", 1024 * 3);
-	//scene1->Skybox = sky1;
+	//sky1->createEnvironment("mytexs/BLACKSUN.png", 1024 * 2);
+	sky1->createSkybox("mytexs/BLACKSUN.png", 1024 * 2);
+	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
 	//	"sky2/ft.tga", 
@@ -68,7 +68,9 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1, 4, 8);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 1.0);
+
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 5000, 1, 0, 8);
 
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("DdeferedScreenQuadvertexshader.glsl", "DdeferedScreenQuadfragmentshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
@@ -76,11 +78,17 @@ int main() {
 	MyCam->addComponent(new _NL::Component::CppScript<CamController>);
 	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam;
 	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
-	MyCam->PostProcessingShader = screenshader;
-	MyCam->PingPongShader = GaussianBlur;
-	MyCam->ClearScreenColor = glm::vec3(0, 0, 0);
+	MyCam->FinalPassShader = screenshader;
+	MyCam->ClearScreenColor = glm::vec3(1, 0, 1);
+	scene1->addObjectToWorld(MyCam);
 
-	
+	MyCam2->addComponent(new _NL::Component::CppScript<CamController>);
+	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam2;
+	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
+	MyCam2->FinalPassShader = screenshader;
+	MyCam2->ClearScreenColor = glm::vec3(0, 0, 0);
+	//scene1->addObjectToWorld(MyCam2);
+
 	//===========================================================================================
 	//CANVAS
 	//===========================================================================================
@@ -116,8 +124,8 @@ int main() {
 	ut1->AnchorPosition = glm::vec2(100, 100);
 	ut1->Layer = 10;
 
-	Canvas1->addUIElement(ut1);
-	//Canvas1->addUIElement(ui1);
+	//Canvas1->addUIElement(ut1);
+	Canvas1->addUIElement(ui1);
 	//Canvas1->addUIElement(ui2);
 	//Canvas1->addUIElement(ui3);
 
@@ -242,7 +250,7 @@ int main() {
 	//===========================================================================================
 
 	_NL::Object::LightObject* Light1 = new _NL::Object::LightObject("Light1");
-	Light1->LightProperties.setDirectionalLightProperties(glm::vec3(10, 10, 10), glm::vec3(0, 10, 0),glm::vec3(0,-1,0));
+	Light1->LightProperties.setDirectionalLightProperties(glm::vec3(10, 10, 50), glm::vec3(0, 10, 0),glm::vec3(0,-1,0));
 	scene1->addObjectToWorld(Light1);
 
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
@@ -323,11 +331,7 @@ int main() {
 	//	glm::vec3(rand() % 3 + 1, rand() % 3 + 1, rand() % 3 + 1)
 	//	);
 	//}
-	
-	scene1->addObjectToWorld(MyCam);
-	//scene1->addObjectToWorld(MyCam2);
 
-	
 	//scene1->showObjectList();
 	winMan.RunScene(scene1);
 	return 0;

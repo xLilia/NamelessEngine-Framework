@@ -8,6 +8,8 @@ out vec3 TexCoords;
 
 void main(){
 	TexCoords = aPosition;
-	gl_Position = uProjection * uView * vec4(aPosition,1.0);
+	vec4 FarPos = uProjection * uView * vec4(aPosition,1.0);
+	FarPos.z = FarPos.w;
+	gl_Position = FarPos;
 }
 	

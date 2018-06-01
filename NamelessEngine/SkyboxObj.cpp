@@ -278,7 +278,9 @@ void _NL::Object::SkyboxObj::createSkybox(const char* file_path, GLuint resoluti
 
 void _NL::Object::SkyboxObj::createSkybox(const char * front, const char * back, const char * top, const char * bottom, const char * left, const char * right)
 {
-	glActiveTexture(GL_TEXTURE0);
+	glDeleteTextures(1, &SkyboxMap);
+
+	glActiveTexture(GL_TEXTURE);
 	glGenTextures(1, &SkyboxMap);
 
 	//LOAD SIDES
@@ -331,26 +333,24 @@ void _NL::Object::SkyboxObj::loadCubeSide(const char * file_path, GLenum gl_side
 void _NL::Object::SkyboxObj::RenderSkybox()
 {
 	if (this->SkyboxMap == NULL && this->PreFilterMap != NULL) {
-		glDepthMask(GL_FALSE);
 		//glUseProgram in GameManager	
+		SkyboxDysplayShader->Use();
 		glUniform1f(MipLVL_uniform, EnvBlur);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, PreFilterMap);
 		Render1x1Cube();
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		glUseProgram(0);
-		glDepthMask(GL_TRUE);
 		check_gl_error();
 	}else{
-		glDepthMask(GL_FALSE);
 		//glUseProgram in GameManager
+		SkyboxDysplayShader->Use();
 		glUniform1f(MipLVL_uniform, 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, SkyboxMap);
 		Render1x1Cube();
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		glUseProgram(0);
-		glDepthMask(GL_TRUE);
 		check_gl_error();
 	}
 }

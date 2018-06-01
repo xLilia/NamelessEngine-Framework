@@ -16,14 +16,14 @@ namespace _NL {
 		class GameManager
 		{
 		public:
-			GameManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 60);
+			GameManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
 			~GameManager();
 		
 			sf::Event Event;
 			sf::RenderWindow* window;
 			_NL::Engine::Time GameTime;
 			_NL::Engine::WorldSpace* CurrentScene;
-			_NL::Element::ShaderInstance* DepthPassShader;
+			_NL::Element::ShaderInstance* DepthStencilPassShader;
 			
 			std::vector<GLuint> ShadowMaps;
 			GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
