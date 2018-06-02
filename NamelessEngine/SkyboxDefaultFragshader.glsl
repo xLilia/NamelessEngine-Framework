@@ -1,6 +1,6 @@
 #version 450 core  
 
-uniform samplerCube cube_texture;
+layout (location=0) uniform samplerCube cube_texture;
 layout (location=5) uniform float mipLvl;
 
 in vec3 TexCoords;

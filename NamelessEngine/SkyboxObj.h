@@ -31,8 +31,9 @@ namespace _NL {
 			GLuint IrradienceMap = NULL;
 			GLuint PreFilterMap = NULL;
 			GLuint BRDF_2D_LUTMap = NULL;
+			bool DisplayEnvironmentTextureAsBackUpSkybox = true;
 
-			void createEnvironment(const char* file_path, GLuint resolution = 512, GLfloat BlurLevel = 1.2f);
+			void createEnvironment(const char* file_path, GLuint resolution = 512, GLfloat BlurLevel = 1.2f, bool DisplayAsBackUpSkybox = true);
 			void createSkybox(
 				const char* front,
 				const char* back,

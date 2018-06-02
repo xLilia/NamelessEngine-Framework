@@ -218,72 +218,46 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 	int camID = 0;
 	camID++;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClearColor(1, 0, 1, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	//---------------------------------------------------------------------------------
 	//Update Lights
 	UpdateSceneLights();
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
+		glViewport(
+			Cam->RenderWindowPos.x,
+			Cam->RenderWindowPos.y,
+			Cam->RenderWindowSize.x,
+			Cam->RenderWindowSize.y
+		);
+		RenderSceneSkybox(Cam->getViewMatrix(), Cam->getProjectionMatrix());
+
 		//---------------------------------------------------------------------------------
 		//UPDATE CAM
 
 		Cam->PrepareToRenderScene();
+		Cam->SetThisViewPort();
 		Cam->ClearCurrentBuffer();
 
 		glEnable(GL_DEPTH_TEST);
-
+		
 		RenderSceneObjects(Cam->TransformCam.Position, Cam->getWorldToViewMatrix(), Cam->getProjectionMatrix());
 
 		glDisable(GL_DEPTH_TEST);
 
 		Cam->DisplayOnScreen();
 
-		/*
-		//---------------------------------------------------------------------------------
-		//SKYBOX STENCIL
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glEnable(GL_STENCIL_TEST);
-		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-		Cam->ClearCurrentBuffer();
-
-		glDisable(GL_DEPTH_TEST);
-
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);
-		RenderSceneObjects(Cam->TransformCam.Position, Cam->getWorldToViewMatrix(), Cam->getProjectionMatrix(), DepthStencilPassShader->getShaderProgram());
-
-		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-		glStencilMask(0x00);
-		RenderSceneSkybox(Cam->getViewMatrix(), Cam->getProjectionMatrix());
-
-		glEnable(GL_DEPTH_TEST);
-
-		
-
-		//---------------------------------------------------------------------------------
-		//OBJ STENCIL
-		glEnable(GL_DEPTH_TEST);
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);
-		//check_gl_error();
-
-		//---------------------------------------------------------------------------------
-		//SCREEN QUAD STENCIL
-		Cam->DisplayOnScreen();
-
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilMask(0xFF);
-
-		//RenderScreenQuad(Cam);
-
-		glDisable(GL_STENCIL_TEST);
-
-		check_gl_error();
-		//---------------------------------------------------------------------------------
-		*/
+		glClearColor(0, 0, 1, 0);
 	}
-
 	//RenderSceneCanvas();
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glViewport(
+	//	0,
+	//	0,
+	//	window->getSize().x,
+	//	window->getSize().y
+	//);
 	window->display();
 
 }

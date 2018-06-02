@@ -17,10 +17,8 @@ void _NL::UI::UICanvas::addUIElement(_NL::Core::UI* UI)
 
 void _NL::UI::UICanvas::DrawElements()
 {
-	glUseProgram(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST);
-	ImageRenderShader->UnUse();
 	for each (_NL::Core::UI* UI in UIelements)
 	{
 		if (UI->ClassName() == "_NL::UI::UICanvas") {
@@ -29,15 +27,19 @@ void _NL::UI::UICanvas::DrawElements()
 		}
 
 		if (UI->ClassName() == "_NL::UI::UIImage") {
-
+			ImageRenderShader->Use();
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			_NL::UI::UIImage* UII = dynamic_cast<_NL::UI::UIImage*>(UI);
+			glUniform1i(0, 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBindTexture(GL_TEXTURE_2D, UII->Texture->getTextureID());
 			glm::vec2 finalPos = (UI->AnchorPosition + UI->PositionRelativeToAnchor) + AnchorPosition;
 			glm::vec2 finalScale = (UII->widthHeight * UII->scale);
 			_NL::Core::RenderQuad(finalPos.x, WindowTarget->getSize().y - finalPos.y - finalScale.y, finalScale.x, finalScale.y, false);
-		
+			glDisable(GL_BLEND);
+			ImageRenderShader->UnUse();
 		}
 
 		if (UI->ClassName() == "_NL::UI::UIText") {
@@ -47,7 +49,6 @@ void _NL::UI::UICanvas::DrawElements()
 		}
 		
 	}
-	ImageRenderShader->UnUse();
 	glEnable(GL_DEPTH_TEST);
 }
 

@@ -266,8 +266,9 @@ void _NL::Object::SkyboxObj::_createEnvironment(const char * file_path, GLuint r
 
 
 
-void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint resolution, GLfloat BlurLevel)
+void _NL::Object::SkyboxObj::createEnvironment(const char * file_path, GLuint resolution, GLfloat BlurLevel, bool DisplayAsBackUpSkybox)
 {
+	DisplayEnvironmentTextureAsBackUpSkybox = DisplayAsBackUpSkybox;
 	_createEnvironment(file_path, resolution, BlurLevel, false, false, false); //ENVIRONMENT RENDER
 }
 
@@ -332,7 +333,7 @@ void _NL::Object::SkyboxObj::loadCubeSide(const char * file_path, GLenum gl_side
 
 void _NL::Object::SkyboxObj::RenderSkybox()
 {
-	if (this->SkyboxMap == NULL && this->PreFilterMap != NULL) {
+	if (this->SkyboxMap == NULL && this->PreFilterMap != NULL && DisplayEnvironmentTextureAsBackUpSkybox) {
 		//glUseProgram in GameManager	
 		SkyboxDysplayShader->Use();
 		glUniform1f(MipLVL_uniform, EnvBlur);

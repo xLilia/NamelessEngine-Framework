@@ -61,6 +61,7 @@ namespace _NL {
 			//_NL::Element::ShaderInstance* PingPongShader;
 			
 			void ClearCurrentBuffer();
+			void SetThisViewPort();
 			void GenerateFrameBuffers();
 			void PrepareToRenderScene();
 			void DisplayOnScreen();

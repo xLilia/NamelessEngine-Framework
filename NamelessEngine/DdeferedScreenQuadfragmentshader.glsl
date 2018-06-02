@@ -12,6 +12,8 @@ layout (location = 4) uniform sampler2D IN_NMatAo;
 layout (location = 5) uniform sampler2D IN_NormalsColor_ALr;
 layout (location = 6) uniform sampler2D IN_DiffuseColor_ALg;
 layout (location = 7) uniform sampler2D IN_SpecularColor_ALb;
+layout (location = 8) uniform sampler2D IN_DepthComponent;
+layout (location = 9) uniform usampler2D IN_StencilIndex;
 
 struct LightProperties {
 	vec3 lightColor;
@@ -124,15 +126,20 @@ vec3 FresnelSchlick(float cosTheta, vec3 F0){
 
 
 void main(){
-	
-	vec3 TangentFragPosColor = texture(IN_TangentFragPosColor		, tex_coord).rgb;
+
+	vec4 TangentFragPosColor = texture(IN_TangentFragPosColor		, tex_coord).rgba;
+	float Gmask = TangentFragPosColor.a;
+		if(Gmask == 0) discard;
 	vec4 TangentEyePosColor  = texture(IN_TangentEyePosColor_Alpha	, tex_coord).rgba;
 	vec4 TMatR				 = texture(IN_TMatR						, tex_coord).rgba;
 	vec4 BMatM				 = texture(IN_BMatM						, tex_coord).rgba;
 	vec4 NMatAo				 = texture(IN_NMatAo					, tex_coord).rgba;
-	vec4 NormalsColor		 = texture(IN_NormalsColor_ALr			, tex_coord).rgba;
+	vec4 NormalsColor		 = texture(IN_NormalsColor_ALr			, tex_coord).rgba;	
 	vec4 DiffuseColor		 = texture(IN_DiffuseColor_ALg			, tex_coord).rgba;
 	vec4 SpecularColor		 = texture(IN_SpecularColor_ALb			, tex_coord).rgba;
+	vec4 DepthColor			 = texture(IN_DepthComponent			, tex_coord).rgba;
+	uvec4 StencilColor		 = texture(IN_StencilIndex				, tex_coord).rgba;	//BROKEN
+	
 	mat3 TBNmatrix = mat3(TMatR.xyz,BMatM.xyz,NMatAo.xyz);
 	float RoughnessMap = TMatR.a;
 	float MetalnessMap = BMatM.a;
@@ -167,13 +174,13 @@ void main(){
 		//Decide Light Type
 		if(light[i].lightSpotInnerAngle != 0 && length(light[i].lightDirection) > 0.0){
 			//SpotLight
-			L = normalize(TangentLightPos - TangentFragPosColor); 
+			L = normalize(TangentLightPos - TangentFragPosColor.rgb); 
 		
 			float theta = dot(L, normalize(-TangentLightDir));
 			float epsilon = light[i].lightSpotInnerAngle - light[i].lightSpotOuterAngle;
 			float intensity = clamp((theta - light[i].lightSpotOuterAngle) / epsilon, 0.0, 1.0); 
 
-			distance    = length(TangentLightPos - TangentFragPosColor);
+			distance    = length(TangentLightPos - TangentFragPosColor.rgb);
 			attenuation = 1.0 / (distance * distance);
 			radiance     = light[i].lightColor * attenuation * intensity;
 
@@ -183,11 +190,11 @@ void main(){
 			L = normalize(-TangentLightDir); 
 		}else{
 			//Point Light
-			distance    = length(TangentLightPos - TangentFragPosColor);
+			distance    = length(TangentLightPos - TangentFragPosColor.rgb);
 			attenuation = 1.0 / (distance * distance);
 			radiance     = light[i].lightColor * attenuation;
 				
-			L = normalize(TangentLightPos - TangentFragPosColor); 
+			L = normalize(TangentLightPos - TangentFragPosColor.rgb); 
 		}
 
 		//Halfway direction Vector
@@ -239,6 +246,12 @@ void main(){
 	// gamma correction 
     mapped = pow(mapped, vec3(1.0 / gamma));
 
-	fragColor = vec4(mapped,1.0);
+	//depthscaled
+	float far = 500;
+	float near = 0.1;
+	vec3 eye_z = near * far / ((DepthColor.rgb * (far -near)) - far);
+	vec3 DepthScaled = ( eye_z - (-near) ) / ( -far - (-near) );
+
+	fragColor = vec4(mapped, 0);
 	
 }

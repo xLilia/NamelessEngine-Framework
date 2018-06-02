@@ -458,9 +458,20 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 void _NL::Object::CameraObj::ClearCurrentBuffer()
 {	
 	//glEnable(GL_SCISSOR_TEST);
-	glClearColor(ClearScreenColor.x, ClearScreenColor.y, ClearScreenColor.z, 1.0f);
+	glClearColor(ClearScreenColor.x, ClearScreenColor.y, ClearScreenColor.z, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	//glDisable(GL_SCISSOR_TEST);
+	check_gl_error();
+}
+
+void _NL::Object::CameraObj::SetThisViewPort(){
+	glViewport(
+		0,
+		0,
+		RenderWindowSize.x * RenderScaleRatio,
+		RenderWindowSize.y * RenderScaleRatio
+	);
+	check_gl_error();
 }
 
 void _NL::Object::CameraObj::PrepareToRenderScene()
@@ -475,12 +486,7 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 		glDrawBuffers(nRenderTextures, atachments);
 		delete[] atachments;
 	}
-	glViewport(
-		0,
-		0,
-		RenderWindowSize.x * RenderScaleRatio,
-		RenderWindowSize.y * RenderScaleRatio
-	);
+	//this->SetThisViewPort();
 	//glScissor(
 	//	0,
 	//	0,
@@ -531,15 +537,11 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 	//	GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
 	//	GL_NEAREST
 	//);
-	
-	check_gl_error();
+	//
+	//check_gl_error();
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	glDisable(GL_DEPTH_TEST);
-	//glStencilFunc(GL_EQUAL, 1, 0xFF);
-	//glStencilMask(0x00);
-	//
+	
 	check_gl_error();
 
 	FinalPassShader->Use();
@@ -551,13 +553,15 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 		check_gl_error();
 	}
 
-	//glActiveTexture(GL_TEXTURE0 + TexI++);
-	//glBindTexture(GL_TEXTURE_2D, DepthStencilTexture);
-	//glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_DEPTH_COMPONENT);
-	//
-	//glActiveTexture(GL_TEXTURE0 + TexI++);
-	//glBindTexture(GL_TEXTURE_2D, StencilViewTexture);
-	//glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_STENCIL_INDEX);
+	glUniform1i(nRenderTextures, nRenderTextures);
+	glActiveTexture(GL_TEXTURE0 + nRenderTextures);
+	glBindTexture(GL_TEXTURE_2D, DepthStencilTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_DEPTH_COMPONENT);
+	
+	glUniform1i(nRenderTextures+1, nRenderTextures+1);
+	glActiveTexture(GL_TEXTURE0 + nRenderTextures +1);
+	glBindTexture(GL_TEXTURE_2D, StencilViewTexture);
+	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_STENCIL_INDEX);
 
 	check_gl_error();
 
@@ -574,6 +578,12 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+
+	glActiveTexture(GL_TEXTURE0 + nRenderTextures);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glActiveTexture(GL_TEXTURE0 + nRenderTextures + 1);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	check_gl_error();
 }

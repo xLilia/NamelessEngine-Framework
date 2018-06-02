@@ -53,6 +53,10 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 
 void main(){
 
+	//Optimize a bit
+	if(fragTexCoord.x == 0) discard;
+	if(fragTexCoord.y == 0) discard;
+
 	//Texture Maps
 
 	vec4 albedoMap = texture2D(AlbedoTexture, fragTexCoord);
@@ -106,7 +110,7 @@ void main(){
 
 	//OUT FRAG!
 
-	OUT_TangentFragPosColor = vec4(vTangentFragPos,1.0);
+	OUT_TangentFragPosColor = vec4(vTangentFragPos,fragTexCoord.x);
 	OUT_TangentEyePosColor_Alpha = vec4(V,albedoMap.a);
 
 	OUT_TMatR = vec4(TBN[0],roughnessMap);

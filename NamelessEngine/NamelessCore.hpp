@@ -304,7 +304,6 @@ namespace _NL{
 			if(Shader != 0) 
 				glUseProgram(Shader);
 			glViewport(x, y, w, h);
-			
 			//REPLACE WITH VAO
 			glBindVertexArray(0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
