@@ -18,7 +18,7 @@ namespace _NL {
 			char* getTypeName() const override;
 
 		private:
-			ShaderWizard Shader;
+			_NL::Tools::ShaderWizard Shader;
 		};
 	}
 }

@@ -7,18 +7,21 @@
 #include <streambuf>
 #include <iostream>
 
+namespace _NL {
+	namespace Tools {
+		class XMLfileReader
+		{
+		public:
+			XMLfileReader();
+			XMLfileReader(const char* File_Path);
+			int Load(const char* File_Path, bool debugMode = false);
+			void RESET();
 
-class XMLfileReader
-{
-public:
-	XMLfileReader();
-	XMLfileReader(const char* File_Path);
-	int Load(const char* File_Path, bool debugMode = false);
-	void RESET();
+			std::vector<std::string> XMLData;
 
-	std::vector<std::string> XMLData;
-	
-	void GetColladaData();
-	_NL::Core::MeshInstanceData MeshData;
+			void GetColladaData();
+			_NL::Core::MeshInstanceData MeshData;
 
-};
+		};
+	}
+}

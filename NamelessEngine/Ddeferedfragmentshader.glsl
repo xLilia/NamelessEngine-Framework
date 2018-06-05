@@ -52,28 +52,34 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 //======================= FRAGMENT SHADER =========================
 
 void main(){
+	
+	//=========================CUSTOM Materials========================={
+	
+	//=========================
+	//(FOR Perfect values Materials)
+	//=========================
 
-	//Optimize a bit
-	if(fragTexCoord.x == 0) discard;
-	if(fragTexCoord.y == 0) discard;
+	//vec4 albedoMap = vec4(1,0,0,1);			//0.0 Black. --> 1.0 rgb colored.
+	//float roughnessMap = 0.1;					//0.1 Polished.  --> 1.0 Rough.
+	//float metalnessMap = 1.0;					//0.0 Dielectric. --> 0.5 Semiconductor. -->  1.0 Metalic
+	//vec3 normalMap = vec3(0.5,0.5,1.0);		//No need to edit, allways pointing away from surface.
+	//float aoMap = 1.0;						//0.0 Full ambient oculusion --> 1.0 No ambient oculusion.
 
-	//Texture Maps
+	//=========================
+	//(FOR Textured Materials)
+	//=========================
 
 	vec4 albedoMap = texture2D(AlbedoTexture, fragTexCoord);
-	albedoMap.rgb = pow( albedoMap.rgb, vec3(2.2));
 	float roughnessMap = texture2D(RoughnessTexture, fragTexCoord).x;
 	float metalnessMap = texture2D(MetalnessTexture, fragTexCoord).x;
 	vec3 normalMap = texture2D(NormalTexture, fragTexCoord).rgb;
 	float aoMap = texture2D(AmbientOculusionTexture, fragTexCoord).x;
-	
-	//Perfect Materials (FOR DEBUGGING)
 
-	//vec4 albedoMap = vec4(1,1,1,1);
-	//albedoMap.rgb = pow( albedoMap.rgb, vec3(2.2));
-	//float roughnessMap = 0.0;
-	//float metalnessMap = 1.0;
-	//vec3 normalMap = vec3(0.5,0.5,1.0);
-	//float aoMap = 1.0;
+	//===================================================================}
+
+	//fix values
+	roughnessMap = max(roughnessMap,0.1);
+	albedoMap.rgb = pow( albedoMap.rgb, vec3(2.2));
 
 	//NORMAL
 	vec3 N = normalMap;

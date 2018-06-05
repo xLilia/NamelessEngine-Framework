@@ -1,15 +1,24 @@
-#version 450 core  
+#version 450 core
+
+//======================= DATA =========================
 
 #define NL_PI 3.14159265359
-const int NR_LIGHTS = 1;
+
 const float MAX_REFLECTION_LOD = 4.0;
 
 in vec3 fragPos;
 in vec2 fragTexCoord;
-in vec3 vTangentLightPos[NR_LIGHTS];
-in vec3 vTangentLightDir[NR_LIGHTS];
-in vec3 vTangentEyePos;
-in vec3 vTangentFragPos;
+in mat3 TBN;
+
+layout(location = 0) in vec3 aPosition;
+layout(location = 1) in vec3 aNorm;
+layout(location = 2) in vec3 aTangent;
+layout(location = 3) in vec2 aTexCoords;
+layout(location = 4) in mat4 aInstanceModel;
+
+layout(location = 8) uniform vec3 uEyePos;
+layout(location = 9) uniform mat4 uView;
+layout(location = 10) uniform mat4 uProjection;
 
 layout (location=11) uniform sampler2D AlbedoTexture;
 layout (location=12) uniform sampler2D RoughnessTexture;
@@ -20,36 +29,103 @@ layout (location=16) uniform samplerCube AmbientIrradianceTexture;
 layout (location=17) uniform samplerCube PreFilterTexture;
 layout (location=18) uniform sampler2D BRDF2DLUTTexture;
 
-struct LightProperties {
-	vec3 lightColor;
-	float padding_1;
-	vec3 lightPosition;
-	float padding_2;
-	vec3 lightDirection;
-	float padding_3;
-	float lightSpotInnerAngle;
-	float lightSpotOuterAngle;
-	float padding_4[2];
-};
+layout (location = 0) out vec4 OUT_TangentFragPosColor;
+layout (location = 1) out vec4 OUT_TangentEyePosColor_Alpha;
+layout (location = 2) out vec4 OUT_TMatR;
+layout (location = 3) out vec4 OUT_BMatM;
+layout (location = 4) out vec4 OUT_NMatAo;
+layout (location = 5) out vec4 OUT_NormalsColor_ALr;
+layout (location = 6) out vec4 OUT_DiffuseColor_ALg;
+layout (location = 7) out vec4 OUT_SpecularColor_ALb;
 
-layout (std430, binding = 0) buffer LightBlock {
-    LightProperties light[];
-};
+//======================= FUNCTIONS =========================
 
-layout (location = 0) out vec4 FragColor;
-layout (location = 1) out vec4 BloomColor;
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+{
+    //return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+
+	//Spherical Gaussian approximation
+	float p = (-5.55473 * cosTheta -6.98316)*cosTheta;
+	return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(2,p);
+}
+
+//======================= FRAGMENT SHADER =========================
 
 void main(){
-	vec4 color = texture(AlbedoTexture, fragTexCoord);
+	
+	//=========================CUSTOM Materials========================={
+	
+	//=========================
+	//(FOR Perfect values Materials)
+	//=========================
 
-	FragColor = vec4(color.rgb, 1.0);
+	vec4 albedoMap = vec4(1,0,0,1);			//0.0 Black. --> 1.0 rgb colored.
+	float roughnessMap = 0.1;				//0.1 Polished.  --> 1.0 Rough.
+	float metalnessMap = 1.0;				//0.0 Dielectric. --> 0.5 Semiconductor. -->  1.0 Metalic
+	vec3 normalMap = vec3(0.5,0.5,1.0);		//No need to edit, allways pointing away from surface.
+	float aoMap = 1.0;						//0.0 Full ambient oculusion --> 1.0 No ambient oculusion.
 
-	//Brightness
-	float Luma = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+	//=========================
+	//(FOR Textured Materials)
+	//=========================
 
-	if(Luma > 1.0){
-		BloomColor = vec4(FragColor.rgb,1.0);
-	}else{
-		BloomColor = vec4(0.0, 0.0, 0.0, 1.0);
-	}
+	//vec4 albedoMap = texture2D(AlbedoTexture, fragTexCoord);
+	//float roughnessMap = texture2D(RoughnessTexture, fragTexCoord).x;
+	//float metalnessMap = texture2D(MetalnessTexture, fragTexCoord).x;
+	//vec3 normalMap = texture2D(NormalTexture, fragTexCoord).rgb;
+	//float aoMap = texture2D(AmbientOculusionTexture, fragTexCoord).x;
+
+	//=========================CUSTOM Materials=========================}
+
+	//fix values
+	roughnessMap = max(roughnessMap,0.1);
+	albedoMap.rgb = pow( albedoMap.rgb, vec3(2.2));
+
+	//NORMAL
+	vec3 N = normalMap;
+    N = normalize(N * 2.0 - 1.0);
+
+	vec3 vTangentFragPos = TBN * fragPos;
+	vec3 vTangentEyePos = TBN * uEyePos;
+
+	//View direction vector
+	vec3 V = normalize(vTangentEyePos - vTangentFragPos);
+
+	//F0 Index of Refraction
+	vec3 F0_IOR  = vec3(0.04);
+	F0_IOR		 = mix(F0_IOR, albedoMap.rgb, metalnessMap);
+
+	//Ambient Light IBL as the ambient term
+	vec3 F = fresnelSchlickRoughness(max(dot(N, V),0.0), F0_IOR, roughnessMap);
+
+	//Specular & Difuse Components
+	vec3 kS = F;
+    vec3 kD = vec3(1.0) - kS;
+    kD *= 1.0 - metalnessMap;
+
+	//Irradience
+	vec3 irradiance = texture(AmbientIrradianceTexture, N).rgb;
+	vec3 diffuse = irradiance * albedoMap.rgb * kD;
+
+	//REFLECT
+	//vec3 R = 2 * dot (N, V) * N - V;
+	vec3 R = reflect(-V, N); 
+	vec3 preFiltredColor = textureLod(PreFilterTexture, R, roughnessMap * MAX_REFLECTION_LOD).rgb;
+	vec2 EnvBRDF = texture(BRDF2DLUTTexture, vec2( roughnessMap, max( dot(N, V) , 0.0))).rg;
+	vec3 IBLspecular = preFiltredColor * (F * EnvBRDF.x * EnvBRDF.y);
+
+	//OUT FRAG!
+
+	OUT_TangentFragPosColor = vec4(vTangentFragPos,fragTexCoord.x);
+	OUT_TangentEyePosColor_Alpha = vec4(V,albedoMap.a);
+
+	OUT_TMatR = vec4(TBN[0],roughnessMap);
+	OUT_BMatM = vec4(TBN[1],metalnessMap);
+	OUT_NMatAo = vec4(TBN[2],aoMap);
+	
+	OUT_NormalsColor_ALr = vec4(N,albedoMap.r);
+	OUT_DiffuseColor_ALg = vec4(diffuse,albedoMap.g);
+	OUT_SpecularColor_ALb = vec4(IBLspecular,albedoMap.b);
 }
+
+//======================= END =========================

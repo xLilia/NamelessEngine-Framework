@@ -19,7 +19,7 @@ namespace _NL {
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1,
 				GLuint nRenderTextures = 8,
-				GLuint nMultisamples = 0
+				bool nearestNeighbourFiltering = true
 			);
 
 			//---------------------------------------------------------------------------------
@@ -87,8 +87,9 @@ namespace _NL {
 			glm::vec2 RenderWindowPos;
 			glm::vec2 RenderWindowSize;
 			GLfloat RenderScaleRatio;
-			GLuint nMultisamples;
 			GLuint nRenderTextures;
+			bool nearestNeighbourFiltering;
+			//GLuint nMultisamples;
 			//bool HasPingPongShader;
 			//GLuint PingPongIterations;
 			

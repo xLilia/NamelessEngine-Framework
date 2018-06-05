@@ -1,11 +1,11 @@
 #include "OBJfileReader.h"
 
-OBJfileReader::OBJfileReader()
+_NL::Tools::OBJfileReader::OBJfileReader()
 {
 
 }
 
-void OBJfileReader::RESET()
+void _NL::Tools::OBJfileReader::RESET()
 {
 	//this->Is.clear();
 	//this->Is.shrink_to_fit();
@@ -21,7 +21,7 @@ void OBJfileReader::RESET()
 	//this->MTL_counter = -1;
 }
 
-int OBJfileReader::LOAD(const char * OBJpath)
+int _NL::Tools::OBJfileReader::LOAD(const char * OBJpath)
 {
 	FILE * file = std::fopen(OBJpath,"r");
 	if (!file) {
@@ -102,7 +102,7 @@ int OBJfileReader::LOAD(const char * OBJpath)
 	return 0;
 }
 
-OBJfileReader::~OBJfileReader()
+_NL::Tools::OBJfileReader::~OBJfileReader()
 {
 }
 

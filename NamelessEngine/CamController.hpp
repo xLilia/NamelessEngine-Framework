@@ -92,8 +92,6 @@ void CamController::Update() {
 		//_this->RenderWindowPos.x--;
 		////_this->RenderWindowSize.x++;
 		//_this->GenerateFrameBuffers();
-
-
 	}
 	
 }

@@ -1,17 +1,17 @@
 #include "MTLfileReader.h"
 
-MTLfileReader::MTLfileReader()
+_NL::Tools::MTLfileReader::MTLfileReader()
 {
 }
 
-void MTLfileReader::RESET() {
+void _NL::Tools::MTLfileReader::RESET() {
 	this->MTLD.clear();
 	this->MTLD.shrink_to_fit();
 	this->inMTLfile_counter = -1;
 	TL.RESET();
 }
 
-int MTLfileReader::LOAD(const char * OBJpath) {
+int _NL::Tools::MTLfileReader::LOAD(const char * OBJpath) {
 	FILE * file = std::fopen(OBJpath, "r");
 	if (!file) {
 		std::cout << "ERROR: FAILED TO LOAD: " << OBJpath << std::endl;
@@ -75,6 +75,6 @@ int MTLfileReader::LOAD(const char * OBJpath) {
 }
 
 
-MTLfileReader::~MTLfileReader()
+_NL::Tools::MTLfileReader::~MTLfileReader()
 {
 }

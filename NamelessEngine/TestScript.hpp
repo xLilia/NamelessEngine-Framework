@@ -81,31 +81,6 @@ void TestScript::Update() {
 	T->RotateEuler(glm::vec3(x1, y1, z1)*t);
 	
 
-	//T->RotateEuler(glm::vec3(s1, 0, 0)*t);
-	
-	//T->transform.QuaternionRotation = glm::lerp(T->transform.QuaternionRotation, T->transform.QuaternionRotation + glm::quat(s1, 0, 1, 0), t);
-
-	//s1 += 0.0001f;
-	//T->EulerRotation(0, glm::cos(s1)*t, 0);
-
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::LAlt)) {
-	//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-	//		W->RenderExposure += 0.01;
-	//	}
-	//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-	//		W->RenderExposure -= 0.01;
-	//	}
-	//}
-	//
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-	//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-	//		W->RenderGamma += 0.01;
-	//	}
-	//	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-	//		W->RenderGamma -= 0.01;
-	//	}
-	//}
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
 		W->SafeKillObj(W->Lights[0]);
 		//_NL::Object::GameObject* I = W->SafeInstantiateObj<_NL::Object::GameObject>(_this);

@@ -20,8 +20,8 @@ namespace _NL {
 			//MeshAnimator
 			char* getTypeName() const override;
 		private:
-			OBJfileReader OBJF;
-			XMLfileReader ColladaF;
+			_NL::Tools::OBJfileReader OBJF;
+			_NL::Tools::XMLfileReader ColladaF;
 		};
 	}
 }

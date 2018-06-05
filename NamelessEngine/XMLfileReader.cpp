@@ -1,16 +1,16 @@
 #include "XMLfileReader.h"
 #include "XMLfileReader.h"
 
-XMLfileReader::XMLfileReader()
+_NL::Tools::XMLfileReader::XMLfileReader()
 {
 }
 
-XMLfileReader::XMLfileReader(const const char* File_Path)
+_NL::Tools::XMLfileReader::XMLfileReader(const const char* File_Path)
 {
 	Load(File_Path);
 }
 
-void XMLfileReader::GetColladaData(){
+void _NL::Tools::XMLfileReader::GetColladaData(){
 	for (GLuint n = 0; n < XMLData.size(); n++) {
 		
 		GLuint n1;
@@ -100,7 +100,7 @@ void XMLfileReader::GetColladaData(){
 	//return;
 }
 
-int XMLfileReader::Load(const char* File_Path, bool debugMode) {
+int _NL::Tools::XMLfileReader::Load(const char* File_Path, bool debugMode) {
 	
 
 	std::ifstream f(File_Path);
@@ -142,7 +142,7 @@ int XMLfileReader::Load(const char* File_Path, bool debugMode) {
 	return 0;
 }
 
-void XMLfileReader::RESET()
+void _NL::Tools::XMLfileReader::RESET()
 {
 	MeshData.mesh_map_array.clear();
 	MeshData.mesh_normals_array.clear();

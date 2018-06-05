@@ -1,4 +1,6 @@
 # NAMELESS ENGINE - FRAMEWORK v0
+INCLUDE the NL.hpp" FILE BEFORE USING THE ENGINE TO HAVE ACCESS
+TO EVERY IMPLEMENTED THE HEADERS.
 
 About : NAMELESS ENGINE is a Framework fully written in C++ that supports interactive 3D graphics though an abstracted C++ API that allows transparent connection with external Objects via user defined Pointers. This tool is built with adaptability and simplicity as its core philosophies. Its modular architecture and customizability allows for simple and fast composition of a multitude of 3D Interactive virtual Environments while still maintaining a relatively high level of control over what’s going on behind the scenes. Its purposes range from Video Game Development to Visualization of Artificial intelligence Models and other kinds of interactive virtual systems like computer simulations, were visualization and/or interaction is required. It should be used as a base for software and extended upon Ad infinitum.
 

@@ -1,6 +1,6 @@
 #include "ShaderWizard.h"
 
-std::string ShaderWizard::readShaderCode(const char * filename) {
+std::string _NL::Tools::ShaderWizard::readShaderCode(const char * filename) {
 	std::ifstream Input(filename);
 	if (!Input.good()) {
 		std::cout << " FailedToLoad:" << filename << std::endl;
@@ -13,7 +13,7 @@ std::string ShaderWizard::readShaderCode(const char * filename) {
 	Input.close();
 }
 
-bool ShaderWizard::checkStatus(GLuint objectID,
+bool _NL::Tools::ShaderWizard::checkStatus(GLuint objectID,
 	PFNGLGETSHADERIVPROC objectPropertyGetterFunc,
 	PFNGLGETSHADERINFOLOGPROC getInfoLogFunc,
 	GLenum statusType)
@@ -35,15 +35,15 @@ bool ShaderWizard::checkStatus(GLuint objectID,
 	return true;
 }
 
-bool ShaderWizard::checkShaderStatus(GLuint ShaderID) {
+bool _NL::Tools::ShaderWizard::checkShaderStatus(GLuint ShaderID) {
 	return checkStatus(ShaderID, glGetShaderiv, glGetShaderInfoLog, GL_COMPILE_STATUS);
 }
 
-bool ShaderWizard::checkProgramStatus(GLuint ProgramID) {
+bool _NL::Tools::ShaderWizard::checkProgramStatus(GLuint ProgramID) {
 	return checkStatus(ProgramID, glGetProgramiv, glGetProgramInfoLog, GL_LINK_STATUS);
 }
 
-void ShaderWizard::installShaders(const char * VertexShader, const char * FragmentShader)
+void _NL::Tools::ShaderWizard::installShaders(const char * VertexShader, const char * FragmentShader)
 {
 	GLuint programID;
 	GLuint VertexShaderID;
@@ -92,7 +92,7 @@ void ShaderWizard::installShaders(const char * VertexShader, const char * Fragme
 	InstlledProgramIDs.push_back(programID);
 }
 
-void ShaderWizard::clearPrograms()
+void _NL::Tools::ShaderWizard::clearPrograms()
 {
 	InstlledProgramIDs.clear();
 	InstlledProgramIDs.shrink_to_fit();
@@ -100,7 +100,7 @@ void ShaderWizard::clearPrograms()
 
 
 
-ShaderWizard::~ShaderWizard()
+_NL::Tools::ShaderWizard::~ShaderWizard()
 {
 	//glUseProgram(0);
 	//for each (GLuint p in InstlledProgramIDs)

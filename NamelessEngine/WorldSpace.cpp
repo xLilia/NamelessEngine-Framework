@@ -101,10 +101,12 @@ _NL::Core::ObjInstanceList * _NL::Engine::WorldSpace::getObjInstanceListLocation
 	_NL::Component::MeshRenderer* ObjMesh = G->getComponent<_NL::Component::MeshRenderer>();
 
 	if (ObjMesh != nullptr) { //CONDITIONS TO BE INSTANTIATED;
+		
 		if (!ObjMesh->bIsUnpacked) {
 			std::cout << "initializing MeshRenderer of Obj: " << G->name << std::endl;
 			ObjMesh->initGLObj();
 		}
+
 		for (_NL::Core::ObjInstanceList& OIL : *T) {
 			_NL::Component::MeshRenderer* CompareMesh = OIL[0]->getComponent<_NL::Component::MeshRenderer>();
 			if (CompareMesh == ObjMesh) {

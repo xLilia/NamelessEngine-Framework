@@ -5,7 +5,7 @@ _NL::Object::CameraObj::CameraObj()
 
 }
 
-_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, GLuint nMultisamples)
+_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, bool nearestNeighbourFiltering)
 {
 	this->name = name;
 	this->FOV = FOV;
@@ -16,8 +16,9 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	this->RenderWindowSize.x = RenderWindowWidth;
 	this->RenderWindowSize.y = RenderWindowHeight;
 	this->RenderScaleRatio = RenderScaleRatio;
-	this->nMultisamples = nMultisamples;
+	//this->nMultisamples = nMultisamples;
 	this->nRenderTextures = nRenderTextures;
+	this->nearestNeighbourFiltering = nearestNeighbourFiltering;
 	//this->HasPingPongShader = HasPingPongShader;
 	//this->PingPongIterations = PingPongIterations;
 	updateAudioListenerWithCamTransform();
@@ -79,7 +80,6 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	ColorTextures.clear();
 
 	//glDeleteTextures(1, &DepthTexture);
-
 	//FinalQuad framebuffer
 
 	glDeleteFramebuffers(1, &FinalQuad_FrameBuffer);
@@ -125,8 +125,14 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, DepthStencilTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if (nearestNeighbourFiltering) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	else {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 	glTexStorage2D(
 		GL_TEXTURE_2D,
 		1,
@@ -144,8 +150,14 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, StencilViewTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	if (nearestNeighbourFiltering) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
+	else {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
 	glTextureView(
 		StencilViewTexture,
 		GL_TEXTURE_2D,
@@ -167,150 +179,150 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//	GL_UNSIGNED_INT_24_8,
 	//	NULL);
 
-
-
-	if (nMultisamples == 0) {
-
-		//---------------------------------------------------------------------------------
-		//ColorTexture
-		//---------------------------------------------------------------------------------
-		for (GLuint i = 0; i < nRenderTextures; i++) {
-			GLuint ColorTexture;
-			glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
-			glBindTexture(GL_TEXTURE_2D, ColorTexture);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	//---------------------------------------------------------------------------------
+	//ColorTexture
+	//---------------------------------------------------------------------------------
+	for (GLuint i = 0; i < nRenderTextures; i++) {
+		GLuint ColorTexture;
+		glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
+		glBindTexture(GL_TEXTURE_2D, ColorTexture);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+		if (nearestNeighbourFiltering) {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexImage2D(
-				GL_TEXTURE_2D,
-				0,
-				GL_RGBA16F, //high dynamic range (HDR) 
-				RenderWindowSize.x * RenderScaleRatio,
-				RenderWindowSize.y * RenderScaleRatio,
-				0,
-				GL_RGBA,
-				GL_FLOAT,
-				NULL);
-			glBindTexture(GL_TEXTURE_2D, 0);
-			check_gl_error();
-			ColorTextures.push_back(ColorTexture);
 		}
-		//---------------------------------------------------------------------------------
-		//DepthTexture
-		//---------------------------------------------------------------------------------
-	
-		//glCreateTextures(GL_TEXTURE_2D, 1, &DepthTexture);
-		//glBindTexture(GL_TEXTURE_2D, DepthTexture);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		//glTexImage2D(
-		//	GL_TEXTURE_2D,
-		//	0,
-		//	GL_DEPTH24_STENCIL8,
-		//	RenderWindowSize.x * RenderScaleRatio,
-		//	RenderWindowSize.y * RenderScaleRatio,
-		//	0,
-		//	GL_DEPTH_STENCIL,
-		//	GL_UNSIGNED_INT_24_8,
-		//	NULL);
-		//glBindTexture(GL_TEXTURE_2D, 0);
-		//check_gl_error();
-
-
-		//---------------------------------------------------------------------------------
-		//Render_FrameBuffers
-		//---------------------------------------------------------------------------------
-
-		glCreateFramebuffers(1, &G_FrameBuffer);
-		glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
-		for (GLuint i = 0; i < nRenderTextures; i++) {
-			glFramebufferTexture2D(
-				GL_FRAMEBUFFER,
-				GL_COLOR_ATTACHMENT0+i,
-				GL_TEXTURE_2D,
-				ColorTextures[i],
-				0);
+		else {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		}
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA16F, //high dynamic range (HDR) 
+			RenderWindowSize.x * RenderScaleRatio,
+			RenderWindowSize.y * RenderScaleRatio,
+			0,
+			GL_RGBA,
+			GL_FLOAT,
+			NULL);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		check_gl_error();
+		ColorTextures.push_back(ColorTexture);
+	}
+	//---------------------------------------------------------------------------------
+	//DepthTexture
+	//---------------------------------------------------------------------------------
+
+	//glCreateTextures(GL_TEXTURE_2D, 1, &DepthTexture);
+	//glBindTexture(GL_TEXTURE_2D, DepthTexture);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexImage2D(
+	//	GL_TEXTURE_2D,
+	//	0,
+	//	GL_DEPTH24_STENCIL8,
+	//	RenderWindowSize.x * RenderScaleRatio,
+	//	RenderWindowSize.y * RenderScaleRatio,
+	//	0,
+	//	GL_DEPTH_STENCIL,
+	//	GL_UNSIGNED_INT_24_8,
+	//	NULL);
+	//glBindTexture(GL_TEXTURE_2D, 0);
+	//check_gl_error();
+
+
+	//---------------------------------------------------------------------------------
+	//Render_FrameBuffers
+	//---------------------------------------------------------------------------------
+
+	glCreateFramebuffers(1, &G_FrameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
+	for (GLuint i = 0; i < nRenderTextures; i++) {
 		glFramebufferTexture2D(
 			GL_FRAMEBUFFER,
-			GL_DEPTH_STENCIL_ATTACHMENT,
+			GL_COLOR_ATTACHMENT0 + i,
 			GL_TEXTURE_2D,
-			DepthStencilTexture,
+			ColorTextures[i],
 			0);
-		//glFramebufferRenderbuffer(
-		//	GL_FRAMEBUFFER,
-		//	GL_DEPTH_STENCIL_ATTACHMENT,
-		//	GL_RENDERBUFFER,
-		//	DepthStencilRenderbuffer
-		//);
-		check_gl_error();
 	}
-	else {
+	glFramebufferTexture2D(
+		GL_FRAMEBUFFER,
+		GL_DEPTH_STENCIL_ATTACHMENT,
+		GL_TEXTURE_2D,
+		DepthStencilTexture,
+		0);
+	check_gl_error();
 
-		glEnable(GL_MULTISAMPLE);
-
-		//---------------------------------------------------------------------------------
-		//MULTISAMPLE_ColorTexture
-		//---------------------------------------------------------------------------------
-		//for (GLuint i = 0; i < nRenderTextures; i++) {
-		//	GLuint ColorTexture;
-		//	glCreateTextures(GL_TEXTURE_2D_MULTISAMPLE, 1, &ColorTexture);
-		//	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, ColorTexture);
-		//	glTexImage2DMultisample(
-		//		GL_TEXTURE_2D_MULTISAMPLE,
-		//		nMultisamples,
-		//		GL_RGBA16F, //high dynamic range (HDR) 
-		//		RenderWindowSize.x * RenderScaleRatio,
-		//		RenderWindowSize.y * RenderScaleRatio,
-		//		GL_TRUE);
-		//	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
-		//	check_gl_error();
-		//	ColorTextures.push_back(ColorTexture);
-		//}
-
-		//---------------------------------------------------------------------------------
-		//MULTISAMPLE_DepthTexture
-		//---------------------------------------------------------------------------------
-
-		//glCreateTextures(GL_TEXTURE_2D_MULTISAMPLE, 1, &DepthTexture);
-		//glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, DepthTexture);
-		//glTexImage2DMultisample(
-		//	GL_TEXTURE_2D_MULTISAMPLE,
-		//	nMultisamples,
-		//	GL_DEPTH_COMPONENT,
-		//	RenderWindowSize.x * RenderScaleRatio,
-		//	RenderWindowSize.y * RenderScaleRatio,
-		//	GL_TRUE);
-		//glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
-		//check_gl_error();
-
-
-		//---------------------------------------------------------------------------------
-		//MULTISAMPLE_Render_FrameBuffer
-		//---------------------------------------------------------------------------------
-
-		//glCreateFramebuffers(1, &G_FrameBuffer);
-		//glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
-		//for (GLuint i = 0; i < nRenderTextures; i++) {
-		//	glFramebufferTexture2D(
-		//		GL_FRAMEBUFFER,
-		//		GL_COLOR_ATTACHMENT0 + i,
-		//		GL_TEXTURE_2D_MULTISAMPLE,
-		//		ColorTextures[i],
-		//		0);
-		//	check_gl_error();
-		//}
-		//glFramebufferTexture2D(
-		//	GL_FRAMEBUFFER,
-		//	GL_DEPTH_STENCIL_ATTACHMENT,
-		//	GL_TEXTURE_2D_MULTISAMPLE,
-		//	DepthTexture,
-		//	0);
-		//check_gl_error();
-	}
+	//if (nMultisamples == 0) {
+	//
+	//	
+	//}
+	//else {
+	//
+	//	glEnable(GL_MULTISAMPLE);
+	//
+	//	//---------------------------------------------------------------------------------
+	//	//MULTISAMPLE_ColorTexture
+	//	//---------------------------------------------------------------------------------
+	//	for (GLuint i = 0; i < nRenderTextures; i++) {
+	//		GLuint ColorTexture;
+	//		glCreateTextures(GL_TEXTURE_2D_MULTISAMPLE, 1, &ColorTexture);
+	//		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, ColorTexture);
+	//		glTexImage2DMultisample(
+	//			GL_TEXTURE_2D_MULTISAMPLE,
+	//			nMultisamples,
+	//			GL_RGBA16F, //high dynamic range (HDR) 
+	//			RenderWindowSize.x * RenderScaleRatio,
+	//			RenderWindowSize.y * RenderScaleRatio,
+	//			GL_TRUE);
+	//		glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+	//		check_gl_error();
+	//		ColorTextures.push_back(ColorTexture);
+	//	}
+	//
+	//	//---------------------------------------------------------------------------------
+	//	//MULTISAMPLE_DepthTexture
+	//	//---------------------------------------------------------------------------------
+	//
+	//	glCreateTextures(GL_TEXTURE_2D_MULTISAMPLE, 1, &DepthTexture);
+	//	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, DepthTexture);
+	//	glTexImage2DMultisample(
+	//		GL_TEXTURE_2D_MULTISAMPLE,
+	//		nMultisamples,
+	//		GL_DEPTH_COMPONENT,
+	//		RenderWindowSize.x * RenderScaleRatio,
+	//		RenderWindowSize.y * RenderScaleRatio,
+	//		GL_TRUE);
+	//	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, 0);
+	//	check_gl_error();
+	//
+	//
+	//	//---------------------------------------------------------------------------------
+	//	//MULTISAMPLE_Render_FrameBuffer
+	//	//---------------------------------------------------------------------------------
+	//
+	//	glCreateFramebuffers(1, &G_FrameBuffer);
+	//	glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
+	//	for (GLuint i = 0; i < nRenderTextures; i++) {
+	//		glFramebufferTexture2D(
+	//			GL_FRAMEBUFFER,
+	//			GL_COLOR_ATTACHMENT0 + i,
+	//			GL_TEXTURE_2D_MULTISAMPLE,
+	//			ColorTextures[i],
+	//			0);
+	//		check_gl_error();
+	//	}
+	//	glFramebufferTexture2D(
+	//		GL_FRAMEBUFFER,
+	//		GL_DEPTH_STENCIL_ATTACHMENT,
+	//		GL_TEXTURE_2D_MULTISAMPLE,
+	//		DepthTexture,
+	//		0);
+	//	check_gl_error();
+	//}
 
 	GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
@@ -330,8 +342,14 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		glBindTexture(GL_TEXTURE_2D, ColorTexture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		if (nearestNeighbourFiltering) {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		}
+		else {
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		}
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
@@ -522,7 +540,7 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 			RenderWindowSize.x * RenderScaleRatio,
 			RenderWindowSize.y * RenderScaleRatio,
 			GL_COLOR_BUFFER_BIT,
-			GL_NEAREST
+			GL_LINEAR
 		);
 	}
 
