@@ -41,8 +41,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("hdr1/japanhdri (2).jpg", 1024 * 2, 1.2, false);
-	sky1->createSkybox("hdr1/japanhdri (2).jpg", 1024 * 2);
+	sky1->createEnvironment("Myhdri/japanhdri (2).jpg", 1024 * 2, 1.2, false);
+	sky1->createSkybox("Myhdri/japanhdri (2).jpg", 1024 * 2);
 	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
@@ -136,7 +136,7 @@ int main() {
 	ui3->PositionRelativeToAnchor = glm::vec2(0, 50-ui3->widthHeight.y/2);
 	ui3->Layer = 1;
 
-	_NL::UI::UIText* ut1 = new _NL::UI::UIText("fonts/Consolas.ttf", "Hello World ! ^_^");
+	_NL::UI::UIText* ut1 = new _NL::UI::UIText("Myfonts/Consolas.ttf", "Hello World ! ^_^");
 	ut1->AnchorPosition = glm::vec2(100, 100);
 	ut1->Layer = 0;
 
@@ -170,11 +170,11 @@ int main() {
 
 
 	_NL::Element::MaterialInstance* PBRGunMAT = new _NL::Element::MaterialInstance();
-	_NL::Element::TextureInstance* CerberusA = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_A.tga", 0);
-	_NL::Element::TextureInstance* CerberusR = new  _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_R.tga", 0);
-	_NL::Element::TextureInstance* CerberusM = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_M.tga", 0);
-	_NL::Element::TextureInstance* CerberusN = new _NL::Element::TextureInstance("Cerberus/Textures/Cerberus_N.tga", 0);
-	_NL::Element::TextureInstance* CerberusAO = new _NL::Element::TextureInstance("Cerberus/Textures/Raw/Cerberus_AO.tga", 0);
+	_NL::Element::TextureInstance* CerberusA = new _NL::Element::TextureInstance("MyTexs/Cerberus/Cerberus_A.tga", 0);
+	_NL::Element::TextureInstance* CerberusR = new  _NL::Element::TextureInstance("MyTexs/Cerberus/Cerberus_R.tga", 0);
+	_NL::Element::TextureInstance* CerberusM = new _NL::Element::TextureInstance("MyTexs/Cerberus/Cerberus_M.tga", 0);
+	_NL::Element::TextureInstance* CerberusN = new _NL::Element::TextureInstance("MyTexs/Cerberus/Cerberus_N.tga", 0);
+	_NL::Element::TextureInstance* CerberusAO = new _NL::Element::TextureInstance("MyTexs/Cerberus/Raw/Cerberus_AO.tga", 0);
 	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AlbedoMap, CerberusA, 0);
 	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::RoughnessMap, CerberusR, 0);
 	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::MetalnessMap, CerberusM, 0);
@@ -184,8 +184,8 @@ int main() {
 
 	//(1)===========================================================================================
 
-	_NL::Element::MeshInstance* Gun = new _NL::Element::MeshInstance("Cube.obj");
-	_NL::Object::GameObject* HouseCollada = new _NL::Object::GameObject("HouseCollada");
+	_NL::Element::MeshInstance* Gun = new _NL::Element::MeshInstance("MyModels/Cerberus/PBRGun.obj");
+	_NL::Object::GameObject* HouseCollada = new _NL::Object::GameObject("pbrGUN");
 	HouseCollada->addComponent(new _NL::Component::Transform);
 	HouseCollada->addComponent(new _NL::Component::MeshRenderer);
 	HouseCollada->addComponent(new _NL::Component::CppScript<TestScript>);
@@ -200,59 +200,13 @@ int main() {
 	HouseCollada->getComponent<_NL::Component::Transform>()->transform.position.z = 0;
 	//HouseCollada->getComponent<_NL::Component::Transform>()->transform.scale *= -1;
 
-	////(2)===========================================================================================
-	//
-	//_NL::Object::GameObject* PBRGun = new _NL::Object::GameObject("PBRGun");
-	//PBRGun->addComponent(new _NL::Component::Transform);
-	//PBRGun->addComponent(new _NL::Component::MeshRenderer);
-	//PBRGun->addComponent(new _NL::Component::CppScript<TestScript>);
-	//PBRGun->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Cerberus/PBRGun.obj");
-	//PBRGun->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	//PBRGun->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
-	//PBRGun->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = PBRGun;
-	//PBRGun->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
-	//
-	////(3)===========================================================================================
-	_NL::Element::MeshInstance* Cubemesh = new _NL::Element::MeshInstance("Cube.obj");
-	//
-	//_NL::Object::GameObject* Cube = new _NL::Object::GameObject("cube1");
-	//Cube->addComponent(new _NL::Component::Transform);
-	//Cube->addComponent(new _NL::Component::MeshRenderer);
-	//Cube->addComponent(new _NL::Component::CppScript<TestScript>);
-	//Cube->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
-	//Cube->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
-	//Cube->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	//Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Cube;
-	//Cube->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
-	//
-	//_NL::Object::GameObject* Cube2 = new _NL::Object::GameObject("cube2");
-	//Cube2->addComponent(new _NL::Component::Transform);
-	//Cube2->addComponent(new _NL::Component::MeshRenderer);
-	//Cube2->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
-	//Cube2->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
-	//Cube2->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	//
-	//_NL::Object::GameObject* Cube3 = new _NL::Object::GameObject("cube3");
-	//Cube3->addComponent(new _NL::Component::Transform);
-	//Cube3->addComponent(new _NL::Component::MeshRenderer);
-	//Cube3->getComponent<_NL::Component::MeshRenderer>()->Mesh = Cubemesh;
-	//Cube3->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
-	//Cube3->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
-	//
-	//Cube2->getComponent<_NL::Component::Transform>()->transform.position = glm::vec3(3, 0, -3);
-	//Cube2->getComponent<_NL::Component::Transform>()->transform.scale = glm::vec3(1, 5, 1);
-	//Cube2->Parent = Cube;
-	//
-	//Cube3->getComponent<_NL::Component::Transform>()->transform.position = glm::vec3(3, 0, 3);
-	//Cube3->getComponent<_NL::Component::Transform>()->transform.scale = glm::vec3(1, 5, 1);
-	//Cube3->Parent = Cube;
-	//
 	////(4)===========================================================================================
+	_NL::Element::MeshInstance* quadmesh = new _NL::Element::MeshInstance("MyModels/quad.obj");
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
 	Quad->addComponent(new _NL::Component::MeshRenderer());
 	Quad->addComponent(new _NL::Component::CppScript<TestScript>);
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = quadmesh;
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Quad;
@@ -310,7 +264,7 @@ int main() {
 	
 	flameParticle->addComponent(new _NL::Component::MeshRenderer);
 	flameParticle->addComponent(new _NL::Component::Transform);
-	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = quadmesh;
 	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
 	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
 	flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
