@@ -1,14 +1,15 @@
 ﻿  GameManager.cpp
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(306): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(306): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(304): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(304): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(36): warning C4018: '<': signed/unsigned mismatch
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(39): warning C4018: '<': signed/unsigned mismatch
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(232): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(231): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(230): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(229): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(320): warning C4018: '<': signed/unsigned mismatch
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(344): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(11): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(17): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(34): warning C4244: 'argument': conversion from 'GLfloat' to 'unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(39): warning C4244: 'argument': conversion from 'GLfloat' to 'unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(285): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(284): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(283): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(282): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gamemanager.cpp(325): warning C4018: '<': signed/unsigned mismatch
   NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Debug\NamelessEngine.exe

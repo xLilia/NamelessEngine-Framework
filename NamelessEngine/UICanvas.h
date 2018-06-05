@@ -9,6 +9,7 @@ namespace _NL {
 		class UICanvas : public _NL::Core::UI, public _NL::Core::Object
 		{
 		public:
+			UICanvas();
 			UICanvas(sf::RenderWindow* GameManagerWindow);
 
 			sf::RenderWindow* WindowTarget;
@@ -19,7 +20,7 @@ namespace _NL {
 			void addUIElement(_NL::Core::UI* UI);
 			void DrawElements();
 
-			char* ClassName() const override;
+			char* getTypeName() const override;
 		};
 	}
 }

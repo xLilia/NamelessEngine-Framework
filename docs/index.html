@@ -1,561 +1,252 @@
+<!DOCTYPE HTML>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="style.css">
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
-		<script type="text/javascript" src="scripts.js"></script>
-		<script type="text/javascript" src="jquery-1.8.3.js">
-		   $(function(){
-			  alert("My First Jquery Test");
-		   });
-		</script>
-	</head>
-	<body>
-	<div id="overlay"></div>
-        <div class="fixedElement">
-            <h1 class="botline">NAMELESS ENGINE SDK</h1>
-        </div>
-        <br><br>
-		<table>
-            <tr>
-                <th class="clickable" onclick="toggleVisibility('n0')">
-                Project Data
-                </th>
-            </tr>
-		</table>
-        <br class="hide n0">
-		<div class="hide n0">
-			<table>
-				<!––NAMELESS STUFF--->
-				<tr>
-					<th class="clickable" onclick="toggleVisibility('n1')">
-					NAMELESS ENGINE SDK
-					</th>
-				</tr>
-				<tr class="hide n1">
-					<td>
-					<b>About:</b> NAMELESS ENGINE is an SDK written in C++ that supports 3D graphics with a C++ Interface. This tool is built with adaptability and simplicity as its core philosophies. Its modular architecture allows for simple and fast composition of a multitude of 3D Interactive virtual Environments while still maintaining a high level of control over what’s going on behind the scenes. Its purposes range from Video Game Development to Visualization of Artificial intelligence Models and other kinds of interactive systems were visualization is required. It should be used as a base for a software and extended upon Ad infinitum.
-					</td>
-				</tr>
-				<tr class="hide n1">
-					<td>
-                        <li><b>Type:</b> Game Engine SDK
-                        <li><b>Developer:</b> MateusBranco</li>
-                        <li><b>Platform:</b> PC-Windows</li>
-                        <li><b>Written in:</b> C++[Runtime]</li>
-                        <li><b>Minimum System Requirements:</b> OpenGL v4.5</li>
-                        <li><b>Available in:</b> English
-                        <li><b>Target audience:</b> Programmers comfortable with C++ programming language (Needs Testing to rectify)</li>
-                        <li><b>Copyright Info:</b> This SDK can be used for Commercial use, Distribution, Modification, Patent use and Private use under the terms stated by the GNU GPLv3 (<a href="https://choosealicense.com/licenses/gpl-3.0/ ">GNU General Public License v3.0</a>).
-                        <li><b>Version Control Repository:</b> <a href="https://github.com/mattateusb7/NamelessEngine">https://github.com/mattateusb7/NamelessEngine</a></li>
-                        <li><b>Website:</b> <a href="https://mattateusb7.github.io/NamelessEngine/">https://mattateusb7.github.io/NamelessEngine/</a></li> 
-                    </td>
-				</tr>
-				
-				<tr class="hide n1">
-					<th class="clickable" onclick="toggleVisibility('n1_1')">
-						KeyFeatures
-					</th>
-				</tr>
-				
-				<tr class="hide n1_1">
-					<td>
-					<li>3D Graphics</li>
-					<li>C++ Interface</li>
-					<li>Easy and Fast Setup</li>
-					<li>Modular architecture</li>
-					</td>
-				</tr>
-				
-				
-				<tr class="hide n1">
-					<th class="clickable" onclick="toggleVisibility('n1_2')">
-						Included External Libraries
-					</th>
-				</tr>
-				
-				<tr class="hide n1_2">
-					<td>
-					<li><a href="https://www.sfml-dev.org/">Simple and Fast Multimedia Library  (SFML) v2.1.0</a></li>
-					<li><a href="http://glew.sourceforge.net/">The OpenGL Extension Wrangler Library (GLEW) v2.4.2</a></li>
-					<li><a href="https://glm.g-truc.net">OpenGL Mathematics (GLM) v0.9.8.0</a></li>
-					</td>
-				</tr>
-				
-				<tr class="hide n1">
-					<th class="clickable" onclick="toggleVisibility('n1_3')">
-					References
-					</th>
-				</tr>
-			</table>
-			<br class="hide n1_3">
-			<table>
-				<tr class="hide n1_3">
-					<td class="text_center clickable" onclick="toggleVisibility('n2')">
-						<b>UNITY Engine</b>
-					</td>
-				</tr>
-			
-				<tr class="hide n2">
-					<td>
-						<b>About:</b> Unity is a cross-platform game engine developed by Unity Technologies, which is primarily used to develop both three-dimensional and two-dimensional video games and simulations for computers, consoles, and mobile devices. First announced only for OS X at Apple's Worldwide Developers Conference in 2005, it has since been extended to target 27 platforms. Six major versions of Unity have been released. 
-					</td>
-				</tr>
-				<tr class="hide n2">
-					<td>
-					<li><b>Developer(s):</b> Unity Technologies
-					<li><b>Initial release:</b> 1.0 / June 8, 2005; 12 years ago
-					<li><b>Stable release:</b> 2017.3 / December 17, 2017; 
-					<li><b>Written in:</b> C++ (Runtime) C# (Unity API)
-					<li><b>Platform:</b> IA-32, x86-64, ARM
-					<li><b>Available in:</b> English
-					<li><b>Type:</b> Game engine
-					<li><b>License:</b> Proprietary
-					<li><b>Website:</b> <a href="http://unity3d.com">unity3d.com</a>
-					</td>
-				</tr>
-				
-				<tr class="hide n2">
-					<th class="clickable" onclick="toggleVisibility('n2_1')">
-						Analized Elements
-					</th>
-				</tr>
-				
-				<tr class="hide n2_1">
-					<td>
-						<li>Component based architecture.</li>
-						<li>Inspiration for some Components.</li>
-					</td>
-				</tr>
-			</table>
-			<br class="hide n1_3">
-			<table class="hide n1">
-				<tr>
-					<th class="clickable" onclick="toggleVisibility('n2_2')">
-						Arquiteture
-					</th>
-				</tr>
-			</table>
-            
-            <table class="hide n2_2" style="table-layout: fixed">
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nlcore')">
-                        _NL::Core
-                    </th>
-                </tr>
-                <tr class="hide nlcore">
-                    <td>
-                        <p style="text-align: center">--★Classes★--</p>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-                        <h3>Class _NL::Core::CppScript</h3>
-                        <p><b>public:</b></p>
-                        <p>virtual void Start() = 0;</p>
-                        <p>virtual void Update() = 0;</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>Class _NL::Core::Component</h3>
-                        <p><b>public:</b></p>
-                        <p>virtual std::string ClassName() const = 0;</p>
-                        <p>bool bactive = true;</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>Class _NL::Core::Element</h3>
-                        <p><b>public:</b></p>
-                        <p>virtual std::string ClassName() const = 0;</p>
+<!--
+<style>
+body {
+	background-color: black;
+}
 
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>Class _NL::Core::Object</h3>
-                        <p><b>public:</b></p>
-                        <p>std::string name;</p>
-                        <p>Object *Parent = 0;</p>
-                        <p>std::vector&ltObject*&gt Childs;</p>
-                        <p>virtual std::string ClassName() const = 0;</p>
-                        <p>bool bactive = true;</p>
-                        <p>bool bstatic = false;</p>
-                        <p>virtual void getInfo() {};</p>
-                        <p>int addComponent(_NL::Core::Component *C);</p>
-                        <p>template&lttypename T&gtT* getComponent();</p>
-                        <p>std::vector<_NL::Core::Component*> Components;</p>
-                            
-                        <p style="text-align: center">--★★--</p>
-                            
-                        <p style="text-align: center">--★Structs★--</p>
-                        
-                        <h3>struct _NL::Core::VertexPos</h3>
-                        <p>glm::vec3 Pos;       //Position</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::VertexNorm</h3>
-                        <p>glm::vec3 Norm;      //Normal</p>
-                        
-                        <p style="text-align: center">--★★--</p>
+p {
+  text-align: center;
+  font-size: 60px;
+  margin-top:0px;
+  color: white;
+  margin: 0px;
+}
 
-                        <h3>struct _NL::Core::VertexCol</h3>
-                        <p>glm::vec3 Col;       //Color</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::VertexTexCoord</h3>
-                        <p>glm::vec2 TexCoord;  //TexCoordinates</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::vIndices</h3>
-                        <p>GLuint v[3];</p>
-                        <p>GLuint vt[3];</p>
-                        <p>GLuint vn[3];</p>
-                        <p>GLint MTL_ID;</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::MTLdata</h3>
-                        <p>GLfloat Ns;	 //Scalar</p>
-                        <p>glm::vec3 Ka; //Ambient ColorRGB</p>
-                        <p>glm::vec3 Kd; //Difuse ColorRGB</p>
-                        <p>glm::vec3 Ks; //Specular ColorRGB</p>
-                        <p>glm::vec3 Ke; //Emission ColorRGB</p>
-                        <p>GLuint MTL_ID;</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::MeshData</h3>
-                        <p>std::vector&ltVertexPos&gt vPos;</p>
-                        <p>std::vector&ltVertexCol&gt vCol;</p>
-                        <p>std::vector&ltVertexNorm&gt vNorm;</p>
-                        <p>std::vector&ltVertexTexCoord&gt vTexC;</p>
-                        
-                         <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::transform</h3>
-                        <p>glm::vec3 position;</p>
-                        <p>glm::vec3 EulerRotation;</p>
-                        <p>glm::mat4 MatrixRotation;</p>
-                        <p>glm::vec3 scale;</p> 
-                        
-                         <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::ScreenQuad</h3>
-                        <p>const GLfloat fullquad_t[8] = {-1,-1,+1,-1,+1,+1,-1,+1};</p>
-                        <p>const GLuint fullquad_i[4] = {0,1,2,3};</p>
-                        
-                         <p style="text-align: center">--★★--</p>
-                        
-                        <h3>struct _NL::Core::LightProperties</h3>
-                        <p>glm::vec4 lightColor = glm::vec4(1, 1, 1, 1);</p>
-                        <p>glm::vec3 lightPosition = glm::vec3(0, 0, 0);</p>
-                        <p>GLfloat PADDING0;</p>
-                        <p>GLfloat radiusOfInfluence = 1;</p>
-                        <p>glm::vec3 PADDING1;</p>
-                        
-                         <p style="text-align: center">--★★--</p>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nlengine')">
-                        _NL::Engine
-                    </th>
-                </tr>
-                <tr class="hide nlengine">
-                    <td>
-                        <p style="text-align: center">--★Classes★--</p>
-                        
-                        <h3>Class _NL::Engine::WindowManager</h3>
-                        
-                        <p><b>public:</b></p>
-                        
-                        <p>WindowManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);</p>
-                        <p>~WindowManager();</p>
-                        
-                        <p>sf::Event Event;</p>
-                        <p>sf::RenderWindow* window;</p>
-                        <p>_NL::Engine::Time Time;</p>
-                        <p>glm::vec3 ClearColor;</p>
-                        <p>_NL::Engine::WorldSpace* CurrentScene;</p>
-                        <p>std::vector&lt_NL::Object::CameraObj*&gt Cameras;</p>
-                        <p>std::vector&lt_NL::Core::LightProperties&gt Lights;</p>
-                        
-                        <p>void RunSceneLoop();</p>
-                        <p>void EndCurrentScene();</p>
+image {
+	width: 50%" 
+	height: 50%"
+}
 
-                        <p><b>private:</b></p>
-                        
-                        <p>bool bEndCurrentScene = false;</p>
+</style>
+-->
 
-                        <p>GLuint LightsBlockUBO;</p>
-                        <p>GLuint uIndexLightsBlock = 0;</p>
-                        <p>ShaderWizard ScreenShader;</p>
-                     
-                        <p>GLuint* FrameBuffer;</p>
-                        <p>GLuint* ColorTexture;</p>
-                        <p>GLuint* DepthTexture;</p>
+</head>
+<body>
 
-                        <p>void Start();</p>
-                        <p>void OpenGLStart();</p>
-                        <p>void GenerateCamFramebuffers(std::vector&lt_NL::Object::CameraObj*&gt Cams);</p>
-                        <p>void updateWindow();</p>
-                        <p>void UpdateCurrentScene();</p>
-                        <p>void DrawScreenQuad(GLuint CamID);</p>
-                        <p>void ClearCurrentBuffer();</p>
-                        <p>void Display(GLuint CamID);</p>
 
-                        <p>void UpdateScriptsOfObj(_NL::Core::Object* obj);</p>
-                        <p>void StartScriptsOfObj(_NL::Core::Object* obj);</p>
+<!-- <img src = "nl_engineLogo.svg" width = "100%" height = "50%" align="middle"> -->
+<audio autoplay id="myaudio">
+  <source src="audio/NikyNine-ExhaustedDivinity.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
-                        <p>void CleanUpLastSceneLoadedResources();</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>Class _NL::Engine::NL_Time</h3>
-                        
-                        <p><b>public:</b></p>
-                        <p>Time();</p>
-                        <p>~Time();</p>
-                        <p>sf::Time DeltaTime;</p>
-                        <p>sf::Clock Clock;</p>
-                        <p>void Tick();</p>
-                        
-                        <p><b>private:</b></p>
-                        <p>sf::Clock Clk;</p>
-                        
-                        <p style="text-align: center">--★★--</p>
-                        
-                        <h3>Class _NL::Engine::WorldSpace</h3>
-                        
-                        <p><b>public:</b></p>
-                        <p>WorldSpace();</p>
-                        <p>~WorldSpace();</p>
-                        <p>void addObjectToWorld(_NL::Core::Object *G);</p>
-                        <p>void showObjectList();</p>
-                        <p>_NL::Object::SkyboxObj* Skybox = NULL;</p>
-                        <p>std::vector&lt_NL::Core::Object*&gt GetObjectList();</p>
-                        
-                        <p><b>private:</b></p>
-                        <p>std::vector&lt_NL::Core::Object*&gt ObjectList;</p>
-                        
-                        <p style="text-align: center">--★Classes★--</p>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nobject')">
-                        _NL::Object
-                    </th>
-                </tr>
-                <tr class="hide nobject">
-                     <td>
-                        <p style="text-align: center">--★Classes★--</p>
-                         
-                         <h3>class _NL::Object::GameObject 
-                             <div style="color: red">Inherited from : public _NL::Core::Object</div>
-                         </h3>
-                         <p><b>public:</b></p>
-                         <p>GameObject();</p>
-                         <p>GameObject(std::string name);</p>
-                         <p>~GameObject();</p>
-                         <p>void getInfo() override;</p>
-                         <p>std::string ClassName() const override;</p>
-                        
-                        <h3></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nlcomponent')">
-                        _NL::Component
-                    </th>
-                </tr>
-                <tr class="hide nlcomponent">
-                     <td>
-                        <p style="text-align: center">--★Classes★--</p>
-                        
-                        <h3></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nlelement')">
-                        _NL::Element
-                    </th>
-                </tr>
-                <tr class="hide nlelement">
-                     <td>
-                        <p style="text-align: center">--★Classes★--</p>
-                        
-                        <h3></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nltool')">
-                        _NL::Tool
-                    </th>
-                </tr>
-                <tr class="hide nltool">
-                     <td>
-                        <p style="text-align: center">--★Classes★--</p>
-                        
-                        <h3></h3>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="clickable" onclick="toggleVisibility('nlfiles')">
-                        Other Files
-                    </th>
-                </tr>
-                 <tr class="hide nlfiles"></tr>
-            </table>
-            
-			<br>
-            
-			<table>
-				<!––LAIFE STUFF--->
-				<tr>
-					<th class="clickable" onclick="toggleVisibility('t1')">
-					TECH-DEMO ::L(AIFE)::
-					</th>
-				</tr>
-				<tr class="hide t1">
-					<td>
-						<b>About:</b> This game is a proof of concept for the functionality of the Engine that I am developing during this project. 
-					</td>
-				</tr>
-				<tr class="hide t1">
-					<td>
-					<li><b>Theme:</b> Artificial Intelligent Life (ALIFE) in a 3D environment.</li>
-					<li><b>Genre:</b> Tech-Demo / God-Game / Simulation / Sandbox</li>
-					<li><b>Category:</b> Single-Player</li>
-					<li><b>Platform:</b> PC-Windows</li>
-					<li><b>Average Gameplay Time:</b> 15 min</li>
-					<li><b>Target Audience:</b> Casual</li>
-					<li><b>Technology:</b>In House Engine “Nameless Engine SDK”</li>
-					</td>
-				</tr>
-				<tr class="hide t1">
-					<th class="clickable" onclick="toggleVisibility('t1_1')">
-					KeyFeatures
-					</th>
-				</tr>
-				
-				<tr class="hide t1_1">
-					<td>
-					<li>Simulation</li>
-					<li>Artificial Life</li>
-					<li>Artificial intelligence</li>
-					<li>Emergent behaviour</li>
-					<li>Swarm intelligence</li>
-					</td>
-				</tr>
-				
-				<tr class="hide t1">
-					<th class="clickable" onclick="toggleVisibility('t1_2')">
-					Mechanics
-					</th>
-				</tr>
-				
-				<tr class="hide t1_2">
-					<td>
-					<li>Create Species</li>
-					<li>Spawn Individual</li>
-					<li>Possess Individual</li>
-					<li>Kill Individual</li>
-					<li>Fly around</li>
-					</td>
-				</tr>
-				
-				<tr class="hide t1">
-					<th class="clickable" onclick="toggleVisibility('t1_3')">
-					References
-					</th>
-				</tr>
-			</table>
-			<table>
-				<br class="hide t1_3">
-				<tr class="hide t1_3">
-					<td class="text_center clickable" onclick="toggleVisibility('t2')"><b>Boids</b></td>
-				</tr>	
-				<tr class="hide t2">
-					<td>
-						<b>About:</b> Boids is an artificial life program, developed by Craig Reynolds in 1986, which simulates the flocking behaviour of birds. His paper on this topic was published in 1987 in the proceedings of the ACM SIGGRAPH conference. The name "boid" corresponds to a shortened version of "bird-oid object", which refers to a bird-like object.
-					</td>
-				</tr>
-				<tr class="hide t2">
-					<td>
-					<li><b>Genre:</b> Simulation.</li>
-					<li><b>Category:</b> Single-Player</li>
-					<li><b>Plataforma:</b> PC</li>
-					</td>
-				</tr>
-				
-				<tr class="hide t2">
-					<th class="clickable" onclick="toggleVisibility('t2_1')">
-					KeyFeatures
-					</th>
-				</tr>
-				
-				<tr class="hide t2_1">
-					<td>
-					<li>Simulation</li>
-					<li>Artificial Life</li>
-					<li>Artificial intelligence</li>
-					<li>Emergent behaviour</li>
-					<li>Swarm intelligence</li>
-					</td>
-				</tr>
-				
-				<tr class="hide t2">
-					<th class="clickable" onclick="toggleVisibility('t2_2')">
-					Mechanics
-					</th>
-				</tr>
-				
-				<tr class="hide t2_2">
-					<td>
-					<li><b>Separation:</b> steer to avoid crowding local flockmates.</li>
-					<li><b>Alignment:</b> steer towards the average heading of local flockmates.</li>
-					<li><b>Cohesion:</b> steer to move toward the average position (center of mass) of local flockmates.</li>
-					</td>
-				</tr>
-				
-				<tr class="hide t2">
-					<th class="clickable" onclick="toggleVisibility('t2_3')">
-					Analized Elements
-					</th>
-				</tr>
-				
-				<tr class="hide t2_3">
-					<td>
-					<li>Example of Artificial Life</li>
-					<li>Emergent behavior from simple rules.</li>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<br>
-        <table>
-            <tr>
-                <th class="clickable" onclick="toggleVisibility('pdiagram')">
-                Project Diagram
-                </th>
-            </tr>
-		</table>
-        <br class="hide pdiagram">
-        <table>
-            <img class="hide pdiagram" src="imgs/Diagram.png" alt="Data Diagram" style="width: 100%; background-color: white">
-        </table>
-		<br>
-		<table>
-			<th class="text_center" action=""><a href="">Colapse Tabs</a></th>
-		</table>
-		
-		<div class="botline">
-            <h2>
-            E-mail: <a href="mailto:mattateusb7@gmail.com">Mateus Branco</a><br>
-            GitHub Repository: <a href="https://github.com/mattateusb7/NamelessEngine">NamelessEngine</a><br>
-            <p>
-            Projecto Final<br>
-            Mateus Branco<br>
-            2018
-            </p>
-            </h2>
-		</div>		
-	</body>
+<script>
+  var audio = document.getElementById("myaudio");
+  audio.volume = 0.3;
+  audio.currentTime = 40;
+</script>
+
+<div id="overlay"></div>
+<p id="TIMER"></p>
+
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1920 1080" style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_3_);}
+	.st1{clip-path:url(#SVGID_7_);}
+</style>
+<g>
+	<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA45.jpg"  transform="matrix(1 0 0 1 460 40)">
+	</image>
+	<g>
+		<defs>
+			<path id="SVGID_1_" d="M960-53c327.5,0,593,265.5,593,593s-265.5,593-593,593S367,867.5,367,540S632.5-53,960-53L960-53z"/>
+		</defs>
+		<defs>
+			<rect id="SVGID_2_" x="460.1" y="40" width="1000.1" height="1000.1"/>
+		</defs>
+		<clipPath id="SVGID_3_">
+			<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+		</clipPath>
+		<clipPath id="SVGID_4_" class="st0">
+			<use xlink:href="#SVGID_2_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_4_);">
+			<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA47.jpg"  transform="matrix(1 0 0 1 460 40)">
+			</image>
+		</g>
+	</g>
+	<g>
+		<defs>
+			<path id="SVGID_5_" d="M848.5,1081.8c-35.5-7.3-70.4-18.1-103.8-32.2c-32.8-13.9-64.4-31-93.9-51C621.6,978.8,594,956.1,569,931
+				c-25-25-47.8-52.6-67.5-81.9c-20-29.6-37.1-61.2-51-93.9c-14.1-33.4-24.9-68.3-32.2-103.8C410.8,615.1,407,577.5,407,540
+				s3.8-75.1,11.2-111.5c7.3-35.5,18.1-70.4,32.2-103.8c13.9-32.8,31-64.4,51-93.9c19.8-29.3,42.5-56.8,67.5-81.9
+				c25-25,52.6-47.8,81.9-67.5c29.6-20,61.2-37.1,93.9-51C778.1,16.3,813,5.5,848.5-1.8C884.9-9.2,922.5-13,960-13
+				s75.1,3.8,111.5,11.2c35.5,7.3,70.4,18.1,103.8,32.2c32.8,13.9,64.4,31,93.9,51c29.3,19.8,56.8,42.5,81.9,67.5
+				c25,25,47.8,52.6,67.5,81.9c20,29.6,37.1,61.2,51,93.9c14.1,33.4,24.9,68.3,32.2,103.8c7.5,36.4,11.2,73.9,11.2,111.5
+				s-3.8,75.1-11.2,111.5c-7.3,35.5-18.1,70.4-32.2,103.8c-13.9,32.8-31,64.4-51,93.9c-19.8,29.3-42.5,56.8-67.5,81.9
+				c-25,25-52.6,47.8-81.9,67.5c-29.6,20-61.2,37.1-93.9,51c-33.4,14.1-68.3,24.9-103.8,32.2c-36.4,7.5-73.9,11.2-111.5,11.2
+				S884.9,1089.2,848.5,1081.8"/>
+		</defs>
+		<defs>
+			<rect id="SVGID_6_" x="460.1" y="40" width="1000.1" height="1000.1"/>
+		</defs>
+		<clipPath id="SVGID_7_">
+			<use xlink:href="#SVGID_5_"  style="overflow:visible;"/>
+		</clipPath>
+		<clipPath id="SVGID_8_" class="st1">
+			<use xlink:href="#SVGID_6_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_8_);">
+			<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA42.jpg"  transform="matrix(1 0 0 1 460 40)">
+			</image>
+		</g>
+	</g>
+	<g>
+		<defs>
+			<path id="SVGID_9_" d="M960,290c138.1,0,250,111.9,250,250s-111.9,250-250,250S710,678.1,710,540S821.9,290,960,290L960,290z"/>
+		</defs>
+		<clipPath id="SVGID_10_">
+			<use xlink:href="#SVGID_9_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_10_);">
+			<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA43.jpg"  transform="matrix(1 0 0 1 460 40)">
+			</image>
+		</g>
+	</g>
+	<g>
+		<defs>
+			<polygon id="SVGID_11_" points="810,390 1110,390 1110,690 810,690 810,390 			"/>
+		</defs>
+		<clipPath id="SVGID_12_">
+			<use xlink:href="#SVGID_11_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_12_);">
+			<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA4D.jpg"  transform="matrix(1 0 0 1 460 40)">
+			</image>
+		</g>
+	</g>
+	<g>
+		<defs>
+			<path id="SVGID_13_" d="M828.2,945.2V829.6h115.6v115.6H828.2L828.2,945.2z M1076.2,928.3c-11.3,11.3-24.9,16.9-40.9,16.9
+				c-15.9,0-29.5-5.6-40.8-16.9c-11.3-11.3-16.9-24.9-16.9-40.9c0-16,5.6-29.6,16.9-40.9c11.3-11.3,24.9-16.9,40.8-16.9
+				c15.9,0,29.6,5.6,40.9,16.9c11.3,11.3,17,24.9,17,40.9C1093.2,903.3,1087.5,917,1076.2,928.3L1076.2,928.3z"/>
+		</defs>
+		<clipPath id="SVGID_14_">
+			<use xlink:href="#SVGID_13_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_14_);">
+			<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA4F.jpg"  transform="matrix(1 0 0 1 460 40)">
+			</image>
+		</g>
+	</g>
+	<g>
+		<defs>
+			<path id="SVGID_15_" d="M687.6,248.7v-7h55v7H687.6L687.6,248.7z M781.3,228.6v-31.3c0-3.8-0.7-6.7-2.1-8.5
+				c-1.4-1.8-3.6-2.8-6.4-2.8c-1,0-2.1,0.2-3.1,0.5c-1,0.3-2,0.8-3.1,1.6c-1.1,0.8-2.2,1.8-3.5,3.1c-1.3,1.3-2.7,2.9-4.2,4.9v32.5
+				h-8.5v-49h7.6l0.3,7.9c1.4-1.7,2.8-3.1,4.1-4.2c1.3-1.1,2.6-2,3.9-2.7c1.3-0.7,2.6-1.2,3.9-1.4c1.3-0.3,2.7-0.4,4.2-0.4
+				c5,0,8.9,1.5,11.4,4.5c2.6,3,3.9,7.5,3.9,13.5v32H781.3L781.3,228.6z M805.9,228.6v-7.1H822v-54.9h-14.5v-7h23.1v61.9h14.6v7.1
+				H805.9L805.9,228.6z M887.1,224.6c-0.4,1-1,1.8-1.7,2.6c-0.7,0.7-1.6,1.3-2.6,1.7c-1,0.4-2,0.6-3.1,0.6c-1.1,0-2.2-0.2-3.2-0.6
+				c-1-0.4-1.8-1-2.6-1.7c-0.7-0.7-1.3-1.6-1.7-2.6c-0.4-1-0.6-2-0.6-3.1c0-1.1,0.2-2.2,0.6-3.2c0.4-1,1-1.9,1.7-2.6
+				c0.7-0.7,1.6-1.3,2.6-1.8c1-0.4,2-0.6,3.2-0.6c1.1,0,2.2,0.2,3.1,0.6c1,0.4,1.9,1,2.6,1.8c0.7,0.8,1.3,1.6,1.7,2.6
+				c0.4,1,0.6,2.1,0.6,3.2C887.7,222.6,887.5,223.6,887.1,224.6L887.1,224.6z M956.6,204.6c0,0.8-0.1,1.6-0.1,2.3h-34.4
+				c0,5,1.4,8.9,4.2,11.5c2.8,2.7,6.8,4,12.1,4c1.4,0,2.9-0.1,4.3-0.2c1.4-0.1,2.8-0.3,4.2-0.5c1.3-0.2,2.6-0.4,3.8-0.7
+				c1.2-0.2,2.4-0.5,3.4-0.8v7c-2.3,0.7-4.9,1.2-7.8,1.6c-2.9,0.4-5.9,0.6-9.1,0.6c-4.2,0-7.8-0.6-10.8-1.7c-3-1.1-5.5-2.8-7.4-5
+				c-1.9-2.2-3.4-4.8-4.3-8c-0.9-3.1-1.4-6.7-1.4-10.7c0-3.4,0.5-6.7,1.5-9.8c1-3.1,2.4-5.8,4.3-8.1c1.9-2.3,4.2-4.2,7-5.5
+				c2.8-1.4,5.9-2.1,9.4-2.1c3.4,0,6.4,0.5,9.1,1.6c2.6,1.1,4.9,2.6,6.7,4.6c1.8,2,3.2,4.4,4.1,7.2c0.9,2.8,1.4,6,1.4,9.4
+				C956.7,202.8,956.7,203.8,956.6,204.6L956.6,204.6z M947.2,194.3c-0.5-1.8-1.3-3.4-2.4-4.7c-1.1-1.3-2.5-2.3-4.1-3.1
+				c-1.6-0.7-3.5-1.1-5.7-1.1c-1.9,0-3.5,0.4-5.1,1.1c-1.5,0.7-2.8,1.7-4,3c-1.1,1.3-2,2.9-2.7,4.7c-0.7,1.8-1.1,3.8-1.3,6h25.8
+				C948,198.1,947.7,196.2,947.2,194.3L947.2,194.3z M1001.2,228.6v-31.3c0-3.8-0.7-6.7-2.2-8.5c-1.4-1.8-3.6-2.8-6.4-2.8
+				c-1,0-2.1,0.2-3.1,0.5c-1,0.3-2,0.8-3.1,1.6c-1.1,0.8-2.2,1.8-3.5,3.1c-1.3,1.3-2.7,2.9-4.2,4.9v32.5h-8.5v-49h7.6l0.3,7.9
+				c1.4-1.7,2.8-3.1,4.2-4.2c1.3-1.1,2.6-2,3.9-2.7c1.3-0.7,2.6-1.2,3.9-1.4c1.3-0.3,2.7-0.4,4.1-0.4c5,0,8.9,1.5,11.5,4.5
+				c2.6,3,3.9,7.5,3.9,13.5v32H1001.2L1001.2,228.6z M1060.6,186.6c0.9,1.1,1.6,2.5,2.1,4c0.5,1.5,0.8,3.1,0.8,4.9
+				c0,2.5-0.5,4.9-1.4,7c-0.9,2.1-2.2,3.9-3.9,5.4c-1.7,1.5-3.7,2.7-6.1,3.5c-2.4,0.8-5,1.2-7.8,1.2c-2.1,0-4-0.2-5.8-0.7
+				c-1.8-0.4-3.2-1-4.2-1.6c-0.6,0.9-1.1,1.8-1.6,2.6c-0.4,0.8-0.6,1.7-0.6,2.7c0,1.2,0.6,2.3,1.8,3.1c1.2,0.8,2.8,1.3,4.7,1.3
+				l12.9,0.5c2.4,0.1,4.7,0.4,6.8,0.9c2.1,0.6,3.8,1.3,5.3,2.4c1.5,1,2.6,2.3,3.5,3.9c0.8,1.5,1.2,3.3,1.2,5.3
+				c0,2.2-0.5,4.2-1.4,6.2c-0.9,2-2.4,3.7-4.4,5.2c-2,1.5-4.5,2.7-7.5,3.5c-3,0.9-6.6,1.3-10.8,1.3c-4,0-7.3-0.3-10.1-1
+				c-2.8-0.6-5.1-1.5-6.9-2.6c-1.8-1.1-3.1-2.5-3.9-4c-0.8-1.5-1.2-3.2-1.2-5.1c0-2.4,0.6-4.5,1.7-6.3c1.1-1.8,2.8-3.5,5.1-5.2
+				c-0.8-0.4-1.6-0.9-2.2-1.5c-0.6-0.6-1.1-1.2-1.5-1.9s-0.7-1.4-0.9-2.2c-0.2-0.8-0.3-1.5-0.3-2.3c0-2.1,0.5-4.1,1.5-5.8
+				c1-1.8,2.2-3.4,3.5-5c-0.6-0.8-1.2-1.5-1.6-2.2c-0.5-0.7-0.9-1.5-1.2-2.3c-0.3-0.8-0.6-1.7-0.8-2.7c-0.2-1-0.3-2.1-0.3-3.3
+				c0-2.5,0.5-4.9,1.4-7c0.9-2.1,2.2-3.9,3.9-5.4c1.7-1.5,3.7-2.7,6.1-3.5c2.4-0.8,5-1.2,7.8-1.2c1.2,0,2.4,0.1,3.5,0.2
+				c1.1,0.2,2.1,0.4,2.9,0.6h17.8v6.9H1060.6L1060.6,186.6z M1031.1,235.7c0,2.3,1.2,4,3.6,5.1c2.4,1.1,5.8,1.6,10.1,1.6
+				c2.7,0,5-0.2,6.8-0.7c1.8-0.5,3.3-1.1,4.4-1.9s1.9-1.7,2.4-2.7c0.5-1,0.7-2.1,0.7-3.2c0-2-0.8-3.5-2.4-4.4
+				c-1.6-0.9-4.1-1.5-7.5-1.7l-12.8-0.4c-1.1,0.7-2,1.4-2.7,2.1c-0.7,0.7-1.2,1.4-1.6,2.1c-0.4,0.7-0.7,1.4-0.8,2.1
+				C1031.1,234.3,1031.1,235,1031.1,235.7L1031.1,235.7z M1054.1,191.3c-0.5-1.3-1.3-2.4-2.2-3.3c-0.9-0.9-2.1-1.6-3.3-2.1
+				c-1.3-0.5-2.7-0.8-4.3-0.8c-1.7,0-3.2,0.3-4.5,0.9c-1.3,0.6-2.4,1.4-3.3,2.3c-0.9,1-1.6,2.1-2.1,3.3c-0.5,1.3-0.7,2.6-0.7,4
+				c0,1.6,0.3,3,0.8,4.3c0.5,1.3,1.3,2.4,2.2,3.3c0.9,0.9,2.1,1.6,3.3,2.1c1.3,0.5,2.7,0.8,4.3,0.8c1.7,0,3.2-0.3,4.5-0.9
+				c1.3-0.6,2.4-1.3,3.3-2.3c0.9-1,1.6-2.1,2.1-3.4c0.5-1.3,0.7-2.6,0.7-4C1054.8,194.1,1054.6,192.6,1054.1,191.3L1054.1,191.3z
+				 M1080.8,228.6v-7.1h16.1v-34.9h-14.5v-7h23.1v41.9h14.6v7.1H1080.8L1080.8,228.6z M1104.7,170.5c-0.6,0.6-1.3,1.1-2.1,1.4
+				c-0.8,0.3-1.7,0.5-2.6,0.5c-0.9,0-1.8-0.2-2.6-0.5c-0.8-0.3-1.5-0.8-2.1-1.4c-0.6-0.6-1.1-1.3-1.4-2.1c-0.3-0.8-0.5-1.7-0.5-2.6
+				c0-0.9,0.2-1.8,0.5-2.6c0.3-0.8,0.8-1.5,1.4-2.1c0.6-0.6,1.3-1.1,2.1-1.4c0.8-0.3,1.7-0.5,2.6-0.5c0.9,0,1.8,0.2,2.6,0.5
+				c0.8,0.3,1.5,0.8,2.1,1.4c0.6,0.6,1.1,1.3,1.4,2.1c0.3,0.8,0.5,1.7,0.5,2.6c0,0.9-0.2,1.8-0.5,2.6
+				C1105.7,169.2,1105.3,169.9,1104.7,170.5L1104.7,170.5z M1166.1,228.6v-31.3c0-3.8-0.7-6.7-2.1-8.5c-1.4-1.8-3.6-2.8-6.4-2.8
+				c-1,0-2.1,0.2-3.1,0.5c-1,0.3-2,0.8-3.1,1.6c-1.1,0.8-2.2,1.8-3.5,3.1c-1.3,1.3-2.7,2.9-4.2,4.9v32.5h-8.5v-49h7.6l0.3,7.9
+				c1.4-1.7,2.8-3.1,4.2-4.2c1.3-1.1,2.6-2,3.9-2.7c1.3-0.7,2.6-1.2,3.9-1.4c1.3-0.3,2.7-0.4,4.1-0.4c5,0,8.9,1.5,11.5,4.5
+				c2.6,3,3.9,7.5,3.9,13.5v32H1166.1L1166.1,228.6z M1231.5,204.6c0,0.8-0.1,1.6-0.1,2.3H1197c0,5,1.4,8.9,4.2,11.5
+				c2.8,2.7,6.8,4,12.1,4c1.4,0,2.9-0.1,4.3-0.2c1.4-0.1,2.8-0.3,4.2-0.5c1.3-0.2,2.6-0.4,3.8-0.7c1.2-0.2,2.4-0.5,3.4-0.8v7
+				c-2.3,0.7-4.9,1.2-7.8,1.6c-2.9,0.4-5.9,0.6-9.1,0.6c-4.2,0-7.8-0.6-10.8-1.7c-3-1.1-5.5-2.8-7.4-5c-1.9-2.2-3.4-4.8-4.3-8
+				c-0.9-3.1-1.4-6.7-1.4-10.7c0-3.4,0.5-6.7,1.5-9.8c1-3.1,2.4-5.8,4.3-8.1c1.9-2.3,4.2-4.2,7-5.5c2.8-1.4,5.9-2.1,9.4-2.1
+				c3.4,0,6.4,0.5,9.1,1.6c2.6,1.1,4.9,2.6,6.7,4.6c1.8,2,3.2,4.4,4.1,7.2c0.9,2.8,1.4,6,1.4,9.4
+				C1231.6,202.8,1231.6,203.8,1231.5,204.6L1231.5,204.6z M1222.1,194.3c-0.5-1.8-1.3-3.4-2.4-4.7c-1.1-1.3-2.4-2.3-4.1-3.1
+				c-1.6-0.7-3.5-1.1-5.7-1.1c-1.9,0-3.5,0.4-5.1,1.1c-1.5,0.7-2.8,1.7-4,3c-1.1,1.3-2,2.9-2.7,4.7c-0.7,1.8-1.1,3.8-1.3,6h25.8
+				C1222.9,198.1,1222.6,196.2,1222.1,194.3L1222.1,194.3z"/>
+		</defs>
+		<clipPath id="SVGID_16_">
+			<use xlink:href="#SVGID_15_"  style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_16_);">
+			<image style="overflow:visible;" width="1000" height="1000" xlink:href="C212BA40.jpg"  transform="matrix(1 0 0 1 460 40)">
+			</image>
+		</g>
+	</g>
+</g>
+</svg>
+
+<!--<iframe width="1000px" height="1000px" src="https://www.youtube.com/embed/wk3Y3iKvHFM?autoplay=1&mute=1" frameborder="0"></iframe>-->
+
+<p id="TIMER"></p>
+
+<script>
+// Set the date we're counting down to
+var countDownDate = new Date("Jun 9, 2018 00:00:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+    
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+    
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+    // Output the result in an element with id="demo"
+    document.getElementById("TIMER").innerHTML = days + "d " + hours + "h "
+    + minutes + "m " + seconds + "s ";
+    
+    // If the count down is over, write some text 
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("TIMER").innerHTML = "<a href='https://github.com/mattateusb7/NamelessEngine'>Go to Documentation</a>";
+    }
+}, 1000);
+</script>
+
+	<div class="botline">
+        <h2>
+        E-mail: <a href="mailto:mattateusb7@gmail.com">Mateus Branco</a><br>
+        GitHub Repository: <a href="https://github.com/mattateusb7/NamelessEngine">NamelessEngine</a><br>
+        <p>
+        Projecto Final<br>
+        Mateus Branco<br>
+        2018
+        </p>
+        </h2>
+	</div>		
+
+</body>
 </html>

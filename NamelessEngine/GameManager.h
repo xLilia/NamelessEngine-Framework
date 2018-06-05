@@ -5,7 +5,6 @@
 #include "LightObject.h"
 #include "ParticleSystem.h"
 #include "UICanvas.h"
-
 #include "GLError.h"
 #include <SFML\Graphics.hpp>
 #include <GL\glew.h>
@@ -16,36 +15,44 @@ namespace _NL {
 		class GameManager
 		{
 		public:
-			GameManager(const char * WindowName, int Width, int height, bool fullscreen = false, bool bVSync = true, int fpsLimit = 0);
+			GameManager(std::string WindowName, int Width, int Height, bool hideMouse=false, bool fullscreen = false, bool borderless = false, bool bVSync = false, int fpsLimit = 0);
 			~GameManager();
-		
+			
 			sf::Event Event;
 			sf::RenderWindow* window;
+			std::string WindowName;
 			_NL::Engine::Time GameTime;
 			_NL::Engine::WorldSpace* CurrentScene;
-			_NL::Element::ShaderInstance* DepthStencilPassShader;
-			
-			std::vector<GLuint> ShadowMaps;
-			GLuint SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
-
 			std::vector<_NL::Object::CameraObj*> Cameras;
-			std::vector<_NL::Core::LightProperties> LightsProperties; //MAKE REFERENCE
 			std::vector<_NL::Object::LightObject*>Lights;
-
 			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
 			std::vector<_NL::UI::UICanvas*> UICanvas;
 
 			void RunScene(_NL::Engine::WorldSpace* set_current_scene);
 			void EndCurrentScene(_NL::Engine::WorldSpace* load_next_scene = nullptr);
-			void OpenGLStart();
-
+			void GoFullscreen();
+			void GoWindowed(GLfloat Width, GLfloat Height);
+			void GoBorderless(GLfloat Width, GLfloat Height);
 			void GameTick();
+
+			void UpdateObjectLists();
+			void SafeKillObj(_NL::Core::Object* Target);
+
+			template<class CastToObjType>
+			CastToObjType* SafeInstantiateObj(_NL::Core::Object * Target)
+			{
+				CastToObjType* Inst;
+				if (Target != nullptr) {
+					Inst = CurrentScene->Instantiate<CastToObjType>(Target);
+				}
+				return Inst;
+			}
 
 			void RenderCurrentScene();
 			void UpdateSceneLights();
 			void UpdateParticleSystems();
-			void RenderSceneSkybox(glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix);
-			void RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseOverrideShaderProgram = NULL);
+			void RenderSceneSkybox(_NL::Object::CameraObj* Cam);
+			void RenderSceneObjects(_NL::Object::CameraObj* Cam, GLuint UseOverrideShaderProgram = NULL);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
 			void RenderSceneCanvas();
 
@@ -53,7 +60,7 @@ namespace _NL {
 			void EndScriptsOfObj(_NL::Core::Object * obj);
 
 			void CleanUpCurrentSceneLoadedResources();
-
+	
 		private:
 
 			bool bEndCurrentScene = false;

@@ -1,7 +1,5 @@
 #include "ParticleSystem.h"
 
-
-
 _NL::Object::ParticleSystem::ParticleSystem()
 {
 	SPAWN_ON();
@@ -191,11 +189,9 @@ void _NL::Object::ParticleSystem::TickSystem()
 					CurrentScene->addObjectToWorld(SpawnParticle);
 				}
 				else {
-					ActiveParticles[oldSize + spf] = (static_cast<_NL::Object::ParticleObj*>(
-						CurrentScene->Instantiate(
-							SpawnParticle, newSpawnPoint, glm::quat(), SpawnerTransform.Scale)
-						)
-						);
+					ActiveParticles[oldSize + spf] = CurrentScene->Instantiate<_NL::Object::ParticleObj>(SpawnParticle);
+					ActiveParticles[oldSize + spf]->getComponent<_NL::Component::Transform>()->transform.position = newSpawnPoint;
+					ActiveParticles[oldSize + spf]->getComponent<_NL::Component::Transform>()->transform.scale = SpawnerTransform.Scale;
 				}
 
 				//COPY DEFAULT PARTICLE
@@ -228,14 +224,14 @@ void _NL::Object::ParticleSystem::TickSystem()
 				}
 				else { //KILL PARTICLE
 					ParticlesBehavior->End();
-					CurrentScene->KillObjectInstance<_NL::Object::ParticleObj>(ActiveParticles[i]);
+					CurrentScene->KillObjectInstance(ActiveParticles[i]);
 					ActiveParticles.erase(ActiveParticles.begin() + i);
 				}
 			}
 			else {
 				if (!ActiveParticles[i]->Alive) {
 					//KILL PARTICLE
-					CurrentScene->KillObjectInstance<_NL::Object::ParticleObj>(ActiveParticles[i]);
+					CurrentScene->KillObjectInstance(ActiveParticles[i]);
 					ActiveParticles.erase(ActiveParticles.begin() + i);
 				}
 			}
@@ -243,7 +239,7 @@ void _NL::Object::ParticleSystem::TickSystem()
 	}
 }
 
-char * _NL::Object::ParticleSystem::ClassName() const
+char * _NL::Object::ParticleSystem::getTypeName() const
 {
 	return "_NL::Object::ParticleSystem";
 }

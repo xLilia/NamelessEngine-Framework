@@ -1,51 +1,99 @@
 #include "GameManager.h"
 
-_NL::Engine::GameManager::GameManager(const char* WindowName, int Width, int height, bool fullscreen, bool bVSync, int fpsLimit)
+_NL::Engine::GameManager::GameManager(std::string WindowName, int Width, int Height, bool hideMouse, bool fullscreen, bool borderless, bool bVSync, int fpsLimit)
 {
 	//---------------------------------------------------------------------------------
 	//WINDOW INITIALIZATION
 	//---------------------------------------------------------------------------------
-	window = new sf::RenderWindow(sf::VideoMode(Width, height), WindowName);
-	if (fullscreen) {
-		window->create(sf::VideoMode::getFullscreenModes()[0], WindowName, sf::Style::Fullscreen);
+	this->WindowName = WindowName;
+	window = new sf::RenderWindow();
+	if (borderless) {
+		GoBorderless(Width,Height);
 	}
+	else if(fullscreen){
+		GoFullscreen();
+	}
+	else {
+		GoWindowed(Width,Height);
+	}
+	window->setMouseCursorVisible(!hideMouse);
 	window->setFramerateLimit(fpsLimit);
 	window->setVerticalSyncEnabled(bVSync);
 	window->setKeyRepeatEnabled(false);
 	glewInit();
 	//_toggle_gl_debug();
-	//---------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
-}	
+}
+
+void _NL::Engine::GameManager::GoFullscreen()
+{
+	window->create(sf::VideoMode::getFullscreenModes()[0], this->WindowName, sf::Style::Fullscreen);
+}
+
+void _NL::Engine::GameManager::GoWindowed(GLfloat Width, GLfloat Height)
+{
+	window->create(sf::VideoMode(Width, Height), this->WindowName, sf::Style::Default);
+}
+
+void _NL::Engine::GameManager::GoBorderless(GLfloat Width, GLfloat Height)
+{
+	window->create(sf::VideoMode(Width, Height), this->WindowName, sf::Style::None);
+}
+
+
+void _NL::Engine::GameManager::UpdateObjectLists() {
+	this->Cameras = CurrentScene->getAllObjsOfType<_NL::Object::CameraObj>();
+	if (Cameras.size() == 0) std::cout << "Camera not found in Current Scene..." << std::endl;
+	this->Lights = CurrentScene->getAllObjsOfType<_NL::Object::LightObject>();
+	this->ParticleSystems = CurrentScene->getAllObjsOfType<_NL::Object::ParticleSystem>();
+	this->UICanvas = CurrentScene->getAllObjsOfType<_NL::UI::UICanvas>();
+}
+
+void _NL::Engine::GameManager::SafeKillObj(_NL::Core::Object * Target)
+{
+	if (Target != nullptr) {
+		CurrentScene->KillObjectInstance(Target);
+	}
+}
 
 void _NL::Engine::GameManager::RunScene(_NL::Engine::WorldSpace* set_current_scene)
 {
+
+	//GL SETTINGS
+	{
+		///GL OPTIONS
+		glShadeModel(GL_SMOOTH);
+		///RENDER
+		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	}
+
 	this->CurrentScene = set_current_scene;
 
-	OpenGLStart();
+	UpdateObjectLists();
 
 	while (window->isOpen()) {
+
+		glFinish();
 
 		while (window->pollEvent(Event));
 		{
 			//PROCESS INPUT STACK
 		}	
-		
+
 		//---------------------------------------------------------------------------------
 		//START & UPDATE SCRIPTS 
-		for(int obj = 0; obj < CurrentScene->ObjectList.size(); obj++)
-		//for each (std::vector<_NL::Core::Object*> id in CurrentScene->ObjectList)
-		{
-			for(int inst = 0; inst < CurrentScene->ObjectList[obj].size(); inst++)
-			//for each (_NL::Core::Object* obj in id)
-			{
-				StartUpdateScriptsOfObj(CurrentScene->ObjectList[obj][inst]);
+		for (_NL::Core::ObjTypeList OTL : CurrentScene->ObjectLists) {
+			for (_NL::Core::ObjInstanceList OIL : OTL) {
+				for (_NL::Core::Object* Instance : OIL) {
+					StartUpdateScriptsOfObj(Instance);
+				}
 			}
 		}
 
 		//---------------------------------------------------------------------------------
 		//PARTICLE SYSTEMS
 		UpdateParticleSystems();
+
+		UpdateObjectLists();
 
 		//---------------------------------------------------------------------------------
 		//CHECK FOR END OF CURRENT SCENE 
@@ -55,7 +103,7 @@ void _NL::Engine::GameManager::RunScene(_NL::Engine::WorldSpace* set_current_sce
 		}
 		
 		//---------------------------------------------------------------------------------
-		//UPDATE WINDOW  
+		//UPDATE WINDOW
 		if (Cameras.size() > 0) {
 			window->setActive(true);
 			RenderCurrentScene();
@@ -68,10 +116,6 @@ void _NL::Engine::GameManager::RunScene(_NL::Engine::WorldSpace* set_current_sce
 	}
 
 }
-
-//---------------------------------------------------------------------------------
-//END OF CURRENT SCENE
-//---------------------------------------------------------------------------------
 
 void _NL::Engine::GameManager::EndCurrentScene(_NL::Engine::WorldSpace* load_next_scene)
 {
@@ -88,15 +132,14 @@ void _NL::Engine::GameManager::EndCurrentScene(_NL::Engine::WorldSpace* load_nex
 
 void _NL::Engine::GameManager::CleanUpCurrentSceneLoadedResources()
 {
-	for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
-	{
-		for each (_NL::Core::Object* inst in obj)
-		{
-			EndScriptsOfObj(inst);
+	for (_NL::Core::ObjTypeList OTL : CurrentScene->ObjectLists) {
+		for (_NL::Core::ObjInstanceList OIL : OTL) {
+			for (_NL::Core::Object* Instance : OIL) {
+				EndScriptsOfObj(Instance);
+			}
 		}
 	}
 	Cameras.clear();
-	LightsProperties.clear();
 	Lights.clear();
 	UICanvas.clear();
 	ParticleSystems.clear();
@@ -111,9 +154,10 @@ void _NL::Engine::GameManager::CleanUpCurrentSceneLoadedResources()
 //---------------------------------------------------------------------------------
 
 void _NL::Engine::GameManager::StartUpdateScriptsOfObj(_NL::Core::Object* obj) {
+
 	for each (_NL::Component::CppScript<_NL::Core::Script>* s in obj->Components)
 	{
-		if (s->ClassName() == "_NL::Component::CppScript") {
+		if (s->getTypeName() == "_NL::Component::CppScript") {
 			s->getScript()->_this = obj; // ducktape FIX!!! Reference doesn't get passed when obj added to vector
 			if (!s->getScript()->awake) {
 				s->getScript()->awake = true;
@@ -127,96 +171,16 @@ void _NL::Engine::GameManager::StartUpdateScriptsOfObj(_NL::Core::Object* obj) {
 void _NL::Engine::GameManager::EndScriptsOfObj(_NL::Core::Object* obj) {
 	for each (_NL::Component::CppScript<_NL::Core::Script>* s in obj->Components)
 	{
-		if (s->ClassName() == "_NL::Component::CppScript") {
+		if (s->getTypeName() == "_NL::Component::CppScript") {
 			s->getScript()->End();
 		}
 
 	}
 }
 
-//---------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------
-
-void _NL::Engine::GameManager::OpenGLStart()
-{
-	check_gl_error();
-	
-	//GET OBJECTS
-	for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
-	{
-		//---------------------------------------------------------------------------------
-		for each (_NL::Core::Object* inst in obj)
-		{
-			_NL::Component::MeshRenderer* MR = inst->getComponent<_NL::Component::MeshRenderer>();
-			if (MR != nullptr) {
-				if (!MR->bIsUnpacked) {
-					std::cout << "initialize MeshRenderer of Obj: " << inst->name << std::endl;
-					MR->initGLObj();
-				}
-			}
-			//---------------------------------------------------------------------------------
-			if (inst->ClassName() == "_NL::Object::CameraObj") {
-				Cameras.push_back((_NL::Object::CameraObj*)inst);
-			}
-			//---------------------------------------------------------------------------------
-			if (inst->ClassName() == "_NL::Object::LightObject") {
-				_NL::Object::LightObject* L = dynamic_cast<_NL::Object::LightObject*>(inst);
-				L->GenerateFramebuffer(SHADOW_WIDTH, SHADOW_HEIGHT);
-				LightsProperties.push_back(L->LightProperties);
-				Lights.push_back(L);
-			}
-			//---------------------------------------------------------------------------------
-			if (inst->ClassName() == "_NL::UI::UICanvas") {
-				UICanvas.push_back(dynamic_cast<_NL::UI::UICanvas*>(inst));
-			}
-			//---------------------------------------------------------------------------------
-			if (inst->ClassName() == "_NL::Object::ParticleSystem") {
-				ParticleSystems.push_back(dynamic_cast<_NL::Object::ParticleSystem*>(inst));
-			}
-		}
-	}
-
-	//---------------------------------------------------------------------------------
-	if (Cameras.size() == 0) {
-		std::cout << "Camera not found in Current Scene..." << std::endl;
-	}
-	else {
-		for each (_NL::Object::CameraObj* Cam in Cameras)
-		{
-			Cam->GenerateFrameBuffers();
-		}
-	}
-
-	//---------------------------------------------------------------------------------
-	//INITIALIZE LIGHT SSBO
-	if (LightsProperties.size() > 0) {
-
-		glGenBuffers(1, &LightsSSBO);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsSSBO);
-		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(_NL::Core::LightProperties)*LightsProperties.size(), &LightsProperties[0], GL_DYNAMIC_DRAW);
-		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
-		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO);
-		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-		check_gl_error();
-
-		//Generate Light's Framebuffers
-
-		check_gl_error();
-	}
-
-	//---------------------------------------------------------------------------------
-	//GL SETTINGS
-	{
-		///GL OPTIONS
-		glShadeModel(GL_SMOOTH);
-		///RENDER
-		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	}
-}
-
 void _NL::Engine::GameManager::RenderCurrentScene() {
-	int camID = 0;
-	camID++;
+
+	//window->resetGLStates();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(1, 0, 1, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -225,40 +189,31 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 	UpdateSceneLights();
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
-		glViewport(
-			Cam->RenderWindowPos.x,
-			Cam->RenderWindowPos.y,
-			Cam->RenderWindowSize.x,
-			Cam->RenderWindowSize.y
-		);
-		RenderSceneSkybox(Cam->getViewMatrix(), Cam->getProjectionMatrix());
 
+		RenderSceneSkybox(Cam);
 		//---------------------------------------------------------------------------------
 		//UPDATE CAM
 
-		Cam->PrepareToRenderScene();
-		Cam->SetThisViewPort();
-		Cam->ClearCurrentBuffer();
+		Cam->SetCamAsRenderTarget();
+		Cam->SetThisCamViewPort();
+		Cam->ClearCurrentRenderTarget();
 
 		glEnable(GL_DEPTH_TEST);
 		
-		RenderSceneObjects(Cam->TransformCam.Position, Cam->getWorldToViewMatrix(), Cam->getProjectionMatrix());
-
+		RenderSceneObjects(Cam);
+		
 		glDisable(GL_DEPTH_TEST);
-
+		
 		Cam->DisplayOnScreen();
+		glEnable(GL_DEPTH_TEST);
 
 		glClearColor(0, 0, 1, 0);
+		
 	}
+
 	//RenderSceneCanvas();
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	//glViewport(
-	//	0,
-	//	0,
-	//	window->getSize().x,
-	//	window->getSize().y
-	//);
 	window->display();
+
 
 }
 
@@ -281,15 +236,33 @@ void _NL::Engine::GameManager::UpdateSceneLights() {
 	//	RenderSceneObjects(Lights[i]->LightProperties.lightPosition, lightView, lightProjection, this->DepthPassShader->getShaderProgram());
 	//
 	//}
+	//INITIALIZE LIGHT SSBO
 
-	if (LightsProperties.size() > 0) {
+	std::vector<_NL::Core::LightProperties> LightsProperties;
+
+	if (Lights.size() > 0) {
+
+		for each(_NL::Object::LightObject* Lp in Lights) {
+			LightsProperties.push_back(Lp->LightProperties);
+		}
+		
+		glDeleteBuffers(1, &LightsSSBO);
+
+		glGenBuffers(1, &LightsSSBO);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsSSBO);
-		glBufferSubData(GL_SHADER_STORAGE_BUFFER,
-			0,
-			sizeof(_NL::Core::LightProperties)*LightsProperties.size(),
-			&LightsProperties[0]);
+		glBufferData(GL_SHADER_STORAGE_BUFFER, sizeof(_NL::Core::LightProperties)*LightsProperties.size(), &LightsProperties[0], GL_DYNAMIC_DRAW);
 		glBindBufferRange(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO);
 		glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+		check_gl_error();
+
+		//glBindBuffer(GL_SHADER_STORAGE_BUFFER, LightsSSBO);
+		//glBufferSubData(GL_SHADER_STORAGE_BUFFER,
+		//	0,
+		//	sizeof(_NL::Core::LightProperties)*LightsProperties.size(),
+		//	&LightsProperties[0]);
+		//glBindBufferRange(GL_SHADER_STORAGE_BUFFER, LightsSSBOBindingPoint, LightsSSBO, 0, sizeof(_NL::Core::LightProperties)*LightsProperties.size());
+		//glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 	}
 }
 
@@ -297,33 +270,41 @@ void _NL::Engine::GameManager::UpdateParticleSystems() {
 	if (ParticleSystems.size() > 0) {
 		for each (_NL::Object::ParticleSystem* PS in ParticleSystems)
 		{
-			PS->CurrentScene = this->CurrentScene;
+			if(PS->CurrentScene != this->CurrentScene) PS->CurrentScene = this->CurrentScene;
 			PS->TickSystem();
 		}
 	}
 }
 
-void _NL::Engine::GameManager::RenderSceneSkybox(glm::mat4 ViewMatrix, glm::mat4 ProjectionMatrix) {
+void _NL::Engine::GameManager::RenderSceneSkybox(_NL::Object::CameraObj* Cam) {
 	if (CurrentScene->Skybox != 0) {
+		glViewport(
+			Cam->RenderWindowPos.x,
+			Cam->RenderWindowPos.y,
+			Cam->RenderWindowSize.x,
+			Cam->RenderWindowSize.y
+		);
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 		//glFrontFace(GL_CCW);
 		CurrentScene->Skybox->SkyboxDysplayShader->Use();
-		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
-		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ViewMatrix));
+		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
+		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
 		CurrentScene->Skybox->RenderSkybox();
 	}
 }
 
-void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 WorldToViewMatrix, glm::mat4 ProjectionMatrix, GLuint UseOverrideShaderProgram) {	
+void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam, GLuint UseOverrideShaderProgram) {
 	check_gl_error();
-	for(int objN = 0; objN < CurrentScene->ObjectList.size(); objN++)
+
+	for (_NL::Core::ObjTypeList OTL : CurrentScene->ObjectLists) 
+	for (_NL::Core::ObjInstanceList OIL : OTL) {
+	//for(int objN = 0; objN < CurrentScene->ObjectList.size(); objN++)
 	//for each (std::vector<_NL::Core::Object*> obj in CurrentScene->ObjectList)
-	{
-		std::vector<_NL::Core::Object*>& obj = CurrentScene->ObjectList[objN];
-		if (obj.size() > 0) {
+		//std::vector<_NL::Core::Object*>& obj = CurrentScene->ObjectList[objN];
+		if (OIL.size() > 0) {
 			//MESH RENDERER
-			_NL::Component::MeshRenderer* ObjMR = obj[0]->getComponent<_NL::Component::MeshRenderer>();
+			_NL::Component::MeshRenderer* ObjMR = OIL[0]->getComponent<_NL::Component::MeshRenderer>();
 
 			if (ObjMR != NULL) {
 				if (UseOverrideShaderProgram == NULL) {
@@ -341,12 +322,12 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				//TRANSFORMS
 				std::vector<glm::mat4> Modelmat;
 
-				for (int inst = 0; inst < obj.size(); inst++)
+				for (int inst = 0; inst < OIL.size(); inst++)
 					//for each (_NL::Core::Object* objInstance in obj)
 				{
 					//---------------------------------------------------------------------------------
 					//PARENTS
-					_NL::Core::Object* objInstance = obj[inst];
+					_NL::Core::Object* objInstance = OIL[inst];
 					_NL::Component::Transform* _ObjT_P;
 					_NL::Component::Transform* _ObjT = objInstance->getComponent<_NL::Component::Transform>();
 					bool HasParent;
@@ -377,11 +358,12 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				//---------------------------------------------------------------------------------
 				//CAM UNIFORMS
 				check_gl_error();
-				glUniformMatrix4fv(_NL::Core::GLSL_AU::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(WorldToViewMatrix));
-				glUniformMatrix4fv(_NL::Core::GLSL_AU::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(ProjectionMatrix));
-				glUniform3f(_NL::Core::GLSL_AU::EyePos_uniform, EyePos.x, EyePos.y, EyePos.z);
+				glUniformMatrix4fv(_NL::Core::GLSL_AU::ViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getWorldToViewMatrix()));
+				glUniformMatrix4fv(_NL::Core::GLSL_AU::ProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
+				glm::vec3 *EyePos = &Cam->transformCam.Position;
+				glUniform3f(_NL::Core::GLSL_AU::EyePos_uniform, EyePos->x, EyePos->y, EyePos->z);
 				check_gl_error();
-			
+				
 				//---------------------------------------------------------------------------------
 				//LIGHT UNIFORMS
 				//glUniform1i(_NL::Core::GLSL_AU::NumberOfLights_uniform, LightsProperties.size());
@@ -392,7 +374,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				GLuint InstanceABO;
 				glGenBuffers(1, &InstanceABO);
 				glBindBuffer(GL_ARRAY_BUFFER, InstanceABO);
-				glBufferData(GL_ARRAY_BUFFER, obj.size() * sizeof(glm::mat4), glm::value_ptr(Modelmat[0]), GL_STATIC_DRAW);
+				glBufferData(GL_ARRAY_BUFFER, OIL.size() * sizeof(glm::mat4), glm::value_ptr(Modelmat[0]), GL_STATIC_DRAW);
 
 				//---------------------------------------------------------------------------------
 				//SETUP INSTANCE MODEL MAT ATRIB
@@ -468,7 +450,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 					ObjMR->UpdateGLSettings();
 					//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
 					glDisable(GL_BLEND);
-					glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), obj.size());
+					glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), OIL.size());
 					glEnable(GL_BLEND);
 
 					check_gl_error();
@@ -514,8 +496,6 @@ void _NL::Engine::GameManager::RenderSceneObjects(glm::vec3 EyePos, glm::mat4 Wo
 				//---------------------------------------------------------------------------------
 			}
 
-		}else {
-			CurrentScene->ObjectList.erase(CurrentScene->ObjectList.begin() + objN);
 		}
 	}
 }

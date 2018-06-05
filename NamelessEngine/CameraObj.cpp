@@ -1,5 +1,10 @@
 ﻿#include "CameraObj.h"
 
+_NL::Object::CameraObj::CameraObj()
+{
+
+}
+
 _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, GLuint nMultisamples)
 {
 	this->name = name;
@@ -20,9 +25,9 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 
 void _NL::Object::CameraObj::updateAudioListenerWithCamTransform()
 {
-	updateAudioListenerPosition(TransformCam.Position);
-	updateAudioListenerDirection(TransformCam.LookAt);
-	updateAudioListenerRotation(TransformCam.UpAxis);
+	updateAudioListenerPosition(transformCam.Position);
+	updateAudioListenerDirection(transformCam.LookAt);
+	updateAudioListenerRotation(transformCam.UpAxis);
 }
 
 void _NL::Object::CameraObj::updateAudioListenerPosition(glm::vec3 pos)
@@ -42,12 +47,12 @@ void _NL::Object::CameraObj::updateAudioListenerRotation(glm::vec3 upVec)
 
 glm::mat4 _NL::Object::CameraObj::getWorldToViewMatrix() const
 {
-	return glm::lookAt(TransformCam.Position, TransformCam.Position + TransformCam.LookAt, TransformCam.UpAxis);
+	return glm::lookAt(transformCam.Position, transformCam.Position + transformCam.LookAt, transformCam.UpAxis);
 }
 
 glm::mat4 _NL::Object::CameraObj::getViewMatrix() const
 {
-	return glm::lookAt(glm::vec3(), glm::vec3() + TransformCam.LookAt, TransformCam.UpAxis);
+	return glm::lookAt(glm::vec3(), glm::vec3() + transformCam.LookAt, transformCam.UpAxis);
 }
 
 glm::mat4 _NL::Object::CameraObj::getProjectionMatrix() const
@@ -120,8 +125,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, DepthStencilTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexStorage2D(
 		GL_TEXTURE_2D,
 		1,
@@ -139,8 +144,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, StencilViewTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTextureView(
 		StencilViewTexture,
 		GL_TEXTURE_2D,
@@ -175,8 +180,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 			glBindTexture(GL_TEXTURE_2D, ColorTexture);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexImage2D(
 				GL_TEXTURE_2D,
 				0,
@@ -325,8 +330,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		glBindTexture(GL_TEXTURE_2D, ColorTexture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
@@ -455,7 +460,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	
 }
 
-void _NL::Object::CameraObj::ClearCurrentBuffer()
+void _NL::Object::CameraObj::ClearCurrentRenderTarget()
 {	
 	//glEnable(GL_SCISSOR_TEST);
 	glClearColor(ClearScreenColor.x, ClearScreenColor.y, ClearScreenColor.z, 0.0f);
@@ -464,7 +469,7 @@ void _NL::Object::CameraObj::ClearCurrentBuffer()
 	check_gl_error();
 }
 
-void _NL::Object::CameraObj::SetThisViewPort(){
+void _NL::Object::CameraObj::SetThisCamViewPort(){
 	glViewport(
 		0,
 		0,
@@ -474,7 +479,7 @@ void _NL::Object::CameraObj::SetThisViewPort(){
 	check_gl_error();
 }
 
-void _NL::Object::CameraObj::PrepareToRenderScene()
+void _NL::Object::CameraObj::SetCamAsRenderTarget()
 {
 
 	glBindFramebuffer(GL_FRAMEBUFFER, G_FrameBuffer);
@@ -486,7 +491,7 @@ void _NL::Object::CameraObj::PrepareToRenderScene()
 		glDrawBuffers(nRenderTextures, atachments);
 		delete[] atachments;
 	}
-	//this->SetThisViewPort();
+	//this->SetThisCamViewPort();
 	//glScissor(
 	//	0,
 	//	0,
@@ -588,7 +593,7 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 	check_gl_error();
 }
 
-char* _NL::Object::CameraObj::ClassName() const
+char* _NL::Object::CameraObj::getTypeName() const
 {
 	return "_NL::Object::CameraObj";
 }

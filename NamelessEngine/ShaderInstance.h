@@ -15,7 +15,7 @@ namespace _NL {
 			void Use();
 			void UnUse();
 			void InstallShader(const char * VertexShader, const char * FragmentShader);
-			char* ClassName() const override;
+			char* getTypeName() const override;
 
 		private:
 			ShaderWizard Shader;

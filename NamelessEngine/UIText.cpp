@@ -2,10 +2,10 @@
 
 
 
-_NL::UI::UIText::UIText(const char * file_Path, std::string S)
+_NL::UI::UIText::UIText(const char * font_file_path, std::string text)
 {
-	setFont(file_Path);
-	setString(S);	
+	setFont(font_file_path);
+	setString(text);
 }
 
 _NL::UI::UIText::~UIText()
@@ -38,10 +38,12 @@ void _NL::UI::UIText::DrawText(sf::RenderWindow* WindowTarget)
 
 	glm::vec2 finalPos = (this->AnchorPosition + this->PositionRelativeToAnchor);
 	T.setPosition(sf::Vector2f(finalPos.x, finalPos.y));
+	//glDisable(GL_CULL_FACE);
 	WindowTarget->draw(T);
+	//glEnable(GL_CULL_FACE);
 }
 
-char * _NL::UI::UIText::ClassName() const
+char * _NL::UI::UIText::getTypeName() const
 {
 	return "_NL::UI::UIText";
 }

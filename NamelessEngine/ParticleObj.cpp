@@ -7,7 +7,7 @@ _NL::Object::ParticleObj::ParticleObj()
 	this->Alive = true;
 }
 
-char * _NL::Object::ParticleObj::ClassName() const
+char * _NL::Object::ParticleObj::getTypeName() const
 {
 	return "_NL::Object::ParticleObj";
 }

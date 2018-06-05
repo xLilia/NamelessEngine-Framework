@@ -6,7 +6,7 @@ namespace _NL {
 		class UIText : public _NL::Core::UI
 		{
 		public:
-			UIText(const char * file_Path, std::string S);
+			UIText(const char * font_file_path, std::string text);
 
 			enum Style
 			{
@@ -31,10 +31,11 @@ namespace _NL {
 			void setFont(const char* file_Path);
 			void DrawText(sf::RenderWindow* WindowTarget);
 
-			char* ClassName() const override;
-		private:
+			char* getTypeName() const override;
 			sf::Text T;
 			sf::Font F;
+		private:
+			
 		};
 	}
 }

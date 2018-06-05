@@ -5,7 +5,7 @@ _NL::Element::MaterialInstance::MaterialInstance()
 
 }
 
-char* _NL::Element::MaterialInstance::ClassName() const
+char* _NL::Element::MaterialInstance::getTypeName() const
 {
 	return "_NL::Element::MaterialInstance";
 }

@@ -26,8 +26,8 @@ void ParticleScript::Update() {
 	GLfloat RandomZ;
 
 
-	LO = -5;
-	HI = 5;
+	LO = -1;
+	HI = 1;
 	RandomX = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
 	RandomY = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
 	RandomZ = LO + static_cast<GLfloat>(rand()) / (static_cast<GLfloat>(RAND_MAX / (HI - LO)));
@@ -35,7 +35,7 @@ void ParticleScript::Update() {
 
 	glm::vec3 rv(RandomX, RandomY, RandomZ);
 
-	T->transform.QuaternionRotation = T->LookAt(W->Cameras[0]->TransformCam.Position);
+	T->transform.QuaternionRotation = T->LookAt(W->Cameras[0]->transformCam.Position);
 	
 	T->transform.position = glm::lerp(T->transform.position, T->transform.position + rv,t);
 

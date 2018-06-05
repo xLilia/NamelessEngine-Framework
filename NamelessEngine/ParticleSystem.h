@@ -37,7 +37,7 @@ namespace _NL {
 			void BEHAVIOUR_ON();
 			void BEHAVIOUR_OFF();
 			void TickSystem();
-			char* ClassName() const override;
+			char* getTypeName() const override;
 		private:
 			GLfloat SpawnN = 0;
 			bool ON_OFF;

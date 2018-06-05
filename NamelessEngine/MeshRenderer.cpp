@@ -46,9 +46,6 @@ void _NL::Component::MeshRenderer::UpdateGLSettings()
 void _NL::Component::MeshRenderer::UnpackObjData() {
 	///UNPACK VERTEX DATA
 
-
-	
-
 	//VertsBuf.resize(Mesh->MeshData.mesh_positions_array.size() * 11);
 	//glm::vec3 LastTriPos[3];
 	//glm::vec2 LastTriMap[3];
@@ -220,7 +217,6 @@ void _NL::Component::MeshRenderer::UnpackObjData() {
 
 void _NL::Component::MeshRenderer::initGLObj()
 {
-
 	UnpackObjData();
 
 	///STATIC VERTEX BUFFER OBJ
@@ -272,7 +268,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	check_gl_error();
 }
 
-char* _NL::Component::MeshRenderer::ClassName() const
+char* _NL::Component::MeshRenderer::getTypeName() const
 {
 	return "_NL::Component::MeshRenderer";
 }

@@ -5,7 +5,6 @@
 #include "ParticleScript.hpp"
 
 
-
 int main() {
 	//check_gl_error();
 
@@ -13,10 +12,10 @@ int main() {
 	//START!
 	//===========================================================================================
 	
-	_NL::Engine::GameManager winMan("w1", 1024, 768, true, true, 0);
+	_NL::Engine::GameManager winMan("w1", 1024, 768, 1, 1, 0, 0, 0);
 	
 	_NL::Element::ShaderInstance* DepthStencilPass = new _NL::Element::ShaderInstance("DepthPassVertshader.glsl", "DepthPassFragshader.glsl");
-	winMan.DepthStencilPassShader = DepthStencilPass;
+	//winMan.DepthStencilPassShader = DepthStencilPass;
 
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
@@ -42,8 +41,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("hdr1/lainPolar.png", 1024 * 2, 1.2, false);
-	sky1->createSkybox("hdr1/lainPolar.png", 1024 * 2);
+	sky1->createEnvironment("hdr1/japanhdri (2).jpg", 1024 * 2, 1.2, false);
+	sky1->createSkybox("hdr1/japanhdri (2).jpg", 1024 * 2);
 	scene1->Skybox = sky1;
 	
 	//sky1->createSkybox(
@@ -68,9 +67,11 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x/2, winMan.window->getSize().y, 0, 0, 90, 0.1, 500, 0.5, 10);
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x/2, winMan.window->getSize().y, winMan.window->getSize().x / 2, 0, 90, 0.1, 500, 1.0, 10);
-
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 15000, 1, 10);
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 1500, 1.0, 10);
+	_NL::Object::CameraObj* MyCam3 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y/2, winMan.window->getSize().x / 2, 0, 90, 0.1, 1500, 1.0, 10);
+	_NL::Object::CameraObj* MyCam4 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y/2, winMan.window->getSize().x / 2, winMan.window->getSize().y / 2, 90, 0.1, 1500, 1.0, 10);
+	
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("DdeferedScreenQuadvertexshader.glsl", "DdeferedScreenQuadfragmentshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
 
@@ -78,6 +79,7 @@ int main() {
 	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam;
 	MyCam->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
 	MyCam->FinalPassShader = screenshader;
+	MyCam->GenerateFrameBuffers();
 	//MyCam->ClearScreenColor = glm::vec3(0, 0, 0);
 	scene1->addObjectToWorld(MyCam);
 
@@ -85,8 +87,23 @@ int main() {
 	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam2;
 	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
 	MyCam2->FinalPassShader = screenshader;
+	//MyCam2->transformCam.LookAt = glm::vec3(0, 1, 0);
 	//MyCam->ClearScreenColor = glm::vec3(0, 0, 0);
-	scene1->addObjectToWorld(MyCam2);
+	//scene1->addObjectToWorld(MyCam2);
+
+	MyCam3->addComponent(new _NL::Component::CppScript<CamController>);
+	MyCam3->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam3;
+	MyCam3->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
+	MyCam3->FinalPassShader = screenshader;
+	//MyCam->ClearScreenColor = glm::vec3(0, 0, 0);
+	//scene1->addObjectToWorld(MyCam3);
+
+	MyCam4->addComponent(new _NL::Component::CppScript<CamController>);
+	MyCam4->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->_this = MyCam4;
+	MyCam4->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
+	MyCam4->FinalPassShader = screenshader;
+	//MyCam->ClearScreenColor = glm::vec3(0, 0, 0);
+	//scene1->addObjectToWorld(MyCam4);
 
 	//===========================================================================================
 	//CANVAS
@@ -121,7 +138,7 @@ int main() {
 
 	_NL::UI::UIText* ut1 = new _NL::UI::UIText("fonts/Consolas.ttf", "Hello World ! ^_^");
 	ut1->AnchorPosition = glm::vec2(100, 100);
-	ut1->Layer = 10;
+	ut1->Layer = 0;
 
 	//Canvas1->addUIElement(ut1);
 	Canvas1->addUIElement(ui1);
@@ -167,12 +184,12 @@ int main() {
 
 	//(1)===========================================================================================
 
-
+	_NL::Element::MeshInstance* Gun = new _NL::Element::MeshInstance("Cube.obj");
 	_NL::Object::GameObject* HouseCollada = new _NL::Object::GameObject("HouseCollada");
 	HouseCollada->addComponent(new _NL::Component::Transform);
 	HouseCollada->addComponent(new _NL::Component::MeshRenderer);
 	HouseCollada->addComponent(new _NL::Component::CppScript<TestScript>);
-	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("COLLADATEST/PBRGUNv.obj");
+	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Mesh = Gun;
 	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	HouseCollada->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	HouseCollada->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = HouseCollada;
@@ -249,12 +266,19 @@ int main() {
 	//===========================================================================================
 
 	_NL::Object::LightObject* Light1 = new _NL::Object::LightObject("Light1");
-	Light1->LightProperties.setPointLightProperties(glm::vec3(1000, 1000, 1000), glm::vec3(0, 10, 0));
+	Light1->LightProperties.setPointLightProperties(glm::vec3(0, 1000, 0), glm::vec3(0, 10, 0));
 	scene1->addObjectToWorld(Light1);
 
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
-	Light2->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 100), glm::vec3(10, 10, 0), glm::vec3(0, -1, 0), 12, 45);
+	Light2->LightProperties.setSpotLightProperties(glm::vec3(500, 1000, 1000), glm::vec3(-50, 10, 0), glm::vec3(0, -1, 0), 12, 17);
 	scene1->addObjectToWorld(Light2);
+
+	_NL::Object::LightObject* inl;
+	for (int i = 0; i < 35; i++) {
+		inl = scene1->Instantiate<_NL::Object::LightObject>(Light2);
+		inl->LightProperties.lightPosition += glm::vec3(i * 10, 0, 0);
+		scene1->Instantiate<_NL::Object::LightObject>(Light2)->LightProperties.lightPosition += glm::vec3(0, 0, i * 10);
+	}
 
 	_NL::Object::LightObject* Light3 = new _NL::Object::LightObject("Light2");
 	Light3->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 100), glm::vec3(30, 10, 0), glm::vec3(0, -1, 0), 12, 45);
@@ -277,37 +301,36 @@ int main() {
 	//===========================================================================================
 
 
-	//_NL::Object::ParticleObj* flameParticle = new _NL::Object::ParticleObj();
-	//
-	//_NL::Element::TextureInstance* FlameAlbedo = new _NL::Element::TextureInstance("MyTexs/fire.png", false);
-	//
-	//_NL::Element::MaterialInstance* flameMat = new _NL::Element::MaterialInstance();
-	//flameMat->AddNew_Material();
-	//flameMat->LoadTexture(_NL::Element::AlbedoMap, FlameAlbedo, 0);
-	//
-	//flameParticle->addComponent(new _NL::Component::MeshRenderer);
-	//flameParticle->addComponent(new _NL::Component::Transform);
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
-	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
-	//flameParticle->lifeTime = 1;
-	//
-	//_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
-	//_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
-	//Pbehaviour->getScript()->W = &winMan;
-	//PS1->Particle = flameParticle;
-	//PS1->ParticlesBehavior = Pbehaviour->getScript();
-	//PS1->SpawnerTransform.SpawnerShape = _NL::Object::ParticleSystem::SPHERE;
-	//PS1->SpawnerTransform.Position.y = 10;
-	//PS1->SpawnerTransform.Scale *= 0.1f;
-	//PS1->SpawnerTransform.SpawnerHeightY = 10;
-	//PS1->SpawnerTransform.SpawnerWidthX = 10;
-	//PS1->SpawnerTransform.SpawnerWidthZ = 10;
-	//PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
-	//PS1->TimeScale = &winMan.GameTime;
-	//PS1->SpawnPerFrame = 1;
-	//scene1->addObjectToWorld(PS1);
+	_NL::Object::ParticleObj* flameParticle = new _NL::Object::ParticleObj();
+	
+	_NL::Element::TextureInstance* FlameAlbedo = new _NL::Element::TextureInstance("MyTexs/fire.png", false);
+	
+	_NL::Element::MaterialInstance* flameMat = new _NL::Element::MaterialInstance();
+	flameMat->LoadTexture(_NL::Element::AlbedoMap, FlameAlbedo, 0);
+	
+	flameParticle->addComponent(new _NL::Component::MeshRenderer);
+	flameParticle->addComponent(new _NL::Component::Transform);
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("quad.obj");
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
+	flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
+	flameParticle->lifeTime = 1;
+	
+	_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
+	_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
+	Pbehaviour->getScript()->W = &winMan;
+	PS1->Particle = flameParticle;
+	PS1->ParticlesBehavior = Pbehaviour->getScript();
+	PS1->SpawnerTransform.SpawnerShape = _NL::Object::ParticleSystem::SPHERE;
+	PS1->SpawnerTransform.Position.y = 10;
+	PS1->SpawnerTransform.Scale *= 0.1f;
+	PS1->SpawnerTransform.SpawnerHeightY = 10;
+	PS1->SpawnerTransform.SpawnerWidthX = 10;
+	PS1->SpawnerTransform.SpawnerWidthZ = 10;
+	PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
+	PS1->TimeScale = &winMan.GameTime;
+	PS1->SpawnPerFrame = 1;
+	scene1->addObjectToWorld(PS1);
 
 
 	//===========================================================================================

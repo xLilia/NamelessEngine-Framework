@@ -7,6 +7,7 @@ namespace _NL {
 		class LightObject : public _NL::Core::Object
 		{
 		public:
+			LightObject();
 			LightObject(std::string name);
 			void GenerateFramebuffer(GLuint Shadow_Width, GLuint Shadow_Height);
 			_NL::Core::LightProperties LightProperties;
@@ -15,7 +16,7 @@ namespace _NL {
 			GLuint Framebuffer;
 			bool bCastsShadows = true;
 
-			char* ClassName() const override;
+			char* getTypeName() const override;
 		};
 	}
 }

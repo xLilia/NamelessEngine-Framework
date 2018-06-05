@@ -14,7 +14,7 @@ namespace _NL {
 			_NL::Element::TextureInstance* Texture;
 			glm::vec2 scale = glm::vec2(1.0f, 1.0f);
 			glm::vec2 widthHeight;
-			char* ClassName() const override;
+			char* getTypeName() const override;
 		};
 	}
 }

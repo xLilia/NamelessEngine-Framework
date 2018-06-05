@@ -31,7 +31,7 @@ void _NL::UI::UIImage::DrawImage(_NL::Object::CameraObj* TargetCam)
 }
 	
 
-char* _NL::UI::UIImage::ClassName() const
+char* _NL::UI::UIImage::getTypeName() const
 {
 	return "_NL::UI::UIImage";
 }

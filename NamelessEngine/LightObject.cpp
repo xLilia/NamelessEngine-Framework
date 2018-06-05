@@ -1,5 +1,9 @@
 #include "LightObject.h"
 
+_NL::Object::LightObject::LightObject()
+{
+}
+
 _NL::Object::LightObject::LightObject(std::string name)
 {
 	this->name = name;
@@ -42,7 +46,7 @@ void _NL::Object::LightObject::GenerateFramebuffer(GLuint Shadow_Width, GLuint S
 }
 
 
-char* _NL::Object::LightObject::ClassName() const
+char* _NL::Object::LightObject::getTypeName() const
 {
 	return "_NL::Object::LightObject";
 }

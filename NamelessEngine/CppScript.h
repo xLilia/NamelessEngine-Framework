@@ -23,7 +23,7 @@ namespace _NL {
 				return cpps;
 			}
 
-			char* ClassName() const override{
+			char* getTypeName() const override{
 				return "_NL::Component::CppScript";
 			};
 

@@ -74,8 +74,8 @@ namespace _NL{
 		class Component {
 		public:
 			/// Every Sub Class must Overload this method.
-			/// e.g : " return "_NL::Compoent::subclassName" "
-			virtual char* ClassName() const = 0;
+			/// e.g : " return "_NL::Compoent::subgetTypeName" "
+			virtual char* getTypeName() const = 0;
 			/// Turn Component ON -> true |or| OFF -> false.
 			/// Default value true.
 			/// !!!Not Imlemented!!!
@@ -88,8 +88,8 @@ namespace _NL{
 		class Element {
 		public:
 			/// Every Sub Class must Overload this method.
-			/// e.g : " return "_NL::Element::subclassName" "
-			virtual char* ClassName() const = 0;
+			/// e.g : " return "_NL::Element::subgetTypeName" "
+			virtual char* getTypeName() const = 0;
 		};
 
 		/// Virtual Class of _NL::Core::Component.
@@ -98,8 +98,8 @@ namespace _NL{
 		{
 		public:
 			/// Every Sub Class must Overload this method.
-			/// e.g : " return "_NL::UI::subclassName" "
-			virtual char* ClassName() const = 0;
+			/// e.g : " return "_NL::UI::subgetTypeName" "
+			virtual char* getTypeName() const = 0;
 			/// XY pixel coordinates on the screen for this UIelement.
 			glm::vec2 AnchorPosition = glm::vec2(0, 0);
 			/// XY pixel coordinates on the screen relative to AnchorPosition.
@@ -148,8 +148,8 @@ namespace _NL{
 			//std::vector<Object*> Childs;
 
 			/// Every Sub Class must Overload this method.
-			/// e.g : " return "_NL::UI::subclassName" "
-			virtual char* ClassName() const {
+			/// e.g : " return "_NL::UI::subgetTypeName" "
+			virtual char* getTypeName() const {
 				return "_NL::Core::Object";
 			};
 			
@@ -158,11 +158,6 @@ namespace _NL{
 			
 			//bool bactive = true;
 			//bool bstatic = false;
-			
-			//---------------------------------------------------------------------------------
-			//INFO
-		
-			virtual void getInfo() {};
 
 			//---------------------------------------------------------------------------------
 			//COMPONENTS
@@ -171,28 +166,27 @@ namespace _NL{
 			{
 				for each (_NL::Core::Component* c in Components)
 				{
-					if (c->ClassName() == "_NL::Component::CppScript") {
+					if (c->getTypeName() == "_NL::Component::CppScript") {
 						//LET ADD MULTIPLE SCRIPTS
-					}else if (c->ClassName() == C->ClassName()) {
-						std::cout << "ERROR -1 :" << this->name.c_str() << " Object Component List Already Has a " << C->ClassName() << " Component." << std::endl;
+					}else if (c->getTypeName() == C->getTypeName()) {
+						std::cout << "ERROR -1 :" << this->name.c_str() << " Object Component List Already Has a " << C->getTypeName() << " Component." << std::endl;
 						return -1;
 					}
 				}
 				Components.push_back(C);
-				//std::cout << C->ClassName().c_str() << " Component Added to " << this->name.c_str() << std::endl;
+				//std::cout << C->getTypeName().c_str() << " Component Added to " << this->name.c_str() << std::endl;
 
 				return 0;
 			};
 
-			template<typename T>
-			T* getComponent()
+			template<typename ComponentType>
+			ComponentType* getComponent()
 			{
-				T comp;
+				ComponentType comp;
 				for each (_NL::Core::Component* c in this->Components)
 				{
-					//std::cout << c->ClassName() << std::endl << comp.ClassName() << std::endl;
-					if (c->ClassName() == comp.ClassName()) {
-						return dynamic_cast<T*>(c);
+					if (c->getTypeName() == comp.getTypeName()) {
+						return dynamic_cast<ComponentType*>(c);
 					}
 				}
 				return nullptr;
@@ -200,6 +194,10 @@ namespace _NL{
 
 			std::vector<_NL::Core::Component*> Components;
 		};
+
+		typedef std::vector<_NL::Core::Object*> ObjInstanceList;
+		typedef std::vector<ObjInstanceList> ObjTypeList;
+		typedef std::vector<ObjTypeList> ObjList;
 
 		/*CoreScript*/
 		class Script

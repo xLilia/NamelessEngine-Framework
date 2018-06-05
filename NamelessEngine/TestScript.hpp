@@ -25,7 +25,7 @@ void TestScript::Start(){
 }
 
 void TestScript::Update() {
-	target = W->Cameras[0]->TransformCam.Position;
+	target = W->Cameras[0]->transformCam.Position;
 	T = _this->getComponent<_NL::Component::Transform>();
 	GLfloat t = W->GameTime.DeltaTime.asSeconds();
 	
@@ -107,7 +107,12 @@ void TestScript::Update() {
 	//}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
-		W->CurrentScene->Instantiate(_this, T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100), T->transform.QuaternionRotation, T->transform.scale);
+		W->SafeKillObj(W->Lights[0]);
+		//_NL::Object::GameObject* I = W->SafeInstantiateObj<_NL::Object::GameObject>(_this);
+		//I->name = "panqueca";
+		//I->getComponent<_NL::Component::Transform>()->transform.position = T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100);
+		//I->getComponent<_NL::Component::Transform>()->transform.QuaternionRotation = T->transform.QuaternionRotation;
+		//I->getComponent<_NL::Component::Transform>()->transform.scale = T->transform.scale;
 	}
 	
 }

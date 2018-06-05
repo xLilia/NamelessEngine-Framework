@@ -5,7 +5,7 @@ _NL::Component::Transform::Transform()
 	
 }
 
-char* _NL::Component::Transform::ClassName() const
+char* _NL::Component::Transform::getTypeName() const
 {
 	return "_NL::Component::Transform";
 }

@@ -11,10 +11,11 @@ namespace _NL {
 		class GameObject : public _NL::Core::Object
 		{
 		public:
+			GameObject();
 			GameObject(std::string name);
 			GameObject(const _NL::Core::Object &CO);
-			void getInfo() override; 
-			char* ClassName() const override;
+			//void getInfo() override; 
+			char* getTypeName() const override;
 
 			///STATES
 			///bool bactive = true;

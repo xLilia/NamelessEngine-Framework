@@ -25,7 +25,7 @@ namespace _NL {
 			_NL::Element::ShaderInstance* Shader;
 			_NL::Element::MaterialInstance* Material;
 			///INFO
-			char* ClassName() const override;
+			char* getTypeName() const override;
 			bool bIsUnpacked = false;
 
 			//GLSETTINGS
@@ -35,6 +35,7 @@ namespace _NL {
 			GLenum GL_CullFaceOrientation = GL_CCW;
 
 			void UpdateGLSettings();
+
 		private:		
 			void UnpackObjData();
 		};

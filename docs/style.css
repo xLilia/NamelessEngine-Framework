@@ -3,97 +3,37 @@ html {
 }
 
 body {
-	background-image: url("imgs/space.gif");
-    //background-color: darkgrey;
+	background-image: url("imgs/static3.gif");
+    background-color: black;
 	zoom: 100%;
-	margin: 5% 15% 5% 15%;
+	//margin: 5% 15% 5% 15%;
 	font-family: 'Open Sans', sans-serif;
 }
 
-a{
-	color: gray;
-}
-
-a:hover{
-	color: blue;
-}
-
-h1, h2{
+a, h2{
+	background-color: black;
+	margin: 0px;
+	font-size: 50px;
     color: white;
     text-align: center;
 	font-family: 'Roboto', sans-serif;
 }
 
-h3{
-    color: black;
+#TIMER{
+	background-color: black;
+	margin: 0px;
+	font-size: 100px;
+    color: white;
     text-align: center;
-	font-family: 'Roboto', sans-serif;
-}
-
-
-td, th {
-    border-top: 5px groove #a0a0a0;
-    padding: 8px;
-	background-color: #ffffff;
-}
-
-.Pclass{
-    text-align: left;
-    margin: 0 40% 0 10%;
+	font-family: 'consolas', sans-serif;
 }
 
 .botline{
-    border-bottom: 2px groove #dddddd;
+    //border-bottom: 2px groove #dddddd;
     padding: 8px;
 	//background-color: #ffffff;
 }
 
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.hide{
-	display: none;
-}
-
-.show{
-	display: block;
-}
-
-.center {
-	margin:0 0 0 45%;
-}
-
-.float_left{
-	float: left;
-}
-
-.text_left{
-	text-align: left;
-}
-
-.text_center{
-	text-align: center;
-}
-
-.clickable:hover{
-	background-color: yellow;
-	cursor: pointer;
-}
-
-.clickable:active{
-	background-color: lightblue;
-	padding: 10;
-}
-
-.fixedElement {
-    background-image: url("imgs/space.gif");
-    position:fixed;
-    top:0;
-    width: 70%;
-    z-index:1;
-}
 
 #overlay {
     position: fixed; 
@@ -106,6 +46,6 @@ table {
     right: 0;
     bottom: 0;
 	background-image: url("imgs/bg2.gif");
-	opacity: 0.1;
+	opacity: 0.2;
     z-index: 100;
 }

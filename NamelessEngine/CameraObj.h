@@ -10,6 +10,7 @@ namespace _NL {
 		class CameraObj : public _NL::Core::Object
 		{
 		public:
+			CameraObj();
 			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
 				GLsizei RenderWindowX = 0,
 				GLsizei RenderWindowY = 0,
@@ -60,10 +61,10 @@ namespace _NL {
 			_NL::Element::ShaderInstance* FinalPassShader;
 			//_NL::Element::ShaderInstance* PingPongShader;
 			
-			void ClearCurrentBuffer();
-			void SetThisViewPort();
+			void ClearCurrentRenderTarget();
+			void SetThisCamViewPort();
 			void GenerateFrameBuffers();
-			void PrepareToRenderScene();
+			void SetCamAsRenderTarget();
 			void DisplayOnScreen();
 
 			//GLuint GeneratePingPongTexture();
@@ -73,11 +74,11 @@ namespace _NL {
 			//---------------------------------------------------------------------------------
 
 			//TRANSFORM
-			struct Transform {
+			struct transform {
 				glm::vec3 Position = glm::vec3(0, 0, 0);
 				glm::vec3 UpAxis = glm::vec3(0, 1, 0);
 				glm::vec3 LookAt = glm::vec3(0, 0, -1);
-			} TransformCam;
+			} transformCam;
 
 			//SETTINGS
 			GLfloat FOV;
@@ -91,7 +92,7 @@ namespace _NL {
 			//bool HasPingPongShader;
 			//GLuint PingPongIterations;
 			
-			char* ClassName() const override;
+			char* getTypeName() const override;
 
 		};
 	}

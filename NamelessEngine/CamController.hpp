@@ -1,5 +1,5 @@
 #pragma once
-#include "CppScript.h"
+#include "NL.hpp"
 class CamController : public _NL::Core::Script
 {
 private:
@@ -36,13 +36,13 @@ void CamController::Update() {
 	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
 	
 	//GET SIDE VECTOR
-	glm::vec3 SIDEWAYS = glm::cross(_this->TransformCam.UpAxis, _this->TransformCam.LookAt);
+	glm::vec3 SIDEWAYS = glm::cross(_this->transformCam.UpAxis, _this->transformCam.LookAt);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		movementVector += _this->TransformCam.LookAt * movementSpeed;
+		movementVector += _this->transformCam.LookAt * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		movementVector -= _this->TransformCam.LookAt * movementSpeed;
+		movementVector -= _this->transformCam.LookAt * movementSpeed;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
@@ -53,15 +53,15 @@ void CamController::Update() {
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		movementVector += _this->TransformCam.UpAxis * movementSpeed;
+		movementVector += _this->transformCam.UpAxis * movementSpeed;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		movementVector -= _this->TransformCam.UpAxis * movementSpeed;
+		movementVector -= _this->transformCam.UpAxis * movementSpeed;
 	}
 
 	movementVector = glm::lerp(movementVector, glm::vec3(0.0f), dts*Drag);
 
-	_this->TransformCam.Position = glm::lerp(_this->TransformCam.Position, _this->TransformCam.Position + movementVector, dts);
+	_this->transformCam.Position = glm::lerp(_this->transformCam.Position, _this->transformCam.Position + movementVector, dts);
 
 	//SPEED UP
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
@@ -89,18 +89,20 @@ void CamController::Update() {
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 		//_this->RenderScaleRatio -= 0.001;
-		_this->RenderWindowPos.x--;
-		//_this->RenderWindowSize.x++;
-		_this->GenerateFrameBuffers();
+		//_this->RenderWindowPos.x--;
+		////_this->RenderWindowSize.x++;
+		//_this->GenerateFrameBuffers();
+
+
 	}
 	
 }
 
 //CALCULATE WERE TO lOOK AT
 void CamController::RotateCam() {
-	glm::vec3 UPDOWN = glm::cross(_this->TransformCam.LookAt, _this->TransformCam.UpAxis);
-	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->TransformCam.UpAxis);
-	_this->TransformCam.LookAt = glm::mat3(rotator) * _this->TransformCam.LookAt;
+	glm::vec3 UPDOWN = glm::cross(_this->transformCam.LookAt, _this->transformCam.UpAxis);
+	glm::mat4 rotator = glm::rotate(glm::rotate(glm::mat4(), -mouseDelta.y*AxisSpeed / 100.0f, UPDOWN), -mouseDelta.x*AxisSpeed / 100.0f, _this->transformCam.UpAxis);
+	_this->transformCam.LookAt = glm::mat3(rotator) * _this->transformCam.LookAt;
 }
 
 //TRACK MOUSE ON SCREEN
