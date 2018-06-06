@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-# NAMELESS ENGINE - FRAMEWORK v0
-INCLUDE the NL.hpp" FILE BEFORE USING THE ENGINE TO HAVE ACCESS
-TO EVERY IMPLEMENTED THE HEADERS.
-=======
 # NAMELESS ENGINE - FRAMEWORK alpha0.1
->>>>>>> b4dc02b9880ff3994b90e024dd68628522a8b188
+//INCLUDE the NL.hpp" header file in your main to use the engine. 
 
 Official Website & Doumentation: https://mattateusb7.github.io/NamelessEngine-Framework/
 
