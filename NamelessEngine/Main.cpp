@@ -25,7 +25,7 @@ int main() {
 	//===========================================================================================
 	//SKYBOXES
 	//===========================================================================================
-
+	
 	_NL::Object::SkyboxObj* sky1 = new _NL::Object::SkyboxObj();
 	_NL::Element::ShaderInstance* SkyboxDysplayShader = new _NL::Element::ShaderInstance("SkyboxDefaultVertshader.glsl", "SkyboxDefaultFragshader.glsl");
 	_NL::Element::ShaderInstance* HDRImageShader = new _NL::Element::ShaderInstance("HDRImageDefaultVertshader.glsl", "HDRImageDefaultFragshader.glsl");
@@ -47,8 +47,8 @@ int main() {
 	//CAMERAS
 	//===========================================================================================
 	
-	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 15000, 1, 10,false);
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x / 2, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 1500, 1.0, 10,true);
+	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 15000, 1.0, 10, GL_LINEAR);
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x/2, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 1500, .01, 10, GL_NEAREST);
 	
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("DdeferedScreenQuadvertexshader.glsl", "DdeferedScreenQuadfragmentshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
@@ -71,7 +71,6 @@ int main() {
 	//CANVAS
 	//===========================================================================================
 	_NL::Element::ShaderInstance* UITexShder = new _NL::Element::ShaderInstance("UITexVertshader.glsl", "UITexFragshader.glsl");
-
 	_NL::UI::UICanvas* Canvas1 = new _NL::UI::UICanvas(winMan.window);
 	Canvas1->ImageRenderShader = UITexShder;
 
@@ -101,7 +100,7 @@ int main() {
 	_NL::UI::UIText* ut1 = new _NL::UI::UIText("Myfonts/Consolas.ttf", "Hello World ! ^_^");
 	ut1->AnchorPosition = glm::vec2(100, 100);
 	ut1->Layer = 0;
-
+	
 	//Canvas1->addUIElement(ut1);
 	Canvas1->addUIElement(ui1);
 	Canvas1->addUIElement(ui2);
@@ -111,7 +110,7 @@ int main() {
 	//MATERIAL SHADERS
 	//===========================================================================================
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("Ddeferedvertexshader.glsl", "Ddeferedfragmentshader.glsl");
-	_NL::Element::ShaderInstance* simpleshade = new _NL::Element::ShaderInstance("Ddeferedvertexshader.glsl", "simpleFrag.glsl");
+	_NL::Element::ShaderInstance* simpleshade = new _NL::Element::ShaderInstance("Ddeferedvertexshader.glsl", "CustomShader.glsl");
 	
 	//===========================================================================================
 	//OBJECTS 
@@ -150,8 +149,8 @@ int main() {
 	PBRGun->addComponent(new _NL::Component::Transform);
 	PBRGun->addComponent(new _NL::Component::MeshRenderer);
 	PBRGun->addComponent(new _NL::Component::CppScript<TestScript>);
-	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("MyModels/cube.obj");
-	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("MyModels/Cerberus/PbrGun.obj");
+	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	PBRGun->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = PBRGun;
 	PBRGun->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
@@ -225,7 +224,7 @@ int main() {
 	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
 	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->Material = flameMat;
 	//flameParticle->getComponent<_NL::Component::MeshRenderer>()->initGLObj();
-	//flameParticle->lifeTime = 1;
+	//flameParticle->lifeTime = 100;
 	//
 	//_NL::Object::ParticleSystem* PS1 = new _NL::Object::ParticleSystem();
 	//_NL::Component::CppScript<ParticleScript>* Pbehaviour = new _NL::Component::CppScript<ParticleScript>();
@@ -240,11 +239,12 @@ int main() {
 	//PS1->SpawnerTransform.SpawnerWidthZ = 10;
 	//PS1->SpawnerTransform.SpawnerConeVertexRadius = 0.0f;
 	//PS1->TimeScale = &winMan.GameTime;
-	//PS1->SpawnPerFrame = 1;
+	//PS1->SpawnPerFrame = 5;
 
 	//===========================================================================================
 	//SCENES 
 	//===========================================================================================
+	
 	
 	scene1->addObjectToWorld(Quad);
 	scene1->addObjectToWorld(PBRGun);

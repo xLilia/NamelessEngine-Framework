@@ -15,9 +15,9 @@ namespace _NL {
 		class GameManager
 		{
 		public:
-			GameManager(std::string WindowName, int Width, int Height, bool hideMouse=false, bool fullscreen = false, bool borderless = false, bool bVSync = false, int fpsLimit = 0);
+			GameManager(std::string WindowName, int Width, int Height, bool hideMouse = false, bool fullscreen = false, bool borderless = false, bool bVSync = false, int fpsLimit = 0);
 			~GameManager();
-			
+
 			sf::Event Event;
 			sf::RenderWindow* window;
 			std::string WindowName;
@@ -27,17 +27,12 @@ namespace _NL {
 			std::vector<_NL::Object::LightObject*>Lights;
 			std::vector<_NL::Object::ParticleSystem*> ParticleSystems;
 			std::vector<_NL::UI::UICanvas*> UICanvas;
-
 			void RunScene(_NL::Engine::WorldSpace* set_current_scene);
 			void EndCurrentScene(_NL::Engine::WorldSpace* load_next_scene = nullptr);
 			void GoFullscreen();
 			void GoWindowed(GLfloat Width, GLfloat Height);
 			void GoBorderless(GLfloat Width, GLfloat Height);
-			void GameTick();
-
-			void UpdateObjectLists();
 			void SafeKillObj(_NL::Core::Object* Target);
-
 			template<class CastToObjType>
 			CastToObjType* SafeInstantiateObj(_NL::Core::Object * Target)
 			{
@@ -47,7 +42,10 @@ namespace _NL {
 				}
 				return Inst;
 			}
-
+		protected:
+			
+			void GameTick();
+			void UpdateObjectLists();
 			void RenderCurrentScene();
 			void UpdateSceneLights();
 			void UpdateParticleSystems();
@@ -55,16 +53,12 @@ namespace _NL {
 			void RenderSceneObjects(_NL::Object::CameraObj* Cam, GLuint UseOverrideShaderProgram = NULL);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
 			void RenderSceneCanvas();
-
 			void StartUpdateScriptsOfObj(_NL::Core::Object* obj);
 			void EndScriptsOfObj(_NL::Core::Object * obj);
-
 			void CleanUpCurrentSceneLoadedResources();
-	
+
 		private:
-
 			bool bEndCurrentScene = false;
-
 			GLuint LightsSSBO;
 			GLuint LightsSSBOBindingPoint = 0;
 

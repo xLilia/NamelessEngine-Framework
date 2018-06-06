@@ -5,7 +5,7 @@ _NL::Object::CameraObj::CameraObj()
 
 }
 
-_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, bool nearestNeighbourFiltering)
+_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, GLenum TextureFiltering)
 {
 	this->name = name;
 	this->FOV = FOV;
@@ -18,7 +18,7 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	this->RenderScaleRatio = RenderScaleRatio;
 	//this->nMultisamples = nMultisamples;
 	this->nRenderTextures = nRenderTextures;
-	this->nearestNeighbourFiltering = nearestNeighbourFiltering;
+	this->TextureFiltering = TextureFiltering;
 	//this->HasPingPongShader = HasPingPongShader;
 	//this->PingPongIterations = PingPongIterations;
 	updateAudioListenerWithCamTransform();
@@ -67,31 +67,41 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//CLEAN & UPDATE
 	//---------------------------------------------------------------------------------
 	GLboolean success = true;
-
-	glDeleteTextures(1, &DepthStencilTexture);
-	glDeleteTextures(1, &StencilViewTexture);
 	
+	//==============//==============
 	//G framebuffer
-
+	//==============//==============
 	glDeleteFramebuffers(1, &G_FrameBuffer);
 	
 	if(ColorTextures.size()>0)
 		glDeleteTextures(ColorTextures.size(), &ColorTextures[0]);
 	ColorTextures.clear();
 
-	//glDeleteTextures(1, &DepthTexture);
+	//==============//==============
 	//FinalQuad framebuffer
+	//==============//==============
 
-	glDeleteFramebuffers(1, &FinalQuad_FrameBuffer);
+	//glDeleteFramebuffers(1, &FinalQuad_FrameBuffer);
+	//
+	//if (FinalQuad_ColorTextures.size()>0)
+	//	glDeleteTextures(FinalQuad_ColorTextures.size(), &FinalQuad_ColorTextures[0]);
+	//ColorTextures.clear();
 
-	if (FinalQuad_ColorTextures.size()>0)
-		glDeleteTextures(FinalQuad_ColorTextures.size(), &FinalQuad_ColorTextures[0]);
-	ColorTextures.clear();
-	
-	//glDeleteTextures(1, &FinalQuad_DepthTexture);
+	//==============//==============
+	//Post Processing Ready Framebuffer
+	//==============//==============
+
+	glDeleteTextures(1, &PostProcessingReadyImage);
+	glDeleteFramebuffers(1, &PostProcessingReadyFramebuffer);
+
+	//==============//==============
+	//DepthStencilTexture
+	//==============//==============
+
+	glDeleteTextures(1, &DepthStencilTexture);
+	glDeleteTextures(1, &StencilViewTexture);
 	
 	//pingpong
-
 	//glDeleteTextures(2, &pingPongTexture[0]);
 	//glDeleteFramebuffers(2, &pingPongFBO[0]);
 
@@ -125,14 +135,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, DepthStencilTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	if (nearestNeighbourFiltering) {
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
-	else {
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TextureFiltering);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TextureFiltering);
 	glTexStorage2D(
 		GL_TEXTURE_2D,
 		1,
@@ -150,14 +154,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glBindTexture(GL_TEXTURE_2D, StencilViewTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	if (nearestNeighbourFiltering) {
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	}
-	else {
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	}
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TextureFiltering);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TextureFiltering);
 	glTextureView(
 		StencilViewTexture,
 		GL_TEXTURE_2D,
@@ -188,14 +186,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		glBindTexture(GL_TEXTURE_2D, ColorTexture);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		if (nearestNeighbourFiltering) {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		}
-		else {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		}
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TextureFiltering);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TextureFiltering);
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
@@ -323,7 +315,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//		0);
 	//	check_gl_error();
 	//}
-
+	
 	GLenum fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
 		check_gl_error();
@@ -336,34 +328,34 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//FinalQuad_ColorTexture
 	//---------------------------------------------------------------------------------
 
-	for (GLuint i = 0; i < nRenderTextures; i++) {
-		GLuint ColorTexture;
-		glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
-		glBindTexture(GL_TEXTURE_2D, ColorTexture);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-		if (nearestNeighbourFiltering) {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		}
-		else {
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		}
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RGBA16F, //high dynamic range (HDR) 
-			RenderWindowSize.x * RenderScaleRatio,
-			RenderWindowSize.y * RenderScaleRatio,
-			0,
-			GL_RGBA,
-			GL_FLOAT,
-			NULL);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		check_gl_error();
-		FinalQuad_ColorTextures.push_back(ColorTexture);
-	}
+	//for (GLuint i = 0; i < nRenderTextures; i++) {
+	//	GLuint ColorTexture;
+	//	glCreateTextures(GL_TEXTURE_2D, 1, &ColorTexture);
+	//	glBindTexture(GL_TEXTURE_2D, ColorTexture);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	//	if (nearestNeighbourFiltering) {
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	//	}
+	//	else {
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//	}
+	//	glTexImage2D(
+	//		GL_TEXTURE_2D,
+	//		0,
+	//		GL_RGBA16F, //high dynamic range (HDR) 
+	//		RenderWindowSize.x * RenderScaleRatio,
+	//		RenderWindowSize.y * RenderScaleRatio,
+	//		0,
+	//		GL_RGBA,
+	//		GL_FLOAT,
+	//		NULL);
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+	//	check_gl_error();
+	//	FinalQuad_ColorTextures.push_back(ColorTexture);
+	//}
 
 	//---------------------------------------------------------------------------------
 	//FinalQuad_DepthTexture
@@ -393,38 +385,38 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//FinalQuad_FrameBuffer
 	//---------------------------------------------------------------------------------
 
-	glCreateFramebuffers(1, &FinalQuad_FrameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, FinalQuad_FrameBuffer);
-	for (GLuint i = 0; i < nRenderTextures; i++) {
-		glFramebufferTexture2D(
-			GL_FRAMEBUFFER,
-			GL_COLOR_ATTACHMENT0+i,
-			GL_TEXTURE_2D,
-			FinalQuad_ColorTextures[i],
-			0);
-		check_gl_error();
-	}
-	glFramebufferTexture2D(
-		GL_FRAMEBUFFER,
-		GL_DEPTH_STENCIL_ATTACHMENT,
-		GL_TEXTURE_2D,
-		DepthStencilTexture,
-		0);
-	//glFramebufferRenderbuffer(
+	//glCreateFramebuffers(1, &FinalQuad_FrameBuffer);
+	//glBindFramebuffer(GL_FRAMEBUFFER, FinalQuad_FrameBuffer);
+	//for (GLuint i = 0; i < nRenderTextures; i++) {
+	//	glFramebufferTexture2D(
+	//		GL_FRAMEBUFFER,
+	//		GL_COLOR_ATTACHMENT0+i,
+	//		GL_TEXTURE_2D,
+	//		FinalQuad_ColorTextures[i],
+	//		0);
+	//	check_gl_error();
+	//}
+	//glFramebufferTexture2D(
 	//	GL_FRAMEBUFFER,
 	//	GL_DEPTH_STENCIL_ATTACHMENT,
-	//	GL_RENDERBUFFER,
-	//	DepthStencilRenderbuffer
-	//	);
-	check_gl_error();
-
-	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
-		check_gl_error();
-		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
-		success = false;
-	}
-	check_gl_error();
+	//	GL_TEXTURE_2D,
+	//	DepthStencilTexture,
+	//	0);
+	////glFramebufferRenderbuffer(
+	////	GL_FRAMEBUFFER,
+	////	GL_DEPTH_STENCIL_ATTACHMENT,
+	////	GL_RENDERBUFFER,
+	////	DepthStencilRenderbuffer
+	////	);
+	//check_gl_error();
+	//
+	//fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	//if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
+	//	check_gl_error();
+	//	std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
+	//	success = false;
+	//}
+	//check_gl_error();
 	
 	//---------------------------------------------------------------------------------
 	//PING_PONG SHADERS?
@@ -468,6 +460,49 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//	}
 	//	check_gl_error();
 	//}
+
+	glCreateTextures(GL_TEXTURE_2D, 1, &PostProcessingReadyImage);
+	glBindTexture(GL_TEXTURE_2D, PostProcessingReadyImage);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, TextureFiltering);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, TextureFiltering);
+	glTexImage2D(
+		GL_TEXTURE_2D,
+		0,
+		GL_RGBA16F, //high dynamic range (HDR) 
+		RenderWindowSize.x*RenderScaleRatio,
+		RenderWindowSize.y*RenderScaleRatio,
+		0,
+		GL_RGBA,
+		GL_FLOAT,
+		NULL);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	check_gl_error();
+
+	glCreateFramebuffers(1, &PostProcessingReadyFramebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, PostProcessingReadyFramebuffer);
+	glFramebufferTexture2D(
+		GL_FRAMEBUFFER,
+		GL_COLOR_ATTACHMENT0,
+		GL_TEXTURE_2D,
+		PostProcessingReadyImage,
+		0);
+	glFramebufferTexture2D(
+		GL_FRAMEBUFFER,
+		GL_DEPTH_STENCIL_ATTACHMENT,
+		GL_TEXTURE_2D,
+		DepthStencilTexture,
+		0);
+	check_gl_error();
+
+	fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
+		check_gl_error();
+		std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
+		success = false;
+	}
+	check_gl_error();
 	
 	if (success) {
 		std::cout << name.c_str() << " 's Framebuffers Installation Successful!" << std::endl;
@@ -480,10 +515,8 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 
 void _NL::Object::CameraObj::ClearCurrentRenderTarget()
 {	
-	//glEnable(GL_SCISSOR_TEST);
 	glClearColor(ClearScreenColor.x, ClearScreenColor.y, ClearScreenColor.z, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	//glDisable(GL_SCISSOR_TEST);
 	check_gl_error();
 }
 
@@ -509,61 +542,37 @@ void _NL::Object::CameraObj::SetCamAsRenderTarget()
 		glDrawBuffers(nRenderTextures, atachments);
 		delete[] atachments;
 	}
-	//this->SetThisCamViewPort();
-	//glScissor(
-	//	0,
-	//	0,
-	//	RenderWindowSize.x * RenderScaleRatio,
-	//	RenderWindowSize.y * RenderScaleRatio
-	//);
 	check_gl_error();
 	//Ready for render...
 }
 
-void _NL::Object::CameraObj::DisplayOnScreen()
+void _NL::Object::CameraObj::RenderToPostProcessingFramebuffer()
 {
-	for (GLint nRt = 0; nRt < nRenderTextures; nRt++) {
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FinalQuad_FrameBuffer);
-		glReadBuffer(GL_COLOR_ATTACHMENT0 + nRt);
-		glDrawBuffer(GL_COLOR_ATTACHMENT0 + nRt);
-		
-		check_gl_error();
-		
-		glBlitFramebuffer(
-			0,
-			0,
-			RenderWindowSize.x * RenderScaleRatio,
-			RenderWindowSize.y * RenderScaleRatio,
-			0,
-			0,
-			RenderWindowSize.x * RenderScaleRatio,
-			RenderWindowSize.y * RenderScaleRatio,
-			GL_COLOR_BUFFER_BIT,
-			GL_LINEAR
-		);
-	}
+	//for (GLint nRt = 0; nRt < nRenderTextures; nRt++) {
+	//	glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
+	//	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FinalQuad_FrameBuffer);
+	//	glReadBuffer(GL_COLOR_ATTACHMENT0 + nRt);
+	//	glDrawBuffer(GL_COLOR_ATTACHMENT0 + nRt);
+	//	
+	//	check_gl_error();
+	//	
+	//	glBlitFramebuffer(
+	//		0,
+	//		0,
+	//		RenderWindowSize.x *RenderScaleRatio,
+	//		RenderWindowSize.y *RenderScaleRatio,
+	//		0,
+	//		0,
+	//		RenderWindowSize.x *RenderScaleRatio,
+	//		RenderWindowSize.y *RenderScaleRatio,
+	//		GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+	//		GL_NEAREST
+	//	);
+	//}
 
 	check_gl_error();
-
-	//glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
-	//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	//glBlitFramebuffer(
-	//	0,
-	//	0,
-	//	this->RenderWindowSize.x * this->RenderScaleRatio,
-	//	this->RenderWindowSize.y * this->RenderScaleRatio,
-	//	0,
-	//	0,
-	//	this->RenderWindowSize.x * this->RenderScaleRatio,
-	//	this->RenderWindowSize.y * this->RenderScaleRatio,
-	//	GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-	//	GL_NEAREST
-	//);
-	//
-	//check_gl_error();
 	
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, PostProcessingReadyFramebuffer);
 	
 	check_gl_error();
 
@@ -572,7 +581,7 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 	for (int i = 0; i < nRenderTextures; i++) {
 		glUniform1i(i, i);
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, FinalQuad_ColorTextures[i]);
+		glBindTexture(GL_TEXTURE_2D, ColorTextures[i]);
 		check_gl_error();
 	}
 
@@ -589,10 +598,10 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 	check_gl_error();
 
 	_NL::Core::RenderQuad(
-		RenderWindowPos.x,
-		RenderWindowPos.y,
-		RenderWindowSize.x,
-		RenderWindowSize.y,
+		0,
+		0,
+		RenderWindowSize.x*RenderScaleRatio,
+		RenderWindowSize.y*RenderScaleRatio,
 		true,
 		FinalPassShader->getShaderProgram()
 	);
@@ -607,6 +616,28 @@ void _NL::Object::CameraObj::DisplayOnScreen()
 
 	glActiveTexture(GL_TEXTURE0 + nRenderTextures + 1);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	check_gl_error();
+
+}
+
+void _NL::Object::CameraObj::blitPostProcessedImageToScreen() {
+
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, PostProcessingReadyFramebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(
+		0,
+		0,
+		this->RenderWindowSize.x*RenderScaleRatio,
+		this->RenderWindowSize.y*RenderScaleRatio,
+		this->RenderWindowPos.x,
+		this->RenderWindowPos.y,
+		this->RenderWindowSize.x + this->RenderWindowPos.x,
+		this->RenderWindowSize.y + this->RenderWindowPos.y,
+		GL_COLOR_BUFFER_BIT,
+		TextureFiltering
+	);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	
 	check_gl_error();
 }

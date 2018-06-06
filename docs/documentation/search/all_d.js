@@ -2,7 +2,6 @@ var searchData=
 [
   ['name',['name',['../class___n_l_1_1_core_1_1_object.html#a891f728638a947dd5239a1bd7ef56e97',1,'_NL::Core::Object']]],
   ['namelesscore_2ehpp',['NamelessCore.hpp',['../_nameless_core_8hpp.html',1,'']]],
-  ['nearestneighbourfiltering',['nearestNeighbourFiltering',['../class___n_l_1_1_object_1_1_camera_obj.html#a546d41a2a9637b4d18e9ffde27449866',1,'_NL::Object::CameraObj']]],
   ['nearplane',['NearPlane',['../class___n_l_1_1_object_1_1_camera_obj.html#a6c3713663cb92fbc726c29ec51323a39',1,'_NL::Object::CameraObj']]],
   ['nl_2ehpp',['NL.hpp',['../_n_l_8hpp.html',1,'']]],
   ['nl_5fpi',['NL_PI',['../_nameless_core_8hpp.html#a9b05b924187f242034854e825833bf8c',1,'NamelessCore.hpp']]],

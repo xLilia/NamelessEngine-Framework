@@ -72,7 +72,7 @@ void _NL::Engine::GameManager::RunScene(_NL::Engine::WorldSpace* set_current_sce
 
 	while (window->isOpen()) {
 
-		glFinish();
+		//glFinish();
 
 		while (window->pollEvent(Event));
 		{
@@ -190,29 +190,38 @@ void _NL::Engine::GameManager::RenderCurrentScene() {
 	for each (_NL::Object::CameraObj* Cam in Cameras)
 	{	
 
-		RenderSceneSkybox(Cam);
 		//---------------------------------------------------------------------------------
 		//UPDATE CAM
 
-		Cam->SetCamAsRenderTarget();
+		glBindFramebuffer(GL_FRAMEBUFFER, Cam->PostProcessingReadyFramebuffer);
+		Cam->ClearCurrentRenderTarget();
 		Cam->SetThisCamViewPort();
+
+		glDisable(GL_DEPTH_TEST);
+		RenderSceneSkybox(Cam);
+		glEnable(GL_DEPTH_TEST);
+
+		Cam->SetCamAsRenderTarget();
 		Cam->ClearCurrentRenderTarget();
 
 		glEnable(GL_DEPTH_TEST);
-		
 		RenderSceneObjects(Cam);
-		
 		glDisable(GL_DEPTH_TEST);
 		
-		Cam->DisplayOnScreen();
-		glEnable(GL_DEPTH_TEST);
+		Cam->RenderToPostProcessingFramebuffer();
 
-		glClearColor(0, 0, 1, 0);
+		//POSTPROCESSING STACK _.-Lwip`-._
+
+		Cam->blitPostProcessedImageToScreen();
 		
 	}
 
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glDisable(GL_DEPTH_TEST);
 	//RenderSceneCanvas();
+
 	window->display();
+	
 
 
 }
@@ -277,16 +286,8 @@ void _NL::Engine::GameManager::UpdateParticleSystems() {
 }
 
 void _NL::Engine::GameManager::RenderSceneSkybox(_NL::Object::CameraObj* Cam) {
+	
 	if (CurrentScene->Skybox != 0) {
-		glViewport(
-			Cam->RenderWindowPos.x,
-			Cam->RenderWindowPos.y,
-			Cam->RenderWindowSize.x,
-			Cam->RenderWindowSize.y
-		);
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
-		//glFrontFace(GL_CCW);
 		CurrentScene->Skybox->SkyboxDysplayShader->Use();
 		glUniformMatrix4fv(CurrentScene->Skybox->CamProjectionMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getProjectionMatrix()));
 		glUniformMatrix4fv(CurrentScene->Skybox->CamViewMatrix_uniform, 1, GL_FALSE, glm::value_ptr(Cam->getViewMatrix()));
@@ -375,7 +376,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam, G
 				glGenBuffers(1, &InstanceABO);
 				glBindBuffer(GL_ARRAY_BUFFER, InstanceABO);
 				glBufferData(GL_ARRAY_BUFFER, OIL.size() * sizeof(glm::mat4), glm::value_ptr(Modelmat[0]), GL_STATIC_DRAW);
-
+				check_gl_error();
 				//---------------------------------------------------------------------------------
 				//SETUP INSTANCE MODEL MAT ATRIB
 
@@ -395,8 +396,8 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam, G
 				glVertexAttribDivisor(_NL::Core::GLSL_AU::InstModelMatrix0_atrib + 3, 1);
 
 				check_gl_error();
+
 				if (ObjMR->Material) {
-					check_gl_error();
 					//---------------------------------------------------------------------------------
 					//SETUP MATERIAL UNIFORMS
 					glUniform1i(_NL::Core::GLSL_AU::ALbedoTexture_uniform, 0);
@@ -408,6 +409,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam, G
 					glUniform1i(_NL::Core::GLSL_AU::PreFilterTexture_uniform, 6);
 					glUniform1i(_NL::Core::GLSL_AU::BRDF2DLUTTexture_uniform, 7);
 					check_gl_error();
+
 					//---------------------------------------------------------------------------------
 					//SEND MATERIAL DATA
 					glActiveTexture(GL_TEXTURE0 + 0);
@@ -421,15 +423,15 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam, G
 					glActiveTexture(GL_TEXTURE0 + 2);
 					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.MetalnessTexId);
-
+				
 					glActiveTexture(GL_TEXTURE0 + 3);
 					if (ObjMR->Material->MaterialInstanceData.NormalTexId)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.NormalTexId);
-
+				
 					glActiveTexture(GL_TEXTURE0 + 4);
 					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId);
-
+				
 					if (this->CurrentScene->Skybox) {
 						glActiveTexture(GL_TEXTURE0 + 5);
 						if (this->CurrentScene->Skybox->IrradienceMap)
@@ -443,6 +445,7 @@ void _NL::Engine::GameManager::RenderSceneObjects(_NL::Object::CameraObj* Cam, G
 						if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
 							glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
 					}
+
 					check_gl_error();
 					//---------------------------------------------------------------------------------
 					//DRAW MESH 
@@ -504,12 +507,12 @@ void _NL::Engine::GameManager::RenderScreenQuad(_NL::Object::CameraObj* Cam) {
 	check_gl_error();
 	//if (Cam->HasPingPongShader && Cam->PingPongShader != NULL) {
 	//	GLuint ppt = Cam->GeneratePingPongTexture();
-	//	Cam->DisplayOnScreen();
+	//	Cam->RenderToPostProcessingImage();
 	//}
 	//else {
-	//	Cam->DisplayOnScreen();
+	//	Cam->RenderToPostProcessingImage();
 	//}
-	Cam->DisplayOnScreen();
+	Cam->RenderToPostProcessingFramebuffer();
 }
 
 void _NL::Engine::GameManager::RenderSceneCanvas() {

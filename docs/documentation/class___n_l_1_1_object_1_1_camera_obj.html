@@ -117,8 +117,8 @@ Classes</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af8ae8bf24e88861ca633c2ef261ceef1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#af8ae8bf24e88861ca633c2ef261ceef1">CameraObj</a> ()</td></tr>
 <tr class="separator:af8ae8bf24e88861ca633c2ef261ceef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba7e6733b2d030bd43e06ccc003f35f2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#aba7e6733b2d030bd43e06ccc003f35f2">CameraObj</a> (std::string <a class="el" href="class___n_l_1_1_core_1_1_object.html#a891f728638a947dd5239a1bd7ef56e97">name</a>, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX=0, GLsizei RenderWindowY=0, GLfloat <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a4ba339c73f7fcb303933b90ef8074851">FOV</a>=90.0f, GLfloat NearPlane=0.1f, GLfloat FarPlane=100, GLfloat RenderScaleRatio=1, GLuint nRenderTextures=8, bool nearestNeighbourFiltering=true)</td></tr>
-<tr class="separator:aba7e6733b2d030bd43e06ccc003f35f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b683ad36907af04eb5828f281f3b53b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a6b683ad36907af04eb5828f281f3b53b">CameraObj</a> (std::string <a class="el" href="class___n_l_1_1_core_1_1_object.html#a891f728638a947dd5239a1bd7ef56e97">name</a>, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX=0, GLsizei RenderWindowY=0, GLfloat <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a4ba339c73f7fcb303933b90ef8074851">FOV</a>=90.0f, GLfloat NearPlane=0.1f, GLfloat FarPlane=100, GLfloat RenderScaleRatio=1, GLuint nRenderTextures=10, GLenum TextureFiltering=GL_LINEAR)</td></tr>
+<tr class="separator:a6b683ad36907af04eb5828f281f3b53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f6be5ec828103b977051996345fa5c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a8f6be5ec828103b977051996345fa5c4">updateAudioListenerWithCamTransform</a> ()</td></tr>
 <tr class="separator:a8f6be5ec828103b977051996345fa5c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a844de255ae632dfef6da30c354c9973e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a844de255ae632dfef6da30c354c9973e">updateAudioListenerPosition</a> (glm::vec3 pos)</td></tr>
@@ -141,8 +141,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac296e4787415ada22dc2225128c8d1cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17f5b74099bf4e4cac13f68221201378"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a17f5b74099bf4e4cac13f68221201378">SetCamAsRenderTarget</a> ()</td></tr>
 <tr class="separator:a17f5b74099bf4e4cac13f68221201378"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0120aaa66f13b611de36e0274a6d5587"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a0120aaa66f13b611de36e0274a6d5587">DisplayOnScreen</a> ()</td></tr>
-<tr class="separator:a0120aaa66f13b611de36e0274a6d5587"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4096b3cdf85713ca032fcce57f83d2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#ad4096b3cdf85713ca032fcce57f83d2d">RenderToPostProcessingFramebuffer</a> ()</td></tr>
+<tr class="separator:ad4096b3cdf85713ca032fcce57f83d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b5ac6550f91c2ce35bfaeb2a9aa9397"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a2b5ac6550f91c2ce35bfaeb2a9aa9397">blitPostProcessedImageToScreen</a> ()</td></tr>
+<tr class="separator:a2b5ac6550f91c2ce35bfaeb2a9aa9397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a433a06ba0ca3dfc3d0b3eb4e528e2d68">getTypeName</a> () const override</td></tr>
 <tr class="memdesc:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#a433a06ba0ca3dfc3d0b3eb4e528e2d68">More...</a><br /></td></tr>
 <tr class="separator:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,14 +165,14 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a06e9cc2807377502c0497dcc19f5bac6"><td class="memItemLeft" align="right" valign="top">sf::Listener&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a06e9cc2807377502c0497dcc19f5bac6">AudioListener</a></td></tr>
 <tr class="separator:a06e9cc2807377502c0497dcc19f5bac6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa773c49a6c541cfa9cfccfaffaa0374a"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#aa773c49a6c541cfa9cfccfaffaa0374a">FinalQuad_FrameBuffer</a></td></tr>
-<tr class="separator:aa773c49a6c541cfa9cfccfaffaa0374a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e7b448c87d3c8ca2e3b7d818055e4d7"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a4e7b448c87d3c8ca2e3b7d818055e4d7">G_FrameBuffer</a></td></tr>
 <tr class="separator:a4e7b448c87d3c8ca2e3b7d818055e4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71cc149274229ad24bc191334aed9725"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a71cc149274229ad24bc191334aed9725">PostProcessingReadyFramebuffer</a></td></tr>
+<tr class="separator:a71cc149274229ad24bc191334aed9725"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78f514da198fb7eca3944feeacc9de8b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; GLuint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a78f514da198fb7eca3944feeacc9de8b">ColorTextures</a></td></tr>
 <tr class="separator:a78f514da198fb7eca3944feeacc9de8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29a4bdb91755cfb4be7547e039634280"><td class="memItemLeft" align="right" valign="top">std::vector&lt; GLuint &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a29a4bdb91755cfb4be7547e039634280">FinalQuad_ColorTextures</a></td></tr>
-<tr class="separator:a29a4bdb91755cfb4be7547e039634280"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec70ebfee6b1e7fe471cf0518dcbff93"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#aec70ebfee6b1e7fe471cf0518dcbff93">PostProcessingReadyImage</a></td></tr>
+<tr class="separator:aec70ebfee6b1e7fe471cf0518dcbff93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac12d6c9e30407eaf62eeb8e2d51b6453"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#ac12d6c9e30407eaf62eeb8e2d51b6453">DepthStencilTexture</a></td></tr>
 <tr class="separator:ac12d6c9e30407eaf62eeb8e2d51b6453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae043cec120098d867b0ef6808048617e"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#ae043cec120098d867b0ef6808048617e">StencilViewTexture</a></td></tr>
@@ -195,8 +197,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ad79f1779ebbf2e7d9fbccf32758b9a36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a319c4b2bbf2bd0694d0be58e1b0346cf"><td class="memItemLeft" align="right" valign="top">GLuint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a319c4b2bbf2bd0694d0be58e1b0346cf">nRenderTextures</a></td></tr>
 <tr class="separator:a319c4b2bbf2bd0694d0be58e1b0346cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a546d41a2a9637b4d18e9ffde27449866"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a546d41a2a9637b4d18e9ffde27449866">nearestNeighbourFiltering</a></td></tr>
-<tr class="separator:a546d41a2a9637b4d18e9ffde27449866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ae7b6aafdf882dcbc27d2881fd03044"><td class="memItemLeft" align="right" valign="top">GLenum&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a4ae7b6aafdf882dcbc27d2881fd03044">TextureFiltering</a></td></tr>
+<tr class="separator:a4ae7b6aafdf882dcbc27d2881fd03044"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_class___n_l_1_1_core_1_1_object"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class___n_l_1_1_core_1_1_object')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class___n_l_1_1_core_1_1_object.html">_NL::Core::Object</a></td></tr>
 <tr class="memitem:a891f728638a947dd5239a1bd7ef56e97 inherit pub_attribs_class___n_l_1_1_core_1_1_object"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_object.html#a891f728638a947dd5239a1bd7ef56e97">name</a></td></tr>
 <tr class="memdesc:a891f728638a947dd5239a1bd7ef56e97 inherit pub_attribs_class___n_l_1_1_core_1_1_object"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class___n_l_1_1_core_1_1_object.html" title="Virtual Class of _NL::Core::Object. ">Object</a> Name.  <a href="class___n_l_1_1_core_1_1_object.html#a891f728638a947dd5239a1bd7ef56e97">More...</a><br /></td></tr>
@@ -225,8 +227,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aba7e6733b2d030bd43e06ccc003f35f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba7e6733b2d030bd43e06ccc003f35f2">&#9670;&nbsp;</a></span>CameraObj() <span class="overload">[2/2]</span></h2>
+<a id="a6b683ad36907af04eb5828f281f3b53b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b683ad36907af04eb5828f281f3b53b">&#9670;&nbsp;</a></span>CameraObj() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -289,13 +291,13 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">GLuint&#160;</td>
-          <td class="paramname"><em>nRenderTextures</em> = <code>8</code>, </td>
+          <td class="paramname"><em>nRenderTextures</em> = <code>10</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>nearestNeighbourFiltering</em> = <code>true</code>&#160;</td>
+          <td class="paramtype">GLenum&#160;</td>
+          <td class="paramname"><em>TextureFiltering</em> = <code>GL_LINEAR</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -308,14 +310,14 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5512b3580be93eba0e81e84015218380"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5512b3580be93eba0e81e84015218380">&#9670;&nbsp;</a></span>ClearCurrentRenderTarget()</h2>
+<a id="a2b5ac6550f91c2ce35bfaeb2a9aa9397"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b5ac6550f91c2ce35bfaeb2a9aa9397">&#9670;&nbsp;</a></span>blitPostProcessedImageToScreen()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void _NL::Object::CameraObj::ClearCurrentRenderTarget </td>
+          <td class="memname">void _NL::Object::CameraObj::blitPostProcessedImageToScreen </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -325,14 +327,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0120aaa66f13b611de36e0274a6d5587"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0120aaa66f13b611de36e0274a6d5587">&#9670;&nbsp;</a></span>DisplayOnScreen()</h2>
+<a id="a5512b3580be93eba0e81e84015218380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5512b3580be93eba0e81e84015218380">&#9670;&nbsp;</a></span>ClearCurrentRenderTarget()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void _NL::Object::CameraObj::DisplayOnScreen </td>
+          <td class="memname">void _NL::Object::CameraObj::ClearCurrentRenderTarget </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -434,6 +436,23 @@ Public Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad4096b3cdf85713ca032fcce57f83d2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4096b3cdf85713ca032fcce57f83d2d">&#9670;&nbsp;</a></span>RenderToPostProcessingFramebuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _NL::Object::CameraObj::RenderToPostProcessingFramebuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -630,34 +649,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a29a4bdb91755cfb4be7547e039634280"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29a4bdb91755cfb4be7547e039634280">&#9670;&nbsp;</a></span>FinalQuad_ColorTextures</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;GLuint&gt; _NL::Object::CameraObj::FinalQuad_ColorTextures</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa773c49a6c541cfa9cfccfaffaa0374a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa773c49a6c541cfa9cfccfaffaa0374a">&#9670;&nbsp;</a></span>FinalQuad_FrameBuffer</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GLuint _NL::Object::CameraObj::FinalQuad_FrameBuffer</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a4ba339c73f7fcb303933b90ef8074851"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4ba339c73f7fcb303933b90ef8074851">&#9670;&nbsp;</a></span>FOV</h2>
 
@@ -686,20 +677,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a546d41a2a9637b4d18e9ffde27449866"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a546d41a2a9637b4d18e9ffde27449866">&#9670;&nbsp;</a></span>nearestNeighbourFiltering</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool _NL::Object::CameraObj::nearestNeighbourFiltering</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a6c3713663cb92fbc726c29ec51323a39"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6c3713663cb92fbc726c29ec51323a39">&#9670;&nbsp;</a></span>NearPlane</h2>
 
@@ -722,6 +699,34 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">GLuint _NL::Object::CameraObj::nRenderTextures</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a71cc149274229ad24bc191334aed9725"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71cc149274229ad24bc191334aed9725">&#9670;&nbsp;</a></span>PostProcessingReadyFramebuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLuint _NL::Object::CameraObj::PostProcessingReadyFramebuffer</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec70ebfee6b1e7fe471cf0518dcbff93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec70ebfee6b1e7fe471cf0518dcbff93">&#9670;&nbsp;</a></span>PostProcessingReadyImage</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLuint _NL::Object::CameraObj::PostProcessingReadyImage</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -778,6 +783,20 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">GLuint _NL::Object::CameraObj::StencilViewTexture</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ae7b6aafdf882dcbc27d2881fd03044"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ae7b6aafdf882dcbc27d2881fd03044">&#9670;&nbsp;</a></span>TextureFiltering</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">GLenum _NL::Object::CameraObj::TextureFiltering</td>
         </tr>
       </table>
 </div><div class="memdoc">

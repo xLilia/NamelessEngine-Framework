@@ -18,8 +18,8 @@ namespace _NL {
 				GLfloat NearPlane = 0.1f,
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1,
-				GLuint nRenderTextures = 8,
-				bool nearestNeighbourFiltering = true
+				GLuint nRenderTextures = 10,
+				GLenum TextureFiltering = GL_LINEAR
 			);
 
 			//---------------------------------------------------------------------------------
@@ -37,15 +37,16 @@ namespace _NL {
 			//FRAMEBUFFERS & RENDER
 			//---------------------------------------------------------------------------------
 			
-			GLuint FinalQuad_FrameBuffer;
+			//GLuint FinalQuad_FrameBuffer;
 			GLuint G_FrameBuffer;
-			
+			GLuint PostProcessingReadyFramebuffer;
 			
 			//GLuint pingPongFBO[2];
 			//GLuint pingPongTexture[2];
 
 			std::vector<GLuint> ColorTextures;
-			std::vector<GLuint> FinalQuad_ColorTextures;
+			//std::vector<GLuint> FinalQuad_ColorTextures;
+			GLuint PostProcessingReadyImage;
 			//GLuint FinalQuad_DepthTexture;
 			//GLuint DepthTexture;
 
@@ -65,7 +66,9 @@ namespace _NL {
 			void SetThisCamViewPort();
 			void GenerateFrameBuffers();
 			void SetCamAsRenderTarget();
-			void DisplayOnScreen();
+			void RenderToPostProcessingFramebuffer();
+
+			void blitPostProcessedImageToScreen();
 
 			//GLuint GeneratePingPongTexture();
 
@@ -88,7 +91,7 @@ namespace _NL {
 			glm::vec2 RenderWindowSize;
 			GLfloat RenderScaleRatio;
 			GLuint nRenderTextures;
-			bool nearestNeighbourFiltering;
+			GLenum TextureFiltering;
 			//GLuint nMultisamples;
 			//bool HasPingPongShader;
 			//GLuint PingPongIterations;

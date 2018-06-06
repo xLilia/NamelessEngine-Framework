@@ -280,9 +280,6 @@
     <None Include="UITexVertshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
     </None>
-    <None Include="simpleFrag.glsl">
-      <Filter>Source Files\UserDemoProject</Filter>
-    </None>
     <None Include="DepthPassVertshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
     </None>
@@ -300,6 +297,9 @@
     </None>
     <None Include="DdeferedScreenQuadfragmentshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
+    </None>
+    <None Include="CustomShader.glsl">
+      <Filter>Source Files\UserDemoProject</Filter>
     </None>
   </ItemGroup>
 </Project>

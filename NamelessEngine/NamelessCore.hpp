@@ -298,7 +298,7 @@ namespace _NL{
 		//};
 	
 		
-		inline void RenderQuad(GLfloat x, GLfloat y, GLfloat w, GLfloat h, bool removeProgramAferUse = true, GLuint Shader = 0, GLuint camId = 0) {
+		inline void RenderQuad(GLfloat x, GLfloat y, GLfloat w, GLfloat h, bool removeProgramAferUse = true, GLuint Shader = 0) {
 			if(Shader != 0) 
 				glUseProgram(Shader);
 			glViewport(x, y, w, h);

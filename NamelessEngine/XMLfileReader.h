@@ -16,9 +16,7 @@ namespace _NL {
 			XMLfileReader(const char* File_Path);
 			int Load(const char* File_Path, bool debugMode = false);
 			void RESET();
-
 			std::vector<std::string> XMLData;
-
 			void GetColladaData();
 			_NL::Core::MeshInstanceData MeshData;
 

@@ -34,8 +34,8 @@ layout (std430, binding = 0) buffer LightBlock {
 const float exposure = 2.3;
 const float gamma = 0.8;
 
-in vec2 tex_coord;
-out vec4 fragColor;
+layout(location = 0) in vec2 tex_coord;
+layout(location = 0) out vec4 fragColor;
 
 //======================= FUNCTIONS =========================
 

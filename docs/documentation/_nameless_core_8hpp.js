@@ -16,5 +16,5 @@ var _nameless_core_8hpp =
     [ "ObjInstanceList", "_nameless_core_8hpp.html#a3b79ec3b81411d0c54b3c99c2f71c7fb", null ],
     [ "ObjList", "_nameless_core_8hpp.html#a7f292491dc27036b02dc960a6b018502", null ],
     [ "ObjTypeList", "_nameless_core_8hpp.html#a78c17239b3bc28550a46b9f6af559d1e", null ],
-    [ "RenderQuad", "_nameless_core_8hpp.html#ac80fd6c41e3d633d8368e6548f8abe52", null ]
+    [ "RenderQuad", "_nameless_core_8hpp.html#a2bbf3c41df9a9e3e362dbd28c78eda5d", null ]
 ];
