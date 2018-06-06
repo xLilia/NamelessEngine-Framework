@@ -29,7 +29,7 @@ namespace _NL {
 				std::vector<CastToObjType*> O;
 				_NL::Core::ObjTypeList* OTL = getObjTypeListLocation(ObjType);
 				if (OTL == nullptr) OTL = addObjTypeListLocation(ObjType);
-				for (_NL::Core::ObjInstanceList OIL : *OTL)
+				for (_NL::Core::ObjInstanceList& OIL : *OTL)
 				for (_NL::Core::Object* o : OIL)
 				{
 					O.push_back(dynamic_cast<CastToObjType*>(o));

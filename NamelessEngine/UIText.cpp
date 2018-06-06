@@ -38,9 +38,7 @@ void _NL::UI::UIText::DrawText(sf::RenderWindow* WindowTarget)
 
 	glm::vec2 finalPos = (this->AnchorPosition + this->PositionRelativeToAnchor);
 	T.setPosition(sf::Vector2f(finalPos.x, finalPos.y));
-	//glDisable(GL_CULL_FACE);
 	WindowTarget->draw(T);
-	//glEnable(GL_CULL_FACE);
 }
 
 char * _NL::UI::UIText::getTypeName() const

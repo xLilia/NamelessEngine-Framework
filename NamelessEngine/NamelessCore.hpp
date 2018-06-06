@@ -130,7 +130,7 @@ namespace _NL{
 			/// Default Destructor.
 			/// Clears stored Components
 			virtual~Object() {
-				for each(_NL::Core::Component* C in Components) {
+				for (_NL::Core::Component* C : Components) {
 					delete C;
 				}
 				this->Components.erase(Components.begin(), Components.end());
@@ -164,7 +164,7 @@ namespace _NL{
 
 			int addComponent(_NL::Core::Component *C)
 			{
-				for each (_NL::Core::Component* c in Components)
+				for (_NL::Core::Component* c : Components)
 				{
 					if (c->getTypeName() == "_NL::Component::CppScript") {
 						//LET ADD MULTIPLE SCRIPTS
@@ -183,7 +183,7 @@ namespace _NL{
 			ComponentType* getComponent()
 			{
 				ComponentType comp;
-				for each (_NL::Core::Component* c in this->Components)
+				for (_NL::Core::Component* c : this->Components)
 				{
 					if (c->getTypeName() == comp.getTypeName()) {
 						return dynamic_cast<ComponentType*>(c);

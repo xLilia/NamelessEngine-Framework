@@ -50,7 +50,7 @@ namespace _NL {
 			void UpdateSceneLights();
 			void UpdateParticleSystems();
 			void RenderSceneSkybox(_NL::Object::CameraObj* Cam);
-			void RenderSceneObjects(_NL::Object::CameraObj* Cam, GLuint UseOverrideShaderProgram = NULL);
+			void RenderSceneObjects(_NL::Object::CameraObj* Cam);
 			void RenderScreenQuad(_NL::Object::CameraObj* Cam);
 			void RenderSceneCanvas();
 			void StartUpdateScriptsOfObj(_NL::Core::Object* obj);

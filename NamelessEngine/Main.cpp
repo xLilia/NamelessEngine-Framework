@@ -13,10 +13,11 @@ int main() {
 	//===========================================================================================
 	
 	_NL::Engine::GameManager winMan("w1", 1024, 768, 1, 1, 0, 0, 0);
-	
-	_NL::Element::ShaderInstance* DepthStencilPass = new _NL::Element::ShaderInstance("DepthPassVertshader.glsl", "DepthPassFragshader.glsl");
-	
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
+
+	//===========================================================================================
+	//AUDIO
+	//===========================================================================================
 
 	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
 	//Audio->LoadAudioFile("deeplyMono.ogg");
@@ -39,8 +40,8 @@ int main() {
 	sky1->PreFilterShader = PreFilterShader;
 	sky1->BRDFShader = BRDFshader;
 
-	sky1->createEnvironment("Myhdri/japanhdri (2).jpg", 1024 * 2, 1.2, true);
-	sky1->createSkybox("Myhdri/japanhdri (2).jpg", 1024 * 2);
+	sky1->createEnvironment("mytexs/grass.png");
+	sky1->createSkybox("mytexs/grass.png");
 	scene1->Skybox = sky1;
 	
 	//===========================================================================================
@@ -48,7 +49,7 @@ int main() {
 	//===========================================================================================
 	
 	_NL::Object::CameraObj* MyCam = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x, winMan.window->getSize().y, 0, 0, 90, 0.1, 15000, 1.0, 10, GL_LINEAR);
-	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam", winMan.window->getSize().x/2, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 1500, .01, 10, GL_NEAREST);
+	_NL::Object::CameraObj* MyCam2 = new _NL::Object::CameraObj("MyCam2", winMan.window->getSize().x/2, winMan.window->getSize().y/2, 0, winMan.window->getSize().y / 2, 90, 0.1, 1500, .01, 10, GL_NEAREST);
 	
 	_NL::Element::ShaderInstance* screenshader = new _NL::Element::ShaderInstance("DdeferedScreenQuadvertexshader.glsl", "DdeferedScreenQuadfragmentshader.glsl");
 	_NL::Element::ShaderInstance* GaussianBlur = new _NL::Element::ShaderInstance("GaussianBlurVshader.glsl", "GaussianBlurFshader.glsl");
@@ -65,7 +66,7 @@ int main() {
 	MyCam2->getComponent<_NL::Component::CppScript<CamController>>()->getScript()->W = &winMan;
 	MyCam2->FinalPassShader = screenshader;
 	MyCam2->GenerateFrameBuffers();
-	scene1->addObjectToWorld(MyCam2);
+	//scene1->addObjectToWorld(MyCam2);
 
 	//===========================================================================================
 	//CANVAS
@@ -100,8 +101,8 @@ int main() {
 	_NL::UI::UIText* ut1 = new _NL::UI::UIText("Myfonts/Consolas.ttf", "Hello World ! ^_^");
 	ut1->AnchorPosition = glm::vec2(100, 100);
 	ut1->Layer = 0;
-	
-	//Canvas1->addUIElement(ut1);
+
+	Canvas1->addUIElement(ut1);
 	Canvas1->addUIElement(ui1);
 	Canvas1->addUIElement(ui2);
 	Canvas1->addUIElement(ui3);
@@ -112,13 +113,9 @@ int main() {
 	_NL::Element::ShaderInstance* defaultshader = new _NL::Element::ShaderInstance("Ddeferedvertexshader.glsl", "Ddeferedfragmentshader.glsl");
 	_NL::Element::ShaderInstance* simpleshade = new _NL::Element::ShaderInstance("Ddeferedvertexshader.glsl", "CustomShader.glsl");
 	
-	//===========================================================================================
-	//OBJECTS 
-	//===========================================================================================
-	
 
 	_NL::Element::MaterialInstance* Mat1 = new _NL::Element::MaterialInstance();
-	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/fire.png", 0);
+	_NL::Element::TextureInstance* mtA = new _NL::Element::TextureInstance("MyTexs/sand-texture.jpg", 0);
 	_NL::Element::TextureInstance* mtR = new  _NL::Element::TextureInstance("MyTexs/R2.png", 0);
 	_NL::Element::TextureInstance* mtM = new _NL::Element::TextureInstance("MyTexs/M.png", 0);
 	_NL::Element::TextureInstance* mtN = new _NL::Element::TextureInstance("MyTexs/N.png", 0);
@@ -142,6 +139,21 @@ int main() {
 	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::NormalMap, CerberusN, 0);
 	PBRGunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, CerberusAO, 0);
 
+	_NL::Element::MaterialInstance* GunMAT = new _NL::Element::MaterialInstance();
+	_NL::Element::TextureInstance* GunMAT_A = new _NL::Element::TextureInstance("gunModel/textures/A.jpg", 0);
+	_NL::Element::TextureInstance* GunMAT_r = new  _NL::Element::TextureInstance("gunModel/textures/R.jpg", 0);
+	_NL::Element::TextureInstance* GunMAT_m = new _NL::Element::TextureInstance("gunModel/textures/M.jpg", 0);
+	_NL::Element::TextureInstance* GunMAT_n = new _NL::Element::TextureInstance("gunModel/textures/N.jpg", 0);
+	_NL::Element::TextureInstance* GunMAT_ao  = new _NL::Element::TextureInstance("gunModel/textures/AO.jpg", 0);
+	GunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AlbedoMap, GunMAT_A, 0);
+	GunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::RoughnessMap, GunMAT_r, 0);
+	GunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::MetalnessMap, GunMAT_m, 0);
+	GunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::NormalMap, GunMAT_n, 0);
+	GunMAT->LoadTexture(_NL::Element::TEXTURE_TYPE::AmbientOcclusionMap, GunMAT_ao, 0);
+
+	//===========================================================================================
+	//OBJECTS 
+	//===========================================================================================
 
 	//(1)===========================================================================================
 
@@ -149,7 +161,7 @@ int main() {
 	PBRGun->addComponent(new _NL::Component::Transform);
 	PBRGun->addComponent(new _NL::Component::MeshRenderer);
 	PBRGun->addComponent(new _NL::Component::CppScript<TestScript>);
-	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("MyModels/Cerberus/PbrGun.obj");
+	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Mesh = new _NL::Element::MeshInstance("Mymodels/Cerberus/pbrgun.obj");
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
 	PBRGun->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
 	PBRGun->getComponent<_NL::Component::CppScript<TestScript>>()->getScript()->_this = PBRGun;
@@ -161,15 +173,16 @@ int main() {
 
 	PBRGun->getComponent<_NL::Component::Transform>()->transform.scale *= 10;
 
-	////(4)===========================================================================================
+	//(2)===========================================================================================
+	
 	_NL::Element::MeshInstance* quadmesh = new _NL::Element::MeshInstance("MyModels/quad.obj");
 	_NL::Object::GameObject* Quad = new _NL::Object::GameObject("Quad");
 	Quad->addComponent(new _NL::Component::Transform());
 	Quad->addComponent(new _NL::Component::MeshRenderer());
 	Quad->addComponent(new _NL::Component::CppScript<TestScript>);
 	Quad->getComponent<_NL::Component::MeshRenderer>()->Mesh = quadmesh;
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = defaultshader;
-	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = PBRGunMAT;
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Shader = simpleshade;
+	Quad->getComponent<_NL::Component::MeshRenderer>()->Material = Mat1;
 	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->_this = Quad;
 	Quad->getComponent< _NL::Component::CppScript<TestScript>>()->getScript()->W = &winMan;
 	
@@ -180,30 +193,30 @@ int main() {
 	//LIGHTS
 	//===========================================================================================
 
-	_NL::Object::LightObject* Light1 = new _NL::Object::LightObject("Light1");
-	Light1->LightProperties.setPointLightProperties(glm::vec3(0, 1000, 0), glm::vec3(0, 10, 0));
+	//_NL::Object::LightObject* Light1 = new _NL::Object::LightObject("Light1");
+	//Light1->LightProperties.setDirectionalLightProperties(glm::vec3(1.5, 1.5, .5), glm::vec3(0, 0, 0), glm::vec3(0,-1,0));
 
 	_NL::Object::LightObject* Light2 = new _NL::Object::LightObject("Light2");
-	Light2->LightProperties.setSpotLightProperties(glm::vec3(500, 1000, 1000), glm::vec3(-50, 10, 0), glm::vec3(0, -1, 0), 12, 17);
-
-	//_NL::Object::LightObject* inl;
-	//for (int i = 0; i < 35; i++) {
-	//	inl = scene1->Instantiate<_NL::Object::LightObject>(Light2);
-	//	inl->LightProperties.lightPosition += glm::vec3(i * 10, 0, 0);
-	//	scene1->Instantiate<_NL::Object::LightObject>(Light2)->LightProperties.lightPosition += glm::vec3(0, 0, i * 10);
-	//}
-
-	_NL::Object::LightObject* Light3 = new _NL::Object::LightObject("Light2");
-	Light3->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 100), glm::vec3(30, 10, 0), glm::vec3(0, -1, 0), 12, 45);
-
-	_NL::Object::LightObject* Light4 = new _NL::Object::LightObject("Light2");
-	Light4->LightProperties.setSpotLightProperties(glm::vec3(50, 1000, 100), glm::vec3(10, 10, 40), glm::vec3(0, -1, 0), 12, 45);
-
-	_NL::Object::LightObject* Light5 = new _NL::Object::LightObject("Light2");
-	Light5->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 1000), glm::vec3(60, 10, 20), glm::vec3(0, -1, 0), 12, 45);
-
-	_NL::Object::LightObject* Light6 = new _NL::Object::LightObject("Light2");
-	Light6->LightProperties.setPointLightProperties(glm::vec3(500, 100, 100), glm::vec3(10, 10, 70));
+	Light2->LightProperties.setSpotLightProperties(glm::vec3(10000, 5000, 2500), glm::vec3(30, 50, 0), glm::vec3(-1, -1, 0), 12, 70);
+	//
+	////_NL::Object::LightObject* inl;
+	////for (int i = 0; i < 35; i++) {
+	////	inl = scene1->Instantiate<_NL::Object::LightObject>(Light2);
+	////	inl->LightProperties.lightPosition += glm::vec3(i * 10, 0, 0);
+	////	scene1->Instantiate<_NL::Object::LightObject>(Light2)->LightProperties.lightPosition += glm::vec3(0, 0, i * 10);
+	////}
+	//
+	//_NL::Object::LightObject* Light3 = new _NL::Object::LightObject("Light2");
+	//Light3->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 100), glm::vec3(30, 10, 0), glm::vec3(0, -1, 0), 12, 45);
+	//
+	//_NL::Object::LightObject* Light4 = new _NL::Object::LightObject("Light2");
+	//Light4->LightProperties.setSpotLightProperties(glm::vec3(50, 1000, 100), glm::vec3(10, 10, 40), glm::vec3(0, -1, 0), 12, 45);
+	//
+	//_NL::Object::LightObject* Light5 = new _NL::Object::LightObject("Light2");
+	//Light5->LightProperties.setSpotLightProperties(glm::vec3(50, 100, 1000), glm::vec3(60, 10, 20), glm::vec3(0, -1, 0), 12, 45);
+	//
+	//_NL::Object::LightObject* Light6 = new _NL::Object::LightObject("Light2");
+	//Light6->LightProperties.setPointLightProperties(glm::vec3(500, 100, 100), glm::vec3(10, 10, 70));
 
 
 	//===========================================================================================
@@ -250,12 +263,12 @@ int main() {
 	scene1->addObjectToWorld(PBRGun);
 	scene1->addObjectToWorld(Canvas1);
 	//scene1->addObjectToWorld(PS1);
-	scene1->addObjectToWorld(Light1);
+	//scene1->addObjectToWorld(Light1);
 	scene1->addObjectToWorld(Light2);
-	scene1->addObjectToWorld(Light3);
-	scene1->addObjectToWorld(Light4);
-	scene1->addObjectToWorld(Light5);
-	scene1->addObjectToWorld(Light6);
+	//scene1->addObjectToWorld(Light3);
+	//scene1->addObjectToWorld(Light4);
+	//scene1->addObjectToWorld(Light5);
+	//scene1->addObjectToWorld(Light6);
 
 	winMan.RunScene(scene1);
 	return 0;

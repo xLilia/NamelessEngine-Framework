@@ -50,7 +50,6 @@ GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool Near
 
 int _NL::Tools::TextureLoader::LoadImage(const char* filePath)
 {
-	
 	if (!LoadedTexture.loadFromFile(filePath)) {
 		return -1;
 		std::cout << "ERROR: FAILED TO LOAD: " << filePath << std::endl;

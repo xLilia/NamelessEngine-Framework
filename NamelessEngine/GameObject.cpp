@@ -14,7 +14,7 @@ _NL::Object::GameObject::GameObject(std::string name)
 
 _NL::Object::GameObject::GameObject(const _NL::Core::Object &CO)
 {
-	for each (_NL::Core::Component* C in CO.Components)
+	for (_NL::Core::Component* C : CO.Components)
 	{
 		if (C->getTypeName() == "_NL::Component::CppScript") {
 			this->addComponent(static_cast<_NL::Component::CppScript<>*>(C)->clone());

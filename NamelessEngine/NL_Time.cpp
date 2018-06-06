@@ -3,6 +3,7 @@
 _NL::Engine::Time::Time()
 {
 	Clock.restart();
+	frameClk.restart();
 }
 
 _NL::Engine::Time::~Time()

@@ -82,12 +82,16 @@ void TestScript::Update() {
 	
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
-			W->SafeKillObj(W->Lights[0]);
-		//_NL::Object::GameObject* I = W->SafeInstantiateObj<_NL::Object::GameObject>(_this);
-		//I->name = "panqueca";
-		//I->getComponent<_NL::Component::Transform>()->transform.position = T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100);
-		//I->getComponent<_NL::Component::Transform>()->transform.QuaternionRotation = T->transform.QuaternionRotation;
-		//I->getComponent<_NL::Component::Transform>()->transform.scale = T->transform.scale;
+		//W->SafeKillObj(W->Lights[0]);
+		_NL::Object::GameObject* I = W->SafeInstantiateObj<_NL::Object::GameObject>(_this);
+		I->name = "panqueca";
+		I->getComponent<_NL::Component::Transform>()->transform.position = T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100);
+		I->getComponent<_NL::Component::Transform>()->transform.QuaternionRotation = T->transform.QuaternionRotation;
+		I->getComponent<_NL::Component::Transform>()->transform.scale = T->transform.scale;
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+		W->SafeKillObj(W->CurrentScene->getAllObjsOfType<_NL::Object::GameObject>()[0]);
 	}
 	
 }
