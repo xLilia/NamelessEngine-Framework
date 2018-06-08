@@ -41,7 +41,6 @@ namespace _NL {
 				CastToObjType* Inst;
 				if (Target != nullptr) {
 					Inst = CurrentScene->Instantiate<CastToObjType>(Target);
-					ObjListsOffset++;
 				}
 				return Inst;
 			}
@@ -64,7 +63,6 @@ namespace _NL {
 			bool bEndCurrentScene = false;
 			GLuint LightsSSBO;
 			GLuint LightsSSBOBindingPoint = 0;
-			GLuint ObjListsOffset = 0;
 		};
 	}
 }

@@ -52,7 +52,6 @@ void _NL::Engine::NLManager::SafeKillObj(_NL::Core::Object * Target)
 {
 	if (Target != nullptr) {
 		CurrentScene->KillObjectInstance(Target);
-		if(ObjListsOffset != 0)ObjListsOffset--;
 	}
 }
 
@@ -98,10 +97,9 @@ void _NL::Engine::NLManager::RunScene(_NL::Engine::WorldSpace* set_current_scene
 
 		//for (GLuint OTL = 0; OTL < CurrentScene->ObjectLists.size(); OTL++) {
 		//	for (GLuint OIL = 0; OIL < CurrentScene->ObjectLists[OTL].size(); OIL++) {
-		//		for (GLuint Instance = 0; Instance < CurrentScene->ObjectLists[OTL][OIL].size() - ObjListsOffset; Instance++) {
+		//		for (GLuint Instance = 0; Instance < CurrentScene->ObjectLists[OTL][OIL].size(); Instance++) {
 		//			StartUpdateScriptsOfObj(CurrentScene->ObjectLists[OTL][OIL][Instance]);
 		//		};
-		//		ObjListsOffset = 0;
 		//	};
 		//};
 
@@ -197,7 +195,6 @@ void _NL::Engine::NLManager::EndScriptsOfObj(_NL::Core::Object* obj) {
 
 void _NL::Engine::NLManager::RenderCurrentScene() {
 
-	//window->resetGLStates();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDisable(GL_BLEND);
 
@@ -206,11 +203,11 @@ void _NL::Engine::NLManager::RenderCurrentScene() {
 	//---------------------------------------------------------------------------------
 	//Update Lights
 	UpdateSceneLights();
+
+	//---------------------------------------------------------------------------------
+	//UPDATE CAMs
 	for(_NL::Object::CameraObj* Cam : Cameras)
 	{	
-
-		//---------------------------------------------------------------------------------
-		//UPDATE CAM
 
 		glBindFramebuffer(GL_FRAMEBUFFER, Cam->PostProcessingReadyFramebuffer);
 		Cam->ClearCurrentRenderTarget();
