@@ -106,7 +106,7 @@ Planned features for Beta 1.0:
 	
 	4) Small Tech-demo (interactive AI sandbox game).
 	
-	5)Animations.
+	5) Animations.
 
 ======================= DEV LOG ==========================
 

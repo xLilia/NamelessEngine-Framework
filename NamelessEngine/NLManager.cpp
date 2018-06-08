@@ -500,9 +500,9 @@ void _NL::Engine::NLManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 	}
 	glDisable(GL_DEPTH_TEST);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
+	glDisable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
+	//glFrontFace(GL_CCW);
 	check_gl_error();
 }
 
