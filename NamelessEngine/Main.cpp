@@ -13,7 +13,7 @@ int main() {
 	//ENGINE NLManager SCENE 
 	//===========================================================================================
 	
-	_NL::Engine::NLManager winMan("DEMO SCENE ALPHA 0.6", 1024, 768, true, false, false, true, false);
+	_NL::Engine::NLManager winMan("DEMO SCENE ALPHA 0.6", 1024, 768, true, true, false, false, false);
 	_NL::Engine::WorldSpace* scene1 = new _NL::Engine::WorldSpace;
 
 	//===========================================================================================
