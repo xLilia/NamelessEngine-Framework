@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['safeinstantiateobj',['SafeInstantiateObj',['../class___n_l_1_1_engine_1_1_game_manager.html#a31790874ebcfeddc867c39317864783e',1,'_NL::Engine::GameManager']]],
-  ['safekillobj',['SafeKillObj',['../class___n_l_1_1_engine_1_1_game_manager.html#a7f7e3495509d0965e09310b1ea35f944',1,'_NL::Engine::GameManager']]],
+  ['safeinstantiateobj',['SafeInstantiateObj',['../class___n_l_1_1_engine_1_1_n_l_manager.html#ac7ca8e92ca71025b66d2b4a68dafed17',1,'_NL::Engine::NLManager']]],
+  ['safekillobj',['SafeKillObj',['../class___n_l_1_1_engine_1_1_n_l_manager.html#a41bfe83001c522394444a0f0be576260',1,'_NL::Engine::NLManager']]],
   ['scale',['Scale',['../struct___n_l_1_1_object_1_1_particle_system_1_1_spw_transform.html#a7c6b5fb2657c314525eff43c19e36751',1,'_NL::Object::ParticleSystem::SpwTransform::Scale()'],['../struct___n_l_1_1_core_1_1transform.html#a8380daed9d4ff90af8d5b50745191ada',1,'_NL::Core::transform::scale()'],['../class___n_l_1_1_u_i_1_1_u_i_image.html#a0b74f8dec2bbebcec09b374cbbdfd23c',1,'_NL::UI::UIImage::scale()']]],
   ['screenquad',['ScreenQuad',['../struct___n_l_1_1_core_1_1_screen_quad.html',1,'_NL::Core']]],
   ['script',['Script',['../class___n_l_1_1_core_1_1_script.html',1,'_NL::Core']]],
+  ['script_3c_20_5fnl_3a_3aobject_3a_3acameraobj_20_3e',['Script&lt; _NL::Object::CameraObj &gt;',['../class___n_l_1_1_core_1_1_script.html',1,'_NL::Core']]],
+  ['script_3c_20_5fnl_3a_3aobject_3a_3agameobject_20_3e',['Script&lt; _NL::Object::GameObject &gt;',['../class___n_l_1_1_core_1_1_script.html',1,'_NL::Core']]],
+  ['script_3c_20_5fnl_3a_3aobject_3a_3aparticleobj_20_3e',['Script&lt; _NL::Object::ParticleObj &gt;',['../class___n_l_1_1_core_1_1_script.html',1,'_NL::Core']]],
   ['setcamasrendertarget',['SetCamAsRenderTarget',['../class___n_l_1_1_object_1_1_camera_obj.html#a17f5b74099bf4e4cac13f68221201378',1,'_NL::Object::CameraObj']]],
   ['setdirectionallightproperties',['setDirectionalLightProperties',['../struct___n_l_1_1_core_1_1_light_properties.html#a4d2be4dcd2f38244ef34142c868bfa38',1,'_NL::Core::LightProperties']]],
   ['setfont',['setFont',['../class___n_l_1_1_u_i_1_1_u_i_text.html#aca341c09d720ca46a3dc413c07df27b9',1,'_NL::UI::UIText']]],
@@ -40,8 +43,8 @@ var searchData=
   ['spawnperframe',['SpawnPerFrame',['../class___n_l_1_1_object_1_1_particle_system.html#a820154fe9a3f1818499c4180e2e706d8',1,'_NL::Object::ParticleSystem']]],
   ['sphere',['SPHERE',['../class___n_l_1_1_object_1_1_particle_system.html#a40fc6108807f68c72cd5d229ba97b95ba37dca26a2d40a4a53f8a9dd6674120ed',1,'_NL::Object::ParticleSystem']]],
   ['spwtransform',['SpwTransform',['../struct___n_l_1_1_object_1_1_particle_system_1_1_spw_transform.html',1,'_NL::Object::ParticleSystem']]],
-  ['start',['Start',['../class_cam_controller.html#a8710a597024e75ac13200432cdf462ad',1,'CamController::Start()'],['../class___n_l_1_1_core_1_1_script.html#ab5b0b272adc653a3267337b98b1a2b86',1,'_NL::Core::Script::Start()'],['../class_particle_script.html#a509681edc2be90f3949cbf6b644873dd',1,'ParticleScript::Start()'],['../class_test_script.html#af7bc6fe94a087838e14cf45e5f625624',1,'TestScript::Start()']]],
-  ['startupdatescriptsofobj',['StartUpdateScriptsOfObj',['../class___n_l_1_1_engine_1_1_game_manager.html#aa0e68361a6315d6df96caf6bed54ac72',1,'_NL::Engine::GameManager']]],
+  ['start',['Start',['../class_cam_controller.html#a8710a597024e75ac13200432cdf462ad',1,'CamController::Start()'],['../class___n_l_1_1_core_1_1_script.html#a4e897c429e78860c951c739f348d2889',1,'_NL::Core::Script::Start()'],['../class_particle_script.html#a509681edc2be90f3949cbf6b644873dd',1,'ParticleScript::Start()'],['../class_test_script.html#af7bc6fe94a087838e14cf45e5f625624',1,'TestScript::Start()']]],
+  ['startupdatescriptsofobj',['StartUpdateScriptsOfObj',['../class___n_l_1_1_engine_1_1_n_l_manager.html#aefbaf4b53a3d700131d89fbb69f49825',1,'_NL::Engine::NLManager']]],
   ['stencilviewtexture',['StencilViewTexture',['../class___n_l_1_1_object_1_1_camera_obj.html#ae043cec120098d867b0ef6808048617e',1,'_NL::Object::CameraObj']]],
   ['strikethrough',['StrikeThrough',['../class___n_l_1_1_u_i_1_1_u_i_text.html#af456fcf55602295d2dc4d7a3d3798492a2032a65b5dc8c0e085bc57894fefc1a0',1,'_NL::UI::UIText']]],
   ['style',['Style',['../class___n_l_1_1_u_i_1_1_u_i_text.html#af456fcf55602295d2dc4d7a3d3798492',1,'_NL::UI::UIText']]]

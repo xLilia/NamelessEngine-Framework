@@ -15,7 +15,7 @@ namespace _NL {
 			GameObject(std::string name);
 			GameObject(const _NL::Core::Object &CO);
 			//void getInfo() override; 
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 
 			///STATES
 			///bool bactive = true;

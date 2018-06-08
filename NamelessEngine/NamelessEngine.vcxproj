@@ -100,7 +100,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>sfml-graphics.lib;sfml-system.lib;sfml-window.lib;sfml-audio.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;glew32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -173,7 +173,7 @@
     <ClCompile Include="TextureInstance.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="NLManager.cpp" />
     <ClCompile Include="UICanvas.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="UIText.cpp" />
@@ -183,6 +183,7 @@
   <ItemGroup>
     <ClInclude Include="Animator.h" />
     <ClInclude Include="AudioSource.h" />
+    <ClInclude Include="GausianBlurPostProcessingEffect.hpp" />
     <ClInclude Include="CamController.hpp" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="GameObject.h" />
@@ -209,7 +210,7 @@
     <ClInclude Include="TextureInstance.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="Transform.h" />
-    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="NLManager.h" />
     <ClInclude Include="UICanvas.h" />
     <ClInclude Include="UIImage.h" />
     <ClInclude Include="UIText.h" />

@@ -31,8 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
+   &#160;<span id="projectnumber">alpha 0.6</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
   </td>
  </tr>
  </tbody>
@@ -115,7 +116,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a90ad4486eee9a33dd44ab12ad315e1f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade8a9c040fac41d0b474591b4d5dfa16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#ade8a9c040fac41d0b474591b4d5dfa16">initGLObj</a> ()</td></tr>
 <tr class="separator:ade8a9c040fac41d0b474591b4d5dfa16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbc08d3558a0d72c15f8bf48f9179c82"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#acbc08d3558a0d72c15f8bf48f9179c82">getTypeName</a> () const override</td></tr>
+<tr class="memitem:acbc08d3558a0d72c15f8bf48f9179c82"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#acbc08d3558a0d72c15f8bf48f9179c82">getTypeName</a> () const override</td></tr>
 <tr class="memdesc:acbc08d3558a0d72c15f8bf48f9179c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">INFO.  <a href="#acbc08d3558a0d72c15f8bf48f9179c82">More...</a><br /></td></tr>
 <tr class="separator:acbc08d3558a0d72c15f8bf48f9179c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90789e7febb203f460b8049329d2f792"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#a90789e7febb203f460b8049329d2f792">UpdateGLSettings</a> ()</td></tr>
@@ -142,6 +143,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ab6e5f889d033e0e92f55302c96f254a0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#ab6e5f889d033e0e92f55302c96f254a0">bIsUnpacked</a> = false</td></tr>
 <tr class="separator:ab6e5f889d033e0e92f55302c96f254a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3efd5205bbd1923ac063479c00b1f482"><td class="memItemLeft" align="right" valign="top">GLenum&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#a3efd5205bbd1923ac063479c00b1f482">GL_RenderMode</a> = GL_TRIANGLES</td></tr>
+<tr class="memdesc:a3efd5205bbd1923ac063479c00b1f482"><td class="mdescLeft">&#160;</td><td class="mdescRight">struct GLRenderSettings{};  <a href="#a3efd5205bbd1923ac063479c00b1f482">More...</a><br /></td></tr>
 <tr class="separator:a3efd5205bbd1923ac063479c00b1f482"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e86072a6d6f2d992018107d5f8540c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#a3e86072a6d6f2d992018107d5f8540c5">GL_CullFace</a> = true</td></tr>
 <tr class="separator:a3e86072a6d6f2d992018107d5f8540c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,10 +151,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ac76374be176f1b65da10137ba87f4a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad38481937f742331302442fb58404da1"><td class="memItemLeft" align="right" valign="top">GLenum&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#ad38481937f742331302442fb58404da1">GL_CullFaceOrientation</a> = GL_CCW</td></tr>
 <tr class="separator:ad38481937f742331302442fb58404da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_class___n_l_1_1_core_1_1_component"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class___n_l_1_1_core_1_1_component')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class___n_l_1_1_core_1_1_component.html">_NL::Core::Component</a></td></tr>
-<tr class="memitem:a0291ceabd2ae58b28d5472bd21234477 inherit pub_attribs_class___n_l_1_1_core_1_1_component"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_component.html#a0291ceabd2ae58b28d5472bd21234477">bactive</a> = true</td></tr>
-<tr class="memdesc:a0291ceabd2ae58b28d5472bd21234477 inherit pub_attribs_class___n_l_1_1_core_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn <a class="el" href="class___n_l_1_1_core_1_1_component.html" title="Virtual Class of _NL::Core::Component. ">Component</a> ON -&gt; true |or| OFF -&gt; false.  <a href="class___n_l_1_1_core_1_1_component.html#a0291ceabd2ae58b28d5472bd21234477">More...</a><br /></td></tr>
-<tr class="separator:a0291ceabd2ae58b28d5472bd21234477 inherit pub_attribs_class___n_l_1_1_core_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa27b407e5ac67093299826bc33b4ea04"></a>
@@ -340,6 +338,8 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>struct GLRenderSettings{}; </p>
 
 </div>
 </div>

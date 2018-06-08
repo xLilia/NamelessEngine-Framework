@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['safeinstantiateobj',['SafeInstantiateObj',['../class___n_l_1_1_engine_1_1_game_manager.html#a31790874ebcfeddc867c39317864783e',1,'_NL::Engine::GameManager']]],
-  ['safekillobj',['SafeKillObj',['../class___n_l_1_1_engine_1_1_game_manager.html#a7f7e3495509d0965e09310b1ea35f944',1,'_NL::Engine::GameManager']]],
+  ['safeinstantiateobj',['SafeInstantiateObj',['../class___n_l_1_1_engine_1_1_n_l_manager.html#ac7ca8e92ca71025b66d2b4a68dafed17',1,'_NL::Engine::NLManager']]],
+  ['safekillobj',['SafeKillObj',['../class___n_l_1_1_engine_1_1_n_l_manager.html#a41bfe83001c522394444a0f0be576260',1,'_NL::Engine::NLManager']]],
   ['setcamasrendertarget',['SetCamAsRenderTarget',['../class___n_l_1_1_object_1_1_camera_obj.html#a17f5b74099bf4e4cac13f68221201378',1,'_NL::Object::CameraObj']]],
   ['setdirectionallightproperties',['setDirectionalLightProperties',['../struct___n_l_1_1_core_1_1_light_properties.html#a4d2be4dcd2f38244ef34142c868bfa38',1,'_NL::Core::LightProperties']]],
   ['setfont',['setFont',['../class___n_l_1_1_u_i_1_1_u_i_text.html#aca341c09d720ca46a3dc413c07df27b9',1,'_NL::UI::UIText']]],
@@ -14,6 +14,6 @@ var searchData=
   ['sortfunc',['sortFunc',['../_u_i_canvas_8cpp.html#a3953f29feb01cd13254e085685760f5b',1,'UICanvas.cpp']]],
   ['spawn_5foff',['SPAWN_OFF',['../class___n_l_1_1_object_1_1_particle_system.html#a445b6c8551a61d358776465817553b06',1,'_NL::Object::ParticleSystem']]],
   ['spawn_5fon',['SPAWN_ON',['../class___n_l_1_1_object_1_1_particle_system.html#a381d1e73f5e9e0309cf2faf0de61aba0',1,'_NL::Object::ParticleSystem']]],
-  ['start',['Start',['../class_cam_controller.html#a8710a597024e75ac13200432cdf462ad',1,'CamController::Start()'],['../class___n_l_1_1_core_1_1_script.html#ab5b0b272adc653a3267337b98b1a2b86',1,'_NL::Core::Script::Start()'],['../class_particle_script.html#a509681edc2be90f3949cbf6b644873dd',1,'ParticleScript::Start()'],['../class_test_script.html#af7bc6fe94a087838e14cf45e5f625624',1,'TestScript::Start()']]],
-  ['startupdatescriptsofobj',['StartUpdateScriptsOfObj',['../class___n_l_1_1_engine_1_1_game_manager.html#aa0e68361a6315d6df96caf6bed54ac72',1,'_NL::Engine::GameManager']]]
+  ['start',['Start',['../class_cam_controller.html#a8710a597024e75ac13200432cdf462ad',1,'CamController::Start()'],['../class___n_l_1_1_core_1_1_script.html#a4e897c429e78860c951c739f348d2889',1,'_NL::Core::Script::Start()'],['../class_particle_script.html#a509681edc2be90f3949cbf6b644873dd',1,'ParticleScript::Start()'],['../class_test_script.html#af7bc6fe94a087838e14cf45e5f625624',1,'TestScript::Start()']]],
+  ['startupdatescriptsofobj',['StartUpdateScriptsOfObj',['../class___n_l_1_1_engine_1_1_n_l_manager.html#aefbaf4b53a3d700131d89fbb69f49825',1,'_NL::Engine::NLManager']]]
 ];

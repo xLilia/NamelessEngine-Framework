@@ -12,7 +12,7 @@ namespace _NL{
 			GLfloat lifeTime;
 			bool Awake;
 			bool Alive;
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 		};
 	}
 }

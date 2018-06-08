@@ -15,7 +15,7 @@ namespace _NL {
 			};
 			ParticleSystem();
 			std::vector<_NL::Object::ParticleObj*> ActiveParticles;
-			_NL::Core::Script* ParticlesBehavior = NULL;
+			_NL::Core::Script<_NL::Object::ParticleObj>* ParticlesBehavior = NULL;
 			_NL::Object::ParticleObj* Particle = NULL;
 			_NL::Engine::WorldSpace* CurrentScene = NULL;
 			_NL::Engine::Time* TimeScale = NULL;
@@ -37,7 +37,7 @@ namespace _NL {
 			void BEHAVIOUR_ON();
 			void BEHAVIOUR_OFF();
 			void TickSystem();
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 		private:
 			GLfloat SpawnN = 0;
 			bool ON_OFF;

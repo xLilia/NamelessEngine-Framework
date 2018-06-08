@@ -6,9 +6,9 @@ _NL::UI::UICanvas::UICanvas()
 
 }
 
-_NL::UI::UICanvas::UICanvas(sf::RenderWindow* GameManagerWindow)
+_NL::UI::UICanvas::UICanvas(sf::RenderWindow* NLManagerWindow)
 {
-	this->WindowTarget = GameManagerWindow;
+	this->WindowTarget = NLManagerWindow;
 }
 
 
@@ -22,7 +22,7 @@ void _NL::UI::UICanvas::addUIElement(_NL::Core::UI* UI)
 
 void _NL::UI::UICanvas::DrawElements()
 {
-	glDisable(GL_DEPTH_TEST);
+
 	for (_NL::Core::UI* UI : UIelements)
 	{
 		if (UI->getTypeName() == "_NL::UI::UICanvas") {
@@ -31,9 +31,9 @@ void _NL::UI::UICanvas::DrawElements()
 		}
 
 		if (UI->getTypeName() == "_NL::UI::UIImage") {
-			ImageRenderShader->Use();
+			glDisable(GL_DEPTH_TEST);
 			glEnable(GL_BLEND);
-			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			ImageRenderShader->Use();
 			_NL::UI::UIImage* UII = dynamic_cast<_NL::UI::UIImage*>(UI);
 			glUniform1i(1, 0);
 			glActiveTexture(GL_TEXTURE0);
@@ -41,22 +41,26 @@ void _NL::UI::UICanvas::DrawElements()
 			glm::vec2 finalPos = (UI->AnchorPosition + UI->PositionRelativeToAnchor) + AnchorPosition;
 			glm::vec2 finalScale = (UII->widthHeight * UII->scale);
 			_NL::Core::RenderQuad(finalPos.x, WindowTarget->getSize().y - finalPos.y - finalScale.y, finalScale.x, finalScale.y, false);
-			glDisable(GL_BLEND);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, 0);
 			ImageRenderShader->UnUse();
+			glDisable(GL_BLEND);
+			glDisable(GL_DEPTH_TEST);
 		}    
 
 		if (UI->getTypeName() == "_NL::UI::UIText") {
-	
+			glDisable(GL_DEPTH_TEST);
+			glEnable(GL_BLEND);
+			
 			glViewport(0, 0, WindowTarget->getSize().x, WindowTarget->getSize().y);
 			_NL::UI::UIText* UII = dynamic_cast<_NL::UI::UIText*>(UI);
 			UII->DrawText(this->WindowTarget);
-
+			glDisable(GL_BLEND);
+			glDisable(GL_DEPTH_TEST);
 		}
 		
 	}
-	glEnable(GL_DEPTH_TEST);
+
 }
 
 char* _NL::UI::UICanvas::getTypeName() const

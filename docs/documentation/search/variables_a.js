@@ -6,7 +6,7 @@ var searchData=
   ['lightdirection',['lightDirection',['../struct___n_l_1_1_core_1_1_light_properties.html#a8e3640ee106094082f118795447d1228',1,'_NL::Core::LightProperties']]],
   ['lightposition',['lightPosition',['../struct___n_l_1_1_core_1_1_light_properties.html#a434e0387480f888516841c9fecbe3d79',1,'_NL::Core::LightProperties']]],
   ['lightproperties',['LightProperties',['../class___n_l_1_1_object_1_1_light_object.html#a3d485913c418dad4ad459b0360486753',1,'_NL::Object::LightObject']]],
-  ['lights',['Lights',['../class___n_l_1_1_engine_1_1_game_manager.html#a21493ff84308821eea3d767070cd7420',1,'_NL::Engine::GameManager']]],
+  ['lights',['Lights',['../class___n_l_1_1_engine_1_1_n_l_manager.html#ab68a26d6db7552bfeb300365c99d6ece',1,'_NL::Engine::NLManager']]],
   ['lightspotinnerangle',['lightSpotInnerAngle',['../struct___n_l_1_1_core_1_1_light_properties.html#a25f3a8e3914992a6bcc2a7a94d5db873',1,'_NL::Core::LightProperties']]],
   ['lightspotouterangle',['lightSpotOuterAngle',['../struct___n_l_1_1_core_1_1_light_properties.html#a1e0324453d71079ebcf2ff6a2e37db49',1,'_NL::Core::LightProperties']]],
   ['loadedtexture',['LoadedTexture',['../class___n_l_1_1_tools_1_1_texture_loader.html#a4cc0cf3f0f6fac66b241e15b21e32ed3',1,'_NL::Tools::TextureLoader']]],

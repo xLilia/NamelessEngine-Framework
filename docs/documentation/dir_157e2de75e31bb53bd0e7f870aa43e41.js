@@ -19,13 +19,12 @@ var dir_157e2de75e31bb53bd0e7f870aa43e41 =
     [ "CppScript.h", "_cpp_script_8h.html", [
       [ "CppScript", "class___n_l_1_1_component_1_1_cpp_script.html", "class___n_l_1_1_component_1_1_cpp_script" ]
     ] ],
-    [ "GameManager.cpp", "_game_manager_8cpp.html", null ],
-    [ "GameManager.h", "_game_manager_8h.html", [
-      [ "GameManager", "class___n_l_1_1_engine_1_1_game_manager.html", "class___n_l_1_1_engine_1_1_game_manager" ]
-    ] ],
     [ "GameObject.cpp", "_game_object_8cpp.html", null ],
     [ "GameObject.h", "_game_object_8h.html", [
       [ "GameObject", "class___n_l_1_1_object_1_1_game_object.html", "class___n_l_1_1_object_1_1_game_object" ]
+    ] ],
+    [ "GausianBlurPostProcessingEffect.hpp", "_gausian_blur_post_processing_effect_8hpp.html", [
+      [ "GausianBlurPostProcessingEffect", "class_gausian_blur_post_processing_effect.html", "class_gausian_blur_post_processing_effect" ]
     ] ],
     [ "GLError.cpp", "_g_l_error_8cpp.html", "_g_l_error_8cpp" ],
     [ "GLError.h", "_g_l_error_8h.html", "_g_l_error_8h" ],
@@ -53,6 +52,10 @@ var dir_157e2de75e31bb53bd0e7f870aa43e41 =
     [ "NL_Time.cpp", "_n_l___time_8cpp.html", null ],
     [ "NL_Time.h", "_n_l___time_8h.html", [
       [ "Time", "class___n_l_1_1_engine_1_1_time.html", "class___n_l_1_1_engine_1_1_time" ]
+    ] ],
+    [ "NLManager.cpp", "_n_l_manager_8cpp.html", null ],
+    [ "NLManager.h", "_n_l_manager_8h.html", [
+      [ "NLManager", "class___n_l_1_1_engine_1_1_n_l_manager.html", "class___n_l_1_1_engine_1_1_n_l_manager" ]
     ] ],
     [ "NLphysxCollider.cpp", "_n_lphysx_collider_8cpp.html", null ],
     [ "NLphysxCollider.h", "_n_lphysx_collider_8h.html", [

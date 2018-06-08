@@ -20,7 +20,7 @@ namespace _NL {
 			///STATES
 			bool bactive = true;
 			///INFO
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 			
 		};
 	}

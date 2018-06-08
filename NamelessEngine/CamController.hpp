@@ -1,6 +1,6 @@
 #pragma once
 #include "NL.hpp"
-class CamController : public _NL::Core::Script
+class CamController : public _NL::Core::Script<_NL::Object::CameraObj>
 {
 private:
 	GLfloat Drag = 10;
@@ -11,8 +11,7 @@ private:
 	glm::vec2 oldMousePos;
 	
 public:
-	_NL::Engine::GameManager * W;
-	_NL::Object::CameraObj* _this;
+	_NL::Engine::NLManager * W;
 	void RotateCam();
 	GLfloat TrackMouse();
 
@@ -23,14 +22,12 @@ public:
 
 void CamController::Start() {
 	
-	//W->window->setMouseCursorVisible(false);
 }
 
 void CamController::Update() {
 	
 	if(W->window->hasFocus())
 		TrackMouse();
-		
 
 	//SYNC WITH DELTA TIME
 	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
@@ -86,13 +83,6 @@ void CamController::Update() {
 	}
 
 	_this->updateAudioListenerWithCamTransform();
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-		//_this->RenderScaleRatio -= 0.001;
-		//_this->RenderWindowPos.x--;
-		////_this->RenderWindowSize.x++;
-		//_this->GenerateFrameBuffers();
-	}
 	
 }
 

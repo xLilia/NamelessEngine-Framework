@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bactive',['bactive',['../class___n_l_1_1_core_1_1_component.html#a0291ceabd2ae58b28d5472bd21234477',1,'_NL::Core::Component::bactive()'],['../class___n_l_1_1_component_1_1_transform.html#aae53b68fe99d71cad1fe2b028d293e73',1,'_NL::Component::Transform::bactive()']]],
+  ['bactive',['bactive',['../class___n_l_1_1_component_1_1_transform.html#aae53b68fe99d71cad1fe2b028d293e73',1,'_NL::Component::Transform']]],
   ['bcastsshadows',['bCastsShadows',['../class___n_l_1_1_object_1_1_light_object.html#abf5428435842cadab6d11eebaa53add7',1,'_NL::Object::LightObject']]],
   ['behaviour_5foff',['BEHAVIOUR_OFF',['../class___n_l_1_1_object_1_1_particle_system.html#a143ea8dcc50fee742734c33d5a7a282d',1,'_NL::Object::ParticleSystem']]],
   ['behaviour_5fon',['BEHAVIOUR_ON',['../class___n_l_1_1_object_1_1_particle_system.html#af8f080ee1235e1fa41ba67500b2ad871',1,'_NL::Object::ParticleSystem']]],

@@ -13,12 +13,12 @@ var hierarchy =
       [ "_NL::Element::MeshInstance", "class___n_l_1_1_element_1_1_mesh_instance.html", null ],
       [ "_NL::Element::ShaderInstance", "class___n_l_1_1_element_1_1_shader_instance.html", null ]
     ] ],
-    [ "_NL::Engine::GameManager", "class___n_l_1_1_engine_1_1_game_manager.html", null ],
     [ "_NL::Core::GLSL_AU", "struct___n_l_1_1_core_1_1_g_l_s_l___a_u.html", null ],
     [ "_NL::Core::LightProperties", "struct___n_l_1_1_core_1_1_light_properties.html", null ],
     [ "_NL::Core::MaterialInstanceData", "struct___n_l_1_1_core_1_1_material_instance_data.html", null ],
     [ "_NL::Core::MeshInstanceData", "struct___n_l_1_1_core_1_1_mesh_instance_data.html", null ],
     [ "_NL::Tools::MTLfileReader", "class___n_l_1_1_tools_1_1_m_t_lfile_reader.html", null ],
+    [ "_NL::Engine::NLManager", "class___n_l_1_1_engine_1_1_n_l_manager.html", null ],
     [ "_NL::Element::NLphysxCollider", "class___n_l_1_1_element_1_1_n_lphysx_collider.html", null ],
     [ "_NL::Component::NLphysxRigidBody", "class___n_l_1_1_component_1_1_n_lphysx_rigid_body.html", null ],
     [ "_NL::Core::Object", "class___n_l_1_1_core_1_1_object.html", [
@@ -30,11 +30,19 @@ var hierarchy =
       [ "_NL::UI::UICanvas", "class___n_l_1_1_u_i_1_1_u_i_canvas.html", null ]
     ] ],
     [ "_NL::Tools::OBJfileReader", "class___n_l_1_1_tools_1_1_o_b_jfile_reader.html", null ],
+    [ "_NL::Core::PostProcessingScript", "class___n_l_1_1_core_1_1_post_processing_script.html", [
+      [ "GausianBlurPostProcessingEffect", "class_gausian_blur_post_processing_effect.html", null ]
+    ] ],
     [ "_NL::Core::ScreenQuad", "struct___n_l_1_1_core_1_1_screen_quad.html", null ],
-    [ "_NL::Core::Script", "class___n_l_1_1_core_1_1_script.html", [
-      [ "CamController", "class_cam_controller.html", null ],
-      [ "ParticleScript", "class_particle_script.html", null ],
+    [ "_NL::Core::Script< Owner >", "class___n_l_1_1_core_1_1_script.html", null ],
+    [ "_NL::Core::Script< _NL::Object::CameraObj >", "class___n_l_1_1_core_1_1_script.html", [
+      [ "CamController", "class_cam_controller.html", null ]
+    ] ],
+    [ "_NL::Core::Script< _NL::Object::GameObject >", "class___n_l_1_1_core_1_1_script.html", [
       [ "TestScript", "class_test_script.html", null ]
+    ] ],
+    [ "_NL::Core::Script< _NL::Object::ParticleObj >", "class___n_l_1_1_core_1_1_script.html", [
+      [ "ParticleScript", "class_particle_script.html", null ]
     ] ],
     [ "_NL::Tools::ShaderWizard", "class___n_l_1_1_tools_1_1_shader_wizard.html", null ],
     [ "_NL::Object::SkyboxObj", "class___n_l_1_1_object_1_1_skybox_obj.html", null ],
@@ -43,8 +51,8 @@ var hierarchy =
     [ "_NL::Element::TextureInstance", "class___n_l_1_1_element_1_1_texture_instance.html", null ],
     [ "_NL::Tools::TextureLoader", "class___n_l_1_1_tools_1_1_texture_loader.html", null ],
     [ "_NL::Engine::Time", "class___n_l_1_1_engine_1_1_time.html", null ],
-    [ "_NL::Object::CameraObj::transform", "struct___n_l_1_1_object_1_1_camera_obj_1_1transform.html", null ],
     [ "_NL::Core::transform", "struct___n_l_1_1_core_1_1transform.html", null ],
+    [ "_NL::Object::CameraObj::transform", "struct___n_l_1_1_object_1_1_camera_obj_1_1transform.html", null ],
     [ "_NL::Core::UI", "class___n_l_1_1_core_1_1_u_i.html", [
       [ "_NL::UI::UICanvas", "class___n_l_1_1_u_i_1_1_u_i_canvas.html", null ],
       [ "_NL::UI::UIImage", "class___n_l_1_1_u_i_1_1_u_i_image.html", null ],

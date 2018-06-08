@@ -1,5 +1,48 @@
-# NAMELESS ENGINE - FRAMEWORK alpha0.1
-//INCLUDE the NL.hpp" header file in your main to use the engine. 
+# NAMELESS ENGINE - FRAMEWORK alpha0.6
+
+==================alpha0.6==========================
+
+Out of the box included demo scene in MAIN.cpp
+
+Demo scene Active Scripts controlls:
+
+	1) Mouse movement - Look around
+	
+	2) left/right mouse buttons - increase/decrease FOV
+	
+	3) WASD QE - Move camera
+	
+	4) TFGH RY - Rotate objs
+	
+	5) U - Reset Objects
+	
+	6) J - Objs follow camera
+	
+	7) ESC - End scene
+
+Current Problems and what to do:
+	
+	1) GL_INVALID_OPERATION - cameraobj.cpp:147 ||| Ignore.
+	
+	2) Low framerate and or stream of GL_Errors in the console ||| Restart Program.
+	
+	3) Skybox disappearance ||| Restart Program.
+	
+	4) Weird Textures ||| Restart Program.
+	
+Current bugged out Features:
+
+	1) PARTICLE SYSTEMS not rendering particles ||| do not use ,may cause crashed.
+	
+	2) UItext ||| do not use.
+	
+	3) Instantiation of objects in scene during game loop ||| undefined behaviour, may cause crashed.
+	
+Currently Supported 3D Model Files: 
+
+".obj"(OBJ files) and ".dae"(COLLADA files)
+
+==================alpha0.6==========================
 
 Official Website & Doumentation: https://mattateusb7.github.io/NamelessEngine-Framework/
 

@@ -19,7 +19,7 @@ namespace _NL {
 			MaterialInstance();
 			~MaterialInstance();
 
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 
 			_NL::Core::MaterialInstanceData MaterialInstanceData;
 

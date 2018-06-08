@@ -60,16 +60,16 @@ namespace _NL {
 			glm::mat4 getProjectionMatrix() const;
 
 			_NL::Element::ShaderInstance* FinalPassShader;
-			//_NL::Element::ShaderInstance* PingPongShader;
+			std::vector<_NL::Core::PostProcessingScript*> PostProcessingStack; 
 			
 			void ClearCurrentRenderTarget();
 			void SetThisCamViewPort();
 			void GenerateFrameBuffers();
 			void SetCamAsRenderTarget();
-			void RenderToPostProcessingFramebuffer();
-
+			void RenderToFinalFramebuffer();
+			void ExecutePostProcessingStack();
 			void blitPostProcessedImageToScreen();
-
+			
 			//GLuint GeneratePingPongTexture();
 
 			//---------------------------------------------------------------------------------
@@ -96,10 +96,8 @@ namespace _NL {
 			//bool HasPingPongShader;
 			//GLuint PingPongIterations;
 			
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 
 		};
 	}
 }
-
-

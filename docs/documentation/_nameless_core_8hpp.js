@@ -6,6 +6,7 @@ var _nameless_core_8hpp =
     [ "UI", "class___n_l_1_1_core_1_1_u_i.html", "class___n_l_1_1_core_1_1_u_i" ],
     [ "Object", "class___n_l_1_1_core_1_1_object.html", "class___n_l_1_1_core_1_1_object" ],
     [ "Script", "class___n_l_1_1_core_1_1_script.html", "class___n_l_1_1_core_1_1_script" ],
+    [ "PostProcessingScript", "class___n_l_1_1_core_1_1_post_processing_script.html", "class___n_l_1_1_core_1_1_post_processing_script" ],
     [ "MaterialInstanceData", "struct___n_l_1_1_core_1_1_material_instance_data.html", "struct___n_l_1_1_core_1_1_material_instance_data" ],
     [ "MeshInstanceData", "struct___n_l_1_1_core_1_1_mesh_instance_data.html", "struct___n_l_1_1_core_1_1_mesh_instance_data" ],
     [ "transform", "struct___n_l_1_1_core_1_1transform.html", "struct___n_l_1_1_core_1_1transform" ],

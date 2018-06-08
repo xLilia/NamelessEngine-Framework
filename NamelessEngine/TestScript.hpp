@@ -1,5 +1,5 @@
 #pragma once
-class TestScript : public _NL::Core::Script
+class TestScript : public _NL::Core::Script<_NL::Object::GameObject>
 {
 private:
 	_NL::Component::Transform* T;
@@ -11,7 +11,7 @@ private:
 
 public:
 	glm::vec3 target;
-	_NL::Engine::GameManager * W;
+	_NL::Engine::NLManager * W;
 
 	void Start() override;
 	void Update() override;
@@ -19,9 +19,7 @@ public:
 
 
 void TestScript::Start(){
-	//target = W->Cameras[0]->Position;
 	T = _this->getComponent<_NL::Component::Transform>();
-	//T->transform.scale *= 0.1;
 }
 
 void TestScript::Update() {
@@ -29,7 +27,7 @@ void TestScript::Update() {
 	T = _this->getComponent<_NL::Component::Transform>();
 	GLfloat t = W->GameTime.DeltaTime.asSeconds();
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add) ) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::J) ) {
 		glm::vec3 vec = target - T->transform.position;
 		if (glm::length(vec) > 10) {
 
@@ -45,30 +43,30 @@ void TestScript::Update() {
 		}
 	}
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad8)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
 		x1 -= 0.1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5)) {
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
 		x1 += 0.1;
 	}
 	else {
 		x1 = glm::lerp(x1, 0.0f, t*2);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad9)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
 		y1 -= 0.1;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad7)) {
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
 		y1 += 0.1;
 	}
 	else {
 		y1 = glm::lerp(y1, 0.0f, t*2);
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad6)) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
 		z1 -= 0.1;
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4)) {
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
 		z1 += 0.1;
 	}
 	else {
@@ -81,18 +79,10 @@ void TestScript::Update() {
 	T->RotateEuler(glm::vec3(x1, y1, z1)*t);
 	
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
-		//W->SafeKillObj(W->Lights[0]);
-		_NL::Object::GameObject* I = W->SafeInstantiateObj<_NL::Object::GameObject>(_this);
-		I->name = "panqueca";
-		I->getComponent<_NL::Component::Transform>()->transform.position = T->transform.position + glm::vec3(rand() % 100, rand() % 100, rand() % 100);
-		I->getComponent<_NL::Component::Transform>()->transform.QuaternionRotation = T->transform.QuaternionRotation;
-		I->getComponent<_NL::Component::Transform>()->transform.scale = T->transform.scale;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+		T->transform.QuaternionRotation = glm::quat();
+		T->transform.position = glm::vec3();
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
-		W->SafeKillObj(W->CurrentScene->getAllObjsOfType<_NL::Object::GameObject>()[0]);
-	}
-	
 }
 

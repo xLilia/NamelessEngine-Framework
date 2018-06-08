@@ -9,7 +9,7 @@ var searchData=
   ['lightobject_2eh',['LightObject.h',['../_light_object_8h.html',1,'']]],
   ['lightposition',['lightPosition',['../struct___n_l_1_1_core_1_1_light_properties.html#a434e0387480f888516841c9fecbe3d79',1,'_NL::Core::LightProperties']]],
   ['lightproperties',['LightProperties',['../struct___n_l_1_1_core_1_1_light_properties.html',1,'_NL::Core::LightProperties'],['../class___n_l_1_1_object_1_1_light_object.html#a3d485913c418dad4ad459b0360486753',1,'_NL::Object::LightObject::LightProperties()']]],
-  ['lights',['Lights',['../class___n_l_1_1_engine_1_1_game_manager.html#a21493ff84308821eea3d767070cd7420',1,'_NL::Engine::GameManager']]],
+  ['lights',['Lights',['../class___n_l_1_1_engine_1_1_n_l_manager.html#ab68a26d6db7552bfeb300365c99d6ece',1,'_NL::Engine::NLManager']]],
   ['lightspotinnerangle',['lightSpotInnerAngle',['../struct___n_l_1_1_core_1_1_light_properties.html#a25f3a8e3914992a6bcc2a7a94d5db873',1,'_NL::Core::LightProperties']]],
   ['lightspotouterangle',['lightSpotOuterAngle',['../struct___n_l_1_1_core_1_1_light_properties.html#a1e0324453d71079ebcf2ff6a2e37db49',1,'_NL::Core::LightProperties']]],
   ['load',['LOAD',['../class___n_l_1_1_tools_1_1_m_t_lfile_reader.html#a83e6bf0838e0105dfef2c518a85fe8df',1,'_NL::Tools::MTLfileReader::LOAD()'],['../class___n_l_1_1_tools_1_1_o_b_jfile_reader.html#aba14ab3d3754e637b5d2d616e5adf28d',1,'_NL::Tools::OBJfileReader::LOAD()'],['../class___n_l_1_1_tools_1_1_x_m_lfile_reader.html#a30ed6ccdad59c33787c0f92cb679dd07',1,'_NL::Tools::XMLfileReader::Load()']]],

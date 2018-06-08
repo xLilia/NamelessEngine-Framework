@@ -60,8 +60,8 @@ void main(){
 	//=========================
 
 	//vec4 albedoMap = vec4(1,0,0,1);			//0.0 Black. --> 1.0 rgb colored.
-	float roughnessMap = 0.9;				//0.1 Polished.  --> 1.0 Rough.
-	float metalnessMap = 0.1;				//0.0 Dielectric. --> 0.5 Semiconductor. -->  1.0 Metalic
+	//float roughnessMap = 0.1;				//0.1 Polished.  --> 1.0 Rough.
+	//float metalnessMap = 0.9;				//0.0 Dielectric. --> 0.5 Semiconductor. -->  1.0 Metalic
 	vec3 normalMap = vec3(0.5,0.5,1.0);		//No need to edit, allways pointing away from surface.
 	float aoMap = 1.0;						//0.0 Full ambient oculusion --> 1.0 No ambient oculusion.
 
@@ -70,8 +70,8 @@ void main(){
 	//=========================
 
 	vec4 albedoMap = texture2D(AlbedoTexture, fragTexCoord);
-	//float roughnessMap = texture2D(RoughnessTexture, fragTexCoord).x;
-	//float metalnessMap = texture2D(MetalnessTexture, fragTexCoord).x;
+	float roughnessMap = texture2D(RoughnessTexture, fragTexCoord).x;
+	float metalnessMap = texture2D(MetalnessTexture, fragTexCoord).x;
 	//vec3 normalMap = texture2D(NormalTexture, fragTexCoord).rgb;
 	//float aoMap = texture2D(AmbientOculusionTexture, fragTexCoord).x;
 

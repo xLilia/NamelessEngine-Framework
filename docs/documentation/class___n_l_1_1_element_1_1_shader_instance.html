@@ -31,8 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
+   &#160;<span id="projectnumber">alpha 0.6</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
   </td>
  </tr>
  </tbody>
@@ -122,7 +123,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5c88ad377550ca4497612b9bda33da90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16cf2b679ce8e4fbb68d168f007018c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_element_1_1_shader_instance.html#a16cf2b679ce8e4fbb68d168f007018c1">InstallShader</a> (const char *VertexShader, const char *FragmentShader)</td></tr>
 <tr class="separator:a16cf2b679ce8e4fbb68d168f007018c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13c576d686fac668dd3583c36f07ce07"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_element_1_1_shader_instance.html#a13c576d686fac668dd3583c36f07ce07">getTypeName</a> () const override</td></tr>
+<tr class="memitem:a13c576d686fac668dd3583c36f07ce07"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_element_1_1_shader_instance.html#a13c576d686fac668dd3583c36f07ce07">getTypeName</a> () const override</td></tr>
 <tr class="memdesc:a13c576d686fac668dd3583c36f07ce07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#a13c576d686fac668dd3583c36f07ce07">More...</a><br /></td></tr>
 <tr class="separator:a13c576d686fac668dd3583c36f07ce07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -231,7 +232,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Every Sub Class must Overload this method. </p>
-<p>e.g : " return "_NL::Element::subgetTypeName" " </p>
+<p>e.g : " return "_NL::Element::subTypeName" " </p>
 
 <p>Implements <a class="el" href="class___n_l_1_1_core_1_1_element.html#a8e4ae17605e42c2ab15047aa6f85295f">_NL::Core::Element</a>.</p>
 

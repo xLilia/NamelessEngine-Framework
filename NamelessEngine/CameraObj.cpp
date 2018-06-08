@@ -78,16 +78,6 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	ColorTextures.clear();
 
 	//==============//==============
-	//FinalQuad framebuffer
-	//==============//==============
-
-	//glDeleteFramebuffers(1, &FinalQuad_FrameBuffer);
-	//
-	//if (FinalQuad_ColorTextures.size()>0)
-	//	glDeleteTextures(FinalQuad_ColorTextures.size(), &FinalQuad_ColorTextures[0]);
-	//ColorTextures.clear();
-
-	//==============//==============
 	//Post Processing Ready Framebuffer
 	//==============//==============
 
@@ -100,10 +90,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 
 	glDeleteTextures(1, &DepthStencilTexture);
 	glDeleteTextures(1, &StencilViewTexture);
-	
-	//pingpong
-	//glDeleteTextures(2, &pingPongTexture[0]);
-	//glDeleteFramebuffers(2, &pingPongFBO[0]);
+
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -115,14 +102,9 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		nRenderTextures = 8;
 	}
 
-	//if (HasPingPongShader && nRenderTextures < 2) {
-	//	nRenderTextures = 2;
-	//}
-
 	//---------------------------------------------------------------------------------
 	//DEPTH_STENCIL RENDERBUFFER
 	//---------------------------------------------------------------------------------
-
 	//glCreateRenderbuffers(1, &DepthStencilRenderbuffer);
 	//glBindRenderbuffer(GL_RENDERBUFFER, DepthStencilRenderbuffer);
 	//glRenderbufferStorage(
@@ -417,49 +399,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	//	success = false;
 	//}
 	//check_gl_error();
-	
-	//---------------------------------------------------------------------------------
-	//PING_PONG SHADERS?
-	//---------------------------------------------------------------------------------
 
-	//if (HasPingPongShader) {
-	//	glGenFramebuffers(2, pingPongFBO);
-	//	glGenTextures(2, pingPongTexture);
-	//	for (GLuint i = 0; i < 2; i++)
-	//	{
-	//		glBindFramebuffer(GL_FRAMEBUFFER, pingPongFBO[i]);
-	//		glBindTexture(GL_TEXTURE_2D, pingPongTexture[i]);
-	//		glTexImage2D(
-	//			GL_TEXTURE_2D,
-	//			0,
-	//			GL_RGBA16F,
-	//			RenderWindowSize.x * RenderScaleRatio,
-	//			RenderWindowSize.y * RenderScaleRatio,
-	//			0,
-	//			GL_RGBA,
-	//			GL_FLOAT,
-	//			NULL
-	//		);
-	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	//		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	//		glFramebufferTexture2D(
-	//			GL_FRAMEBUFFER,
-	//			GL_COLOR_ATTACHMENT0,
-	//			GL_TEXTURE_2D,
-	//			pingPongTexture[i],
-	//			0
-	//		);
-	//		fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	//		if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
-	//			check_gl_error();
-	//			std::cout << "Framebuffer not complete: " << fboStatus << std::endl;
-	//			success = false;
-	//		}
-	//	}
-	//	check_gl_error();
-	//}
 
 	glCreateTextures(GL_TEXTURE_2D, 1, &PostProcessingReadyImage);
 	glBindTexture(GL_TEXTURE_2D, PostProcessingReadyImage);
@@ -546,7 +486,7 @@ void _NL::Object::CameraObj::SetCamAsRenderTarget()
 	//Ready for render...
 }
 
-void _NL::Object::CameraObj::RenderToPostProcessingFramebuffer()
+void _NL::Object::CameraObj::RenderToFinalFramebuffer()
 {
 	//for (GLint nRt = 0; nRt < nRenderTextures; nRt++) {
 	//	glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
@@ -616,9 +556,17 @@ void _NL::Object::CameraObj::RenderToPostProcessingFramebuffer()
 
 	glActiveTexture(GL_TEXTURE0 + nRenderTextures + 1);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
+
 	check_gl_error();
 
+}
+
+void _NL::Object::CameraObj::ExecutePostProcessingStack()
+{
+	for (_NL::Core::PostProcessingScript*& PPS : PostProcessingStack) {
+		PPS->TargetCameraFramebuffer = PostProcessingReadyFramebuffer;
+		PPS->Execute();
+	}
 }
 
 void _NL::Object::CameraObj::blitPostProcessedImageToScreen() {
@@ -646,70 +594,5 @@ char* _NL::Object::CameraObj::getTypeName() const
 {
 	return "_NL::Object::CameraObj";
 }
-
-/*
-GLuint _NL::Object::CameraObj::GeneratePingPongTexture()
-{
-	check_gl_error();
-	bool bPingPong = true, first_iteration = true;
-
-	if (first_iteration) {
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, G_FrameBuffer);
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, pingPongFBO[0]);
-		glReadBuffer(GL_COLOR_ATTACHMENT1);
-		glDrawBuffer(GL_COLOR_ATTACHMENT0);
-
-		check_gl_error();
-
-		glBlitFramebuffer(
-			0,
-			0,
-			RenderWindowSize.x * RenderScaleRatio,
-			RenderWindowSize.y * RenderScaleRatio,
-			0,
-			0,
-			RenderWindowSize.x * RenderScaleRatio,
-			RenderWindowSize.y * RenderScaleRatio,
-			GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT,
-			GL_NEAREST
-		);
-	}
-	check_gl_error();
-
-	GLint amount = PingPongIterations;
-	glUseProgram(0);
-	PingPongShader->Use();
-	for (GLuint i = 0; i < amount; i++)
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, pingPongFBO[bPingPong]);
-		check_gl_error();
-		GLuint texLocation = 0;
-		glUniform1i(texLocation, 0);
-		check_gl_error();
-		glUniform1i(1, bPingPong);
-		check_gl_error();
-
-			glActiveTexture(GL_TEXTURE0);
-			check_gl_error();
-			glBindTexture(
-				GL_TEXTURE_2D, first_iteration ? pingPongTexture[0] : pingPongTexture[!bPingPong]
-			);
-		
-		check_gl_error();
-		_NL::Core::RenderQuad(
-			0,
-			0,
-			RenderWindowSize.x,
-			RenderWindowSize.y,
-			false
-		);
-		bPingPong = !bPingPong;
-		if (first_iteration) first_iteration = false;
-	}
-	glUseProgram(0);
-	check_gl_error();
-	return pingPongTexture[!bPingPong];
-}
-*/
 
 

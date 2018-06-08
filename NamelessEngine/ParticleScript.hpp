@@ -1,10 +1,10 @@
 #pragma once
-class ParticleScript : public _NL::Core::Script
+class ParticleScript : public _NL::Core::Script<_NL::Object::ParticleObj>
 {
 private:
 	_NL::Component::Transform* T;
 public:
-	_NL::Engine::GameManager * W;
+	_NL::Engine::NLManager * W;
 	void Start() override;
 	void Update() override;
 };

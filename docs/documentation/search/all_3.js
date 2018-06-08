@@ -6,13 +6,13 @@ var searchData=
   ['cameraobj',['CameraObj',['../class___n_l_1_1_object_1_1_camera_obj.html',1,'_NL::Object::CameraObj'],['../class___n_l_1_1_object_1_1_camera_obj.html#af8ae8bf24e88861ca633c2ef261ceef1',1,'_NL::Object::CameraObj::CameraObj()'],['../class___n_l_1_1_object_1_1_camera_obj.html#a6b683ad36907af04eb5828f281f3b53b',1,'_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX=0, GLsizei RenderWindowY=0, GLfloat FOV=90.0f, GLfloat NearPlane=0.1f, GLfloat FarPlane=100, GLfloat RenderScaleRatio=1, GLuint nRenderTextures=10, GLenum TextureFiltering=GL_LINEAR)']]],
   ['cameraobj_2ecpp',['CameraObj.cpp',['../_camera_obj_8cpp.html',1,'']]],
   ['cameraobj_2eh',['CameraObj.h',['../_camera_obj_8h.html',1,'']]],
-  ['cameras',['Cameras',['../class___n_l_1_1_engine_1_1_game_manager.html#ad03595835f2cdbe717f305e955f97c06',1,'_NL::Engine::GameManager']]],
+  ['cameras',['Cameras',['../class___n_l_1_1_engine_1_1_n_l_manager.html#a5acc40d56d93596f15ee093f832432bf',1,'_NL::Engine::NLManager']]],
   ['camprojectionmatrix_5funiform',['CamProjectionMatrix_uniform',['../class___n_l_1_1_object_1_1_skybox_obj.html#aedbfedd52834179b2ced85ed5ea63fd5',1,'_NL::Object::SkyboxObj']]],
   ['camviewmatrix_5funiform',['CamViewMatrix_uniform',['../class___n_l_1_1_object_1_1_skybox_obj.html#ac43e7df5d8ce504847fc9c4b6160c389',1,'_NL::Object::SkyboxObj']]],
   ['charactersize',['CharacterSize',['../struct___n_l_1_1_u_i_1_1_u_i_text_1_1_text_properties.html#a24c90b79f11c5d3c39772f13ce55868d',1,'_NL::UI::UIText::TextProperties']]],
   ['check_5fgl_5ferror',['check_gl_error',['../_g_l_error_8h.html#a3a176b064afc0303f9b62e33867ba016',1,'GLError.h']]],
   ['childs',['Childs',['../struct___n_l_1_1_core_1_1_animation_bone.html#aebd95f6a294fd97abafe9e98e14966e2',1,'_NL::Core::AnimationBone']]],
-  ['cleanupcurrentsceneloadedresources',['CleanUpCurrentSceneLoadedResources',['../class___n_l_1_1_engine_1_1_game_manager.html#a940a9a9ffe77c60a1106b92c3789333c',1,'_NL::Engine::GameManager']]],
+  ['cleanupcurrentsceneloadedresources',['CleanUpCurrentSceneLoadedResources',['../class___n_l_1_1_engine_1_1_n_l_manager.html#a8edcd531e9bb10cd37741449a7f91829',1,'_NL::Engine::NLManager']]],
   ['clearcurrentrendertarget',['ClearCurrentRenderTarget',['../class___n_l_1_1_object_1_1_camera_obj.html#a5512b3580be93eba0e81e84015218380',1,'_NL::Object::CameraObj']]],
   ['clearprograms',['clearPrograms',['../class___n_l_1_1_tools_1_1_shader_wizard.html#a2e54281393766b0b4f7dcf5dd7beff14',1,'_NL::Tools::ShaderWizard']]],
   ['clearscreencolor',['ClearScreenColor',['../class___n_l_1_1_object_1_1_camera_obj.html#aac81eb0d413fe3c0ac58a2796458bedf',1,'_NL::Object::CameraObj']]],
@@ -29,5 +29,5 @@ var searchData=
   ['createenvironment',['createEnvironment',['../class___n_l_1_1_object_1_1_skybox_obj.html#ad9ba50f3a31a98c89ba0df11f606053e',1,'_NL::Object::SkyboxObj']]],
   ['createskybox',['createSkybox',['../class___n_l_1_1_object_1_1_skybox_obj.html#a0b3a19f1c5325f1b3692079a1bca93d3',1,'_NL::Object::SkyboxObj::createSkybox(const char *front, const char *back, const char *top, const char *bottom, const char *left, const char *right)'],['../class___n_l_1_1_object_1_1_skybox_obj.html#a63b50be0fb0023b6423cf33f4e7f2703',1,'_NL::Object::SkyboxObj::createSkybox(const char *file_path, GLuint resolution=1024)']]],
   ['cube',['CUBE',['../class___n_l_1_1_object_1_1_particle_system.html#a40fc6108807f68c72cd5d229ba97b95ba68076688086815d458e554f306f28f9d',1,'_NL::Object::ParticleSystem']]],
-  ['currentscene',['CurrentScene',['../class___n_l_1_1_engine_1_1_game_manager.html#aa9948eed6d156d860cc967e3bea7eb44',1,'_NL::Engine::GameManager::CurrentScene()'],['../class___n_l_1_1_object_1_1_particle_system.html#a50dcf080b5ce67cb86385370ef1a59d7',1,'_NL::Object::ParticleSystem::CurrentScene()']]]
+  ['currentscene',['CurrentScene',['../class___n_l_1_1_engine_1_1_n_l_manager.html#a61b8fc8fe104d11bfb7254ec278a8715',1,'_NL::Engine::NLManager::CurrentScene()'],['../class___n_l_1_1_object_1_1_particle_system.html#a50dcf080b5ce67cb86385370ef1a59d7',1,'_NL::Object::ParticleSystem::CurrentScene()']]]
 ];

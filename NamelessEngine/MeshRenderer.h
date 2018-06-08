@@ -25,10 +25,10 @@ namespace _NL {
 			_NL::Element::ShaderInstance* Shader;
 			_NL::Element::MaterialInstance* Material;
 			///INFO
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 			bool bIsUnpacked = false;
 
-			//GLSETTINGS
+			///struct GLRenderSettings{};
 			GLenum GL_RenderMode = GL_TRIANGLES;
 			bool GL_CullFace = true;
 			GLenum GL_CullFaceMode = GL_BACK;

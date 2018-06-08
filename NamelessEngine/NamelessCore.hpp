@@ -74,21 +74,21 @@ namespace _NL{
 		class Component {
 		public:
 			/// Every Sub Class must Overload this method.
-			/// e.g : " return "_NL::Compoent::subgetTypeName" "
+			/// e.g : " return "_NL::Compoent::subTypeName" "
 			virtual char* getTypeName() const = 0;
 			/// Turn Component ON -> true |or| OFF -> false.
 			/// Default value true.
 			/// !!!Not Imlemented!!!
-			bool bactive = true;
+			//bool bactive = true;
 		};
 
 		/// Virtual Class of _NL::Core::Element.
 		/// Objects that inherit from this class are usually treated as singular entities
-		/// that can be referenced by multiple components.
+		/// that can be referenced by multiple components or objects.
 		class Element {
 		public:
 			/// Every Sub Class must Overload this method.
-			/// e.g : " return "_NL::Element::subgetTypeName" "
+			/// e.g : " return "_NL::Element::subTypeName" "
 			virtual char* getTypeName() const = 0;
 		};
 
@@ -140,7 +140,7 @@ namespace _NL{
 			/// Can be used for object Identification
 			std::string name;
 			/// Reference of Parent Object for this object.
-			/// Parent Object Affects this Object's Transform.
+			/// Parent Object Affects this Object's Transform. status: UNSTABLE.
 			Object *Parent = 0;
 			
 			//Reference of Parent Object for this object.
@@ -199,43 +199,29 @@ namespace _NL{
 		typedef std::vector<ObjInstanceList> ObjTypeList;
 		typedef std::vector<ObjTypeList> ObjList;
 
-		/*CoreScript*/
+		/*cppScript*/
+		template<typename Owner>
 		class Script
 		{
 		public:
-			_NL::Core::Object* _this;
+			Owner* _this;
 			bool awake = false;
 			virtual void Start() = 0 { awake = true; };
 			virtual void Update() = 0;
 			virtual void End() { awake = false; };
 		};
 
+		/*PostProcessingScript*/
+		class PostProcessingScript
+		{
+		public:
+			GLuint TargetCameraFramebuffer;
+			virtual void Execute() = 0;
+		};
+
 		//---------------------------------------------------------------------------------
 		/*PRIMITIVES*/
 		//---------------------------------------------------------------------------------
-		
-		//MESH
-
-		//struct VertexPos {
-		//	glm::vec3 Pos;		//Position			
-		//};
-		//struct VertexNorm {
-		//	glm::vec3 Norm;		//Normal
-		//};
-		//struct VertexCol {
-		//	glm::vec3 Col;		//Color
-		//};
-		//struct VertexTexCoord {
-		//	glm::vec2 TexCoord;	//TexCoordinates 
-		//};
-		//
-		
-		//struct vIndices {
-		//	GLuint v[3];
-		//	GLuint vt[3];
-		//	GLuint vn[3];
-		//	GLint MTL_ID;
-		//};
 
 		struct MaterialInstanceData {
 			///PBR MODEL
@@ -279,24 +265,6 @@ namespace _NL{
 				0,1,2,3
 			};
 		}; 
-
-		//struct ScreenQuadVAO {
-		//	GLuint ID;
-		//	ScreenQuadVAO() {
-		//		GLuint vbo;
-		//		glGenBuffers(1, &vbo);
-		//		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		//		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*8, &ScreenQuad().fullquad_v[0], GL_STATIC_DRAW);
-		//
-		//		glGenVertexArrays(1, &ID);
-		//		glEnableVertexArrayAttrib(ID, 0);
-		//
-		//		glVertexArrayAttribBinding(ID, 0, 0);
-		//		glVertexArrayAttribFormat(ID, 0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 0);
-		//		
-		//	}
-		//};
-	
 		
 		inline void RenderQuad(GLfloat x, GLfloat y, GLfloat w, GLfloat h, bool removeProgramAferUse = true, GLuint Shader = 0) {
 			if(Shader != 0) 

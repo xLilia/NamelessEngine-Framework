@@ -31,8 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
+   &#160;<span id="projectnumber">alpha 0.6</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
   </td>
  </tr>
  </tbody>
@@ -116,16 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae6212d4500868aecf2e499317e54a12e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac895b93ab3624eff5fafe0f6b759ad09"><td class="memItemLeft" align="right" valign="top">ScriptType *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#ac895b93ab3624eff5fafe0f6b759ad09">getScript</a> ()</td></tr>
 <tr class="separator:ac895b93ab3624eff5fafe0f6b759ad09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62338be0ccebe7a0787f08c3d2152551"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#a62338be0ccebe7a0787f08c3d2152551">getTypeName</a> () const override</td></tr>
-<tr class="memdesc:a62338be0ccebe7a0787f08c3d2152551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#a62338be0ccebe7a0787f08c3d2152551">More...</a><br /></td></tr>
-<tr class="separator:a62338be0ccebe7a0787f08c3d2152551"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pub_attribs_class___n_l_1_1_core_1_1_component"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class___n_l_1_1_core_1_1_component')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class___n_l_1_1_core_1_1_component.html">_NL::Core::Component</a></td></tr>
-<tr class="memitem:a0291ceabd2ae58b28d5472bd21234477 inherit pub_attribs_class___n_l_1_1_core_1_1_component"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_component.html#a0291ceabd2ae58b28d5472bd21234477">bactive</a> = true</td></tr>
-<tr class="memdesc:a0291ceabd2ae58b28d5472bd21234477 inherit pub_attribs_class___n_l_1_1_core_1_1_component"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn <a class="el" href="class___n_l_1_1_core_1_1_component.html" title="Virtual Class of _NL::Core::Component. ">Component</a> ON -&gt; true |or| OFF -&gt; false.  <a href="class___n_l_1_1_core_1_1_component.html#a0291ceabd2ae58b28d5472bd21234477">More...</a><br /></td></tr>
-<tr class="separator:a0291ceabd2ae58b28d5472bd21234477 inherit pub_attribs_class___n_l_1_1_core_1_1_component"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1384245c543af19a863983a721415042"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#a1384245c543af19a863983a721415042">getTypeName</a> () const override</td></tr>
+<tr class="memdesc:a1384245c543af19a863983a721415042"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#a1384245c543af19a863983a721415042">More...</a><br /></td></tr>
+<tr class="separator:a1384245c543af19a863983a721415042"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acf30eeab9f52f42667c87fef244f3487"></a>
@@ -237,8 +231,8 @@ template&lt;typename ScriptType  = void&gt; </div>
 
 </div>
 </div>
-<a id="a62338be0ccebe7a0787f08c3d2152551"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a62338be0ccebe7a0787f08c3d2152551">&#9670;&nbsp;</a></span>getTypeName()</h2>
+<a id="a1384245c543af19a863983a721415042"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1384245c543af19a863983a721415042">&#9670;&nbsp;</a></span>getTypeName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -249,7 +243,7 @@ template&lt;typename ScriptType  = void&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">char* <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html">_NL::Component::CppScript</a>&lt; ScriptType &gt;::getTypeName </td>
+          <td class="memname">virtual char* <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html">_NL::Component::CppScript</a>&lt; ScriptType &gt;::getTypeName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -263,7 +257,7 @@ template&lt;typename ScriptType  = void&gt; </div>
 </div><div class="memdoc">
 
 <p>Every Sub Class must Overload this method. </p>
-<p>e.g : " return "_NL::Compoent::subgetTypeName" " </p>
+<p>e.g : " return "_NL::Compoent::subTypeName" " </p>
 
 <p>Implements <a class="el" href="class___n_l_1_1_core_1_1_component.html#a29a41cf256a70c2050bcf859e56b9984">_NL::Core::Component</a>.</p>
 

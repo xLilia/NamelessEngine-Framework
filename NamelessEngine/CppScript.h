@@ -16,6 +16,7 @@ namespace _NL {
 			}
 
 			virtual CppScript* clone() const {
+				
 				return new CppScript(static_cast<CppScript const&>(*this));
 			}
 
@@ -23,7 +24,7 @@ namespace _NL {
 				return cpps;
 			}
 
-			char* getTypeName() const override{
+			virtual char* getTypeName() const override{
 				return "_NL::Component::CppScript";
 			};
 

@@ -16,7 +16,7 @@ namespace _NL {
 			GLuint Framebuffer;
 			bool bCastsShadows = true;
 
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 		};
 	}
 }

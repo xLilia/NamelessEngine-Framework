@@ -49,7 +49,7 @@ SOFTWARE.
 
 	///ENGINE
 	//{
-	#include "GameManager.h"
+	#include "NLManager.h"
 	#include "CppScript.h"
 	#include "NL_Time.h"
 	//}

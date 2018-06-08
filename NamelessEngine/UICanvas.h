@@ -10,7 +10,7 @@ namespace _NL {
 		{
 		public:
 			UICanvas();
-			UICanvas(sf::RenderWindow* GameManagerWindow);
+			UICanvas(sf::RenderWindow* NLManagerWindow);
 
 			sf::RenderWindow* WindowTarget;
 			_NL::Element::ShaderInstance* ImageRenderShader;
@@ -20,7 +20,7 @@ namespace _NL {
 			void addUIElement(_NL::Core::UI* UI);
 			void DrawElements();
 
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 		};
 	}
 }

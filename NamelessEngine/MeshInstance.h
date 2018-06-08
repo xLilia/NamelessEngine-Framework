@@ -18,7 +18,7 @@ namespace _NL {
 			_NL::Core::MeshInstanceData MeshData;
 			std::string file_Format;
 			//MeshAnimator
-			char* getTypeName() const override;
+			virtual char* getTypeName() const override;
 		private:
 			_NL::Tools::OBJfileReader OBJF;
 			_NL::Tools::XMLfileReader ColladaF;

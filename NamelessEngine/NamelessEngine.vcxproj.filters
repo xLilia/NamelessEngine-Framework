@@ -31,6 +31,18 @@
     <Filter Include="Source Files\UserDemoProject">
       <UniqueIdentifier>{e63c14d8-eb42-40b8-8855-0800edd2cd88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UserDemoProject\scripts">
+      <UniqueIdentifier>{91950395-aecf-4edd-a7c5-fea2bc348635}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UserDemoProject\Shaders">
+      <UniqueIdentifier>{62e59cad-dedd-4020-a407-83b74e6db14d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UserDemoProject\Shaders\Custom materials">
+      <UniqueIdentifier>{af7d3ab0-1857-41da-a625-972f1a2d1bc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UserDemoProject\PostProcessingEffects">
+      <UniqueIdentifier>{3ced0516-8fe3-4b48-9dc5-a2fff9c767ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -43,9 +55,6 @@
       <Filter>Source Files\EngineFiles</Filter>
     </ClCompile>
     <ClCompile Include="CameraObj.cpp">
-      <Filter>Source Files\EngineFiles</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\EngineFiles</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
@@ -120,17 +129,11 @@
     <ClCompile Include="XMLfileReader.cpp">
       <Filter>Source Files\EngineFiles</Filter>
     </ClCompile>
+    <ClCompile Include="NLManager.cpp">
+      <Filter>Source Files\EngineFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CamController.hpp">
-      <Filter>Source Files\UserDemoProject</Filter>
-    </ClInclude>
-    <ClInclude Include="TestScript.hpp">
-      <Filter>Source Files\UserDemoProject</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleScript.hpp">
-      <Filter>Source Files\UserDemoProject</Filter>
-    </ClInclude>
     <ClInclude Include="Animator.h">
       <Filter>Header Files\EngineFiles</Filter>
     </ClInclude>
@@ -141,9 +144,6 @@
       <Filter>Header Files\EngineFiles</Filter>
     </ClInclude>
     <ClInclude Include="CppScript.h">
-      <Filter>Header Files\EngineFiles</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
       <Filter>Header Files\EngineFiles</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
@@ -224,6 +224,21 @@
     <ClInclude Include="XMLfileReader.h">
       <Filter>Header Files\EngineFiles</Filter>
     </ClInclude>
+    <ClInclude Include="CamController.hpp">
+      <Filter>Source Files\UserDemoProject\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleScript.hpp">
+      <Filter>Source Files\UserDemoProject\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="TestScript.hpp">
+      <Filter>Source Files\UserDemoProject\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="GausianBlurPostProcessingEffect.hpp">
+      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
+    </ClInclude>
+    <ClInclude Include="NLManager.h">
+      <Filter>Header Files\EngineFiles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="BRDFDefaultFragshader.glsl">
@@ -242,12 +257,6 @@
       <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
     </None>
     <None Include="defaultvertexshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="GaussianBlurFshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
-    </None>
-    <None Include="GaussianBlurVshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
     </None>
     <None Include="HDRImageDefaultFragshader.glsl">
@@ -298,8 +307,14 @@
     <None Include="DdeferedScreenQuadfragmentshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
+    <None Include="GaussianBlurFshader.glsl">
+      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
+    </None>
+    <None Include="GaussianBlurVshader.glsl">
+      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
+    </None>
     <None Include="CustomShader.glsl">
-      <Filter>Source Files\UserDemoProject</Filter>
+      <Filter>Source Files\UserDemoProject\Shaders\Custom materials</Filter>
     </None>
   </ItemGroup>
 </Project>

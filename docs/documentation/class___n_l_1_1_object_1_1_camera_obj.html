@@ -31,8 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
+   &#160;<span id="projectnumber">alpha 0.6</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
   </td>
  </tr>
  </tbody>
@@ -141,11 +142,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ac296e4787415ada22dc2225128c8d1cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17f5b74099bf4e4cac13f68221201378"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a17f5b74099bf4e4cac13f68221201378">SetCamAsRenderTarget</a> ()</td></tr>
 <tr class="separator:a17f5b74099bf4e4cac13f68221201378"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4096b3cdf85713ca032fcce57f83d2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#ad4096b3cdf85713ca032fcce57f83d2d">RenderToPostProcessingFramebuffer</a> ()</td></tr>
-<tr class="separator:ad4096b3cdf85713ca032fcce57f83d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a904b3b0e2b8b853321a88350c1e27609"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a904b3b0e2b8b853321a88350c1e27609">RenderToFinalFramebuffer</a> ()</td></tr>
+<tr class="separator:a904b3b0e2b8b853321a88350c1e27609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafb25c7133cfe404447238dab12c04ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#aafb25c7133cfe404447238dab12c04ce">ExecutePostProcessingStack</a> ()</td></tr>
+<tr class="separator:aafb25c7133cfe404447238dab12c04ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b5ac6550f91c2ce35bfaeb2a9aa9397"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a2b5ac6550f91c2ce35bfaeb2a9aa9397">blitPostProcessedImageToScreen</a> ()</td></tr>
 <tr class="separator:a2b5ac6550f91c2ce35bfaeb2a9aa9397"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a433a06ba0ca3dfc3d0b3eb4e528e2d68">getTypeName</a> () const override</td></tr>
+<tr class="memitem:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a433a06ba0ca3dfc3d0b3eb4e528e2d68">getTypeName</a> () const override</td></tr>
 <tr class="memdesc:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#a433a06ba0ca3dfc3d0b3eb4e528e2d68">More...</a><br /></td></tr>
 <tr class="separator:a433a06ba0ca3dfc3d0b3eb4e528e2d68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class___n_l_1_1_core_1_1_object"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class___n_l_1_1_core_1_1_object')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class___n_l_1_1_core_1_1_object.html">_NL::Core::Object</a></td></tr>
@@ -181,6 +184,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aac81eb0d413fe3c0ac58a2796458bedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d91b414984e34d4eaec69e5a50339a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class___n_l_1_1_element_1_1_shader_instance.html">_NL::Element::ShaderInstance</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a0d91b414984e34d4eaec69e5a50339a3">FinalPassShader</a></td></tr>
 <tr class="separator:a0d91b414984e34d4eaec69e5a50339a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac789bc4b4b10232f039bb6311b98b5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="class___n_l_1_1_core_1_1_post_processing_script.html">_NL::Core::PostProcessingScript</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a5ac789bc4b4b10232f039bb6311b98b5">PostProcessingStack</a></td></tr>
+<tr class="separator:a5ac789bc4b4b10232f039bb6311b98b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a732614cb6de41e15fccef87e8cc4b746"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="struct___n_l_1_1_object_1_1_camera_obj_1_1transform.html">_NL::Object::CameraObj::transform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a732614cb6de41e15fccef87e8cc4b746">transformCam</a></td></tr>
 <tr class="separator:a732614cb6de41e15fccef87e8cc4b746"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ba339c73f7fcb303933b90ef8074851"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a4ba339c73f7fcb303933b90ef8074851">FOV</a></td></tr>
@@ -344,6 +349,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aafb25c7133cfe404447238dab12c04ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafb25c7133cfe404447238dab12c04ce">&#9670;&nbsp;</a></span>ExecutePostProcessingStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void _NL::Object::CameraObj::ExecutePostProcessingStack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ac296e4787415ada22dc2225128c8d1cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac296e4787415ada22dc2225128c8d1cb">&#9670;&nbsp;</a></span>GenerateFrameBuffers()</h2>
 
@@ -442,14 +464,14 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad4096b3cdf85713ca032fcce57f83d2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4096b3cdf85713ca032fcce57f83d2d">&#9670;&nbsp;</a></span>RenderToPostProcessingFramebuffer()</h2>
+<a id="a904b3b0e2b8b853321a88350c1e27609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a904b3b0e2b8b853321a88350c1e27609">&#9670;&nbsp;</a></span>RenderToFinalFramebuffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void _NL::Object::CameraObj::RenderToPostProcessingFramebuffer </td>
+          <td class="memname">void _NL::Object::CameraObj::RenderToFinalFramebuffer </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -727,6 +749,20 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">GLuint _NL::Object::CameraObj::PostProcessingReadyImage</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5ac789bc4b4b10232f039bb6311b98b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ac789bc4b4b10232f039bb6311b98b5">&#9670;&nbsp;</a></span>PostProcessingStack</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="class___n_l_1_1_core_1_1_post_processing_script.html">_NL::Core::PostProcessingScript</a>*&gt; _NL::Object::CameraObj::PostProcessingStack</td>
         </tr>
       </table>
 </div><div class="memdoc">

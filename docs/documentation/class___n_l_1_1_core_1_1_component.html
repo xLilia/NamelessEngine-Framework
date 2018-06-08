@@ -31,8 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
+   &#160;<span id="projectnumber">alpha 0.6</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
   </td>
  </tr>
  </tbody>
@@ -89,7 +90,6 @@ $(document).ready(function(){initNavTree('class___n_l_1_1_core_1_1_component.htm
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="class___n_l_1_1_core_1_1_component-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">_NL::Core::Component Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -118,12 +118,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a29a41cf256a70c2050bcf859e56b9984"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_component.html#a29a41cf256a70c2050bcf859e56b9984">getTypeName</a> () const =0</td></tr>
 <tr class="memdesc:a29a41cf256a70c2050bcf859e56b9984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#a29a41cf256a70c2050bcf859e56b9984">More...</a><br /></td></tr>
 <tr class="separator:a29a41cf256a70c2050bcf859e56b9984"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a0291ceabd2ae58b28d5472bd21234477"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_component.html#a0291ceabd2ae58b28d5472bd21234477">bactive</a> = true</td></tr>
-<tr class="memdesc:a0291ceabd2ae58b28d5472bd21234477"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn <a class="el" href="class___n_l_1_1_core_1_1_component.html" title="Virtual Class of _NL::Core::Component. ">Component</a> ON -&gt; true |or| OFF -&gt; false.  <a href="#a0291ceabd2ae58b28d5472bd21234477">More...</a><br /></td></tr>
-<tr class="separator:a0291ceabd2ae58b28d5472bd21234477"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Virtual Class of <a class="el" href="class___n_l_1_1_core_1_1_component.html" title="Virtual Class of _NL::Core::Component. ">_NL::Core::Component</a>. </p>
@@ -153,27 +147,9 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Every Sub Class must Overload this method. </p>
-<p>e.g : " return "_NL::Compoent::subgetTypeName" " </p>
+<p>e.g : " return "_NL::Compoent::subTypeName" " </p>
 
-<p>Implemented in <a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#acbc08d3558a0d72c15f8bf48f9179c82">_NL::Component::MeshRenderer</a>, <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#a62338be0ccebe7a0787f08c3d2152551">_NL::Component::CppScript&lt; ScriptType &gt;</a>, and <a class="el" href="class___n_l_1_1_component_1_1_transform.html#aace6ad8205787a51bc07bb9c6d1ee9d9">_NL::Component::Transform</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a0291ceabd2ae58b28d5472bd21234477"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0291ceabd2ae58b28d5472bd21234477">&#9670;&nbsp;</a></span>bactive</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool _NL::Core::Component::bactive = true</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Turn <a class="el" href="class___n_l_1_1_core_1_1_component.html" title="Virtual Class of _NL::Core::Component. ">Component</a> ON -&gt; true |or| OFF -&gt; false. </p>
-<p>Default value true. !!!Not Imlemented!!! </p>
+<p>Implemented in <a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#acbc08d3558a0d72c15f8bf48f9179c82">_NL::Component::MeshRenderer</a>, <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#a1384245c543af19a863983a721415042">_NL::Component::CppScript&lt; ScriptType &gt;</a>, and <a class="el" href="class___n_l_1_1_component_1_1_transform.html#aace6ad8205787a51bc07bb9c6d1ee9d9">_NL::Component::Transform</a>.</p>
 
 </div>
 </div>

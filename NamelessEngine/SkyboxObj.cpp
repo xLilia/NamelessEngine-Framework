@@ -334,7 +334,7 @@ void _NL::Object::SkyboxObj::loadCubeSide(const char * file_path, GLenum gl_side
 void _NL::Object::SkyboxObj::RenderSkybox()
 {
 	if (this->SkyboxMap == NULL && this->PreFilterMap != NULL && DisplayEnvironmentTextureAsBackUpSkybox) {
-		//glUseProgram in GameManager	
+		//glUseProgram in NLManager	
 		SkyboxDysplayShader->Use();
 		glUniform1f(MipLVL_uniform, EnvBlur);
 		glActiveTexture(GL_TEXTURE0);
@@ -344,7 +344,7 @@ void _NL::Object::SkyboxObj::RenderSkybox()
 		glUseProgram(0);
 		check_gl_error();
 	}else{
-		//glUseProgram in GameManager
+		//glUseProgram in NLManager
 		SkyboxDysplayShader->Use();
 		glUniform1f(MipLVL_uniform, 0);
 		glActiveTexture(GL_TEXTURE0);

@@ -30,6 +30,7 @@ void _NL::UI::UIText::setFont(const char * file_Path)
 
 void _NL::UI::UIText::DrawText(sf::RenderWindow* WindowTarget)
 {
+	//sf::Text Finaltext(T.getString(),*T.getFont(),T.getCharacterSize());
 	T.setCharacterSize(TextProperties.CharacterSize);
 	T.setFillColor(sf::Color(TextProperties.FillColor.r, TextProperties.FillColor.g, TextProperties.FillColor.b, TextProperties.FillColor.a));
 	T.setOutlineColor(sf::Color(TextProperties.OutlineColor.r, TextProperties.OutlineColor.g, TextProperties.OutlineColor.b, TextProperties.OutlineColor.a));
