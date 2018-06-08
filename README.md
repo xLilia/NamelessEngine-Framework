@@ -1,5 +1,7 @@
 # NAMELESS ENGINE - FRAMEWORK alpha0.6
 
+Official Website & Doumentation: https://mattateusb7.github.io/NamelessEngine-Framework/
+
 ==================alpha0.6==========================
 
 Out of the box included demo scene in MAIN.cpp
@@ -32,19 +34,17 @@ Current Problems and what to do:
 	
 Current bugged out Features:
 
-	1) PARTICLE SYSTEMS not rendering particles ||| do not use ,may cause crashed.
+	1) PARTICLE SYSTEMS not rendering particles ||| do not use, may cause crash.
 	
 	2) UItext ||| do not use.
 	
-	3) Instantiation of objects in scene during game loop ||| undefined behaviour, may cause crashed.
+	3) Instantiation of objects in scene during game loop ||| undefined behaviour, may cause crash.
 	
 Currently Supported 3D Model Files: 
 
-".obj"(OBJ files) and ".dae"(COLLADA files)
+	1) ".obj"(OBJ files) and ".dae"(COLLADA files)
 
 ==================alpha0.6==========================
-
-Official Website & Doumentation: https://mattateusb7.github.io/NamelessEngine-Framework/
 
 Game Engine SDK
 
