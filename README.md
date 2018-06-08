@@ -34,9 +34,9 @@ Current Problems and what to do:
 	
 Current bugged out Features:
 
-	1) PARTICLE SYSTEMS not rendering particles ||| do not use, may cause crash.
+	1) PARTICLE SYSTEMS not rendering particles ||| does not work, may cause crash.
 	
-	2) UItext ||| do not use.
+	2) UItext ||| does not work.
 	
 	3) Instantiation of objects in scene during game loop ||| undefined behaviour, may cause crash.
 	
