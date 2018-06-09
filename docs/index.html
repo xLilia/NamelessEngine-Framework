@@ -36,20 +36,10 @@ image {
 <div id="overlay"></div>
 <p id="TIMER"></p>
 
+<div id="space"></div>
 <div align="center" >
-	<audio controls autoplay loop id="myaudio">
-	<!--<source src="audio/NikyNine-ExhaustedDivinity.mp3" type="audio/mpeg">-->
-	<source src="audio/echoesofsorrow.flac" type="audio/flac">
-
-	Your browser does not support the audio element.
-	</audio>
+	<a href='documentation/namespaces.html'>Documentation (WIP...)</a>
 </div>
-
-<script>
-  var audio = document.getElementById("myaudio");
-  audio.volume = 0.3;
-  //audio.currentTime = 40;
-</script>
 
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
@@ -209,7 +199,8 @@ image {
 
 <!--<iframe width="1000px" height="1000px" src="https://www.youtube.com/embed/wk3Y3iKvHFM?autoplay=1&mute=1" frameborder="0"></iframe>-->
 
-<p id="TIMER"></p>
+<div align="center" ><a href='documentation/namespaces.html'>Documentation (WIP...)</a></div>
+<div id="space"></div>
 
 <script>
 // Set the date we're counting down to
@@ -242,19 +233,33 @@ var x = setInterval(function() {
 }, 1000);
 
 </script>
-<div align="center" ><a href='documentation/namespaces.html'>Open Documentation (WIP...)</a></div>
-<br>
+
 <div class="botline">
        <h2>
        E-mail: <a href="mailto:mattateusb7@gmail.com">mattateusb7@gmail.com</a><br>
        GitHub Repository: <a href="https://github.com/mattateusb7/NamelessEngine">NamelessEngine</a><br>
        <p>
-       Projecto Final<br>
+       Final Project<br>
        Mateus Branco<br>
        2018
        </p>
        </h2>
 </div>		
+
+<div align="center" id="audiodiv">
+	<audio controls autoplay loop id="myaudio">
+	<!--<source src="audio/NikyNine-ExhaustedDivinity.mp3" type="audio/mpeg">-->
+	<source src="audio/echoesofsorrow.flac" type="audio/flac">
+
+	Your browser does not support the audio element.
+	</audio>
+</div>
+
+<script>
+  var audio = document.getElementById("myaudio");
+  audio.volume = .6;
+  //audio.currentTime = 40;
+</script>
 
 </body>
 </html>

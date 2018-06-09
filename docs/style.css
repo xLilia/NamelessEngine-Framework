@@ -1,22 +1,29 @@
-html { 
-    //overflow-y: visible;
-}
-
 body {
 	background-image: url("imgs/illus14.jpg");
     background-color: black;
 	zoom: 100%;
-	//margin: 5% 15% 5% 15%;
 	font-family: 'Open Sans', sans-serif;
+}
+
+#space{
+	padding: 250px;
 }
 
 a, h2{
 	background-color: black;
-	margin: 0px;
+	width: 100%;
 	font-size: 50px;
     color: white;
     text-align: center;
 	font-family: 'Roboto', sans-serif;
+
+}
+
+#audiodiv{
+	position: fixed; /* Set the navbar to fixed position */
+    bottom: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+	background-color: #0000005e;
 }
 
 #TIMER{
@@ -26,12 +33,6 @@ a, h2{
     color: white;
     text-align: center;
 	font-family: 'consolas', sans-serif;
-}
-
-.botline{
-    //border-bottom: 2px groove #dddddd;
-    padding: 8px;
-	//background-color: #ffffff;
 }
 
 
