@@ -11,7 +11,7 @@ namespace _NL {
 		{
 		public:
 			CameraObj();
-			CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
+			CameraObj(char* name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight,
 				GLsizei RenderWindowX = 0,
 				GLsizei RenderWindowY = 0,
 				GLfloat FOV = 90.0f,
@@ -19,7 +19,9 @@ namespace _NL {
 				GLfloat FarPlane = 100,
 				GLfloat RenderScaleRatio = 1,
 				GLuint nRenderTextures = 10,
-				GLenum TextureFiltering = GL_LINEAR
+				GLenum TextureFiltering = GL_LINEAR,
+				GLfloat exposure = 2.5,
+				GLfloat gamma = 0.8
 			);
 
 			//---------------------------------------------------------------------------------
@@ -40,9 +42,6 @@ namespace _NL {
 			//GLuint FinalQuad_FrameBuffer;
 			GLuint G_FrameBuffer;
 			GLuint PostProcessingReadyFramebuffer;
-			
-			//GLuint pingPongFBO[2];
-			//GLuint pingPongTexture[2];
 
 			std::vector<GLuint> ColorTextures;
 			//std::vector<GLuint> FinalQuad_ColorTextures;
@@ -69,7 +68,7 @@ namespace _NL {
 			void RenderToFinalFramebuffer();
 			void ExecutePostProcessingStack();
 			void blitPostProcessedImageToScreen();
-			
+
 			//GLuint GeneratePingPongTexture();
 
 			//---------------------------------------------------------------------------------
@@ -92,11 +91,14 @@ namespace _NL {
 			GLfloat RenderScaleRatio;
 			GLuint nRenderTextures;
 			GLenum TextureFiltering;
+			GLfloat exposure = 2.5;
+			GLfloat gamma = 0.8;
+
 			//GLuint nMultisamples;
 			//bool HasPingPongShader;
 			//GLuint PingPongIterations;
 			
-			virtual char* getTypeName() const override;
+			char* getTypeName() override;
 
 		};
 	}

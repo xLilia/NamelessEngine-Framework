@@ -239,7 +239,7 @@ void _NL::Object::ParticleSystem::TickSystem()
 	}
 }
 
-char * _NL::Object::ParticleSystem::getTypeName() const
+char * _NL::Object::ParticleSystem::getTypeName() 
 {
 	return "_NL::Object::ParticleSystem";
 }

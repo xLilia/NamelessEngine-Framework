@@ -43,6 +43,12 @@
     <Filter Include="Source Files\UserDemoProject\PostProcessingEffects">
       <UniqueIdentifier>{3ced0516-8fe3-4b48-9dc5-a2fff9c767ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UserDemoProject\CustomClass">
+      <UniqueIdentifier>{1319f4f7-7a01-4883-acf6-59ddef5f0403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UserDemoProject\Shaders\PostProcessingShaders">
+      <UniqueIdentifier>{b9d822c1-8659-4dd8-a170-f8c5fd8d8076}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -131,6 +137,12 @@
     </ClCompile>
     <ClCompile Include="NLManager.cpp">
       <Filter>Source Files\EngineFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="BOIDObject.cpp">
+      <Filter>Source Files\UserDemoProject\CustomClass</Filter>
+    </ClCompile>
+    <ClCompile Include="MotionBlurPPE.hpp">
+      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,90 +242,132 @@
     <ClInclude Include="ParticleScript.hpp">
       <Filter>Source Files\UserDemoProject\scripts</Filter>
     </ClInclude>
-    <ClInclude Include="TestScript.hpp">
-      <Filter>Source Files\UserDemoProject\scripts</Filter>
-    </ClInclude>
     <ClInclude Include="GausianBlurPostProcessingEffect.hpp">
       <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
     </ClInclude>
     <ClInclude Include="NLManager.h">
       <Filter>Header Files\EngineFiles</Filter>
     </ClInclude>
+    <ClInclude Include="TestScript.hpp">
+      <Filter>Source Files\UserDemoProject\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="BOIDscript.hpp">
+      <Filter>Source Files\UserDemoProject\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="BOIDObject.h">
+      <Filter>Source Files\UserDemoProject\CustomClass</Filter>
+    </ClInclude>
+    <ClInclude Include="cockpitController.hpp">
+      <Filter>Source Files\UserDemoProject\scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="NightVisionPPE.hpp">
+      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BRDFDefaultFragshader.glsl">
+    <None Include="NightVisionPPEfragment.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\PostProcessingShaders</Filter>
+    </None>
+    <None Include="NightVisionPPEVertex.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\PostProcessingShaders</Filter>
+    </None>
+    <None Include="MotionBlurPPEVertex.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\PostProcessingShaders</Filter>
+    </None>
+    <None Include="MotionBlurPPEFragment.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\PostProcessingShaders</Filter>
+    </None>
+    <None Include="MyShaders\NightVisionPPEVertex.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\PreFilterDefaultVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\screenQuadVshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\SkyboxDefaultVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\UITexVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\BRDFDefaultVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\DdeferedScreenQuadvertexshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\Ddeferedvertexshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\defaultvertexshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\DepthPassVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\EnvironmentDefaultVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\HDRImageDefaultVertshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\MotionBlurPPEVertex.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
+    </None>
+    <None Include="MyShaders\DdeferedScreenQuadfragmentshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="BRDFDefaultVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="defaultfragmentshader.glsl">
+    <None Include="MyShaders\defaultfragmentshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="EnvironmentDefaultVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="EnvironmentDefaultFragshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="defaultvertexshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="HDRImageDefaultFragshader.glsl">
+    <None Include="MyShaders\DepthPassFragshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="HDRImageDefaultVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="PreFilterDefaultFragshader.glsl">
+    <None Include="MyShaders\EnvironmentDefaultFragshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="PreFilterDefaultVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="screenQuadFshader.glsl">
+    <None Include="MyShaders\HDRImageDefaultFragshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="screenQuadVshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="SkyboxDefaultFragshader.glsl">
+    <None Include="MyShaders\MotionBlurPPEFragment.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="SkyboxDefaultVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="UITexFragshader.glsl">
+    <None Include="MyShaders\NightVisionPPEfragment.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="UITexVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="DepthPassVertshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="DepthPassFragshader.glsl">
+    <None Include="MyShaders\PreFilterDefaultFragshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="Ddeferedvertexshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="Ddeferedfragmentshader.glsl">
+    <None Include="MyShaders\screenQuadFshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="DdeferedScreenQuadvertexshader.glsl">
-      <Filter>Source Files\EngineFiles\Shaders\Vertex</Filter>
-    </None>
-    <None Include="DdeferedScreenQuadfragmentshader.glsl">
+    <None Include="MyShaders\SkyboxDefaultFragshader.glsl">
       <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="GaussianBlurFshader.glsl">
-      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
+    <None Include="MyShaders\UITexFragshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="GaussianBlurVshader.glsl">
-      <Filter>Source Files\UserDemoProject\PostProcessingEffects</Filter>
+    <None Include="MyShaders\BRDFDefaultFragshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
     </None>
-    <None Include="CustomShader.glsl">
+    <None Include="MyShaders\Ddeferedfragmentshader.glsl">
+      <Filter>Source Files\EngineFiles\Shaders\Fragment</Filter>
+    </None>
+    <None Include="MyShaders\GaussianBlurVshader.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\PostProcessingShaders</Filter>
+    </None>
+    <None Include="MyShaders\GaussianBlurFshader.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\PostProcessingShaders</Filter>
+    </None>
+    <None Include="MyShaders\RockMaterial.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\Custom materials</Filter>
+    </None>
+    <None Include="MyShaders\MetalMaterial.glsl">
+      <Filter>Source Files\UserDemoProject\Shaders\Custom materials</Filter>
+    </None>
+    <None Include="MyShaders\perfectMaterial1.glsl">
       <Filter>Source Files\UserDemoProject\Shaders\Custom materials</Filter>
     </None>
   </ItemGroup>

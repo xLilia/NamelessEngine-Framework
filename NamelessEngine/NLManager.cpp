@@ -208,7 +208,7 @@ void _NL::Engine::NLManager::RenderCurrentScene() {
 	//UPDATE CAMs
 	for(_NL::Object::CameraObj* Cam : Cameras)
 	{	
-
+		if (!Cam->bactive) continue;
 		glBindFramebuffer(GL_FRAMEBUFFER, Cam->PostProcessingReadyFramebuffer);
 		Cam->ClearCurrentRenderTarget();
 		Cam->SetThisCamViewPort();
@@ -261,6 +261,7 @@ void _NL::Engine::NLManager::UpdateSceneLights() {
 	if (Lights.size() > 0) {
 
 		for(_NL::Object::LightObject* Lp : Lights) {
+			if (!Lp->bactive) continue;
 			LightsProperties.push_back(Lp->LightProperties);
 		}
 		
@@ -312,51 +313,68 @@ void _NL::Engine::NLManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 	glEnable(GL_DEPTH_TEST);
 	for (_NL::Core::ObjTypeList& OTL : CurrentScene->ObjectLists)
 	for (_NL::Core::ObjInstanceList& OIL : OTL) {
+		//---------------------------------------------------------------------------------
+		//TRANSFORMS
+		std::vector<glm::mat4> Modelmat;
+
+		for (_NL::Core::Object* inst : OIL)
+		{
+			if (!inst->bactive) continue;
+			//---------------------------------------------------------------------------------
+			//PARENTS
+			_NL::Core::Object* objInstance = inst;
+			_NL::Component::Transform* _ObjT_P;
+			_NL::Component::Transform* _ObjT = objInstance->getComponent<_NL::Component::Transform>();
+			bool HasParent;
+
+			if (objInstance->Parent && _ObjT) {
+				HasParent = true;
+				_ObjT_P = objInstance->Parent->getComponent<_NL::Component::Transform>();
+			}
+			else {
+				HasParent = false;
+			}
+
+			if (_ObjT) {
+				//---------------------------------------------------------------------------------
+				//INSTANCE MODEL MAT
+				glm::mat4 _Modelmat = glm::mat4(1.0f);
+
+				if (HasParent) {
+					_Modelmat = glm::translate(_Modelmat, _ObjT_P->transform.position);
+					_Modelmat *= glm::toMat4(_ObjT_P->transform.QuaternionRotation);
+					_Modelmat *= glm::toMat4(_ObjT->transform.QuaternionRotation);
+					_Modelmat = glm::translate(_Modelmat, _ObjT->transform.position);
+					_Modelmat = glm::scale(_Modelmat, _ObjT_P->transform.scale);
+					_Modelmat = glm::scale(_Modelmat, _ObjT->transform.scale);
+				}
+				else {
+					_Modelmat = glm::translate(_Modelmat, _ObjT->transform.position);
+					//_Modelmat = glm::rotate(_Modelmat, glm::tvec4(_ObjT->transform.QuaternionRotation));
+					_Modelmat *= glm::toMat4(_ObjT->transform.QuaternionRotation);
+					_Modelmat = glm::scale(_Modelmat, _ObjT->transform.scale);
+
+				}
+
+				//glm::mat4 _Modelmat = T * R * S;
+				_ObjT->ModelMatrix = _Modelmat;
+				Modelmat.push_back(_Modelmat);
+			}
+
+		}
+
 		if (OIL.size() > 0) {
 			//MESH RENDERER
 			_NL::Component::MeshRenderer* ObjMR = OIL[0]->getComponent<_NL::Component::MeshRenderer>();
 
-			if (ObjMR != NULL) {
+			if (ObjMR != nullptr) {
+				if (ObjMR->Shader == nullptr) continue;
+
 				ObjMR->Shader->Use();
-				
+
 				glBindVertexArray(ObjMR->vao);
 				check_gl_error();
-				//---------------------------------------------------------------------------------
-				//TRANSFORMS
-				std::vector<glm::mat4> Modelmat;
 
-				for (_NL::Core::Object* inst : OIL)
-				{
-					//---------------------------------------------------------------------------------
-					//PARENTS
-					_NL::Core::Object* objInstance = inst;
-					_NL::Component::Transform* _ObjT_P;
-					_NL::Component::Transform* _ObjT = objInstance->getComponent<_NL::Component::Transform>();
-					bool HasParent;
-
-					if (objInstance->Parent && _ObjT) {
-						HasParent = true;
-						_ObjT_P = objInstance->Parent->getComponent<_NL::Component::Transform>();
-					}
-					else {
-						HasParent = false;
-					}
-
-					//---------------------------------------------------------------------------------
-					//INSTANCE MODEL MAT
-					glm::mat4 T = glm::translate(glm::mat4(), _ObjT->transform.position);
-					glm::mat4 R = glm::toMat4(_ObjT->transform.QuaternionRotation);
-					glm::mat4 S = glm::scale(glm::mat4(), _ObjT->transform.scale);
-
-					if (HasParent) {
-						T *= glm::translate(glm::mat4(), _ObjT_P->transform.position);
-						R *= glm::toMat4(_ObjT_P->transform.QuaternionRotation);
-						S *= glm::scale(glm::mat4(), _ObjT_P->transform.scale);
-					}
-
-					glm::mat4 _Modelmat = T * R * S;
-					Modelmat.push_back(_Modelmat);
-				}
 				//---------------------------------------------------------------------------------
 				//CAM UNIFORMS
 				check_gl_error();
@@ -393,7 +411,7 @@ void _NL::Engine::NLManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 
 				check_gl_error();
 
-				if (ObjMR->Material) {
+				if (ObjMR->Material != nullptr) {
 					//---------------------------------------------------------------------------------
 					//SETUP MATERIAL UNIFORMS
 					glUniform1i(_NL::Core::GLSL_AU::ALbedoTexture_uniform, 0);
@@ -401,94 +419,94 @@ void _NL::Engine::NLManager::RenderSceneObjects(_NL::Object::CameraObj* Cam) {
 					glUniform1i(_NL::Core::GLSL_AU::MetalnessTexture_uniform, 2);
 					glUniform1i(_NL::Core::GLSL_AU::NormalTexture_uniform, 3);
 					glUniform1i(_NL::Core::GLSL_AU::AmbientOculusionTexture_uniform, 4);
-					glUniform1i(_NL::Core::GLSL_AU::AmbientIrradianceTexture_uniform, 5);
-					glUniform1i(_NL::Core::GLSL_AU::PreFilterTexture_uniform, 6);
-					glUniform1i(_NL::Core::GLSL_AU::BRDF2DLUTTexture_uniform, 7);
 					check_gl_error();
 
 					//---------------------------------------------------------------------------------
 					//SEND MATERIAL DATA
 					glActiveTexture(GL_TEXTURE0 + 0);
-					if (ObjMR->Material->MaterialInstanceData.AlbedoTexId)
+					if (ObjMR->Material->MaterialInstanceData.AlbedoTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.AlbedoTexId);
 
 					glActiveTexture(GL_TEXTURE0 + 1);
-					if (ObjMR->Material->MaterialInstanceData.RoughnessTexId)
+					if (ObjMR->Material->MaterialInstanceData.RoughnessTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.RoughnessTexId);
 
 					glActiveTexture(GL_TEXTURE0 + 2);
-					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId)
+					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.MetalnessTexId);
-				
+
 					glActiveTexture(GL_TEXTURE0 + 3);
-					if (ObjMR->Material->MaterialInstanceData.NormalTexId)
+					if (ObjMR->Material->MaterialInstanceData.NormalTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.NormalTexId);
-				
+
 					glActiveTexture(GL_TEXTURE0 + 4);
-					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId)
+					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId);
-				
-					if (this->CurrentScene->Skybox) {
-						glActiveTexture(GL_TEXTURE0 + 5);
-						if (this->CurrentScene->Skybox->IrradienceMap)
-							glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
+				}
+				if (this->CurrentScene->Skybox != nullptr) {
+					glUniform1i(_NL::Core::GLSL_AU::AmbientIrradianceTexture_uniform, 5);
+					glUniform1i(_NL::Core::GLSL_AU::PreFilterTexture_uniform, 6);
+					glUniform1i(_NL::Core::GLSL_AU::BRDF2DLUTTexture_uniform, 7);
+					glActiveTexture(GL_TEXTURE0 + 5);
+					if (this->CurrentScene->Skybox->IrradienceMap != NULL)
+						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->IrradienceMap);
 
-						glActiveTexture(GL_TEXTURE0 + 6);
-						if (this->CurrentScene->Skybox->PreFilterMap)
-							glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
+					glActiveTexture(GL_TEXTURE0 + 6);
+					if (this->CurrentScene->Skybox->PreFilterMap != NULL)
+						glBindTexture(GL_TEXTURE_CUBE_MAP, this->CurrentScene->Skybox->PreFilterMap);
 
-						glActiveTexture(GL_TEXTURE0 + 7);
-						if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
-							glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
-					}
+					glActiveTexture(GL_TEXTURE0 + 7);
+					if (this->CurrentScene->Skybox->BRDF_2D_LUTMap != NULL)
+						glBindTexture(GL_TEXTURE_2D, this->CurrentScene->Skybox->BRDF_2D_LUTMap);
+				}
 
-					check_gl_error();
-					//---------------------------------------------------------------------------------
-					//DRAW MESH 
+				check_gl_error();
+				//---------------------------------------------------------------------------------
+				//DRAW MESH 
 
-					ObjMR->UpdateGLSettings();
-					//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
-					//glDisable(GL_BLEND);
-					glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), OIL.size());
-					//glEnable(GL_BLEND);
+				ObjMR->UpdateGLSettings();
+				//glDrawElementsInstanced(ObjMR->GL_RenderMode, ObjMR->IndicesBuf.size(), GL_UNSIGNED_INT, nullptr, obj.size());
+				//glDisable(GL_BLEND);
+				glDrawArraysInstanced(ObjMR->GL_RenderMode, 0, ObjMR->VertsBuf.size(), OIL.size());
+				//glEnable(GL_BLEND);
 
-					check_gl_error();
+				check_gl_error();
 
+				if (ObjMR->Material != nullptr) {
 					//---------------------------------------------------------------------------------
 					//CLEAR MATERIAL DATA
 					glActiveTexture(GL_TEXTURE0 + 0);
-					if (ObjMR->Material->MaterialInstanceData.AlbedoTexId)
+					if (ObjMR->Material->MaterialInstanceData.AlbedoTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, 0);
 
 					glActiveTexture(GL_TEXTURE0 + 1);
-					if (ObjMR->Material->MaterialInstanceData.RoughnessTexId)
+					if (ObjMR->Material->MaterialInstanceData.RoughnessTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, 0);
 
 					glActiveTexture(GL_TEXTURE0 + 2);
-					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId)
+					if (ObjMR->Material->MaterialInstanceData.MetalnessTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, 0);
 
 					glActiveTexture(GL_TEXTURE0 + 3);
-					if (ObjMR->Material->MaterialInstanceData.NormalTexId)
+					if (ObjMR->Material->MaterialInstanceData.NormalTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, 0);
 
 					glActiveTexture(GL_TEXTURE0 + 4);
-					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId)
+					if (ObjMR->Material->MaterialInstanceData.AmbientOculusionTexId != NULL)
 						glBindTexture(GL_TEXTURE_2D, 0);
+				}
+				if (this->CurrentScene->Skybox != nullptr) {
+					glActiveTexture(GL_TEXTURE0 + 5);
+					if (this->CurrentScene->Skybox->IrradienceMap != NULL)
+						glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
-					if (this->CurrentScene->Skybox) {
-						glActiveTexture(GL_TEXTURE0 + 5);
-						if (this->CurrentScene->Skybox->IrradienceMap)
-							glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+					glActiveTexture(GL_TEXTURE0 + 6);
+					if (this->CurrentScene->Skybox->PreFilterMap != NULL)
+						glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
-						glActiveTexture(GL_TEXTURE0 + 6);
-						if (this->CurrentScene->Skybox->PreFilterMap)
-							glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-
-						glActiveTexture(GL_TEXTURE0 + 7);
-						if (this->CurrentScene->Skybox->BRDF_2D_LUTMap)
-							glBindTexture(GL_TEXTURE_2D, 0);
-					}
+					glActiveTexture(GL_TEXTURE0 + 7);
+					if (this->CurrentScene->Skybox->BRDF_2D_LUTMap != NULL)
+						glBindTexture(GL_TEXTURE_2D, 0);
 				}
 				ObjMR->Shader->UnUse();
 				glDeleteBuffers(1, &InstanceABO);

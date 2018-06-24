@@ -20,7 +20,7 @@ namespace _NL {
 			void addUIElement(_NL::Core::UI* UI);
 			void DrawElements();
 
-			virtual char* getTypeName() const override;
+			char* getTypeName() override;
 		};
 	}
 }

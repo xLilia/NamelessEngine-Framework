@@ -11,7 +11,7 @@ void _NL::Engine::AudioSource::LoadAudioFile(const char * Filepath)
 	Sound.setBuffer(SoundFile);
 }
 
-//std::string _NL::Engine::AudioSource::getTypeName() const
+//std::string _NL::Engine::AudioSource::getTypeName() 
 //{
 //	return "_NL::Component::AudioSource";
 //}

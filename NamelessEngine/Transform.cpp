@@ -5,7 +5,7 @@ _NL::Component::Transform::Transform()
 	
 }
 
-char* _NL::Component::Transform::getTypeName() const
+char* _NL::Component::Transform::getTypeName() 
 {
 	return "_NL::Component::Transform";
 }
@@ -14,9 +14,24 @@ _NL::Component::Transform::~Transform()
 {
 }
 
+glm::vec3 _NL::Component::Transform::getRotatedForwardVector()
+{
+	return this->transform.QuaternionRotation * this->forwardVector;
+}
+
+glm::vec3 _NL::Component::Transform::getParentedVector(glm::vec3 Vector)
+{
+	return this->transform.QuaternionRotation * Vector;
+}
+
 glm::vec3 _NL::Component::Transform::eulerAngles()
 {
 	return glm::eulerAngles(transform.QuaternionRotation);
+}
+
+glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, GLfloat x, GLfloat y, GLfloat z)
+{
+	return LookAt(target, glm::vec3(x, y, z));
 }
 
 glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, glm::vec3 EyeAxis)
@@ -43,16 +58,39 @@ glm::quat _NL::Component::Transform::LookAt(glm::vec3 target, glm::vec3 EyeAxis)
 //	return glm::normalize(glm::quat(qw, qx, qy, qz));
 //}
 
-glm::quat _NL::Component::Transform::RotateEuler(GLfloat x, GLfloat y, GLfloat z)
+glm::quat _NL::Component::Transform::EulerRotation(GLfloat x, GLfloat y, GLfloat z)
 {
-	return RotateEuler(glm::vec3(x, y, z));
+	return glm::quat(glm::vec3(x, y, z));
 }
 
 
-glm::quat _NL::Component::Transform::RotateEuler(glm::vec3 eulerAngles)
+glm::quat _NL::Component::Transform::EulerRotation(glm::vec3 eulerAngles)
 {
-	return transform.QuaternionRotation *= glm::quat(eulerAngles);
+	return glm::quat(eulerAngles);
 }
 
+void _NL::Component::Transform::getModelMatrixDecompose(glm::vec3& Translation, glm::quat& Rotation, glm::vec3 Scale)
+{
+	glm::decompose(ModelMatrix, glm::vec3(), glm::quat(), Translation, glm::vec3(), glm::vec4());
+}
 
+glm::vec3 _NL::Component::Transform::getModelMatrixTranslation()
+{
+	glm::vec3 Translation;
+	glm::decompose(ModelMatrix, glm::vec3(), glm::quat(), Translation, glm::vec3(), glm::vec4());
+	return Translation;
+}
 
+glm::quat _NL::Component::Transform::getModelMatrixRotation()
+{
+	glm::quat Rotation;
+	glm::decompose(ModelMatrix, glm::vec3(), Rotation, glm::vec3(), glm::vec3(), glm::vec4());
+	return Rotation;
+}
+
+glm::vec3 _NL::Component::Transform::getModelMatrixScale()
+{
+	glm::vec3 Scale;
+	glm::decompose(ModelMatrix, Scale, glm::quat(), glm::vec3(), glm::vec3(), glm::vec4());
+	return Scale;
+}

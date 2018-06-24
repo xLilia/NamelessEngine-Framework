@@ -45,12 +45,11 @@ int _NL::Element::MeshInstance::LoadOBJFile(const char * filePath)
 		return -1;
 	}
 	MeshData = OBJF.Mshd;
-	//Indices = OBJF.Is;
 	OBJF.RESET();
 	return 0; 
 }
 
-char* _NL::Element::MeshInstance::getTypeName() const
+char* _NL::Element::MeshInstance::getTypeName() 
 {
 	return "_NL::Element::MeshInstance";
 }

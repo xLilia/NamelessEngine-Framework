@@ -12,7 +12,6 @@ namespace _NL {
 			~AudioSource();
 
 			void LoadAudioFile(const char* Filepath);
-			//virtual char* getTypeName() const override;
 
 			sf::SoundBuffer SoundFile;
 			sf::Sound Sound;

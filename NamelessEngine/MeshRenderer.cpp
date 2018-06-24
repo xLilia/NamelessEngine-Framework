@@ -268,7 +268,7 @@ void _NL::Component::MeshRenderer::initGLObj()
 	check_gl_error();
 }
 
-char* _NL::Component::MeshRenderer::getTypeName() const
+char* _NL::Component::MeshRenderer::getTypeName() 
 {
 	return "_NL::Component::MeshRenderer";
 }

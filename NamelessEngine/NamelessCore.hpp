@@ -75,7 +75,7 @@ namespace _NL{
 		public:
 			/// Every Sub Class must Overload this method.
 			/// e.g : " return "_NL::Compoent::subTypeName" "
-			virtual char* getTypeName() const = 0;
+			virtual char* getTypeName()  = 0;
 			/// Turn Component ON -> true |or| OFF -> false.
 			/// Default value true.
 			/// !!!Not Imlemented!!!
@@ -89,7 +89,7 @@ namespace _NL{
 		public:
 			/// Every Sub Class must Overload this method.
 			/// e.g : " return "_NL::Element::subTypeName" "
-			virtual char* getTypeName() const = 0;
+			virtual char* getTypeName()  = 0;
 		};
 
 		/// Virtual Class of _NL::Core::Component.
@@ -99,7 +99,7 @@ namespace _NL{
 		public:
 			/// Every Sub Class must Overload this method.
 			/// e.g : " return "_NL::UI::subgetTypeName" "
-			virtual char* getTypeName() const = 0;
+			virtual char* getTypeName()  = 0;
 			/// XY pixel coordinates on the screen for this UIelement.
 			glm::vec2 AnchorPosition = glm::vec2(0, 0);
 			/// XY pixel coordinates on the screen relative to AnchorPosition.
@@ -108,9 +108,6 @@ namespace _NL{
 			/// UI Element Layer value.
 			/// Used to sort visibility between Overlapping UI Elements
 			GLint Layer = 0;
-			/// Rotation of UI Element.
-			/// !!!Not Imlemented!!!
-			GLfloat RotationAngle;
 			/// Operator Overload < .
 			/// Used to sort UI Elementes by Layers
 			bool friend operator<(const UI& _this, const UI& other) {
@@ -130,15 +127,15 @@ namespace _NL{
 			/// Default Destructor.
 			/// Clears stored Components
 			virtual~Object() {
-				for (_NL::Core::Component* C : Components) {
-					delete C;
-				}
-				this->Components.erase(Components.begin(), Components.end());
-				this->Components.clear();
+				//for (_NL::Core::Component* C : Components) {
+				//	delete C;
+				//}
+				//this->Components.erase(Components.begin(), Components.end());
+				//this->Components.clear();
 			}
 			/// Object Name.
 			/// Can be used for object Identification
-			std::string name;
+			char* name;
 			/// Reference of Parent Object for this object.
 			/// Parent Object Affects this Object's Transform. status: UNSTABLE.
 			Object *Parent = 0;
@@ -149,34 +146,34 @@ namespace _NL{
 
 			/// Every Sub Class must Overload this method.
 			/// e.g : " return "_NL::UI::subgetTypeName" "
-			virtual char* getTypeName() const {
+			virtual char* getTypeName() = 0 {
 				return "_NL::Core::Object";
 			};
 			
 			//---------------------------------------------------------------------------------
 			//STATES
 			
-			//bool bactive = true;
+			bool bactive = true;
 			//bool bstatic = false;
 
 			//---------------------------------------------------------------------------------
 			//COMPONENTS
 
-			int addComponent(_NL::Core::Component *C)
+			template<class ComponentType>
+			ComponentType* addComponent(ComponentType *C)
 			{
 				for (_NL::Core::Component* c : Components)
 				{
 					if (c->getTypeName() == "_NL::Component::CppScript") {
 						//LET ADD MULTIPLE SCRIPTS
 					}else if (c->getTypeName() == C->getTypeName()) {
-						std::cout << "ERROR -1 :" << this->name.c_str() << " Object Component List Already Has a " << C->getTypeName() << " Component." << std::endl;
-						return -1;
+						std::cout << "ERROR -1 :" << this->name << " Object Component List Already Has a " << C->getTypeName() << " Component." << std::endl;
+						return nullptr;
 					}
 				}
 				Components.push_back(C);
 				//std::cout << C->getTypeName().c_str() << " Component Added to " << this->name.c_str() << std::endl;
-
-				return 0;
+				return dynamic_cast<ComponentType*>(C);
 			};
 
 			template<typename ComponentType>
@@ -215,8 +212,10 @@ namespace _NL{
 		class PostProcessingScript
 		{
 		public:
+			bool bactive = true;
+			GLuint bactiveDelay = 0;
 			GLuint TargetCameraFramebuffer;
-			virtual void Execute() = 0;
+			inline virtual void Execute() = 0;
 		};
 
 		//---------------------------------------------------------------------------------
@@ -252,7 +251,7 @@ namespace _NL{
 		//RENDER
 
 		struct ScreenQuad {
-			const GLfloat fullquad_v[8] =
+			GLfloat fullquad_v[8] =
 			{
 				-1,-1,
 				+1,-1,
@@ -260,7 +259,7 @@ namespace _NL{
 				-1,+1
 			};
 
-			const GLuint fullquad_i[4] =
+			GLuint fullquad_i[4] =
 			{
 				0,1,2,3
 			};

@@ -12,10 +12,10 @@ namespace _NL {
 		{
 		public:
 			GameObject();
-			GameObject(std::string name);
+			GameObject(char* name);
 			GameObject(const _NL::Core::Object &CO);
 			//void getInfo() override; 
-			virtual char* getTypeName() const override;
+			char* getTypeName() override;
 
 			///STATES
 			///bool bactive = true;

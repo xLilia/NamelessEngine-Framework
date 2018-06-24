@@ -7,6 +7,7 @@ _NL::Element::TextureInstance::TextureInstance(const char * filepath, bool Neare
 	this->widthHeight = glm::vec2(TL.LoadedTexture.getSize().x, TL.LoadedTexture.getSize().y);
 }
 
+
 GLuint _NL::Element::TextureInstance::getTextureID()
 {
 	return this->TextureID;

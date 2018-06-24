@@ -38,6 +38,14 @@ void _NL::UI::UICanvas::DrawElements()
 			glUniform1i(1, 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, UII->Texture->getTextureID());
+			
+			float theta = glm::radians(UII->RotationAngle);
+			glm::vec2 TOPr = glm::vec2(glm::cos(theta), -glm::sin(theta));
+			glm::vec2 BOTr = glm::vec2(glm::sin(theta), glm::cos(theta));
+
+			glUniform2fv(2,1,&TOPr[0]);
+			glUniform2fv(3,1,&BOTr[0]);
+
 			glm::vec2 finalPos = (UI->AnchorPosition + UI->PositionRelativeToAnchor) + AnchorPosition;
 			glm::vec2 finalScale = (UII->widthHeight * UII->scale);
 			_NL::Core::RenderQuad(finalPos.x, WindowTarget->getSize().y - finalPos.y - finalScale.y, finalScale.x, finalScale.y, false);
@@ -63,7 +71,7 @@ void _NL::UI::UICanvas::DrawElements()
 
 }
 
-char* _NL::UI::UICanvas::getTypeName() const
+char* _NL::UI::UICanvas::getTypeName() 
 {
 	return "_NL::UI::UICanvas";
 }
