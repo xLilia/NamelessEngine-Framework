@@ -2,7 +2,7 @@
 
 Official Website & Doumentation: https://mattateusb7.github.io/NamelessEngine-Framework/
 
-======================= Current Version Notes: alpha0.6 =========================
+======================= Current Version Notes: alpha0.9 =========================
 
 Out of the box included demo scene in MAIN.cpp
 
@@ -58,7 +58,7 @@ Current bugged out Features:
 	
 	3) Obj Instantiation funnctions ||| undefined behaviour, may cause crash.
 	
-======================= Current Version Notes: alpha1.0 =========================
+======================= Current Version Notes: alpha0.9 =========================
 
 ======================= Features ==========================
 
