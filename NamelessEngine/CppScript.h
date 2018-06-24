@@ -24,7 +24,7 @@ namespace _NL {
 				return cpps;
 			}
 
-			virtual char* getTypeName() const override{
+			char* getTypeName()  override{
 				return "_NL::Component::CppScript";
 			};
 

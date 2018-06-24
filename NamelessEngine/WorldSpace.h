@@ -23,9 +23,15 @@ namespace _NL {
 			_NL::Core::ObjInstanceList * addObjInstanceListLocation(_NL::Core::Object * G, _NL::Core::ObjTypeList * T = nullptr);
 			
 			template<class CastToObjType>
-			std::vector<CastToObjType*> getAllObjsOfType()
+			std::vector<CastToObjType*> getAllObjsOfType(char* ObjTypeName = nullptr)
 			{
-				std::string ObjType = CastToObjType().getTypeName();
+				std::string ObjType;
+				if (ObjTypeName == nullptr) {
+					ObjType = CastToObjType().getTypeName();
+				}
+				else {
+					ObjType = ObjTypeName;
+				}
 				std::vector<CastToObjType*> O;
 				_NL::Core::ObjTypeList* OTL = getObjTypeListLocation(ObjType);
 				if (OTL == nullptr) OTL = addObjTypeListLocation(ObjType);
@@ -64,9 +70,14 @@ namespace _NL {
 			template<class CastToObjType, typename ObjType>
 			CastToObjType* Instantiate(ObjType* original)
 			{
-				CastToObjType* CopyObj = new CastToObjType(*original);
-				addObjectToWorld(CopyObj);
-				return CopyObj;
+				CastToObjType CopyObj = *(new CastToObjType(*original));
+				//for each (_NL::Core::Component* C in original->Components)
+				//{
+				//	//if(C.getTypeName() == )
+				//	CopyObj.addComponent(C);
+				//}
+				addObjectToWorld(&CopyObj);
+				return &CopyObj;
 			}
 
 			_NL::Core::ObjInstanceList* addObjectToWorld(_NL::Core::Object *G);

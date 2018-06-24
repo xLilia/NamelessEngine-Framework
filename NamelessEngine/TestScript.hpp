@@ -76,7 +76,7 @@ void TestScript::Update() {
 	x1 = glm::clamp(x1, -3.0f, 3.0f);
 	y1 = glm::clamp(y1, -3.0f, 3.0f);
 	z1 = glm::clamp(z1, -3.0f, 3.0f);
-	T->RotateEuler(glm::vec3(x1, y1, z1)*t);
+	T->EulerRotation(glm::vec3(x1, y1, z1)*t);
 	
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {

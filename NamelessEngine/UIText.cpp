@@ -42,7 +42,7 @@ void _NL::UI::UIText::DrawText(sf::RenderWindow* WindowTarget)
 	WindowTarget->draw(T);
 }
 
-char * _NL::UI::UIText::getTypeName() const
+char * _NL::UI::UIText::getTypeName() 
 {
 	return "_NL::UI::UIText";
 }

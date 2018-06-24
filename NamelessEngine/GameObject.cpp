@@ -5,11 +5,11 @@ _NL::Object::GameObject::GameObject()
 {
 }
 
-_NL::Object::GameObject::GameObject(std::string name)
+_NL::Object::GameObject::GameObject(char* name)
 {
 	Parent = 0;
 	this->name = name;
-	std::cout << this->getTypeName() << " " << this->name.c_str() << " was created sucessfully!" << std::endl;
+	std::cout << this->getTypeName() << " " << this->name << " was created sucessfully!" << std::endl;
 }
 
 _NL::Object::GameObject::GameObject(const _NL::Core::Object &CO)
@@ -29,7 +29,7 @@ _NL::Object::GameObject::GameObject(const _NL::Core::Object &CO)
 }
 
 
-char* _NL::Object::GameObject::getTypeName() const
+char* _NL::Object::GameObject::getTypeName()
 {
 	return "_NL::Object::GameObject";
 }

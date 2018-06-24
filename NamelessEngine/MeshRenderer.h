@@ -21,11 +21,11 @@ namespace _NL {
 
 			std::vector<GLfloat> VertsBuf;
 			std::vector<GLuint> IndicesBuf;
-			_NL::Element::MeshInstance* Mesh;
-			_NL::Element::ShaderInstance* Shader;
-			_NL::Element::MaterialInstance* Material;
+			_NL::Element::MeshInstance* Mesh = nullptr;
+			_NL::Element::ShaderInstance* Shader = nullptr;
+			_NL::Element::MaterialInstance* Material = nullptr;
 			///INFO
-			virtual char* getTypeName() const override;
+			char* getTypeName() override;
 			bool bIsUnpacked = false;
 
 			///struct GLRenderSettings{};

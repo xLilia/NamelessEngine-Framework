@@ -31,7 +31,7 @@ namespace _NL {
 			void setFont(const char* file_Path);
 			void DrawText(sf::RenderWindow* WindowTarget);
 
-			virtual char* getTypeName() const override;
+			char* getTypeName() override;
 			sf::Text T;
 			sf::Font F;
 		private:

@@ -31,7 +31,7 @@ _NL::UI::UIImage::~UIImage()
 //}
 	
 
-char* _NL::UI::UIImage::getTypeName() const
+char* _NL::UI::UIImage::getTypeName() 
 {
 	return "_NL::UI::UIImage";
 }

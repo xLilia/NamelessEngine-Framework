@@ -45,6 +45,7 @@ GLuint _NL::Tools::TextureLoader::GenerateTexure(const char* filePath, bool Near
 		LoadedTexture.getPixelsPtr()
 	);
 	GLTexIDs.push_back(GLTexID);
+	LoadedTexture.~Image();
 	return GLTexID;
 }
 
@@ -57,14 +58,12 @@ int _NL::Tools::TextureLoader::LoadImage(const char* filePath)
 	return 0;
 }
 
-
 void _NL::Tools::TextureLoader::RESET()
 {
-	GLTexIDs.clear();
-	GLTexIDs.shrink_to_fit();
+	glDeleteTextures(GLTexIDs.size(), &GLTexIDs[0]);
 }
 
 _NL::Tools::TextureLoader::~TextureLoader() {
-	//glDeleteTextures(GLTexIDs.size(), &GLTexIDs[0]);
+	
 }
 

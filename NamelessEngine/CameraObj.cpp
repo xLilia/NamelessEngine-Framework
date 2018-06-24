@@ -5,7 +5,7 @@ _NL::Object::CameraObj::CameraObj()
 
 }
 
-_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, GLenum TextureFiltering)
+_NL::Object::CameraObj::CameraObj(char * name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX, GLsizei RenderWindowY, GLfloat FOV, GLfloat NearPlane, GLfloat FarPlane, GLfloat RenderScaleRatio, GLuint nRenderTextures, GLenum TextureFiltering, GLfloat exposure, GLfloat gamma)
 {
 	this->name = name;
 	this->FOV = FOV;
@@ -21,6 +21,8 @@ _NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, G
 	this->TextureFiltering = TextureFiltering;
 	//this->HasPingPongShader = HasPingPongShader;
 	//this->PingPongIterations = PingPongIterations;
+	this->exposure = exposure;
+	this->gamma = gamma;
 	updateAudioListenerWithCamTransform();
 }
 
@@ -173,7 +175,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA16F, //high dynamic range (HDR) 
+			GL_RGBA32F, //high dynamic range (HDR) 
 			RenderWindowSize.x * RenderScaleRatio,
 			RenderWindowSize.y * RenderScaleRatio,
 			0,
@@ -410,7 +412,7 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	glTexImage2D(
 		GL_TEXTURE_2D,
 		0,
-		GL_RGBA16F, //high dynamic range (HDR) 
+		GL_RGBA32F, //high dynamic range (HDR) 
 		RenderWindowSize.x*RenderScaleRatio,
 		RenderWindowSize.y*RenderScaleRatio,
 		0,
@@ -445,10 +447,10 @@ void _NL::Object::CameraObj::GenerateFrameBuffers() {
 	check_gl_error();
 	
 	if (success) {
-		std::cout << name.c_str() << " 's Framebuffers Installation Successful!" << std::endl;
+		std::cout << name << " 's Framebuffers Installation Successful!" << std::endl;
 	}
 	else {
-		std::cout << name.c_str() << " 's Framebuffers Installation UnSuccessful X_X !" << std::endl;
+		std::cout << name << " 's Framebuffers Installation UnSuccessful X_X !" << std::endl;
 	}
 	
 }
@@ -535,6 +537,9 @@ void _NL::Object::CameraObj::RenderToFinalFramebuffer()
 	glBindTexture(GL_TEXTURE_2D, StencilViewTexture);
 	glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_STENCIL_TEXTURE_MODE, GL_STENCIL_INDEX);
 
+	glUniform1f(nRenderTextures + 2, this->exposure);
+	glUniform1f(nRenderTextures + 3, this->gamma);
+
 	check_gl_error();
 
 	_NL::Core::RenderQuad(
@@ -563,34 +568,53 @@ void _NL::Object::CameraObj::RenderToFinalFramebuffer()
 
 void _NL::Object::CameraObj::ExecutePostProcessingStack()
 {
+	check_gl_error();
 	for (_NL::Core::PostProcessingScript*& PPS : PostProcessingStack) {
+		if (!PPS->bactive) continue;
+		if (PPS->bactiveDelay > 0) {
+			PPS->bactiveDelay--;
+			continue;
+		}
 		PPS->TargetCameraFramebuffer = PostProcessingReadyFramebuffer;
 		PPS->Execute();
+		check_gl_error();
 	}
-}
-
-void _NL::Object::CameraObj::blitPostProcessedImageToScreen() {
-
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, PostProcessingReadyFramebuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glBlitFramebuffer(
-		0,
-		0,
-		this->RenderWindowSize.x*RenderScaleRatio,
-		this->RenderWindowSize.y*RenderScaleRatio,
-		this->RenderWindowPos.x,
-		this->RenderWindowPos.y,
-		this->RenderWindowSize.x + this->RenderWindowPos.x,
-		this->RenderWindowSize.y + this->RenderWindowPos.y,
-		GL_COLOR_BUFFER_BIT,
-		TextureFiltering
-	);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
 	check_gl_error();
 }
 
-char* _NL::Object::CameraObj::getTypeName() const
+void _NL::Object::CameraObj::blitPostProcessedImageToScreen()
+{
+	check_gl_error();
+	glm::vec4 PosScale1 = glm::vec4(
+		0,
+		0,
+		0 + this->RenderWindowSize.x*RenderScaleRatio,
+		0 + this->RenderWindowSize.y*RenderScaleRatio
+	);
+
+	glm::vec4 PosScale2 = glm::vec4(
+		this->RenderWindowPos.x,
+		this->RenderWindowPos.y,
+		this->RenderWindowPos.x + this->RenderWindowSize.x,
+		this->RenderWindowPos.y + this->RenderWindowSize.y
+	);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, PostProcessingReadyFramebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(
+		PosScale1.x,
+		PosScale1.y,
+		PosScale1.z,
+		PosScale1.w,
+		PosScale2.x,
+		PosScale2.y,
+		PosScale2.z,
+		PosScale2.w,
+		GL_COLOR_BUFFER_BIT,
+		TextureFiltering
+	);
+}
+
+char* _NL::Object::CameraObj::getTypeName() 
 {
 	return "_NL::Object::CameraObj";
 }

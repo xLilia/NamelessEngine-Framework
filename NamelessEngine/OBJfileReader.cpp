@@ -11,11 +11,8 @@ void _NL::Tools::OBJfileReader::RESET()
 	//this->Is.shrink_to_fit();
 	
 	this->Mshd.mesh_positions_array.clear();
-	
 	this->Mshd.mesh_normals_array.clear();
-	
 	this->Mshd.mesh_map_array.clear();
-
 	this->Mshd.mesh_triangles_array.clear();
 
 	//this->MTL_counter = -1;
