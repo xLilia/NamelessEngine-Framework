@@ -1,12 +1,204 @@
-﻿  UIText.cpp
+﻿  CameraObj.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(9): error C2511: '_NL::Object::CameraObj::CameraObj(char *,GLsizei,GLsizei,GLsizei,GLsizei,GLfloat,GLfloat,GLfloat,GLfloat,GLuint,GLenum,GLfloat,GLfloat)': overloaded member function not found in '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(10): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(10): error C2227: left of '->name' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(11): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(11): error C2227: left of '->FOV' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(12): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(12): error C2227: left of '->NearPlane' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(13): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(13): error C2227: left of '->FarPlane' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(14): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(14): error C2227: left of '->RenderWindowPos' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(14): error C2228: left of '.x' must have class/struct/union
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(15): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(15): error C2227: left of '->RenderWindowPos' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(15): error C2228: left of '.y' must have class/struct/union
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(16): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(16): error C2227: left of '->RenderWindowSize' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(16): error C2228: left of '.x' must have class/struct/union
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(17): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(17): error C2227: left of '->RenderWindowSize' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(17): error C2228: left of '.y' must have class/struct/union
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(18): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(18): error C2227: left of '->RenderScaleRatio' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(20): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(20): error C2227: left of '->nRenderTextures' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(21): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(21): error C2227: left of '->TextureFiltering' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(24): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(24): error C2227: left of '->exposure' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(25): error C2671: '_NL::Object::CameraObj::{ctor}': static member functions do not have 'this' pointers
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(25): error C2227: left of '->gamma' must point to class/struct/union/generic type
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(26): error C2352: '_NL::Object::CameraObj::updateAudioListenerWithCamTransform': illegal call of non-static member function
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(29): note: see declaration of '_NL::Object::CameraObj::updateAudioListenerWithCamTransform'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(129): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(128): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(180): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(179): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(417): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(416): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(470): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(469): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(523): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(540): error C2039: 'exposure': is not a member of '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(540): error C2198: 'PFNGLUNIFORM1FPROC': too few arguments for call
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(541): error C2039: 'gamma': is not a member of '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(541): error C2198: 'PFNGLUNIFORM1FPROC': too few arguments for call
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(554): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(573): error C2039: 'bactive': is not a member of '_NL::Core::PostProcessingScript'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(216): note: see declaration of '_NL::Core::PostProcessingScript'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(574): error C2039: 'bactiveDelay': is not a member of '_NL::Core::PostProcessingScript'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(216): note: see declaration of '_NL::Core::PostProcessingScript'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(575): error C2039: 'bactiveDelay': is not a member of '_NL::Core::PostProcessingScript'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(216): note: see declaration of '_NL::Core::PostProcessingScript'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(611): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(610): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(609): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(608): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(607): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(606): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(605): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(604): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.cpp(618): error C2511: 'char *_NL::Object::CameraObj::getTypeName(void)': overloaded member function not found in '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+  GameObject.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  Main.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(47): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(50): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(57): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(60): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(67): warning C4305: '-=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\testscript.hpp(70): warning C4305: '+=': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\camcontroller.hpp(84): error C2039: 'gamma': is not a member of '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\camcontroller.hpp(87): error C2039: 'exposure': is not a member of '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\camcontroller.hpp(92): error C2039: 'gamma': is not a member of '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\camcontroller.hpp(96): error C2039: 'exposure': is not a member of '_NL::Object::CameraObj'
+  x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cameraobj.h(10): note: see declaration of '_NL::Object::CameraObj'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(33): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(32): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(76): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(75): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(72): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(71): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(86): warning C4018: '<': signed/unsigned mismatch
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(125): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(124): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(122): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(121): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(52): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(53): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(54): warning C4305: 'argument': truncation from 'double' to 'GLfloat'
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(109): warning C4244: '=': conversion from 'unsigned int' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(115): warning C4129: '(': unrecognized character escape sequence
+  MeshRenderer.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(133): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(134): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(135): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(136): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(137): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(138): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(143): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(144): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(145): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(146): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(147): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(148): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(152): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(153): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(157): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(158): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(159): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(160): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(161): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(162): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(166): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(167): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(171): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(172): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(173): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(174): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(175): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(176): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(180): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\meshrenderer.cpp(181): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+  NLManager.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\nlmanager.cpp(11): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\nlmanager.cpp(17): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\nlmanager.cpp(34): warning C4244: 'argument': conversion from 'GLfloat' to 'unsigned int', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\nlmanager.cpp(39): warning C4244: 'argument': conversion from 'GLfloat' to 'unsigned int', possible loss of data
+  ParticleObj.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  ParticleSystem.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\particlesystem.cpp(205): warning C4018: '<': signed/unsigned mismatch
+  ShaderObj.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  SkyboxObj.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\skyboxobj.cpp(177): warning C4244: 'initializing': conversion from 'double' to 'GLuint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\skyboxobj.cpp(178): warning C4244: 'initializing': conversion from 'double' to 'GLuint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\skyboxobj.cpp(184): warning C4244: 'argument': conversion from 'GLuint' to 'GLfloat', possible loss of data
+  TextureInstance.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  TextureLoader.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  Transform.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  UICanvas.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  UIImage.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+  UIText.cpp
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\uitext.cpp(35): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\uitext.cpp(36): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-  Generating code
-  6 of 1768 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    4 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  NamelessEngine.vcxproj -> X:\NewHDD\Games\GAME DEVELOPMENT\C++\Projects3\NamelessEngineRepo\NamelessEngine\Release\NamelessEngine.exe
+  WorldSpace.cpp
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(64): warning C4091: 'static ': ignored on left of 'const _NL::Core::GLSL_AU' when no variable is declared
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLsizei', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\namelesscore.hpp(272): warning C4244: 'argument': conversion from 'GLfloat' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\worldspace.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline

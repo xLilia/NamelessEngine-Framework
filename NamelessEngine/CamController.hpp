@@ -7,10 +7,10 @@ private:
 	glm::vec3 movementVector;
 	GLfloat movementSpeed = 1;
 	GLfloat AxisSpeed = 1;
-	glm::vec2 mouseDelta;
 	glm::vec2 oldMousePos;
-	
 public:
+	glm::vec2 mouseDelta;
+	bool freecamON = false;
 	_NL::Engine::NLManager * W;
 	void RotateCam();
 	GLfloat TrackMouse();
@@ -29,59 +29,79 @@ void CamController::Update() {
 	if(W->window->hasFocus())
 		TrackMouse();
 
-	//SYNC WITH DELTA TIME
-	GLfloat dts = W->GameTime.DeltaTime.asSeconds();
-	
-	//GET SIDE VECTOR
-	glm::vec3 SIDEWAYS = glm::cross(_this->transformCam.UpAxis, _this->transformCam.LookAt);
+	if (freecamON) {
+		//SYNC WITH DELTA TIME
+		GLfloat dts = W->GameTime.DeltaTime.asSeconds();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-		movementVector += _this->transformCam.LookAt * movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-		movementVector -= _this->transformCam.LookAt * movementSpeed;
+		//GET SIDE VECTOR
+		glm::vec3 SIDEWAYS = glm::cross(_this->transformCam.UpAxis, _this->transformCam.LookAt);
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			movementVector += _this->transformCam.LookAt * movementSpeed;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			movementVector -= _this->transformCam.LookAt * movementSpeed;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			movementVector += SIDEWAYS * movementSpeed;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			movementVector -= SIDEWAYS * movementSpeed;
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+			movementVector += _this->transformCam.UpAxis * movementSpeed;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			movementVector -= _this->transformCam.UpAxis * movementSpeed;
+		}
+
+		movementVector = glm::lerp(movementVector, glm::vec3(0.0f), dts*Drag);
+		_this->transformCam.Position = glm::lerp(_this->transformCam.Position, _this->transformCam.Position + movementVector, dts);
+
+		//SPEED UP
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+			movementSpeed = glm::lerp(movementSpeed, 10.0f, 1.0f);
+		}
+		else {
+			movementSpeed = glm::lerp(movementSpeed, 1.0f, 1.0f);
+		}
+
+		//MOUSE BUTTONS CHANGE CAM FOV
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			_this->FOV += 1;
+		}
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+			_this->FOV -= 1;
+		}
+
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-		movementVector += SIDEWAYS * movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-		movementVector -= SIDEWAYS * movementSpeed;
-	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-		movementVector += _this->transformCam.UpAxis * movementSpeed;
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-		movementVector -= _this->transformCam.UpAxis * movementSpeed;
-	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) {
+			_this->gamma += 0.01;
+		}
+	}else if (sf::Keyboard::isKeyPressed(sf::Keyboard::RShift)) {
+			_this->exposure += 0.1;
+		}
 
-	movementVector = glm::lerp(movementVector, glm::vec3(0.0f), dts*Drag);
-
-	_this->transformCam.Position = glm::lerp(_this->transformCam.Position, _this->transformCam.Position + movementVector, dts);
-
-	//SPEED UP
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
-		movementSpeed = glm::lerp(movementSpeed, 10.0f, 1.0f);
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Dash)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
+			_this->gamma -= 0.01;
+		}
 	}
-	else {
-		movementSpeed = glm::lerp(movementSpeed, 1.0f, 1.0f);
-	}
-
-	//MOUSE BUTTONS CHANGE CAM FOV
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-		_this->FOV += 1;
-	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-		_this->FOV -= 1;
-	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) {
+			_this->exposure -= 0.1;
+		}
 
 	//LOAD NEXT SCENE
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
 		std::cout << "Load next scene..." << std::endl;
 		W->EndCurrentScene();
 	}
-
+	
 	_this->updateAudioListenerWithCamTransform();
 	
 }
