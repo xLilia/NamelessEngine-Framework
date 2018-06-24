@@ -24,10 +24,10 @@ int main() {
 	//AUDIO: DEPRECATED ...
 	//===========================================================================================
 
-	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
-	//Audio->LoadAudioFile("Mysounds/ShipEngine.ogg");
-	//Audio->Sound.setLoop(true);
-	//Audio->Sound.play();
+	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
+	Audio->LoadAudioFile("Mysounds/ShipEngine.ogg");
+	Audio->Sound.setLoop(true);
+	Audio->Sound.play();
 
 	//===========================================================================================
 	//SKYBOXES: STABLE !
@@ -69,7 +69,7 @@ int main() {
 	sky3->createEnvironment("Myhdri/hdri3.jpg", 1024);
 	sky3->createSkybox("Myhdri/hdri3.jpg", 1024 * 2);
 
-	hangarScene->Skybox = sky2;
+	hangarScene->Skybox = sky1;
 	
 	//===========================================================================================
 	//MULTIPLE CAMERAS / VIEWPORTS: STABLE !
@@ -302,6 +302,9 @@ int main() {
 	Mecha->getComponent<_NL::Component::CppScript<CockpitController>>()->getScript()->ui1_Fthrust = ui1_Fthrust;
 	Mecha->getComponent<_NL::Component::CppScript<CockpitController>>()->getScript()->ui1_Hthrust = ui1_Hthrust;
 	Mecha->getComponent<_NL::Component::CppScript<CockpitController>>()->getScript()->ui1_Vthrust = ui1_Vthrust;
+	Mecha->getComponent<_NL::Component::CppScript<CockpitController>>()->getScript()->sky1 = sky1;
+	Mecha->getComponent<_NL::Component::CppScript<CockpitController>>()->getScript()->sky2 = sky2;
+	Mecha->getComponent<_NL::Component::CppScript<CockpitController>>()->getScript()->sky3 = sky3;
 	hangarScene->addObjectToWorld(Mecha);
 	CaveScene->addObjectToWorld(Mecha);
 

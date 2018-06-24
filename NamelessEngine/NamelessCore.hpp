@@ -197,11 +197,11 @@ namespace _NL{
 		typedef std::vector<ObjTypeList> ObjList;
 
 		/*cppScript*/
-		template<typename Owner>
+		template<typename OwnerType>
 		class Script
 		{
 		public:
-			Owner* _this;
+			OwnerType* _this;
 			bool awake = false;
 			virtual void Start() = 0 { awake = true; };
 			virtual void Update() = 0;

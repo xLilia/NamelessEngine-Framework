@@ -7,6 +7,11 @@ public:
 
 	_NL::Object::CameraObj* PLcam;
 	_NL::Object::CameraObj* PLBackcam;
+
+	_NL::Object::SkyboxObj* sky1;
+	_NL::Object::SkyboxObj* sky2;
+	_NL::Object::SkyboxObj* sky3;
+
 	_NL::Object::GameObject* Chair;
 	_NL::Component::Transform* T;
 	_NL::Component::Transform* Tchair;
@@ -27,6 +32,7 @@ public:
 	_NL::Engine::NLManager* M;
 	
 	GLuint ActiveCam = 1;
+	GLuint ActiveSky = 1;
 	bool NightVisionON = false;
 	bool FreecamON;
 	bool FlightAssistON = true;
@@ -52,19 +58,44 @@ public:
 void CockpitController::Start() {
 	T = _this->getComponent<_NL::Component::Transform>();
 	Tchair = Chair->getComponent<_NL::Component::Transform>();
-	//T->transform.position.z = -300;
 }
 void CockpitController::sceneManager() {
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-	//	M->EndCurrentScene(Hangarlevel);
-	//}
-	//
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-	//	M->EndCurrentScene(CaveLevel);
-	//}
 
-	if (M->CurrentScene != CaveLevel && PLcam->transformCam.Position.z < -127.0f) {
-		M->EndCurrentScene(CaveLevel);
+	if (M->CurrentScene != CaveLevel){
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
+			ActiveSky = 1;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
+			ActiveSky = 2;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
+			ActiveSky = 3;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
+			ActiveSky = 0;
+		}
+
+
+		switch (ActiveSky)
+		{
+		case 1:
+			M->CurrentScene->Skybox = sky1;
+			break;
+		case 2:
+			M->CurrentScene->Skybox = sky2;
+			break;
+		case 3:
+			M->CurrentScene->Skybox = sky3;
+			break;
+		default:
+			M->CurrentScene->Skybox = nullptr;
+			break;
+		}
+
+		if (PLcam->transformCam.Position.z < -127.0f) {
+			M->EndCurrentScene(CaveLevel);
+		}
 	}
 
 	if (M->CurrentScene != Hangarlevel && PLcam->transformCam.Position.z > -127.0f) {
