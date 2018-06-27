@@ -35,16 +35,16 @@ x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\motionblurppe.hpp(155): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\motionblurppe.hpp(154): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\motionblurppe.hpp(153): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(109): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(110): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(111): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(112): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(366): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(367): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(368): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(369): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(385): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(384): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(385): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(386): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(387): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\cockpitcontroller.hpp(388): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(33): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(32): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\gausianblurpostprocessingeffect.hpp(76): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
@@ -89,7 +89,7 @@ x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(466): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 x:\newhdd\games\game development\c++\projects3\namelessenginerepo\namelessengine\namelessengine\main.cpp(467): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Generating code
-  2 of 1871 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 1869 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

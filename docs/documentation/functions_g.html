@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
-   &#160;<span id="projectnumber">alpha 0.6</span>
+   &#160;<span id="projectnumber">alpha 0.9</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine /  Framework</div>
   </td>
  </tr>
  </tbody>
@@ -103,6 +103,9 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <li>GameTime
 : <a class="el" href="class___n_l_1_1_engine_1_1_n_l_manager.html#a46470b40c49d0b8762fa216bd84e7d80">_NL::Engine::NLManager</a>
 </li>
+<li>gamma
+: <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a04737916b4c30d2552ea5768d3353171">_NL::Object::CameraObj</a>
+</li>
 <li>GenerateFramebuffer()
 : <a class="el" href="class___n_l_1_1_object_1_1_light_object.html#a07a62b1ca7827253f96298d8dbadd467">_NL::Object::LightObject</a>
 </li>
@@ -113,7 +116,7 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 : <a class="el" href="class___n_l_1_1_tools_1_1_texture_loader.html#acdd50de6b8c4797d8cace355ca9b1600">_NL::Tools::TextureLoader</a>
 </li>
 <li>getAllObjsOfType()
-: <a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#acbf546b50b9e8d1a6a2f7b141d3e3012">_NL::Engine::WorldSpace</a>
+: <a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#a6ec9d6f946f49581d61773cebf6ec84e">_NL::Engine::WorldSpace</a>
 </li>
 <li>GetColladaData()
 : <a class="el" href="class___n_l_1_1_tools_1_1_x_m_lfile_reader.html#a18f0d68d6133bdcf36d4a20078b94dec">_NL::Tools::XMLfileReader</a>
@@ -124,14 +127,32 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <li>getDirectionQuaternion()
 : <a class="el" href="class___n_l_1_1_object_1_1_particle_system.html#a933d4f563b841159fd0a91ce983d7f1a">_NL::Object::ParticleSystem</a>
 </li>
+<li>getModelMatrixDecompose()
+: <a class="el" href="class___n_l_1_1_component_1_1_transform.html#a1cbbe35e308b5454cde2704853c40933">_NL::Component::Transform</a>
+</li>
+<li>getModelMatrixRotation()
+: <a class="el" href="class___n_l_1_1_component_1_1_transform.html#a528d3d128fd6e1b1b58c5cde2b4405ca">_NL::Component::Transform</a>
+</li>
+<li>getModelMatrixScale()
+: <a class="el" href="class___n_l_1_1_component_1_1_transform.html#ae77db5f8bafe69a91ea5f1ea2e785048">_NL::Component::Transform</a>
+</li>
+<li>getModelMatrixTranslation()
+: <a class="el" href="class___n_l_1_1_component_1_1_transform.html#a791c7c6a32663baaf326fa4d49da7dde">_NL::Component::Transform</a>
+</li>
 <li>getObjInstanceListLocation()
 : <a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#a60e94fec352518887b0e3fc43d793617">_NL::Engine::WorldSpace</a>
 </li>
 <li>getObjTypeListLocation()
-: <a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#a7338b2b36565ef9f632e5813023b11c2">_NL::Engine::WorldSpace</a>
+: <a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#adac95397bff7f280ead847f8c3cde12b">_NL::Engine::WorldSpace</a>
+</li>
+<li>getParentedVector()
+: <a class="el" href="class___n_l_1_1_component_1_1_transform.html#aea91da50d4660fa88539eb6941a05ae7">_NL::Component::Transform</a>
 </li>
 <li>getProjectionMatrix()
 : <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a4f7eefb0c57f91504bb78de91b0a852c">_NL::Object::CameraObj</a>
+</li>
+<li>getRotatedForwardVector()
+: <a class="el" href="class___n_l_1_1_component_1_1_transform.html#ac6c5e7599d257ab53b67b6b3d98d50a1">_NL::Component::Transform</a>
 </li>
 <li>getScript()
 : <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#ac895b93ab3624eff5fafe0f6b759ad09">_NL::Component::CppScript&lt; ScriptType &gt;</a>
@@ -146,24 +167,25 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 : <a class="el" href="class___n_l_1_1_element_1_1_texture_instance.html#ae6c525de56a4eb3ffedda9661fba6ecc">_NL::Element::TextureInstance</a>
 </li>
 <li>getTypeName()
-: <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#a1384245c543af19a863983a721415042">_NL::Component::CppScript&lt; ScriptType &gt;</a>
-, <a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#acbc08d3558a0d72c15f8bf48f9179c82">_NL::Component::MeshRenderer</a>
-, <a class="el" href="class___n_l_1_1_component_1_1_transform.html#aace6ad8205787a51bc07bb9c6d1ee9d9">_NL::Component::Transform</a>
-, <a class="el" href="class___n_l_1_1_core_1_1_component.html#a29a41cf256a70c2050bcf859e56b9984">_NL::Core::Component</a>
-, <a class="el" href="class___n_l_1_1_core_1_1_element.html#a8e4ae17605e42c2ab15047aa6f85295f">_NL::Core::Element</a>
-, <a class="el" href="class___n_l_1_1_core_1_1_object.html#aa41d6fe96e4c6732512b2888e37122a8">_NL::Core::Object</a>
-, <a class="el" href="class___n_l_1_1_core_1_1_u_i.html#ae78c1d2a840317b9a767ce0b74a6c705">_NL::Core::UI</a>
-, <a class="el" href="class___n_l_1_1_element_1_1_material_instance.html#a3dad6e04c75a1f4ab562629feb06c80d">_NL::Element::MaterialInstance</a>
-, <a class="el" href="class___n_l_1_1_element_1_1_mesh_instance.html#a0f937fdf5e9301c92641c4c1c47c42c7">_NL::Element::MeshInstance</a>
-, <a class="el" href="class___n_l_1_1_element_1_1_shader_instance.html#a13c576d686fac668dd3583c36f07ce07">_NL::Element::ShaderInstance</a>
-, <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a433a06ba0ca3dfc3d0b3eb4e528e2d68">_NL::Object::CameraObj</a>
-, <a class="el" href="class___n_l_1_1_object_1_1_game_object.html#a40d763e04dbaef8e007ea7b5bd3adb01">_NL::Object::GameObject</a>
-, <a class="el" href="class___n_l_1_1_object_1_1_light_object.html#a6043f1815879cec866b548c7d5879afa">_NL::Object::LightObject</a>
-, <a class="el" href="class___n_l_1_1_object_1_1_particle_obj.html#a14fd4ee42afddfde3a6b547be1b27b72">_NL::Object::ParticleObj</a>
-, <a class="el" href="class___n_l_1_1_object_1_1_particle_system.html#a16bf59f7ecee201cbbf7969074640a81">_NL::Object::ParticleSystem</a>
-, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_canvas.html#a8b89458230a4686b7c3abe45db3a1eec">_NL::UI::UICanvas</a>
-, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_image.html#ada65eb9b6c36aec5ae4ea5480cdd6c9e">_NL::UI::UIImage</a>
-, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_text.html#a68301b162faf7e7c471ae1850cac30c4">_NL::UI::UIText</a>
+: <a class="el" href="class___n_l_1_1_component_1_1_cpp_script.html#a676d322ecea2bdeb58313fa16e2f9c2c">_NL::Component::CppScript&lt; ScriptType &gt;</a>
+, <a class="el" href="class___n_l_1_1_component_1_1_mesh_renderer.html#abebf1ee0845f452600176a6f632e678c">_NL::Component::MeshRenderer</a>
+, <a class="el" href="class___n_l_1_1_component_1_1_transform.html#a6271c1c0febb0ce5dad7299b4b24c4ab">_NL::Component::Transform</a>
+, <a class="el" href="class___n_l_1_1_core_1_1_component.html#a034957140e9c0e72b0d7f5377415f7b1">_NL::Core::Component</a>
+, <a class="el" href="class___n_l_1_1_core_1_1_element.html#a7c1f6e8279dd26b87e7ada48cb2de135">_NL::Core::Element</a>
+, <a class="el" href="class___n_l_1_1_core_1_1_object.html#a68d35e28f2c77df336e0b5a656b86555">_NL::Core::Object</a>
+, <a class="el" href="class___n_l_1_1_core_1_1_u_i.html#aef05685e97907098fa2566a5bf113bde">_NL::Core::UI</a>
+, <a class="el" href="class___n_l_1_1_element_1_1_material_instance.html#a597ca753436381a1aa24642919273176">_NL::Element::MaterialInstance</a>
+, <a class="el" href="class___n_l_1_1_element_1_1_mesh_instance.html#a15a73a2fe6736c4628e43e97db155438">_NL::Element::MeshInstance</a>
+, <a class="el" href="class___n_l_1_1_element_1_1_shader_instance.html#ac258fe3534808a57fb006672486ab6df">_NL::Element::ShaderInstance</a>
+, <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#aab2553441b85289241aa3f44a8679e78">_NL::Object::CameraObj</a>
+, <a class="el" href="class___n_l_1_1_object_1_1_game_object.html#aebfbf49acb89decf28f02a976ee6cb79">_NL::Object::GameObject</a>
+, <a class="el" href="class___n_l_1_1_object_1_1_light_object.html#a2e9f34d8d759956e12380615f7ab9b64">_NL::Object::LightObject</a>
+, <a class="el" href="class___n_l_1_1_object_1_1_particle_obj.html#adec2392fff56140df8164698ededae2b">_NL::Object::ParticleObj</a>
+, <a class="el" href="class___n_l_1_1_object_1_1_particle_system.html#ac7d7566c3a1759b1bf47d31e851aecce">_NL::Object::ParticleSystem</a>
+, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_canvas.html#ac100acf7321c20d885013ac9889a09d2">_NL::UI::UICanvas</a>
+, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_image.html#aba4b69f8db41661ebef6f540a8f35c14">_NL::UI::UIImage</a>
+, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_text.html#afa76b66969623f0162501e9c69bc0fb5">_NL::UI::UIText</a>
+, <a class="el" href="class_b_o_i_d_object.html#a17b9f312e06682c2f609bd0a77c1411b">BOIDObject</a>
 </li>
 <li>getViewMatrix()
 : <a class="el" href="class___n_l_1_1_object_1_1_camera_obj.html#a410a90497f43ab7d1725eec6f5a513bb">_NL::Object::CameraObj</a>

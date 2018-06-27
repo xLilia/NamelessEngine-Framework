@@ -12,7 +12,7 @@ var class___n_l_1_1_u_i_1_1_u_i_text =
     [ "~UIText", "class___n_l_1_1_u_i_1_1_u_i_text.html#ab937f3bbbfb9ac13368add68c37e3a39", null ],
     [ "DrawText", "class___n_l_1_1_u_i_1_1_u_i_text.html#a2a38a4e45b3cf59ee4de46e8f0de3dc8", null ],
     [ "getString", "class___n_l_1_1_u_i_1_1_u_i_text.html#aa0d59e89980a1e4c2a71836879e6ef79", null ],
-    [ "getTypeName", "class___n_l_1_1_u_i_1_1_u_i_text.html#a68301b162faf7e7c471ae1850cac30c4", null ],
+    [ "getTypeName", "class___n_l_1_1_u_i_1_1_u_i_text.html#afa76b66969623f0162501e9c69bc0fb5", null ],
     [ "setFont", "class___n_l_1_1_u_i_1_1_u_i_text.html#aca341c09d720ca46a3dc413c07df27b9", null ],
     [ "setString", "class___n_l_1_1_u_i_1_1_u_i_text.html#a53cf399cdbc381a81f3fe6cc2ae1a077", null ],
     [ "F", "class___n_l_1_1_u_i_1_1_u_i_text.html#a195c674b5c1a91445e4fb11fb6550cff", null ],

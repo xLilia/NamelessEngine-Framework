@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
-   &#160;<span id="projectnumber">alpha 0.6</span>
+   &#160;<span id="projectnumber">alpha 0.9</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine /  Framework</div>
   </td>
  </tr>
  </tbody>
@@ -115,9 +115,9 @@ Inheritance diagram for _NL::Core::UI:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae78c1d2a840317b9a767ce0b74a6c705"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_u_i.html#ae78c1d2a840317b9a767ce0b74a6c705">getTypeName</a> () const =0</td></tr>
-<tr class="memdesc:ae78c1d2a840317b9a767ce0b74a6c705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#ae78c1d2a840317b9a767ce0b74a6c705">More...</a><br /></td></tr>
-<tr class="separator:ae78c1d2a840317b9a767ce0b74a6c705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef05685e97907098fa2566a5bf113bde"><td class="memItemLeft" align="right" valign="top">virtual char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_u_i.html#aef05685e97907098fa2566a5bf113bde">getTypeName</a> ()=0</td></tr>
+<tr class="memdesc:aef05685e97907098fa2566a5bf113bde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Every Sub Class must Overload this method.  <a href="#aef05685e97907098fa2566a5bf113bde">More...</a><br /></td></tr>
+<tr class="separator:aef05685e97907098fa2566a5bf113bde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab42343d55550320e703af6e42c7cdb55"><td class="memItemLeft" align="right" valign="top">bool friend&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_u_i.html#ab42343d55550320e703af6e42c7cdb55">operator&lt;</a> (const <a class="el" href="class___n_l_1_1_core_1_1_u_i.html">UI</a> &amp;_this, const <a class="el" href="class___n_l_1_1_core_1_1_u_i.html">UI</a> &amp;other)</td></tr>
 <tr class="memdesc:ab42343d55550320e703af6e42c7cdb55"><td class="mdescLeft">&#160;</td><td class="mdescRight">Operator Overload &lt; .  <a href="#ab42343d55550320e703af6e42c7cdb55">More...</a><br /></td></tr>
 <tr class="separator:ab42343d55550320e703af6e42c7cdb55"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,16 +133,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ab2f89a111f22bf3aeacb065a2ed02179"><td class="memItemLeft" align="right" valign="top">GLint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_u_i.html#ab2f89a111f22bf3aeacb065a2ed02179">Layer</a> = 0</td></tr>
 <tr class="memdesc:ab2f89a111f22bf3aeacb065a2ed02179"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class___n_l_1_1_core_1_1_u_i.html" title="Virtual Class of _NL::Core::Component. ">UI</a> <a class="el" href="class___n_l_1_1_core_1_1_element.html" title="Virtual Class of _NL::Core::Element. ">Element</a> Layer value.  <a href="#ab2f89a111f22bf3aeacb065a2ed02179">More...</a><br /></td></tr>
 <tr class="separator:ab2f89a111f22bf3aeacb065a2ed02179"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a46e57dbbfa802c4b50b9c38ce8c394"><td class="memItemLeft" align="right" valign="top">GLfloat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_core_1_1_u_i.html#a1a46e57dbbfa802c4b50b9c38ce8c394">RotationAngle</a></td></tr>
-<tr class="memdesc:a1a46e57dbbfa802c4b50b9c38ce8c394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rotation of <a class="el" href="class___n_l_1_1_core_1_1_u_i.html" title="Virtual Class of _NL::Core::Component. ">UI</a> <a class="el" href="class___n_l_1_1_core_1_1_element.html" title="Virtual Class of _NL::Core::Element. ">Element</a>.  <a href="#a1a46e57dbbfa802c4b50b9c38ce8c394">More...</a><br /></td></tr>
-<tr class="separator:a1a46e57dbbfa802c4b50b9c38ce8c394"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Virtual Class of <a class="el" href="class___n_l_1_1_core_1_1_component.html" title="Virtual Class of _NL::Core::Component. ">_NL::Core::Component</a>. </p>
 <p>Objects that inherit from this class represent User Interface elements. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ae78c1d2a840317b9a767ce0b74a6c705"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae78c1d2a840317b9a767ce0b74a6c705">&#9670;&nbsp;</a></span>getTypeName()</h2>
+<a id="aef05685e97907098fa2566a5bf113bde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef05685e97907098fa2566a5bf113bde">&#9670;&nbsp;</a></span>getTypeName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -154,7 +151,7 @@ Public Attributes</h2></td></tr>
           <td class="memname">virtual char* _NL::Core::UI::getTypeName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -167,7 +164,7 @@ Public Attributes</h2></td></tr>
 <p>Every Sub Class must Overload this method. </p>
 <p>e.g : " return "_NL::UI::subgetTypeName" " </p>
 
-<p>Implemented in <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_text.html#a68301b162faf7e7c471ae1850cac30c4">_NL::UI::UIText</a>, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_canvas.html#a8b89458230a4686b7c3abe45db3a1eec">_NL::UI::UICanvas</a>, and <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_image.html#ada65eb9b6c36aec5ae4ea5480cdd6c9e">_NL::UI::UIImage</a>.</p>
+<p>Implemented in <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_text.html#afa76b66969623f0162501e9c69bc0fb5">_NL::UI::UIText</a>, <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_canvas.html#ac100acf7321c20d885013ac9889a09d2">_NL::UI::UICanvas</a>, and <a class="el" href="class___n_l_1_1_u_i_1_1_u_i_image.html#aba4b69f8db41661ebef6f540a8f35c14">_NL::UI::UIImage</a>.</p>
 
 </div>
 </div>
@@ -258,23 +255,6 @@ Public Attributes</h2></td></tr>
 
 <p>XY pixel coordinates on the screen relative to AnchorPosition. </p>
 <p>Final Screen Position = [AnchorPosition + PositionRelativeToAnchor]. </p>
-
-</div>
-</div>
-<a id="a1a46e57dbbfa802c4b50b9c38ce8c394"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a46e57dbbfa802c4b50b9c38ce8c394">&#9670;&nbsp;</a></span>RotationAngle</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">GLfloat _NL::Core::UI::RotationAngle</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Rotation of <a class="el" href="class___n_l_1_1_core_1_1_u_i.html" title="Virtual Class of _NL::Core::Component. ">UI</a> <a class="el" href="class___n_l_1_1_core_1_1_element.html" title="Virtual Class of _NL::Core::Element. ">Element</a>. </p>
-<p>!!!Not Imlemented!!! </p>
 
 </div>
 </div>

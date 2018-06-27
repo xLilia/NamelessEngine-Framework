@@ -1,7 +1,8 @@
 var searchData=
 [
   ['calculatetangent',['calculateTangent',['../_mesh_renderer_8cpp.html#a5356e3386efc528fc51b1f673a91c8dd',1,'MeshRenderer.cpp']]],
-  ['cameraobj',['CameraObj',['../class___n_l_1_1_object_1_1_camera_obj.html#af8ae8bf24e88861ca633c2ef261ceef1',1,'_NL::Object::CameraObj::CameraObj()'],['../class___n_l_1_1_object_1_1_camera_obj.html#a6b683ad36907af04eb5828f281f3b53b',1,'_NL::Object::CameraObj::CameraObj(std::string name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX=0, GLsizei RenderWindowY=0, GLfloat FOV=90.0f, GLfloat NearPlane=0.1f, GLfloat FarPlane=100, GLfloat RenderScaleRatio=1, GLuint nRenderTextures=10, GLenum TextureFiltering=GL_LINEAR)']]],
+  ['cameraobj',['CameraObj',['../class___n_l_1_1_object_1_1_camera_obj.html#af8ae8bf24e88861ca633c2ef261ceef1',1,'_NL::Object::CameraObj::CameraObj()'],['../class___n_l_1_1_object_1_1_camera_obj.html#a121931e0244bc9a74269e0fbe1e3e010',1,'_NL::Object::CameraObj::CameraObj(char *name, GLsizei RenderWindowWidth, GLsizei RenderWindowHeight, GLsizei RenderWindowX=0, GLsizei RenderWindowY=0, GLfloat FOV=90.0f, GLfloat NearPlane=0.1f, GLfloat FarPlane=100, GLfloat RenderScaleRatio=1, GLuint nRenderTextures=10, GLenum TextureFiltering=GL_LINEAR, GLfloat exposure=2.5, GLfloat gamma=0.8)']]],
+  ['camerasetup',['cameraSetup',['../class_cockpit_controller.html#ad3e3738290b914370e1464d31a526a3a',1,'CockpitController']]],
   ['cleanupcurrentsceneloadedresources',['CleanUpCurrentSceneLoadedResources',['../class___n_l_1_1_engine_1_1_n_l_manager.html#a8edcd531e9bb10cd37741449a7f91829',1,'_NL::Engine::NLManager']]],
   ['clearcurrentrendertarget',['ClearCurrentRenderTarget',['../class___n_l_1_1_object_1_1_camera_obj.html#a5512b3580be93eba0e81e84015218380',1,'_NL::Object::CameraObj']]],
   ['clearprograms',['clearPrograms',['../class___n_l_1_1_tools_1_1_shader_wizard.html#a2e54281393766b0b4f7dcf5dd7beff14',1,'_NL::Tools::ShaderWizard']]],

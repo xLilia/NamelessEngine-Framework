@@ -1,8 +1,12 @@
 var searchData=
 [
   ['scale',['Scale',['../struct___n_l_1_1_object_1_1_particle_system_1_1_spw_transform.html#a7c6b5fb2657c314525eff43c19e36751',1,'_NL::Object::ParticleSystem::SpwTransform::Scale()'],['../struct___n_l_1_1_core_1_1transform.html#a8380daed9d4ff90af8d5b50745191ada',1,'_NL::Core::transform::scale()'],['../class___n_l_1_1_u_i_1_1_u_i_image.html#a0b74f8dec2bbebcec09b374cbbdfd23c',1,'_NL::UI::UIImage::scale()']]],
-  ['shader',['Shader',['../class___n_l_1_1_component_1_1_mesh_renderer.html#a9a9e7315b60af92a7222cd63d51f8a97',1,'_NL::Component::MeshRenderer']]],
+  ['separatingmult',['SeparatingMult',['../class_b_o_i_dscript.html#a14f0aef5b0180755b663157df2b9695a',1,'BOIDscript']]],
+  ['shader',['Shader',['../class_b_o_i_d_object.html#a4a21939245568ab467068a46f7d3facc',1,'BOIDObject::Shader()'],['../class___n_l_1_1_component_1_1_mesh_renderer.html#a9a9e7315b60af92a7222cd63d51f8a97',1,'_NL::Component::MeshRenderer::Shader()']]],
   ['shadowmap',['ShadowMap',['../class___n_l_1_1_object_1_1_light_object.html#aeb7cce6e4f42b588f3ae93a4492974bb',1,'_NL::Object::LightObject']]],
+  ['sky1',['sky1',['../class_cockpit_controller.html#a0b3ef8c45869d5d350806803870ac12f',1,'CockpitController']]],
+  ['sky2',['sky2',['../class_cockpit_controller.html#a1339e6e3fa5b48045dcfbdf7420cc2e5',1,'CockpitController']]],
+  ['sky3',['sky3',['../class_cockpit_controller.html#a92a56ebda447469ef055a29989c0df42',1,'CockpitController']]],
   ['skybox',['Skybox',['../class___n_l_1_1_engine_1_1_world_space.html#a8bb44aa6e1ab5f9da1c430cbb384aa53',1,'_NL::Engine::WorldSpace']]],
   ['skyboxdysplayshader',['SkyboxDysplayShader',['../class___n_l_1_1_object_1_1_skybox_obj.html#a1e1de6603c443c7e79f9dced615dc2c2',1,'_NL::Object::SkyboxObj']]],
   ['skyboxmap',['SkyboxMap',['../class___n_l_1_1_object_1_1_skybox_obj.html#ae57f9baae21fb971d80ed1d73f418d38',1,'_NL::Object::SkyboxObj']]],

@@ -31,9 +31,9 @@
   <td id="projectlogo"><img alt="Logo" src="nl_engineLogosmall.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">_nl.engine
-   &#160;<span id="projectnumber">alpha 0.6</span>
+   &#160;<span id="projectnumber">alpha 0.9</span>
    </div>
-   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine Framework</div>
+   <div id="projectbrief">Nameless Engine C++ Opengl 3D Game Engine /  Framework</div>
   </td>
  </tr>
  </tbody>
@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3aefd8ef04071d26ae8f612c20c6c57a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74a50c3870103c869db7bd2aa78a6ca9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespace___n_l_1_1_core.html#a3b79ec3b81411d0c54b3c99c2f71c7fb">_NL::Core::ObjInstanceList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#a74a50c3870103c869db7bd2aa78a6ca9">addObjInstanceListLocation</a> (<a class="el" href="class___n_l_1_1_core_1_1_object.html">_NL::Core::Object</a> *G, <a class="el" href="namespace___n_l_1_1_core.html#a78c17239b3bc28550a46b9f6af559d1e">_NL::Core::ObjTypeList</a> *T=nullptr)</td></tr>
 <tr class="separator:a74a50c3870103c869db7bd2aa78a6ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbf546b50b9e8d1a6a2f7b141d3e3012"><td class="memTemplParams" colspan="2">template&lt;class CastToObjType &gt; </td></tr>
-<tr class="memitem:acbf546b50b9e8d1a6a2f7b141d3e3012"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; CastToObjType * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#acbf546b50b9e8d1a6a2f7b141d3e3012">getAllObjsOfType</a> ()</td></tr>
-<tr class="separator:acbf546b50b9e8d1a6a2f7b141d3e3012"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ec9d6f946f49581d61773cebf6ec84e"><td class="memTemplParams" colspan="2">template&lt;class CastToObjType &gt; </td></tr>
+<tr class="memitem:a6ec9d6f946f49581d61773cebf6ec84e"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; CastToObjType * &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#a6ec9d6f946f49581d61773cebf6ec84e">getAllObjsOfType</a> (char *ObjTypeName=nullptr)</td></tr>
+<tr class="separator:a6ec9d6f946f49581d61773cebf6ec84e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab52acfdbd5e15a967b85f6b8ea1d55dd"><td class="memTemplParams" colspan="2">template&lt;class ObjType &gt; </td></tr>
 <tr class="memitem:ab52acfdbd5e15a967b85f6b8ea1d55dd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class___n_l_1_1_engine_1_1_world_space.html#ab52acfdbd5e15a967b85f6b8ea1d55dd">KillObjectInstance</a> (ObjType *Target)</td></tr>
 <tr class="separator:ab52acfdbd5e15a967b85f6b8ea1d55dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -256,8 +256,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="acbf546b50b9e8d1a6a2f7b141d3e3012"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbf546b50b9e8d1a6a2f7b141d3e3012">&#9670;&nbsp;</a></span>getAllObjsOfType()</h2>
+<a id="a6ec9d6f946f49581d61773cebf6ec84e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ec9d6f946f49581d61773cebf6ec84e">&#9670;&nbsp;</a></span>getAllObjsOfType()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -270,7 +270,8 @@ template&lt;class CastToObjType &gt; </div>
         <tr>
           <td class="memname">std::vector&lt;CastToObjType*&gt; _NL::Engine::WorldSpace::getAllObjsOfType </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>ObjTypeName</em> = <code>nullptr</code></td><td>)</td>
           <td></td>
         </tr>
       </table>

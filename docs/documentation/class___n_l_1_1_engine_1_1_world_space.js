@@ -6,7 +6,7 @@ var class___n_l_1_1_engine_1_1_world_space =
     [ "addObjInstanceListLocation", "class___n_l_1_1_engine_1_1_world_space.html#a74a50c3870103c869db7bd2aa78a6ca9", null ],
     [ "addObjTypeListLocation", "class___n_l_1_1_engine_1_1_world_space.html#a0a0af67938fbbb113d9d897d3e5fd2a0", null ],
     [ "addObjTypeListLocation", "class___n_l_1_1_engine_1_1_world_space.html#a3aefd8ef04071d26ae8f612c20c6c57a", null ],
-    [ "getAllObjsOfType", "class___n_l_1_1_engine_1_1_world_space.html#acbf546b50b9e8d1a6a2f7b141d3e3012", null ],
+    [ "getAllObjsOfType", "class___n_l_1_1_engine_1_1_world_space.html#a6ec9d6f946f49581d61773cebf6ec84e", null ],
     [ "getObjInstanceListLocation", "class___n_l_1_1_engine_1_1_world_space.html#a60e94fec352518887b0e3fc43d793617", null ],
     [ "getObjTypeListLocation", "class___n_l_1_1_engine_1_1_world_space.html#adac95397bff7f280ead847f8c3cde12b", null ],
     [ "getObjTypeListLocation", "class___n_l_1_1_engine_1_1_world_space.html#a7338b2b36565ef9f632e5813023b11c2", null ],

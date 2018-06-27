@@ -1,6 +1,7 @@
 var searchData=
 [
   ['layer',['Layer',['../class___n_l_1_1_core_1_1_u_i.html#ab2f89a111f22bf3aeacb065a2ed02179',1,'_NL::Core::UI']]],
+  ['leftlight',['LeftLight',['../class_cockpit_controller.html#ac9afd897e2e2b0c8e13a4aad6e437355',1,'CockpitController']]],
   ['lifetime',['lifeTime',['../class___n_l_1_1_object_1_1_particle_obj.html#a1b841297a355a60dd63f0917e5ef7ce1',1,'_NL::Object::ParticleObj']]],
   ['lightcolor',['lightColor',['../struct___n_l_1_1_core_1_1_light_properties.html#aeaca2df1b5926b2bf7007cb5fd40d40d',1,'_NL::Core::LightProperties']]],
   ['lightdirection',['lightDirection',['../struct___n_l_1_1_core_1_1_light_properties.html#a8e3640ee106094082f118795447d1228',1,'_NL::Core::LightProperties']]],

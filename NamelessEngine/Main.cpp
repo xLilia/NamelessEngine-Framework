@@ -24,10 +24,10 @@ int main() {
 	//AUDIO: DEPRECATED ...
 	//===========================================================================================
 
-	_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
-	Audio->LoadAudioFile("Mysounds/ShipEngine.ogg");
-	Audio->Sound.setLoop(true);
-	Audio->Sound.play();
+	//_NL::Engine::AudioSource* Audio = new _NL::Engine::AudioSource;
+	//Audio->LoadAudioFile("Mysounds/ShipEngine.ogg");
+	//Audio->Sound.setLoop(true);
+	//Audio->Sound.play();
 
 	//===========================================================================================
 	//SKYBOXES: STABLE !
