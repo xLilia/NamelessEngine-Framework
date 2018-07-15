@@ -1,7 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="_NL::Object::ParticleSystem\l::SpwTransform",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct___n_l_1_1_object_1_1_particle_system_1_1_spw_transform.html"];
-}
