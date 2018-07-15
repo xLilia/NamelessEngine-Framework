@@ -1,0 +1,31 @@
+digraph "CamController"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node2 [label="CamController",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="_NL::Core::Script",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_core_1_1_script.html"];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _this" ,fontname="Helvetica"];
+  Node4 [label="_NL::Core::Object",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_core_1_1_object.html"];
+  Node4 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" Parent" ,fontname="Helvetica"];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" W" ,fontname="Helvetica"];
+  Node5 [label="_NL::Engine::GameManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_engine_1_1_game_manager.html"];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" CurrentScene" ,fontname="Helvetica"];
+  Node6 [label="_NL::Engine::WorldSpace",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_engine_1_1_world_space.html"];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" Skybox" ,fontname="Helvetica"];
+  Node7 [label="_NL::Object::SkyboxObj",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_object_1_1_skybox_obj.html"];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" EnvironmentShader\nBRDFShader\nSkyboxDysplayShader\nPreFilterShader\nHDRImageShader" ,fontname="Helvetica"];
+  Node8 [label="_NL::Element::ShaderInstance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_element_1_1_shader_instance.html"];
+  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="_NL::Core::Element",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_core_1_1_element.html"];
+  Node10 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" GameTime" ,fontname="Helvetica"];
+  Node10 [label="_NL::Engine::Time",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_engine_1_1_time.html"];
+  Node8 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" DepthPassShader" ,fontname="Helvetica"];
+  Node11 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" _this" ,fontname="Helvetica"];
+  Node11 [label="_NL::Object::CameraObj",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class___n_l_1_1_object_1_1_camera_obj.html"];
+  Node4 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" TransformCam" ,fontname="Helvetica"];
+  Node12 [label="_NL::Object::CameraObj\l::Transform",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct___n_l_1_1_object_1_1_camera_obj_1_1_transform.html"];
+  Node8 -> Node11 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" PostProcessingShader\nPingPongShader" ,fontname="Helvetica"];
+}
