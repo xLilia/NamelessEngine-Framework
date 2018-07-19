@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="_NL::Component::Animator" Collapsed="true">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Animator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Component::MeshRenderer" Collapsed="true">
+    <Position X="2.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAAAIABAABIAMAMAAAAoAAAAgkQAAQAAQAAAAQAAAA=</HashCode>
+      <FileName>MeshRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Component::NLphysxRigidBody" Collapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgABAQAAAAAAAAAAA=</HashCode>
+      <FileName>NLphysxRigidBody.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Component::CppScript&lt;ScriptType&gt;" Collapsed="true">
+    <Position X="4.75" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAABAAAAAAAAAAAAAEACAAAAAAAAAAAAEAAAAEA=</HashCode>
+      <FileName>CppScript.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Component::Transform" Collapsed="true">
+    <Position X="7.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABABAAAAACAEQAQAAAQAAQAEAAAAAAQAAACChII=</HashCode>
+      <FileName>Transform.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Engine::AudioSource" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAIAAAAAAAAAAAAAAAAAAQAAAAAAAIBAAAAAAAAAA=</HashCode>
+      <FileName>AudioSource.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Engine::Time" Collapsed="true">
+    <Position X="15.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAEAAQwA=</HashCode>
+      <FileName>NL_Time.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Engine::NLManager" Collapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgLIAEAAAAAAAgAQLEiKCUkQDACAIgAgACAAAAAE=</HashCode>
+      <FileName>NLManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Engine::WorldSpace" Collapsed="true">
+    <Position X="17.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAgEAAAAkAgARAABAAAACEAAAAAAAAAMAAAAA=</HashCode>
+      <FileName>WorldSpace.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Object::CameraObj" Collapsed="true">
+    <Position X="4.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAEAkAEhIQEIAAAAAE0AABQSCEAADQhiAEkAgEAQIAA=</HashCode>
+      <FileName>CameraObj.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Object::GameObject" Collapsed="true">
+    <Position X="6.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Object::LightObject" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAFAAAAAAAAgAAAABAAAAAAAAAAAAAEQAAAAAA=</HashCode>
+      <FileName>LightObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Object::ParticleObj" Collapsed="true">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAABAAAAQAAAAAAAAAAAAAAAAAQAAAAAAAAAAEA=</HashCode>
+      <FileName>ParticleObj.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Object::ParticleSystem" Collapsed="true">
+    <Position X="13.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAEAAABAIAADAAIAhEIBAICAAAAAAAIAAAAAAAQQAA=</HashCode>
+      <FileName>ParticleSystem.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Object::SkyboxObj" Collapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAMAB4REBAAAAEkABGIRAQAAEAAAAVAACAABAAAAAAI=</HashCode>
+      <FileName>SkyboxObj.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Element::MaterialInstance" Collapsed="true">
+    <Position X="0.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAABABAAAAAAAAIAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>MaterialInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Element::MeshInstance" Collapsed="true">
+    <Position X="3" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAIAAABAAAAEAAAAACCAAAAAAAAAAAAACAAAAAgAAA=</HashCode>
+      <FileName>MeshInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Element::NLphysxCollider" Collapsed="true">
+    <Position X="21" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>NLphysxCollider.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Element::ShaderInstance" Collapsed="true">
+    <Position X="5.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAACAAAFAAEAAgAAAAAAAAAAAAAEAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>ShaderInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Element::TextureInstance" Collapsed="true">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAQAAAAAAAABAAAAEAAAEAAAAAAAAAAQAAAAAAE=</HashCode>
+      <FileName>TextureInstance.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Tools::MTLfileReader" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAIAAAAAAAAAAAAAASIAAAAAABAAAQAAAAAA=</HashCode>
+      <FileName>MTLfileReader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Tools::OBJfileReader" Collapsed="true">
+    <Position X="17.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAEAAAAAAAAAAAAAgAAAAAAQIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OBJfileReader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Tools::ShaderWizard" Collapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAIAAAQAAAAAAAAAAAAAAAAACACAQAAAIQAAAAAAAA=</HashCode>
+      <FileName>ShaderWizard.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Tools::TextureLoader" Collapsed="true">
+    <Position X="21" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgQAAABAAAAQAAAAAEADQ=</HashCode>
+      <FileName>TextureLoader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Tools::XMLfileReader" Collapsed="true">
+    <Position X="19.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAIIAAAAAAAAQAAAAAAAASAAAAAAAAA=</HashCode>
+      <FileName>XMLfileReader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Core::Component" Collapsed="true">
+    <Position X="3.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Core::Element" Collapsed="true">
+    <Position X="3" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Core::UI" Collapsed="true">
+    <Position X="1.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAABAAAAAAAAAEAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Core::Object" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAQAAAIAkCAAAQAAAAAAEAAAAAAAAAAACAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Core::Script&lt;OwnerType&gt;" Collapsed="true">
+    <Position X="11.75" Y="8.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAAAAAAAAAAAAAAACAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::Core::PostProcessingScript" Collapsed="true">
+    <Position X="10.75" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQABAAAAAAAAAABAAAAAAAAAAACAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::UI::UICanvas" Collapsed="true">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAQABAAIAAAAAAAAQAAAAAQAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>UICanvas.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::UI::UIImage" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAABAAAIAgACAAAAAAAAAAIAAAAAAAg=</HashCode>
+      <FileName>UIImage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="_NL::UI::UIText" Collapsed="true">
+    <Position X="2.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAQAAAIBAAAQAgAAAAAAAEAAEAJA=</HashCode>
+      <FileName>UIText.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BOIDObject" Collapsed="true">
+    <Position X="8.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAAAAABAAAIAAAAAAAAAAAAAAAkAAAIAQQAABAEAAA=</HashCode>
+      <FileName>BOIDObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BOIDscript" Collapsed="true">
+    <Position X="15.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQEAAAAACAAAAAAAAAgAAFACgAAEAAAAAAAAAAIAAQ=</HashCode>
+      <FileName>BOIDscript.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CamController" Collapsed="true">
+    <Position X="11.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAABAACIAAAAAAAoAAAAAAAAAAAEIAAAAAABIAAA=</HashCode>
+      <FileName>CamController.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CockpitController" Collapsed="true">
+    <Position X="9.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAR4AClBBCgkgAAAAAAhAQAQABEQRAAACEwAjAZEBAA=</HashCode>
+      <FileName>cockpitController.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GausianBlurPostProcessingEffect" Collapsed="true">
+    <Position X="14" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAIAAAAAAAAAAQAAAAAAIAAA=</HashCode>
+      <FileName>GausianBlurPostProcessingEffect.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MotionBlurPPE" Collapsed="true">
+    <Position X="9.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAwAAAAAAAgAAAAAAAAAAAAAAQAKAAA=</HashCode>
+      <FileName>MotionBlurPPE.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NightVisionPPE" Collapsed="true">
+    <Position X="12" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAQAAAEIAAAAABAAAAAAAAAAIAAA=</HashCode>
+      <FileName>NightVisionPPE.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ParticleScript" Collapsed="true">
+    <Position X="7.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAA=</HashCode>
+      <FileName>ParticleScript.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TestScript" Collapsed="true">
+    <Position X="13.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAKAAAAAAIAAAAAAAAAAAAACgARAAAAAMAAA=</HashCode>
+      <FileName>TestScript.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="_NL::Core::GLSL_AU" Collapsed="true">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAYAAAAEAQECEACAAAAAAAAEAAAAAAAAAAASAATAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_NL::Core::MaterialInstanceData" Collapsed="true">
+    <Position X="21" Y="4.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAgAAAAAAgAAAgAAAAABAAEAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_NL::Core::MeshInstanceData" Collapsed="true">
+    <Position X="15.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAABAAAAABAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_NL::Core::transform" Collapsed="true">
+    <Position X="19.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAACACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_NL::Core::ScreenQuad" Collapsed="true">
+    <Position X="17.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_NL::Core::LightProperties" Collapsed="true">
+    <Position X="19.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAxAAAAAAAIACAAQAIAQAAAAAAAAAAAAQAEAAAI=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_NL::Core::AnimationBone" Collapsed="true">
+    <Position X="15.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAABAAQAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="_NL::Core::ObjInstanceList" Collapsed="true">
+    <Position X="16.5" Y="8" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="_NL::Core::ObjTypeList" Collapsed="true">
+    <Position X="20" Y="9.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="_NL::Core::ObjList" Collapsed="true">
+    <Position X="18.25" Y="8.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NamelessCore.hpp</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="_NL::Element::TEXTURE_TYPE" Collapsed="true">
+    <Position X="16.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAIAAAAAACAAAAAAAEAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>MaterialInstance.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
