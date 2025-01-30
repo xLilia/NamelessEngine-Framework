@@ -124,7 +124,7 @@ Planned features:
 
 Game Engine SDK
 
-Developer: Mateus Branco
+Developer: Lília Branco
 
 Platform: PC-Windows
 
